@@ -13,4 +13,11 @@ public interface TestSwagger {
             operationId = "test/health"
     )
     ResponseEntity<RestResponse<String>> healthCheck();
+
+    @Operation(
+            summary = "DB Test API",
+            description = "현재 데이터 베이스가 연결 되어 있는지 확인합니다.",
+            operationId = "test/db"
+    )
+    ResponseEntity<RestResponse<String>> dbHealthCheck();
 }
