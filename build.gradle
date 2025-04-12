@@ -24,6 +24,7 @@ repositories {
 }
 
 apply from:"gradle/spring.gradle"
+apply from:"gradle/swagger.gradle"
 
 tasks.named('test') {
 	useJUnitPlatform()
