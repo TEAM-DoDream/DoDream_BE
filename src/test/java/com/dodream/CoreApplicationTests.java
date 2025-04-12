@@ -1,4 +1,4 @@
-package com.dodream.core;
+package com.dodream;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
