@@ -52,6 +52,10 @@ if (isCI) {
         into('.')
     }
 
+    tasks.named('copyAppYml') {
+           mustRunAfter 'copyDockerCompose'
+    }
+
     processResources.dependsOn('copyAppYml', 'copyDockerCompose')
     bootRun.dependsOn('copyAppYml', 'copyDockerCompose')
 
