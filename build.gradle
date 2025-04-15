@@ -32,11 +32,9 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-
 def isCI = System.getenv("CI") == "true"
 
 if (isCI) {
-
     tasks.register('copyAppYml', Copy) {
         description = 'Copy application*.yml from submodule to resources (CI only)'
         from('src/main/resources/secret') {
@@ -54,7 +52,10 @@ if (isCI) {
         into('.')
     }
 
-
     processResources.dependsOn('copyAppYml', 'copyDockerCompose')
     bootRun.dependsOn('copyAppYml', 'copyDockerCompose')
+
+    tasks.named('compileJava') {
+            dependsOn 'copyAppYml', 'copyDockerCompose'
+    }
 }
