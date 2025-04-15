@@ -51,9 +51,9 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PEM_KEY }}
           source: ./docker-compose-main.yml
-          target: /home/ubuntu
+          target: /root
 
-      - name: Deploy to prod
+      - name: Deploy to main
         if: contains(github.ref, 'main')
         uses: appleboy/ssh-action@master
         with:
@@ -61,7 +61,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PEM_KEY }}
           script: |
-            cd /home/ubuntu
+            cd /root
             sudo docker rm -f $(docker ps -qa)
             sudo docker pull ${{ secrets.DOCKER_REPO }}/dodream-springboot
             sudo docker-compose -f docker-compose-main.yml up -d
