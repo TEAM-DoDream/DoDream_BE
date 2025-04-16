@@ -20,4 +20,18 @@ public interface TestSwagger {
             operationId = "test/db"
     )
     ResponseEntity<RestResponse<String>> dbHealthCheck();
+
+    @Operation(
+            summary = "Redis Get Data Test API",
+            description = "레디스에서 데이터를 가져올 수 있는지 테스트합니다.",
+            operationId = "test/redis/get"
+    )
+    ResponseEntity<RestResponse<String>> redisGetDataCheck();
+
+    @Operation(
+            summary = "Redis set Data Test API",
+            description = "레디스에 데이터를 저장할 수 있는지 테스트합니다.",
+            operationId = "test/redis/set"
+    )
+    ResponseEntity<RestResponse<String>> redisSetDataCheck();
 }
