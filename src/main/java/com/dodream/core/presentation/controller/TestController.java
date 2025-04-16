@@ -1,11 +1,14 @@
 package com.dodream.core.presentation.controller;
 
+import com.dodream.core.exception.DomainException;
 import com.dodream.core.exception.GlobalErrorCode;
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.core.presentation.swagger.TestSwagger;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +23,11 @@ import java.sql.Statement;
 public class TestController implements TestSwagger {
 
     private final DataSource dataSource;
+    private final RedisTemplate<String, Object> redisTemplate;
 
+    private static final String REDIS_KEY = "두드림";
+    private static final String REDIS_DATA = "화이팅!!";
+    
     @Override
     @GetMapping("/health")
     public ResponseEntity<RestResponse<String>> healthCheck() {
@@ -44,6 +51,28 @@ public class TestController implements TestSwagger {
 
         } catch (Exception e) {
             throw GlobalErrorCode.DB_CONNECTION_ERROR.toException();
+        }
+    }
+
+    @Override
+    @PostMapping("/redis/set")
+    public ResponseEntity<RestResponse<String>> redisSetDataCheck() {
+        try{
+            redisTemplate.opsForValue().set(REDIS_KEY, REDIS_DATA);
+            return ResponseEntity.ok(new RestResponse<>(REDIS_KEY));
+        }catch (DomainException e){
+            throw GlobalErrorCode.REDIS_SET_DATA_ERROR.toException();
+        }
+    }
+
+    @Override
+    @GetMapping("/redis/get")
+    public ResponseEntity<RestResponse<String>> redisGetDataCheck() {
+        try{
+            String data = (String) redisTemplate.opsForValue().get(REDIS_KEY);
+            return ResponseEntity.ok(new RestResponse<>(REDIS_KEY + " " + data));
+        }catch (DomainException e){
+            throw GlobalErrorCode.REDIS_GET_DATA_ERROR.toException();
         }
     }
 }
