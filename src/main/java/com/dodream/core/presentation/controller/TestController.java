@@ -60,7 +60,7 @@ public class TestController implements TestSwagger {
         try{
             redisTemplate.opsForValue().set(REDIS_KEY, REDIS_DATA);
             return ResponseEntity.ok(new RestResponse<>(REDIS_KEY));
-        }catch (DomainException e){
+        }catch (Exception e){
             throw GlobalErrorCode.REDIS_SET_DATA_ERROR.toException();
         }
     }
@@ -71,7 +71,7 @@ public class TestController implements TestSwagger {
         try{
             String data = (String) redisTemplate.opsForValue().get(REDIS_KEY);
             return ResponseEntity.ok(new RestResponse<>(REDIS_KEY + " " + data));
-        }catch (DomainException e){
+        }catch (Exception e){
             throw GlobalErrorCode.REDIS_GET_DATA_ERROR.toException();
         }
     }
