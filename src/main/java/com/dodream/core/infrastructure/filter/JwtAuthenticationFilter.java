@@ -1,6 +1,6 @@
 package com.dodream.core.infrastructure.filter;
 
-import com.dodream.auth.infastructure.JwtTokenProvider;
+import com.dodream.auth.infrastructure.JwtTokenProvider;
 import com.dodream.core.application.CustomUserDetailsService;
 import com.dodream.member.exception.MemberErrorCode;
 import jakarta.servlet.FilterChain;

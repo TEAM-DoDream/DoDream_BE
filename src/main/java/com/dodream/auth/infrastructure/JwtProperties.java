@@ -1,4 +1,4 @@
-package com.dodream.auth.infastructure;
+package com.dodream.auth.infrastructure;
 
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
