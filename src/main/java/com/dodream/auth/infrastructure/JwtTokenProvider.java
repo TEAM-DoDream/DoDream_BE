@@ -1,4 +1,4 @@
-package com.dodream.auth.infastructure;
+package com.dodream.auth.infrastructure;
 
 import com.dodream.auth.domain.TokenProvider;
 import com.dodream.auth.exception.AuthenticationErrorCode;

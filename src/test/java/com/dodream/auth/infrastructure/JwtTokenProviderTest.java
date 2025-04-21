@@ -1,8 +1,6 @@
 package com.dodream.auth.infrastructure;
 
 import com.dodream.auth.exception.AuthenticationErrorCode;
-import com.dodream.auth.infastructure.JwtProperties;
-import com.dodream.auth.infastructure.JwtTokenProvider;
 import com.dodream.member.domain.Member;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
