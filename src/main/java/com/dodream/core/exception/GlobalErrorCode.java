@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor
 public enum GlobalErrorCode implements BaseErrorCode<RuntimeException> {
+    XML_TO_JSON_CONVERT_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "JSON 형식으로 변환 실패"),
     REDIS_GET_DATA_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "레디스 데이터 불러오기 실패"),
     REDIS_SET_DATA_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "레디스 데이터 저장 실패"),
     GET_DATA_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "DB 연결은 되었지만 데이터를 가져오지 못했습니다."),
