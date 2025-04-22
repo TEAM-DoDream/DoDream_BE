@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.redisson.Redisson;
+import org.redisson.api.RedissonClient;
+import org.redisson.config.Config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,8 +25,10 @@ public class RedisConfiguration {
     private int port;
 
     @Bean
-    public RedisConnectionFactory redisConnectionFactory() {
-        return new LettuceConnectionFactory(host, port);
+    public RedissonClient redissonClient() {
+        Config config = new Config();
+        config.useSingleServer().setAddress("redis://" + host + ":" + port);
+        return Redisson.create(config);
     }
 
     @Bean
