@@ -29,6 +29,12 @@ apply from:"gradle/db.gradle"
 apply from:"gradle/test.gradle"
 apply from:"gradle/jwt.gradle"
 
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2024.0.0"
+    }
+}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }
