@@ -1,12 +1,12 @@
-package com.dodream.region.dto.response;
+package com.dodream.common.dto.response;
 
-import com.dodream.region.infrastructure.converter.ScnListDeserializer;
+import com.dodream.common.infrastructure.converter.ScnListDeserializer;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.util.List;
 
-public record RegionResponse(
+public record CommonResponse(
         String codeName,
         @JsonProperty("scn_cnt") String scnCnt,
         SrchList srchList

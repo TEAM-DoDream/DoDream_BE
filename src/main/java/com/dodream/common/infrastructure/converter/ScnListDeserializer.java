@@ -1,6 +1,6 @@
-package com.dodream.region.infrastructure.converter;
+package com.dodream.common.infrastructure.converter;
 
-import com.dodream.region.dto.response.RegionResponse.ScnItem;
+import com.dodream.common.dto.response.CommonResponse.ScnItem;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.*;
