@@ -5,14 +5,12 @@ import com.dodream.region.dto.response.RegionResponseDto;
 import com.dodream.region.exception.RegionErrorCode;
 import com.dodream.region.repository.RegionRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Log4j2
 public class RegionService {
 
     private final RegionRepository regionRepository;
