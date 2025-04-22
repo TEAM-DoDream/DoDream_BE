@@ -16,9 +16,15 @@ public class ScnListDeserializer extends JsonDeserializer<List<ScnItem>> {
         JsonNode node = mapper.readTree(p);
         List<ScnItem> result = new ArrayList<>();
 
+        if(node == null || node.isNull()){
+            return result;
+        }
+
         if (node.isArray()) {
             for (JsonNode item : node) {
-                result.add(mapper.treeToValue(item, ScnItem.class));
+                if(item != null && !item.isNull()) {
+                    result.add(mapper.treeToValue(item, ScnItem.class));
+                }
             }
         } else if (node.isObject()) {
             result.add(mapper.treeToValue(node, ScnItem.class));

@@ -30,7 +30,7 @@ public class RegionApiServiceTest {
 
     @Test
     @DisplayName("[getLargeRegionCode] - 정상 작동 테스트")
-    void getLargeRegionCode_정상_작동() {
+    void getLargeRegionCodeTest() {
         // given
         String xml = "<xml>large-region</xml>";
 
@@ -52,7 +52,7 @@ public class RegionApiServiceTest {
 
     @Test
     @DisplayName("[getMiddleRegion] - 정상 작동 테스트")
-    void getMiddleRegion_정상_작동(){
+    void getMiddleRegionTest(){
         // given
         String largeXml = "<xml>large</xml>";
         String middleXml = "<xml>middle</xml>";

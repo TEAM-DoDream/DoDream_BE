@@ -33,11 +33,11 @@ public class RegionServiceTest {
 
     @Nested
     @DisplayName("전체 조회 테스트")
-    class 전체_조회{
+    class FindAllRegionTest{
 
         @Test
         @DisplayName("[findAllRegions] - 전체 조회")
-        void findAllRegions_전체_조회_성공(){
+        void findAllRegionsSuccess(){
             // given
             Region item1 = mock(Region.class);
             Region item2 = mock(Region.class);
@@ -62,11 +62,11 @@ public class RegionServiceTest {
 
     @Nested
     @DisplayName("[findByName] - 이름으로 조회")
-    class 이름_조회{
+    class FindByNameTest{
 
         @Test
         @DisplayName("이름으로 조회 성공")
-        void findByName_조회_성공(){
+        void findByNameSuccess(){
             // given
             Region region = mock(Region.class);
 
@@ -85,7 +85,7 @@ public class RegionServiceTest {
 
         @Test
         @DisplayName("이름으로 조회 실패")
-        void findByName_조회_실패(){
+        void findByNameFail(){
             // given
             when(regionRepository.findByRegionName(TEST_NAME)).thenReturn(Optional.empty());
 
@@ -98,11 +98,11 @@ public class RegionServiceTest {
 
     @Nested
     @DisplayName("[findByRegionCode] - 지역 코드로 조회")
-    class 지역_코드_조회{
+    class FindByRegionCodeTest{
 
         @Test
         @DisplayName("지역 코드로 조회 성공")
-        void findByRegionCode_조회_성공(){
+        void findByRegionCodeSuccess(){
             // given
             Region region = mock(Region.class);
 
@@ -121,7 +121,7 @@ public class RegionServiceTest {
 
         @Test
         @DisplayName("지역 코드로 조회 실패")
-        void findByRegionCode_조회_실패(){
+        void findByRegionCodeFail(){
             // given
             when(regionRepository.findByRegionCode(TEST_CODE)).thenReturn(Optional.empty());
 
