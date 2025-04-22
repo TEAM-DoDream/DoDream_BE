@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -48,7 +50,12 @@ public class RegionService {
         List<RegionResponse.ScnItem> largeRegions = getLargeRegionCode().scnList();
         List<RegionResponse.ScnItem> result = new ArrayList<>();
 
+        Map<String, String> largeCodeToName = largeRegions.stream()
+                .collect(Collectors.toMap(RegionResponse.ScnItem::rsltCode, RegionResponse.ScnItem::rsltName));
+
         for(RegionResponse.ScnItem largeRegionItem : largeRegions){
+            if(largeRegionItem.useYn().equals("N")) continue;
+
             String largeCode = largeRegionItem.rsltCode();
 
             String middleXML = regionFeignClient.getRegionCode(
@@ -65,7 +72,18 @@ public class RegionService {
             try {
                 RegionResponse response = objectMapper.readValue(regionJSON, RegionResponse.class);
                 List<RegionResponse.ScnItem> scnList = response.srchList().scnList();
-                result.addAll(scnList);
+                for (RegionResponse.ScnItem item : scnList) {
+                    if(item.useYn().equals("N")) continue;
+                    String fullName = largeCodeToName.get(largeCode) + " " + item.rsltName().trim();
+
+                    RegionResponse.ScnItem newItem = new RegionResponse.ScnItem(
+                            item.rsltCode(),
+                            fullName,
+                            item.useYn()
+                    );
+
+                    result.add(newItem);
+                }
             } catch (JsonProcessingException e) {
                 throw RegionErrorCode.JSON_TO_OBJECT_CONVERT_ERROR.toException();
             }
