@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
 @RequestMapping("/v1/region")
 @RequiredArgsConstructor
@@ -21,7 +22,7 @@ public class RegionController {
             @RequestParam(name = "searchType") String searchType,
             @RequestParam(name = "searchOption1", required = false) String searchOption1,
             @RequestParam(name = "searchOption2", required = false) String searchOption2
-    ) {
+    ){
         String result = regionService.getRegionCode(searchType, searchOption1, searchOption2);
         return ResponseEntity.ok(new RestResponse<>(result));
     }
