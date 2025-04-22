@@ -1,4 +1,4 @@
-package com.dodream.common.application;
+package com.dodream.region.application;
 
 import com.dodream.common.dto.response.CommonResponse;
 import com.dodream.common.infrastructure.CommonApiCaller;
@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class RegionService {
+public class RegionApiService {
 
     private final CommonApiCaller commonApiCaller;
     private final CommonResponseMapper commonResponseMapper;
