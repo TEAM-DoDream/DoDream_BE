@@ -2,6 +2,7 @@ package com.dodream.region.presentation.controller;
 
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.region.application.RegionService;
+import com.dodream.region.dto.response.RegionResponseDto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;

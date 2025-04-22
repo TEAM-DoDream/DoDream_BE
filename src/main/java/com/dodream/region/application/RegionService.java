@@ -1,6 +1,7 @@
 package com.dodream.region.application;
 
 import com.dodream.region.domain.Region;
+import com.dodream.region.dto.response.RegionResponseDto;
 import com.dodream.region.exception.RegionErrorCode;
 import com.dodream.region.repository.RegionRepository;
 import lombok.RequiredArgsConstructor;
