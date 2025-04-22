@@ -1,8 +1,8 @@
-package com.dodream.region.controller;
+package com.dodream.common.controller;
 
 import com.dodream.core.presentation.RestResponse;
-import com.dodream.region.application.RegionService;
-import com.dodream.region.dto.response.RegionResponse;
+import com.dodream.common.application.RegionService;
+import com.dodream.common.dto.response.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,14 +20,14 @@ public class RegionController {
     private final RegionService regionService;
 
     @GetMapping("/large")
-    public ResponseEntity<RestResponse<RegionResponse.SrchList>> getLargeRegions(){
-        RegionResponse.SrchList result = regionService.getLargeRegionCode();
+    public ResponseEntity<RestResponse<CommonResponse.SrchList>> getLargeRegions(){
+        CommonResponse.SrchList result = regionService.getLargeRegionCode();
         return ResponseEntity.ok(new RestResponse<>(result));
     }
 
     @GetMapping("/middle")
-    public ResponseEntity<RestResponse<List<RegionResponse.ScnItem>>> getMiddleRegions(){
-        List<RegionResponse.ScnItem> result = regionService.getMiddleRegion();
+    public ResponseEntity<RestResponse<List<CommonResponse.ScnItem>>> getMiddleRegions(){
+        List<CommonResponse.ScnItem> result = regionService.getMiddleRegion();
         return ResponseEntity.ok(new RestResponse<>(result));
     }
 }
