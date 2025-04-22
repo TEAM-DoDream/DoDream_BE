@@ -1,5 +1,6 @@
 package com.dodream.common.infrastructure;
 
+import com.dodream.common.exception.CommonErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -11,13 +12,17 @@ public class CommonApiCaller {
     private final CommonApiProperties commonApiProperties;
 
     public String callCommonApi(String searchType1, String searchOption1, String searchOption2) {
-        return commonFeignClient.getCommonCode(
-                commonApiProperties.getApiKey(),
-                "XML",
-                "1",
-                searchType1,
-                searchOption1,
-                searchOption2
-        );
+        try {
+            return commonFeignClient.getCommonCode(
+                    commonApiProperties.getApiKey(),
+                    "XML",
+                    "1",
+                    searchType1,
+                    searchOption1,
+                    searchOption2
+            );
+        }catch(Exception e) {
+            throw CommonErrorCode.EXTERNAL_API_CONNECTION_ERROR.toException();
+        }
     }
 }

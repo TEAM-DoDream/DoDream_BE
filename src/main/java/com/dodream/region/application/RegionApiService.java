@@ -34,20 +34,24 @@ public class RegionApiService {
         List<CommonResponse.ScnItem> result = new ArrayList<>();
 
         for (String largeCode : largeCodeToName.keySet()) {
-            String xml = commonApiCaller.callCommonApi("01", largeCode, null);
-            CommonResponse response = commonResponseMapper.toRegionResponse(xml);
-
-            for (CommonResponse.ScnItem item : response.srchList().scnList()) {
-                if (item.useYn().equals("N")) continue;
-
-                result.add(new CommonResponse.ScnItem(
-                        item.rsltCode(),
-                        largeCodeToName.get(largeCode) + " " + item.rsltName().trim(),
-                        item.useYn()
-                ));
-            }
+            result.addAll(getMiddleRegionsForLargeCode(largeCode,largeCodeToName.get(largeCode)));
         }
 
         return result;
+    }
+
+    private List<CommonResponse.ScnItem> getMiddleRegionsForLargeCode(String largeCode, String largeName){
+        String xml = commonApiCaller.callCommonApi("01", largeCode, null);
+        CommonResponse response = commonResponseMapper.toRegionResponse(xml);
+
+        return response.srchList().scnList()
+                .stream()
+                .filter(item -> item.useYn().equals("Y"))
+                .map(item -> new CommonResponse.ScnItem(
+                        item.rsltCode(),
+                        largeName + " " + item.rsltName().trim(),
+                        item.useYn()
+                ))
+                .collect(Collectors.toList());
     }
 }
