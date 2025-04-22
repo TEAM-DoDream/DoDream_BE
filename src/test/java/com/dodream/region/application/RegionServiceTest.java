@@ -2,7 +2,6 @@ package com.dodream.region.application;
 
 import com.dodream.core.exception.DomainException;
 import com.dodream.region.domain.Region;
-import com.dodream.region.dto.response.RegionResponseDto;
 import com.dodream.region.repository.RegionRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
