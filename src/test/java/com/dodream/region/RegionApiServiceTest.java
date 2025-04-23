@@ -1,8 +1,9 @@
-package com.dodream.region.application;
+package com.dodream.region;
 
 import com.dodream.common.dto.response.CommonResponse;
 import com.dodream.common.infrastructure.CommonApiCaller;
 import com.dodream.common.infrastructure.mapper.CommonResponseMapper;
+import com.dodream.region.application.RegionApiService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
