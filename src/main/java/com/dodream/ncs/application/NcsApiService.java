@@ -13,23 +13,24 @@ public class NcsApiService {
     private final CommonApiCaller commonApiCaller;
     private final CommonResponseMapper commonResponseMapper;
 
+    public CommonResponse.SrchList getNcsInfo(String ncsClassCode){
+        String xml = commonApiCaller.callCommonApi(ncsClassCode, null, null);
+        return commonResponseMapper.toCommonResponse(xml).srchList();
+    }
+
     public CommonResponse.SrchList getLargeNcsInfo(){
-        String xml = commonApiCaller.callCommonApi("05", null, null);
-        return commonResponseMapper.toRegionResponse(xml).srchList();
+        return getNcsInfo("05");
     }
 
     public CommonResponse.SrchList getMiddleNcsInfo(){
-        String xml = commonApiCaller.callCommonApi("06", null, null);
-        return commonResponseMapper.toRegionResponse(xml).srchList();
+        return getNcsInfo("06");
     }
 
     public CommonResponse.SrchList getSmallNcsInfo(){
-        String xml = commonApiCaller.callCommonApi("07", null, null);
-        return commonResponseMapper.toRegionResponse(xml).srchList();
+        return getNcsInfo("07");
     }
 
     public CommonResponse.SrchList getSmallestNcsInfo(){
-        String xml = commonApiCaller.callCommonApi("08", null, null);
-        return commonResponseMapper.toRegionResponse(xml).srchList();
+        return getNcsInfo("08");
     }
 }

@@ -29,6 +29,8 @@ public class RegionController implements RegionSwagger {
 
     @GetMapping("/name/{name}")
     public ResponseEntity<RestResponse<RegionResponseDto>> getRegionByName(
+            @Parameter(name = "name", description = "지역명 (예시: 경기 안양시 만안구)", example = "서울 종로구")
+            @NotBlank(message = "지역명은 필수입니다")
             @PathVariable String name
     ){
         return ResponseEntity.ok(new RestResponse<>(regionService.findByName(name)));
@@ -36,6 +38,8 @@ public class RegionController implements RegionSwagger {
 
     @GetMapping("/code/{code}")
     public ResponseEntity<RestResponse<RegionResponseDto>> getRegionByCode(
+            @Parameter(name = "code", description = "지역 코드(5자리 정수(String))", example = "11110")
+            @Pattern(regexp = "^[0-9]{5}$", message = "지역 코드는 5자리 숫자여야 합니다")
             @PathVariable String code
     ){
         return ResponseEntity.ok(new RestResponse<>(regionService.findByRegionCode(code)));

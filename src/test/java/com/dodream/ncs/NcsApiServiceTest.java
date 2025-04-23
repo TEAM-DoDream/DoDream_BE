@@ -43,7 +43,7 @@ class NcsApiServiceTest {
         CommonResponse mockResponse = new CommonResponse("직무", "2", srchList);
 
         when(commonApiCaller.callCommonApi("05", null, null)).thenReturn(xml);
-        when(commonResponseMapper.toRegionResponse(xml)).thenReturn(mockResponse);
+        when(commonResponseMapper.toCommonResponse(xml)).thenReturn(mockResponse);
 
         // when
         SrchList result = ncsApiService.getLargeNcsInfo();
@@ -66,7 +66,7 @@ class NcsApiServiceTest {
         CommonResponse mockResponse = new CommonResponse("직무", "2", srchList);
 
         when(commonApiCaller.callCommonApi("06", null, null)).thenReturn(xml);
-        when(commonResponseMapper.toRegionResponse(xml)).thenReturn(mockResponse);
+        when(commonResponseMapper.toCommonResponse(xml)).thenReturn(mockResponse);
 
         // when
         SrchList result = ncsApiService.getMiddleNcsInfo();
@@ -89,7 +89,7 @@ class NcsApiServiceTest {
         CommonResponse mockResponse = new CommonResponse("직무", "2", srchList);
 
         when(commonApiCaller.callCommonApi("07", null, null)).thenReturn(xml);
-        when(commonResponseMapper.toRegionResponse(xml)).thenReturn(mockResponse);
+        when(commonResponseMapper.toCommonResponse(xml)).thenReturn(mockResponse);
 
         // when
         SrchList result = ncsApiService.getSmallNcsInfo();
@@ -112,7 +112,7 @@ class NcsApiServiceTest {
         CommonResponse mockResponse = new CommonResponse("직무", "2", srchList);
 
         when(commonApiCaller.callCommonApi("08", null, null)).thenReturn(xml);
-        when(commonResponseMapper.toRegionResponse(xml)).thenReturn(mockResponse);
+        when(commonResponseMapper.toCommonResponse(xml)).thenReturn(mockResponse);
 
         // when
         SrchList result = ncsApiService.getSmallestNcsInfo();

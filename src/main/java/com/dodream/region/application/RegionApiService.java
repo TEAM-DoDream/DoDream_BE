@@ -22,7 +22,7 @@ public class RegionApiService {
 
     public CommonResponse.SrchList getLargeRegionCode() {
         String xml = commonApiCaller.callCommonApi("00", null, null);
-        return commonResponseMapper.toRegionResponse(xml).srchList();
+        return commonResponseMapper.toCommonResponse(xml).srchList();
     }
 
     public List<CommonResponse.ScnItem> getMiddleRegion() {
@@ -42,7 +42,7 @@ public class RegionApiService {
 
     private List<CommonResponse.ScnItem> getMiddleRegionsForLargeCode(String largeCode, String largeName){
         String xml = commonApiCaller.callCommonApi("01", largeCode, null);
-        CommonResponse response = commonResponseMapper.toRegionResponse(xml);
+        CommonResponse response = commonResponseMapper.toCommonResponse(xml);
 
         return response.srchList().scnList()
                 .stream()
