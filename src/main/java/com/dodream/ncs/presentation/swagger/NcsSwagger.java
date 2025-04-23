@@ -17,7 +17,7 @@ import java.util.List;
 public interface NcsSwagger {
 
     @Operation(
-            summary = "지역 전체 리스트 검색 API",
+            summary = "NCS 전체 리스트 검색 API",
             description = "고용24에서 제공하는 모든 NCS 직무 코드 및 이름을 검색합니다.",
             operationId = "/v1/ncs/all"
     )
@@ -36,7 +36,7 @@ public interface NcsSwagger {
     );
 
     @Operation(
-            summary = "지역 코드로 검색하는 API",
+            summary = "NCS 코드로 검색하는 API",
             description = "NCS 직무 코드로 고용 24에서 제공하는 직무 코드 및 이름을 검색합니다",
             operationId = "/v1/ncs/code/{code}"
     )

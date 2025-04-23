@@ -41,7 +41,7 @@ public class RegionApiServiceTest {
         CommonResponse response = new CommonResponse("코드이름", "개수", srchList);
 
         when(commonApiCaller.callCommonApi("00", null, null)).thenReturn(xml);
-        when(commonResponseMapper.toRegionResponse(xml)).thenReturn(response);
+        when(commonResponseMapper.toCommonResponse(xml)).thenReturn(response);
 
         // when
         CommonResponse.SrchList result = regionApiService.getLargeRegionCode();
@@ -68,11 +68,11 @@ public class RegionApiServiceTest {
 
         when(commonApiCaller.callCommonApi("00", null, null))
                 .thenReturn(largeXml);
-        when(commonResponseMapper.toRegionResponse(largeXml)).thenReturn(largeResponse);
+        when(commonResponseMapper.toCommonResponse(largeXml)).thenReturn(largeResponse);
 
         when(commonApiCaller.callCommonApi("01", "11", null))
                 .thenReturn(middleXml);
-        when(commonResponseMapper.toRegionResponse(middleXml)).thenReturn(middleResponse);
+        when(commonResponseMapper.toCommonResponse(middleXml)).thenReturn(middleResponse);
 
         // when
         List<CommonResponse.ScnItem> result = regionApiService.getMiddleRegion();

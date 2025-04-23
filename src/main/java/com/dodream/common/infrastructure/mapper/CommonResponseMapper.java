@@ -15,7 +15,7 @@ public class CommonResponseMapper {
     private final XmlToJsonConverter xmlToJsonConverter;
     private final ObjectMapper objectMapper;
 
-    public CommonResponse toRegionResponse(String xml) {
+    public CommonResponse toCommonResponse(String xml) {
         String json = xmlToJsonConverter.convertXmlToJson(xml);
         try {
             return objectMapper.readValue(json, CommonResponse.class);
