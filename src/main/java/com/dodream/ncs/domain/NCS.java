@@ -16,7 +16,7 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @SuperBuilder
 @Table(name = "ncs")
-public class NCS extends BaseLongIdEntity {
+public class Ncs extends BaseLongIdEntity {
 
     @Column(name = "ncs_code", nullable = false, unique = true)
     private String ncsCode;
@@ -24,8 +24,8 @@ public class NCS extends BaseLongIdEntity {
     @Column(name = "ncs_name", nullable = false)
     private String ncsName;
 
-    public static NCS of(String ncsCode, String ncsName) {
-        return NCS.builder()
+    public static Ncs of(String ncsCode, String ncsName) {
+        return Ncs.builder()
                 .ncsCode(ncsCode)
                 .ncsName(ncsName)
                 .build();
