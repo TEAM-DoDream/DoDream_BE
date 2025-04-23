@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -32,7 +31,6 @@ public interface RegionSwagger {
     )
     @ApiErrorCode(RegionErrorCode.class)
     ResponseEntity<RestResponse<RegionResponseDto>> getRegionByName(
-            @PathVariable
             @Parameter(name = "name", description = "지역명 (예시: 경기 안양시 만안구)", example = "서울 종로구")
             @NotBlank(message = "지역명은 필수입니다") String name
     );
@@ -44,7 +42,6 @@ public interface RegionSwagger {
     )
     @ApiErrorCode(RegionErrorCode.class)
     ResponseEntity<RestResponse<RegionResponseDto>> getRegionByCode(
-            @PathVariable
             @Parameter(name = "code", description = "지역 코드(5자리 정수(String))", example = "11110")
             @Pattern(regexp = "^[0-9]{5}$", message = "지역 코드는 5자리 숫자여야 합니다") String code
     );
