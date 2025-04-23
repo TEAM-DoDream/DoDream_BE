@@ -21,12 +21,12 @@ public class RegionInitializer {
 
     @PostConstruct
     public void initRegionData() {
-        log.info("[initRegionData] - 지역 코드 초기화 시작");
-
         if(regionRepository.count() != 0) {
             // 이미 데이터 init된 경우라면 수행 x
             return;
         }
+
+        log.info("[initRegionData] - 지역 코드 초기화 시작");
 
         List<CommonResponse.ScnItem> regionList = regionApiService.getMiddleRegion();
 
