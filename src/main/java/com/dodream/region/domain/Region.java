@@ -25,7 +25,7 @@ public class Region extends BaseLongIdEntity {
     @Column(name = "region_name", nullable = false)
     private String regionName;
 
-    public static Region create(
+    public static Region of(
             String regionCode,
             String regionName
     ){

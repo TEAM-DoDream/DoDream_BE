@@ -31,7 +31,7 @@ public class RegionInitializer {
         List<CommonResponse.ScnItem> regionList = regionApiService.getMiddleRegion();
 
         List<Region> regionJpaEntityList = regionList.stream()
-                .map(item -> Region.create(
+                .map(item -> Region.of(
                         item.rsltCode(),
                         item.rsltName()
                 ))
