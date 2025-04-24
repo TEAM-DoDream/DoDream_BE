@@ -1,14 +1,12 @@
 package com.dodream.common.infrastructure;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 @ConfigurationProperties(prefix = "work24.common")
-@Getter
-@RequiredArgsConstructor
-@Setter
+@Component
+@Data
 public class CommonApiProperties {
     private String endpoint;
     private String apiKey;
