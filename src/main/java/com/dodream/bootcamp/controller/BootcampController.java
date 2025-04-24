@@ -21,11 +21,11 @@ public class BootcampController {
     public ResponseEntity<RestResponse<BootcampListApiResponse>> getBootcampList(
         @RequestParam String pageNum,
         @RequestParam String pageSize,
-        @RequestParam(required = false) String regionCode,
-        @RequestParam(required = false) String ncsCode
+        @RequestParam(required = false) String regionName,
+        @RequestParam(required = false) String ncsName
     ){
         return ResponseEntity.ok(new RestResponse<>(
-                bootcampApiService.getBootcampList(pageNum, pageSize, regionCode, ncsCode))
+                bootcampApiService.getBootcampList(pageNum, pageSize, regionName, ncsName))
         );
     }
 }
