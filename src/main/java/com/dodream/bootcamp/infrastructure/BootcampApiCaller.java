@@ -39,4 +39,23 @@ public class BootcampApiCaller{
             throw BootcampErrorCode.NOT_CONNECT_EXTERNAL_API.toException();
         }
     }
+
+    public String bootcampDetailApiCaller(
+            String srchTrprId,
+            String srchTrprDegr,
+            String srchTorgId
+    ){
+        try{
+            return bootcampFeignClient.searchBootCampDetail(
+                    apiKey,
+                    "JSON",
+                    "2",
+                    srchTrprId,
+                    srchTrprDegr,
+                    srchTorgId
+            );
+        } catch(Exception e) {
+            throw BootcampErrorCode.NOT_CONNECT_EXTERNAL_API.toException();
+        }
+    }
 }

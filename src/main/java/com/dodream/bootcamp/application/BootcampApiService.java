@@ -1,5 +1,6 @@
 package com.dodream.bootcamp.application;
 
+import com.dodream.bootcamp.dto.response.BootcampDetailApiResponse;
 import com.dodream.bootcamp.dto.response.BootcampListApiResponse;
 import com.dodream.bootcamp.infrastructure.BootcampApiCaller;
 import com.dodream.bootcamp.infrastructure.BootcampDatePolicy;
@@ -50,5 +51,15 @@ public class BootcampApiService {
         );
 
         return bootcampMapper.jsonStringToBootcampListApiResponse(result);
+    }
+
+    public BootcampDetailApiResponse getBootcampDetail(
+            String srchTrprId, String srchTrprDegr, String srchTorgId
+    ){
+        String result = bootcampApiCaller.bootcampDetailApiCaller(
+                srchTrprId, srchTrprDegr, srchTorgId
+        );
+
+        return bootcampMapper.jsonStringToBootcampDetailApiResponse(result);
     }
 }
