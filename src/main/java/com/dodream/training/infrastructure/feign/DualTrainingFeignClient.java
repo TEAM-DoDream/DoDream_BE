@@ -27,7 +27,11 @@ public interface DualTrainingFeignClient {
             @RequestParam(name="returnType") String returnType,
             @RequestParam(name="outType") String outType,
             @RequestParam(name="srchTrprId") String srchTrprId,
+<<<<<<< HEAD
             @RequestParam(name = "srchTrprDegr") String srchTrprDegr,
             @RequestParam(name = "srchTorgId") String srchTorgId
+=======
+            @RequestParam(name = "srchTrprDegr") String srchTrprDegr
+>>>>>>> 4d30e0d (feat: 일학습병행 훈련과정 인프라 로직 작성 및 인터페이스로 책임 분리)
     );
 }

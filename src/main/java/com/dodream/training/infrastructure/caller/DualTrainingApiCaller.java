@@ -53,8 +53,12 @@ public class DualTrainingApiCaller implements TrainingApiCaller{
                     RESPONSE_TYPE_JSON,
                     OUT_TYPE_DETAIL,
                     srchTrprId,
+<<<<<<< HEAD
                     srchTrprDegr,
                     srchTorgId
+=======
+                    srchTrprDegr
+>>>>>>> 4d30e0d (feat: 일학습병행 훈련과정 인프라 로직 작성 및 인터페이스로 책임 분리)
             );
         } catch(Exception e) {
             throw TrainingErrorCode.NOT_CONNECT_EXTERNAL_API.toException();
