@@ -40,7 +40,7 @@ public record CustomUserDetails(Member member) implements UserDetails {
 
     @Override
     public String getUsername() {
-        return member.getName();
+        return member.getNickName();
     }
 
     public Long getId() {return member.getId();}
