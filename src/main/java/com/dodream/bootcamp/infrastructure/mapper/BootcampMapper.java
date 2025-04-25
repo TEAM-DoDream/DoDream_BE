@@ -1,5 +1,6 @@
 package com.dodream.bootcamp.infrastructure.mapper;
 
+import com.dodream.bootcamp.dto.response.BootcampDetailApiResponse;
 import com.dodream.bootcamp.dto.response.BootcampListApiResponse;
 import com.dodream.bootcamp.exception.BootcampErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,6 +16,14 @@ public class BootcampMapper {
     public BootcampListApiResponse jsonStringToBootcampListApiResponse(String json) {
         try{
             return objectMapper.readValue(json, BootcampListApiResponse.class);
+        }catch(Exception e){
+            throw BootcampErrorCode.NOT_CONVERT_JSON_TO_OBJECT.toException();
+        }
+    }
+
+    public BootcampDetailApiResponse jsonStringToBootcampDetailApiResponse(String json) {
+        try{
+            return objectMapper.readValue(json, BootcampDetailApiResponse.class);
         }catch(Exception e){
             throw BootcampErrorCode.NOT_CONVERT_JSON_TO_OBJECT.toException();
         }

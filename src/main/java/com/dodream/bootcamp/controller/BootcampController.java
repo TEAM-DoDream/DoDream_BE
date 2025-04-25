@@ -1,6 +1,7 @@
 package com.dodream.bootcamp.controller;
 
 import com.dodream.bootcamp.application.BootcampApiService;
+import com.dodream.bootcamp.dto.response.BootcampDetailApiResponse;
 import com.dodream.bootcamp.dto.response.BootcampListApiResponse;
 import com.dodream.core.presentation.RestResponse;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class BootcampController {
 
     private final BootcampApiService bootcampApiService;
 
-    @GetMapping
+    @GetMapping("/list")
     public ResponseEntity<RestResponse<BootcampListApiResponse>> getBootcampList(
         @RequestParam String pageNum,
         @RequestParam(required = false) String regionName,
@@ -26,5 +27,16 @@ public class BootcampController {
         return ResponseEntity.ok(new RestResponse<>(
                 bootcampApiService.getBootcampList(pageNum, regionName, ncsName))
         );
+    }
+
+    @GetMapping("/detail")
+    public ResponseEntity<RestResponse<BootcampDetailApiResponse>> getBootcampDetail(
+            @RequestParam String srchTrprId,
+            @RequestParam String srchTrprDegr,
+            @RequestParam String srchTorgId
+    ){
+        return ResponseEntity.ok(new RestResponse<>(
+                bootcampApiService.getBootcampDetail(srchTrprId, srchTrprDegr, srchTorgId)
+        ));
     }
 }
