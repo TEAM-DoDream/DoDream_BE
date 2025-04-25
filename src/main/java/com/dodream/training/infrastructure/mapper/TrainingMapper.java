@@ -1,7 +1,7 @@
 package com.dodream.training.infrastructure.mapper;
 
-import com.dodream.training.dto.response.BootcampDetailApiResponse;
-import com.dodream.training.dto.response.BootcampListApiResponse;
+import com.dodream.training.dto.response.TrainingDetailApiResponse;
+import com.dodream.training.dto.response.TrainingListApiResponse;
 import com.dodream.training.exception.TrainingErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -13,17 +13,17 @@ public class TrainingMapper {
 
     private final ObjectMapper objectMapper;
 
-    public BootcampListApiResponse jsonStringToBootcampListApiResponse(String json) {
+    public TrainingListApiResponse jsonStringToBootcampListApiResponse(String json) {
         try{
-            return objectMapper.readValue(json, BootcampListApiResponse.class);
+            return objectMapper.readValue(json, TrainingListApiResponse.class);
         }catch(Exception e){
             throw TrainingErrorCode.NOT_CONVERT_JSON_TO_OBJECT.toException();
         }
     }
 
-    public BootcampDetailApiResponse jsonStringToBootcampDetailApiResponse(String json) {
+    public TrainingDetailApiResponse jsonStringToBootcampDetailApiResponse(String json) {
         try{
-            return objectMapper.readValue(json, BootcampDetailApiResponse.class);
+            return objectMapper.readValue(json, TrainingDetailApiResponse.class);
         }catch(Exception e){
             throw TrainingErrorCode.NOT_CONVERT_JSON_TO_OBJECT.toException();
         }

@@ -11,10 +11,12 @@ public class DualTrainingApiExecuter implements TrainingApiExecuter {
     @Qualifier("dualTrainingApiCaller")
     private final TrainingApiCaller trainingApiCaller;
 
+    private final TrainingDatePolicy trainingDatePolicy;
+
     @Override
     public String callListApi(String pageNum, String regionCode, String ncsCode) {
-        String startDate = TrainingDatePolicy.calculateStartDate();
-        String endDate = TrainingDatePolicy.calculateEndDate();
+        String startDate = trainingDatePolicy.calculateStartDate();
+        String endDate = trainingDatePolicy.calculateEndDate();
 
         return trainingApiCaller.getListApi(
                 pageNum, regionCode, ncsCode, startDate, endDate

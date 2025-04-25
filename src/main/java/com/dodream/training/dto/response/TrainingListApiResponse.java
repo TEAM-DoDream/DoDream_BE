@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public record BootcampListApiResponse(
+public record TrainingListApiResponse(
         @JsonProperty("scn_cnt")
         int scnCnt,
 
@@ -55,7 +55,10 @@ public record BootcampListApiResponse(
             String trprDegr,
 
             @JsonProperty("trprId")
-            String trprId
+            String trprId,
+
+            @JsonProperty("ncsCd")
+            String ncsCd
     ) {}
 }
 

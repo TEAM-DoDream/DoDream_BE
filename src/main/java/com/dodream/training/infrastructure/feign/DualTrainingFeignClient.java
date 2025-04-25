@@ -27,6 +27,7 @@ public interface DualTrainingFeignClient {
             @RequestParam(name="returnType") String returnType,
             @RequestParam(name="outType") String outType,
             @RequestParam(name="srchTrprId") String srchTrprId,
-            @RequestParam(name = "srchTrprDegr") String srchTrprDegr
+            @RequestParam(name = "srchTrprDegr") String srchTrprDegr,
+            @RequestParam(name = "srchTorgId") String srchTorgId
     );
 }
