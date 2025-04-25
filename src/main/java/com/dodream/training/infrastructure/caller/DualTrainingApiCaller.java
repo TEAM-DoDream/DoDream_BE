@@ -1,15 +1,16 @@
-package com.dodream.training.infrastructure;
+package com.dodream.training.infrastructure.caller;
 
 import com.dodream.training.exception.TrainingErrorCode;
+import com.dodream.training.infrastructure.feign.DualTrainingFeignClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class TrainingApiCaller {
+public class DualTrainingApiCaller implements TrainingApiCaller{
 
-    private final BootcampFeignClient bootcampFeignClient;
+    private final DualTrainingFeignClient dualTrainingFeignClient;
 
     private static final String RESPONSE_TYPE_JSON = "JSON";
     private static final String OUT_TYPE_LIST = "1";
@@ -17,18 +18,16 @@ public class TrainingApiCaller {
     private static final String SORT = "DESC";
     private static final String SORT_COLUMN = "TRNG_BGDE";
 
-    @Value("${work24.bootcamp.api-key}")
+    @Value("${work24.dual.api-key}")
     private String apiKey;
 
-    @Value("${work24.bootcamp.page-size}")
+    @Value("${work24.page-size}")
     private int pageSize;
 
-    public String bootcampListApiCaller(
-            String pageNum, String regionCode, String ncsCode,
-            String startDate, String endDate
-    ){
+    @Override
+    public String getListApi(String pageNum, String regionCode, String ncsCode, String startDate, String endDate) {
         try {
-            return bootcampFeignClient.searchBootCampList(
+            return dualTrainingFeignClient.getDualTrainingList(
                     apiKey,
                     RESPONSE_TYPE_JSON,
                     OUT_TYPE_LIST,
@@ -46,19 +45,15 @@ public class TrainingApiCaller {
         }
     }
 
-    public String bootcampDetailApiCaller(
-            String srchTrprId,
-            String srchTrprDegr,
-            String srchTorgId
-    ){
+    @Override
+    public String getDetailApi(String srchTrprId, String srchTrprDegr, String srchTorgId) {
         try{
-            return bootcampFeignClient.searchBootCampDetail(
+            return dualTrainingFeignClient.getDualTrainingDetail(
                     apiKey,
                     RESPONSE_TYPE_JSON,
                     OUT_TYPE_DETAIL,
                     srchTrprId,
-                    srchTrprDegr,
-                    srchTorgId
+                    srchTrprDegr
             );
         } catch(Exception e) {
             throw TrainingErrorCode.NOT_CONNECT_EXTERNAL_API.toException();
