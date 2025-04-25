@@ -1,6 +1,7 @@
 package com.dodream.bootcamp.controller;
 
 import com.dodream.bootcamp.application.BootcampApiService;
+import com.dodream.bootcamp.controller.swagger.BootcampSwagger;
 import com.dodream.bootcamp.dto.response.BootcampDetailApiResponse;
 import com.dodream.bootcamp.dto.response.BootcampListApiResponse;
 import com.dodream.core.presentation.RestResponse;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/v1/bootcamp")
 @RequiredArgsConstructor
-public class BootcampController {
+public class BootcampController implements BootcampSwagger {
 
     private final BootcampApiService bootcampApiService;
 
