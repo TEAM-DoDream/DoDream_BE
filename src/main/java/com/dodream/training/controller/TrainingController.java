@@ -1,9 +1,9 @@
-package com.dodream.bootcamp.controller;
+package com.dodream.training.controller;
 
-import com.dodream.bootcamp.application.BootcampApiService;
-import com.dodream.bootcamp.controller.swagger.BootcampSwagger;
-import com.dodream.bootcamp.dto.response.BootcampDetailApiResponse;
-import com.dodream.bootcamp.dto.response.BootcampListApiResponse;
+import com.dodream.training.application.TrainingService;
+import com.dodream.training.controller.swagger.TrainingSwagger;
+import com.dodream.training.dto.response.BootcampDetailApiResponse;
+import com.dodream.training.dto.response.BootcampListApiResponse;
 import com.dodream.core.presentation.RestResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/v1/bootcamp")
+@RequestMapping("/v1/training")
 @RequiredArgsConstructor
-public class BootcampController implements BootcampSwagger {
+public class TrainingController implements TrainingSwagger {
 
-    private final BootcampApiService bootcampApiService;
+    private final TrainingService trainingService;
 
     @GetMapping("/list")
     public ResponseEntity<RestResponse<BootcampListApiResponse>> getBootcampList(
@@ -26,7 +26,7 @@ public class BootcampController implements BootcampSwagger {
         @RequestParam(required = false) String ncsName
     ){
         return ResponseEntity.ok(new RestResponse<>(
-                bootcampApiService.getBootcampList(pageNum, regionName, ncsName))
+                trainingService.getList(pageNum, regionName, ncsName))
         );
     }
 
@@ -37,7 +37,7 @@ public class BootcampController implements BootcampSwagger {
             @RequestParam String srchTorgId
     ){
         return ResponseEntity.ok(new RestResponse<>(
-                bootcampApiService.getBootcampDetail(srchTrprId, srchTrprDegr, srchTorgId)
+                trainingService.getDetail(srchTrprId, srchTrprDegr, srchTorgId)
         ));
     }
 }

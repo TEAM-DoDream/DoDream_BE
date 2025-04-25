@@ -1,13 +1,13 @@
-package com.dodream.bootcamp.infrastructure;
+package com.dodream.training.infrastructure;
 
-import com.dodream.bootcamp.exception.BootcampErrorCode;
+import com.dodream.training.exception.TrainingErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
-public class BootcampApiCaller{
+public class TrainingApiCaller {
 
     private final BootcampFeignClient bootcampFeignClient;
 
@@ -36,7 +36,7 @@ public class BootcampApiCaller{
                     "TRNG_BGDE"     // 훈련명으로 정렬
             );
         } catch (Exception e) {
-            throw BootcampErrorCode.NOT_CONNECT_EXTERNAL_API.toException();
+            throw TrainingErrorCode.NOT_CONNECT_EXTERNAL_API.toException();
         }
     }
 
@@ -55,7 +55,7 @@ public class BootcampApiCaller{
                     srchTorgId
             );
         } catch(Exception e) {
-            throw BootcampErrorCode.NOT_CONNECT_EXTERNAL_API.toException();
+            throw TrainingErrorCode.NOT_CONNECT_EXTERNAL_API.toException();
         }
     }
 }
