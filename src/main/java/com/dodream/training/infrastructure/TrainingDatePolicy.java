@@ -2,25 +2,21 @@ package com.dodream.training.infrastructure;
 
 import org.springframework.beans.factory.annotation.Value;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class TrainingDatePolicy {
 
     @Value("${work24.bootcamp.month-diff}")
     private static int monthDiff;
 
-    private static final SimpleDateFormat FORMAT = new SimpleDateFormat("yyyyMMdd");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
 
     public static String calculateStartDate() {
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MONTH, -monthDiff);
-        return FORMAT.format(cal.getTime());
+        return LocalDate.now().plusMonths(monthDiff).format(FORMATTER);
     }
 
     public static String calculateEndDate() {
-        Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MONTH, monthDiff);
-        return FORMAT.format(cal.getTime());
+        return LocalDate.now().minusMonths(monthDiff).format(FORMATTER);
     }
 }
