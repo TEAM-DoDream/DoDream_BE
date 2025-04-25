@@ -11,6 +11,12 @@ public class TrainingApiCaller {
 
     private final BootcampFeignClient bootcampFeignClient;
 
+    private static final String RESPONSE_TYPE_JSON = "JSON";
+    private static final String OUT_TYPE_LIST = "1";
+    private static final String OUT_TYPE_DETAIL = "2";
+    private static final String SORT = "DESC";
+    private static final String SORT_COLUMN = "TRNG_BGDE";
+
     @Value("${work24.bootcamp.api-key}")
     private String apiKey;
 
@@ -24,16 +30,16 @@ public class TrainingApiCaller {
         try {
             return bootcampFeignClient.searchBootCampList(
                     apiKey,
-                    "JSON",
-                    "1",
+                    RESPONSE_TYPE_JSON,
+                    OUT_TYPE_LIST,
                     pageNum,
                     String.valueOf(pageSize),
                     regionCode,
                     ncsCode,
                     startDate,
                     endDate,
-                    "DESC",    // 내림차순 정렬
-                    "TRNG_BGDE"     // 훈련명으로 정렬
+                    SORT,
+                    SORT_COLUMN
             );
         } catch (Exception e) {
             throw TrainingErrorCode.NOT_CONNECT_EXTERNAL_API.toException();
@@ -48,8 +54,8 @@ public class TrainingApiCaller {
         try{
             return bootcampFeignClient.searchBootCampDetail(
                     apiKey,
-                    "JSON",
-                    "2",
+                    RESPONSE_TYPE_JSON,
+                    OUT_TYPE_DETAIL,
                     srchTrprId,
                     srchTrprDegr,
                     srchTorgId
