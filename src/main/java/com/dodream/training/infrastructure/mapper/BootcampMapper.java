@@ -1,8 +1,8 @@
-package com.dodream.bootcamp.infrastructure.mapper;
+package com.dodream.training.infrastructure.mapper;
 
-import com.dodream.bootcamp.dto.response.BootcampDetailApiResponse;
-import com.dodream.bootcamp.dto.response.BootcampListApiResponse;
-import com.dodream.bootcamp.exception.BootcampErrorCode;
+import com.dodream.training.dto.response.BootcampDetailApiResponse;
+import com.dodream.training.dto.response.BootcampListApiResponse;
+import com.dodream.training.exception.TrainingErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ public class BootcampMapper {
         try{
             return objectMapper.readValue(json, BootcampListApiResponse.class);
         }catch(Exception e){
-            throw BootcampErrorCode.NOT_CONVERT_JSON_TO_OBJECT.toException();
+            throw TrainingErrorCode.NOT_CONVERT_JSON_TO_OBJECT.toException();
         }
     }
 
@@ -25,7 +25,7 @@ public class BootcampMapper {
         try{
             return objectMapper.readValue(json, BootcampDetailApiResponse.class);
         }catch(Exception e){
-            throw BootcampErrorCode.NOT_CONVERT_JSON_TO_OBJECT.toException();
+            throw TrainingErrorCode.NOT_CONVERT_JSON_TO_OBJECT.toException();
         }
     }
 }

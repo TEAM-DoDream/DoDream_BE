@@ -1,4 +1,4 @@
-package com.dodream.bootcamp.infrastructure;
+package com.dodream.training.infrastructure;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

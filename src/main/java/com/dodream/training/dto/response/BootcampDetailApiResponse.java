@@ -1,4 +1,4 @@
-package com.dodream.bootcamp.dto.response;
+package com.dodream.training.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
