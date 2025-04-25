@@ -15,12 +15,12 @@ import org.springframework.stereotype.Service;
 @Service
 @Log4j2
 public class DualTrainingService {
-    private final TrainingMapper trainingMapper;
+    private final TrainingMapper<TrainingListApiResponse, TrainingDetailApiResponse> trainingMapper;
     private final TrainingCodeResolver trainingCodeResolver;
     private final TrainingApiExecuter trainingApiExecuter;
 
     public DualTrainingService(
-            TrainingMapper trainingMapper,
+            TrainingMapper<TrainingListApiResponse, TrainingDetailApiResponse> trainingMapper,
             TrainingCodeResolver trainingCodeResolver,
             @Qualifier("dualTrainingApiExecuter") TrainingApiExecuter trainingApiExecuter
     ){
@@ -39,7 +39,7 @@ public class DualTrainingService {
                 pageNum, regionCode, ncsCode
         );
 
-        return trainingMapper.jsonStringToBootcampListApiResponse(result);
+        return trainingMapper.jsonToListResponseDto(result);
     }
 
 
@@ -47,6 +47,6 @@ public class DualTrainingService {
         String result = trainingApiExecuter.callDetailApi(
                 srchTrprId, srchTrprDegr, srchTorgId
         );
-        return trainingMapper.jsonStringToBootcampDetailApiResponse(result);
+        return trainingMapper.jsonToDetailResponseDto(result);
     }
 }
