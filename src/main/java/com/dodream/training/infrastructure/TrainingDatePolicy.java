@@ -13,10 +13,10 @@ public class TrainingDatePolicy {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
 
     public static String calculateStartDate() {
-        return LocalDate.now().plusMonths(monthDiff).format(FORMATTER);
+        return LocalDate.now().minusMonths(monthDiff).format(FORMATTER);
     }
 
     public static String calculateEndDate() {
-        return LocalDate.now().minusMonths(monthDiff).format(FORMATTER);
+        return LocalDate.now().plusMonths(monthDiff).format(FORMATTER);
     }
 }
