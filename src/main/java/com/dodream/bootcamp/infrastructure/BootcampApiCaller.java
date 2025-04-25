@@ -2,26 +2,32 @@ package com.dodream.bootcamp.infrastructure;
 
 import com.dodream.bootcamp.exception.BootcampErrorCode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
 public class BootcampApiCaller{
 
-    private final BootcampApiProperties bootcampApiProperties;
     private final BootcampFeignClient bootcampFeignClient;
 
+    @Value("${work24.bootcamp.api-key}")
+    private String apiKey;
+
+    @Value("${work24.bootcamp.page-size}")
+    private int pageSize;
+
     public String bootcampListApiCaller(
-            String pageNum, String pageSize, String regionCode, String ncsCode,
+            String pageNum, String regionCode, String ncsCode,
             String startDate, String endDate
     ){
         try {
             return bootcampFeignClient.searchBootCampList(
-                    bootcampApiProperties.getApiKey(),
+                    apiKey,
                     "JSON",
                     "1",
                     pageNum,
-                    pageSize,
+                    String.valueOf(pageSize),
                     regionCode,
                     ncsCode,
                     startDate,

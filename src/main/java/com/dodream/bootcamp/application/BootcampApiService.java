@@ -24,7 +24,7 @@ public class BootcampApiService {
     private final NcsRepository ncsRepository;
 
     public BootcampListApiResponse getBootcampList(
-            String pageNum, String pageSize, String regionName, String ncsName
+            String pageNum, String regionName, String ncsName
     ) {
         String startDate = BootcampDatePolicy.calculateStartDate();
         String endDate = BootcampDatePolicy.calculateEndDate();
@@ -46,7 +46,7 @@ public class BootcampApiService {
         }
 
         String result = bootcampApiCaller.bootcampListApiCaller(
-                pageNum, pageSize, regionCode, ncsCode, startDate, endDate
+                pageNum, regionCode, ncsCode, startDate, endDate
         );
 
         return bootcampMapper.jsonStringToBootcampListApiResponse(result);
