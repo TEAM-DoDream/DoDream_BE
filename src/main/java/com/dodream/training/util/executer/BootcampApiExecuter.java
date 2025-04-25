@@ -1,31 +1,33 @@
-package com.dodream.training.util;
+package com.dodream.training.util.executer;
 
-import com.dodream.training.infrastructure.TrainingApiCaller;
 import com.dodream.training.infrastructure.TrainingDatePolicy;
+import com.dodream.training.infrastructure.caller.TrainingApiCaller;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Qualifier;
 
-@Component
 @RequiredArgsConstructor
-public class TrainingApiExecuter {
+public class BootcampApiExecuter implements TrainingApiExecuter {
 
+    @Qualifier("bootCampApiCaller")
     private final TrainingApiCaller trainingApiCaller;
 
-    public String callBootcampListApi(
+    @Override
+    public String callListApi(
             String pageNum, String regionCode, String ncsCode
     ) {
         String startDate = TrainingDatePolicy.calculateStartDate();
         String endDate = TrainingDatePolicy.calculateEndDate();
 
-        return trainingApiCaller.bootcampListApiCaller(
+        return trainingApiCaller.getListApi(
                 pageNum, regionCode, ncsCode, startDate, endDate
         );
     }
 
-    public String callBootcampDetailApi(
+    @Override
+    public String callDetailApi(
             String trprId, String trprDegr, String torgId
     ) {
-        return trainingApiCaller.bootcampDetailApiCaller(
+        return trainingApiCaller.getDetailApi(
                 trprId, trprDegr, torgId
         );
     }

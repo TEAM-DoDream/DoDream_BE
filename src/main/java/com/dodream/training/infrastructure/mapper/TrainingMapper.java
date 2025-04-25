@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class BootcampMapper {
+public class TrainingMapper {
 
     private final ObjectMapper objectMapper;
 

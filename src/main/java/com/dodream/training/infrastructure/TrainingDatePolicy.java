@@ -7,7 +7,7 @@ import java.time.format.DateTimeFormatter;
 
 public class TrainingDatePolicy {
 
-    @Value("${work24.bootcamp.month-diff}")
+    @Value("${work24.month-diff}")
     private static int monthDiff;
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
