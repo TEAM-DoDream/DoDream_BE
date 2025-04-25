@@ -1,7 +1,7 @@
 package com.dodream.training.controller.swagger;
 
-import com.dodream.training.dto.response.BootcampDetailApiResponse;
-import com.dodream.training.dto.response.BootcampListApiResponse;
+import com.dodream.training.dto.response.TrainingDetailApiResponse;
+import com.dodream.training.dto.response.TrainingListApiResponse;
 import com.dodream.core.config.swagger.ApiErrorCode;
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.training.exception.TrainingErrorCode;
@@ -16,10 +16,10 @@ public interface TrainingSwagger {
     @Operation(
             summary = "국민내일배움카드 훈련과정 목록 반환 API",
             description = "지역 정보와 NCS 직무 이름 정보에 맞는 국민내일배움카드 훈련과정 목록을 반환합니다.",
-            operationId = "/v1/training/list"
+            operationId = "/v1/training/bootcamp/list"
     )
     @ApiErrorCode(TrainingErrorCode.class)
-    ResponseEntity<RestResponse<BootcampListApiResponse>> getBootcampList(
+    ResponseEntity<RestResponse<TrainingListApiResponse>> getBootcampList(
             @RequestParam String pageNum,
             @RequestParam(required = false) String regionName,
             @RequestParam(required = false) String ncsName
@@ -28,10 +28,34 @@ public interface TrainingSwagger {
     @Operation(
             summary = "국민내일배움카드 훈련과정 세부정보 반환 API",
             description = "국민내일배움카드 훈련과정 상세정보를 반환합니다.",
-            operationId = "/v1/training/detail"
+            operationId = "/v1/training/bootcamp/detail"
     )
     @ApiErrorCode(TrainingErrorCode.class)
-    ResponseEntity<RestResponse<BootcampDetailApiResponse>> getBootcampDetail(
+    ResponseEntity<RestResponse<TrainingDetailApiResponse>> getBootcampDetail(
+            @RequestParam String srchTrprId,
+            @RequestParam String srchTrprDegr,
+            @RequestParam String srchTorgId
+    );
+
+    @Operation(
+            summary = "일병행학습 훈련과정 목록 반환 API",
+            description = "지역 정보와 NCS 직무 이름 정보에 맞는 일병행학습 훈련과정 목록을 반환합니다.",
+            operationId = "/v1/training/dual/list"
+    )
+    @ApiErrorCode(TrainingErrorCode.class)
+    ResponseEntity<RestResponse<TrainingListApiResponse>> getDualTrainingList(
+            @RequestParam String pageNum,
+            @RequestParam(required = false) String regionName,
+            @RequestParam(required = false) String ncsName
+    );
+
+    @Operation(
+            summary = "일병행학습 훈련과정 세부정보 반환 API",
+            description = "일병행학습 훈련과정 상세정보를 반환합니다.",
+            operationId = "/v1/training/dual/detail"
+    )
+    @ApiErrorCode(TrainingErrorCode.class)
+    ResponseEntity<RestResponse<TrainingDetailApiResponse>> getDualTrainingDetail(
             @RequestParam String srchTrprId,
             @RequestParam String srchTrprDegr,
             @RequestParam String srchTorgId

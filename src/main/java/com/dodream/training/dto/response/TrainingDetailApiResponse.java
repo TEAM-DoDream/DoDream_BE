@@ -2,7 +2,7 @@ package com.dodream.training.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record BootcampDetailApiResponse(
+public record TrainingDetailApiResponse(
 
         @JsonProperty("inst_base_info")
         InstBaseInfo instBaseInfo

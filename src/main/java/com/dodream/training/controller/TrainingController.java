@@ -1,9 +1,10 @@
 package com.dodream.training.controller;
 
-import com.dodream.training.application.TrainingService;
+import com.dodream.training.application.BootcampService;
+import com.dodream.training.application.DualTrainingService;
 import com.dodream.training.controller.swagger.TrainingSwagger;
-import com.dodream.training.dto.response.BootcampDetailApiResponse;
-import com.dodream.training.dto.response.BootcampListApiResponse;
+import com.dodream.training.dto.response.TrainingDetailApiResponse;
+import com.dodream.training.dto.response.TrainingListApiResponse;
 import com.dodream.core.presentation.RestResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,27 +18,52 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class TrainingController implements TrainingSwagger {
 
-    private final TrainingService trainingService;
+    private final BootcampService bootcampService;
+    private final DualTrainingService dualTrainingService;
 
-    @GetMapping("/list")
-    public ResponseEntity<RestResponse<BootcampListApiResponse>> getBootcampList(
+    @GetMapping("/bootcamp/list")
+    public ResponseEntity<RestResponse<TrainingListApiResponse>> getBootcampList(
         @RequestParam String pageNum,
         @RequestParam(required = false) String regionName,
         @RequestParam(required = false) String ncsName
     ){
         return ResponseEntity.ok(new RestResponse<>(
-                trainingService.getList(pageNum, regionName, ncsName))
+                bootcampService.getList(pageNum, regionName, ncsName))
         );
     }
 
-    @GetMapping("/detail")
-    public ResponseEntity<RestResponse<BootcampDetailApiResponse>> getBootcampDetail(
+    @GetMapping("/bootcamp/detail")
+    public ResponseEntity<RestResponse<TrainingDetailApiResponse>> getBootcampDetail(
             @RequestParam String srchTrprId,
             @RequestParam String srchTrprDegr,
             @RequestParam String srchTorgId
     ){
         return ResponseEntity.ok(new RestResponse<>(
-                trainingService.getDetail(srchTrprId, srchTrprDegr, srchTorgId)
+                bootcampService.getDetail(srchTrprId, srchTrprDegr, srchTorgId)
+        ));
+    }
+
+    @GetMapping("/dual/list")
+    @Override
+    public ResponseEntity<RestResponse<TrainingListApiResponse>> getDualTrainingList(
+            @RequestParam String pageNum,
+            @RequestParam(required = false) String regionName,
+            @RequestParam(required = false) String ncsName
+    ) {
+        return ResponseEntity.ok(new RestResponse<>(
+                dualTrainingService.getList(pageNum, regionName, ncsName)
+        ));
+    }
+
+    @GetMapping("/dual/detail")
+    @Override
+    public ResponseEntity<RestResponse<TrainingDetailApiResponse>> getDualTrainingDetail(
+            @RequestParam String srchTrprId,
+            @RequestParam String srchTrprDegr,
+            @RequestParam String srchTorgId
+    ) {
+        return ResponseEntity.ok(new RestResponse<>(
+                dualTrainingService.getDetail(srchTrprId, srchTrprDegr, srchTorgId)
         ));
     }
 }

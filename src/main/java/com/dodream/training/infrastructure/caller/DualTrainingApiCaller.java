@@ -53,7 +53,8 @@ public class DualTrainingApiCaller implements TrainingApiCaller{
                     RESPONSE_TYPE_JSON,
                     OUT_TYPE_DETAIL,
                     srchTrprId,
-                    srchTrprDegr
+                    srchTrprDegr,
+                    srchTorgId
             );
         } catch(Exception e) {
             throw TrainingErrorCode.NOT_CONNECT_EXTERNAL_API.toException();
