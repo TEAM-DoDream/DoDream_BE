@@ -5,6 +5,8 @@ import com.dodream.auth.dto.TokenRequest;
 import com.dodream.member.domain.Member;
 import com.dodream.member.dto.request.MemberLoginRequestDto;
 import com.dodream.member.dto.request.MemberSignUpRequestDto;
+import com.dodream.member.dto.response.CheckMemberIdResponseDto;
+import com.dodream.member.dto.response.CheckMemberNickNameResponseDto;
 import com.dodream.member.dto.response.MemberLoginResponseDto;
 import com.dodream.member.dto.response.MemberSignUpResponseDto;
 import com.dodream.member.exception.MemberErrorCode;
@@ -62,5 +64,20 @@ public class MemberAuthService {
             tokenService.provideAccessToken(new TokenRequest(newMember.getId())));
     }
 
+
+    public CheckMemberIdResponseDto checkDuplicateMemberId(String memberId) {
+        if (memberRepository.existsByMemberId(memberId)) {
+            throw MemberErrorCode.DUPLICATE_MEMBER_ID.toException();
+        }
+        return CheckMemberIdResponseDto.of(memberId, false);
+    }
+
+
+    public CheckMemberNickNameResponseDto checkDuplicateMemberNickName(String nickName) {
+        if (memberRepository.existsByNickName(nickName)) {
+            throw MemberErrorCode.DUPLICATE_NICKNAME.toException();
+        }
+        return CheckMemberNickNameResponseDto.of(nickName, false);
+    }
 
 }
