@@ -9,7 +9,6 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @EnableFeignClients
 @EnableCaching
-@EnableAspectJAutoProxy(proxyTargetClass = true)
 @ConfigurationPropertiesScan
 @SpringBootApplication
 public class CoreApplication {
