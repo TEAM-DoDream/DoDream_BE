@@ -1,6 +1,5 @@
 package com.dodream.training.util.executer;
 
-import com.dodream.core.infrastructure.cache.CustomCacheable;
 import com.dodream.training.infrastructure.TrainingDatePolicy;
 import com.dodream.training.infrastructure.caller.TrainingApiCaller;
 import lombok.RequiredArgsConstructor;

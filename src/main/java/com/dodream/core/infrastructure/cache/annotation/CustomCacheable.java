@@ -1,4 +1,4 @@
-package com.dodream.core.infrastructure.cache;
+package com.dodream.core.infrastructure.cache.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
