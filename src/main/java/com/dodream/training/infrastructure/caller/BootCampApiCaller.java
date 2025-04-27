@@ -4,11 +4,13 @@ import com.dodream.core.infrastructure.cache.annotation.CustomCacheableWithLock;
 import com.dodream.training.exception.TrainingErrorCode;
 import com.dodream.training.infrastructure.feign.BootcampFeignClient;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
 @Component
+@Log4j2
 public class BootCampApiCaller implements TrainingApiCaller{
 
     private final BootcampFeignClient bootcampFeignClient;
@@ -32,6 +34,7 @@ public class BootCampApiCaller implements TrainingApiCaller{
             String startDate, String endDate
     ){
         try {
+            log.info("[searchBootCampList] 메소드 실행");
             return bootcampFeignClient.searchBootCampList(
                     apiKey,
                     RESPONSE_TYPE_JSON,
@@ -58,6 +61,7 @@ public class BootCampApiCaller implements TrainingApiCaller{
             String srchTorgId
     ){
         try{
+            log.info("[searchBootCampDetail] 메소드 실행");
             return bootcampFeignClient.searchBootCampDetail(
                     apiKey,
                     RESPONSE_TYPE_JSON,

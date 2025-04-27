@@ -13,6 +13,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import java.lang.annotation.Annotation;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -47,8 +48,17 @@ public abstract class BaseCacheAbstract {
             ValueOperations<String, Object> operations
     ) throws Throwable {
         String lockKey = "lock:" + cacheKey;
+
+        Long waitTime = (Long) AnnotationUtils.getValue(annotation, "waitTime");
+        Long leaseTime = (Long) AnnotationUtils.getValue(annotation, "leaseTime");
+
         RLock lock = redissonClient.getLock(lockKey);
-        boolean acquired = lock.tryLock();
+
+        boolean acquired = lock.tryLock(
+                waitTime == null ? 10 : waitTime,
+                leaseTime == null ? 30 : leaseTime,
+                TimeUnit.SECONDS
+        );
 
         if (!acquired) {
             log.warn(

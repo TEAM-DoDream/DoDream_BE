@@ -11,4 +11,6 @@ public @interface CustomCacheableWithLock {
     String cacheName();
     String key() default "";
     long ttl() default 5;
+    long waitTime() default 10;
+    long leaseTime() default 30;
 }
