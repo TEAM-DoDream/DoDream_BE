@@ -1,5 +1,6 @@
 package com.dodream.training.infrastructure.caller;
 
+import com.dodream.core.infrastructure.cache.annotation.CustomCacheableWithLock;
 import com.dodream.training.exception.TrainingErrorCode;
 import com.dodream.training.infrastructure.feign.BootcampFeignClient;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class BootCampApiCaller implements TrainingApiCaller{
     private int pageSize;
 
     @Override
+    @CustomCacheableWithLock(cacheName = "bootcampList", ttl = 3)
     public String getListApi(
             String pageNum, String regionCode, String ncsCode,
             String startDate, String endDate
@@ -49,6 +51,7 @@ public class BootCampApiCaller implements TrainingApiCaller{
     }
 
     @Override
+    @CustomCacheableWithLock(cacheName = "bootcampDetail", ttl = 60)
     public String getDetailApi(
             String srchTrprId,
             String srchTrprDegr,

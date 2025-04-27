@@ -1,5 +1,7 @@
 package com.dodream.training.infrastructure.caller;
 
+import com.dodream.core.infrastructure.cache.annotation.CustomCacheable;
+import com.dodream.core.infrastructure.cache.annotation.CustomCacheableWithLock;
 import com.dodream.training.exception.TrainingErrorCode;
 import com.dodream.training.infrastructure.feign.DualTrainingFeignClient;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ public class DualTrainingApiCaller implements TrainingApiCaller{
     private int pageSize;
 
     @Override
+    @CustomCacheableWithLock(cacheName = "dualList", ttl = 3)
     public String getListApi(String pageNum, String regionCode, String ncsCode, String startDate, String endDate) {
         try {
             return dualTrainingFeignClient.getDualTrainingList(
@@ -46,6 +49,7 @@ public class DualTrainingApiCaller implements TrainingApiCaller{
     }
 
     @Override
+    @CustomCacheableWithLock(cacheName = "dualDetail", ttl = 60)
     public String getDetailApi(String srchTrprId, String srchTrprDegr, String srchTorgId) {
         try{
             return dualTrainingFeignClient.getDualTrainingDetail(

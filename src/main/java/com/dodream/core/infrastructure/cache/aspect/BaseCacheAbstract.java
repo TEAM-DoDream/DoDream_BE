@@ -1,51 +1,31 @@
 package com.dodream.core.infrastructure.cache.aspect;
 
 import com.dodream.core.exception.GlobalErrorCode;
-import com.dodream.core.infrastructure.cache.annotation.CustomCacheable;
-import com.dodream.core.infrastructure.cache.annotation.CustomCacheableWithLock;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.stereotype.Component;
 
 import java.lang.annotation.Annotation;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-@Aspect
-@Component
 @RequiredArgsConstructor
 @Log4j2
 public abstract class BaseCacheAbstract {
-
     protected final RedisTemplate<String, Object> redisTemplate;
     protected final RedissonClient redissonClient;
 
-    @Around("@annotation(customCacheable)")
-    public Object around(
-            ProceedingJoinPoint joinPoint, CustomCacheable customCacheable
-    ) throws Throwable {
-        return handleCache(joinPoint, customCacheable, false);
-    }
-
-    @Around("@annotation(customCacheableWithLock)")
-    public Object aroundWithLock(
-            ProceedingJoinPoint joinPoint, CustomCacheableWithLock customCacheableWithLock
-    ) throws Throwable {
-        return handleCache(joinPoint, customCacheableWithLock, true);
-    }
-
-    private Object handleCache(ProceedingJoinPoint joinPoint, Annotation annotation, boolean useLock) throws Throwable {
+    protected Object handleCache(ProceedingJoinPoint joinPoint, Annotation annotation, boolean useLock) throws Throwable {
         String cacheKey = generateCacheKey(joinPoint, annotation);
         ValueOperations<String, Object> operations = redisTemplate.opsForValue();
+
+        log.info("[{}] key: {}", joinPoint.getSignature().getDeclaringTypeName(), cacheKey);
 
         Object cacheValue = operations.get(cacheKey);
         if (cacheValue != null) {
@@ -121,11 +101,13 @@ public abstract class BaseCacheAbstract {
         Object cacheName = AnnotationUtils.getValue(annotation, "cacheName");
         Object cacheKey = AnnotationUtils.getValue(annotation, "key");
 
+        log.info("캐시 이름 : {} 캐시 키 : {}", cacheName, cacheKey);
+
         if(cacheName == null){
             throw GlobalErrorCode.CANNOT_GET_CACHE_NAME.toException();
         }
 
-        if(cacheKey != null && cacheKey.toString().isEmpty()){
+        if(cacheKey == null){
             return cacheName + "::" + cacheKey;
         }
 
