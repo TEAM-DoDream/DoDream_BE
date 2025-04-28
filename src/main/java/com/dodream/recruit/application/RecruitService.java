@@ -4,10 +4,12 @@ import com.dodream.recruit.dto.response.RecruitResponseDto;
 import com.dodream.recruit.infrastructure.RecruitApiCaller;
 import com.dodream.recruit.infrastructure.mapper.RecruitMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class RecruitService {
 
     private final RecruitApiCaller recruitApiCaller;
