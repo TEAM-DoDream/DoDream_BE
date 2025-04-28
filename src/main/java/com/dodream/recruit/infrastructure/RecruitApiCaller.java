@@ -34,6 +34,7 @@ public class RecruitApiCaller {
             throw RecruitException.API_CONNECTION_ERROR.toException();
         }
     }
+
     @CustomCacheableWithLock(cacheName = "recruitDetail", ttl = 60)
     public String recruitDetatilAPiCaller(
             String id
