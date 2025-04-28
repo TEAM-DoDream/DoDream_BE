@@ -5,20 +5,23 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 public record RecruitResponseDto(
-
-        @JsonProperty("count")
-        int count,
-
-        @JsonProperty("start")
-        int start,
-
-        @JsonProperty("total")
-        String total,
-
-        @JsonProperty("job")
-        List<Job> job
+        @JsonProperty("jobs")
+        Jobs jobs
 ) {
-    public record Job(
+    public record Jobs(
+            @JsonProperty("count")
+            int count,
+
+            @JsonProperty("start")
+            int start,
+
+            @JsonProperty("total")
+            String total,
+
+            @JsonProperty("job")
+            List<Job> job
+    ){
+        public record Job(
 
             @JsonProperty("url")
             String url,
@@ -67,23 +70,23 @@ public record RecruitResponseDto(
 
             @JsonProperty("apply-cnt")
             String applyCnt
-    ) {
-        public record Company(
-
-                @JsonProperty("detail")
-                Detail detail
         ) {
-            public record Detail(
+            public record Company(
 
-                    @JsonProperty("href")
-                    String href,
+                    @JsonProperty("detail")
+                    Detail detail
+            ) {
+                public record Detail(
 
-                    @JsonProperty("name")
-                    String name
-            ) {}
-        }
+                        @JsonProperty("href")
+                        String href,
 
-        public record Position(
+                        @JsonProperty("name")
+                        String name
+                ) {}
+            }
+
+            public record Position(
 
                 @JsonProperty("title")
                 String title,
@@ -108,8 +111,78 @@ public record RecruitResponseDto(
 
                 @JsonProperty("required-education-level")
                 RequiredEducationLevel requiredEducationLevel
-        ) {
-            public record Industry(
+            ) {
+                public record Industry(
+
+                        @JsonProperty("code")
+                        String code,
+
+                        @JsonProperty("name")
+                        String name
+                ) {}
+
+                public record Location(
+
+                        @JsonProperty("code")
+                        String code,
+
+                        @JsonProperty("name")
+                        String name
+                ) {}
+
+                public record JobType(
+
+                        @JsonProperty("code")
+                        String code,
+
+                        @JsonProperty("name")
+                        String name
+                ) {}
+
+                public record JobMidCode(
+
+                        @JsonProperty("code")
+                        String code,
+
+                        @JsonProperty("name")
+                        String name
+                ) {}
+
+                public record JobCode(
+
+                        @JsonProperty("code")
+                        String code,
+
+                        @JsonProperty("name")
+                        String name
+                ) {}
+
+                public record ExperienceLevel(
+
+                        @JsonProperty("code")
+                        int code,
+
+                        @JsonProperty("min")
+                        int min,
+
+                        @JsonProperty("max")
+                        int max,
+
+                        @JsonProperty("name")
+                        String name
+                ) {}
+
+                public record RequiredEducationLevel(
+
+                        @JsonProperty("code")
+                        String code,
+
+                        @JsonProperty("name")
+                        String name
+                ) {}
+            }
+
+            public record Salary(
 
                     @JsonProperty("code")
                     String code,
@@ -118,58 +191,7 @@ public record RecruitResponseDto(
                     String name
             ) {}
 
-            public record Location(
-
-                    @JsonProperty("code")
-                    String code,
-
-                    @JsonProperty("name")
-                    String name
-            ) {}
-
-            public record JobType(
-
-                    @JsonProperty("code")
-                    String code,
-
-                    @JsonProperty("name")
-                    String name
-            ) {}
-
-            public record JobMidCode(
-
-                    @JsonProperty("code")
-                    String code,
-
-                    @JsonProperty("name")
-                    String name
-            ) {}
-
-            public record JobCode(
-
-                    @JsonProperty("code")
-                    String code,
-
-                    @JsonProperty("name")
-                    String name
-            ) {}
-
-            public record ExperienceLevel(
-
-                    @JsonProperty("code")
-                    int code,
-
-                    @JsonProperty("min")
-                    int min,
-
-                    @JsonProperty("max")
-                    int max,
-
-                    @JsonProperty("name")
-                    String name
-            ) {}
-
-            public record RequiredEducationLevel(
+            public record CloseType(
 
                     @JsonProperty("code")
                     String code,
@@ -178,23 +200,7 @@ public record RecruitResponseDto(
                     String name
             ) {}
         }
-
-        public record Salary(
-
-                @JsonProperty("code")
-                String code,
-
-                @JsonProperty("name")
-                String name
-        ) {}
-
-        public record CloseType(
-
-                @JsonProperty("code")
-                String code,
-
-                @JsonProperty("name")
-                String name
-        ) {}
     }
 }
+
+
