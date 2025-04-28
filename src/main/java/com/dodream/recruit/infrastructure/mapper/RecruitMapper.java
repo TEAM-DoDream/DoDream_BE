@@ -1,5 +1,6 @@
 package com.dodream.recruit.infrastructure.mapper;
 
+<<<<<<< HEAD
 import com.dodream.recruit.dto.response.RecruitResponseDetailDto;
 import com.dodream.recruit.dto.response.RecruitResponseListApiDto;
 import com.dodream.recruit.dto.response.RecruitResponseListDto;
@@ -10,11 +11,20 @@ import java.util.List;
 
 @Component
 public class RecruitMapper extends AbstractRecruitMapper<RecruitResponseListApiDto, RecruitResponseDetailDto> {
+=======
+import com.dodream.recruit.dto.response.RecruitResponseDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Component;
+
+@Component
+public class RecruitMapper extends AbstractRecruitMapper<RecruitResponseDto> {
+>>>>>>> a7e3773 (feat: recruitList관련 mapper, 서비스 로직 작성)
 
     protected RecruitMapper(ObjectMapper objectMapper) {
         super(objectMapper);
     }
 
+<<<<<<< HEAD
     public RecruitResponseListApiDto recruitListMapper(String json){
         return parse(json, RecruitResponseListApiDto.class);
     }
@@ -56,5 +66,9 @@ public class RecruitMapper extends AbstractRecruitMapper<RecruitResponseListApiD
                 recruitResponseListApiDto.jobs().total(),
                 simpleJobs
         );
+=======
+    public RecruitResponseDto recruitListMapper(String json){
+        return parse(json, RecruitResponseDto.class);
+>>>>>>> a7e3773 (feat: recruitList관련 mapper, 서비스 로직 작성)
     }
 }
