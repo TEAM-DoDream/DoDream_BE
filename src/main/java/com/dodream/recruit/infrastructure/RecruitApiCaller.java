@@ -1,5 +1,6 @@
 package com.dodream.recruit.infrastructure;
 
+import com.dodream.core.infrastructure.cache.annotation.CustomCacheableWithLock;
 import com.dodream.recruit.exception.RecruitException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,7 @@ public class RecruitApiCaller {
     @Value("${saramin.page-size}")
     private int pageSize;
 
+    @CustomCacheableWithLock(cacheName = "recruitList")
     public String recruitListApiListCaller(
             String keyWords, String locCd, int start
     ){
@@ -32,7 +34,7 @@ public class RecruitApiCaller {
             throw RecruitException.API_CONNECTION_ERROR.toException();
         }
     }
-
+    @CustomCacheableWithLock(cacheName = "recruitDetail")
     public String recruitDetatilAPiCaller(
             String id
     ){
