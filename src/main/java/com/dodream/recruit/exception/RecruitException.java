@@ -9,7 +9,8 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 @Getter
 public enum RecruitException implements BaseErrorCode<DomainException> {
-    API_CONNECTION_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "채용정보 API를 불러오는데 실패했습니다.");
+    API_CONNECTION_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "채용정보 API를 불러오는데 실패했습니다."),
+    CANNOT_CONVERT_JSON(HttpStatus.INTERNAL_SERVER_ERROR, "Json 객체 변환에 실패했습니다.");
 
     private final HttpStatus httpStatus;
 
