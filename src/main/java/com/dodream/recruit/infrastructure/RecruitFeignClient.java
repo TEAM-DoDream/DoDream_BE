@@ -12,8 +12,7 @@ public interface RecruitFeignClient {
             @RequestParam(name = "keywords") String keywords,
             @RequestParam(name = "loc_cd") String locCd,
             @RequestParam(name = "start") int start,
-            @RequestParam(name = "count") int count,
-            @RequestParam(name = "sort") String sort
+            @RequestParam(name = "count") int count
     );
 
     @GetMapping(value = "${saramin.endpoint}", headers = "Accept=application/json")
