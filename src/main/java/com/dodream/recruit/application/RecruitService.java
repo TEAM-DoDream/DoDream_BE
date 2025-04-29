@@ -1,6 +1,7 @@
 package com.dodream.recruit.application;
 
-import com.dodream.recruit.dto.response.RecruitResponseDto;
+import com.dodream.recruit.dto.response.RecruitResponseDetailDto;
+import com.dodream.recruit.dto.response.RecruitResponseListDto;
 import com.dodream.recruit.infrastructure.RecruitApiCaller;
 import com.dodream.recruit.infrastructure.mapper.RecruitMapper;
 import lombok.RequiredArgsConstructor;
@@ -15,11 +16,19 @@ public class RecruitService {
     private final RecruitApiCaller recruitApiCaller;
     private final RecruitMapper recruitMapper;
 
-    public RecruitResponseDto getRecruitList(
+    public RecruitResponseListDto getRecruitList(
             String keyWord, String locationCode, int pageNum
     ){
         String result = recruitApiCaller.recruitListApiListCaller(keyWord, locationCode, pageNum);
 
         return recruitMapper.recruitListMapper(result);
+    }
+
+    public RecruitResponseDetailDto getRecruitDetail(
+            String id
+    ){
+        String result = recruitApiCaller.recruitDetatilAPiCaller(id);
+
+        return recruitMapper.recruitDetailMapper(result);
     }
 }

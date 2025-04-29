@@ -18,7 +18,7 @@ public class RecruitApiCaller {
     @Value("${saramin.page-size}")
     private int pageSize;
 
-    @CustomCacheableWithLock(cacheName = "recruitList")
+    @CustomCacheableWithLock(cacheName = "recruitList", ttl = 3)
     public String recruitListApiListCaller(
             String keyWords, String locCd, int start
     ){
@@ -34,7 +34,7 @@ public class RecruitApiCaller {
             throw RecruitException.API_CONNECTION_ERROR.toException();
         }
     }
-    @CustomCacheableWithLock(cacheName = "recruitDetail")
+    @CustomCacheableWithLock(cacheName = "recruitDetail", ttl = 60)
     public String recruitDetatilAPiCaller(
             String id
     ){
