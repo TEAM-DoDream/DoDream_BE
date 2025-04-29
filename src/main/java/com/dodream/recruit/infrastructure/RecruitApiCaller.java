@@ -18,6 +18,8 @@ public class RecruitApiCaller {
     @Value("${saramin.page-size}")
     private int pageSize;
 
+    private final String FIELDS = "count";
+
     @CustomCacheableWithLock(cacheName = "recruitList", ttl = 3)
     public String recruitListApiListCaller(
             String keyWords, String locCd, int start
@@ -27,6 +29,7 @@ public class RecruitApiCaller {
                     accessKey,
                     keyWords,
                     locCd,
+                    FIELDS,
                     start,
                     pageSize
             );
