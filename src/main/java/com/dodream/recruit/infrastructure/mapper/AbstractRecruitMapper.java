@@ -3,7 +3,7 @@ package com.dodream.recruit.infrastructure.mapper;
 import com.dodream.training.exception.TrainingErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public abstract class AbstractRecruitMapper<T> {
+public abstract class AbstractRecruitMapper<L, D> {
     protected final ObjectMapper objectMapper;
 
     protected AbstractRecruitMapper(ObjectMapper objectMapper) {
