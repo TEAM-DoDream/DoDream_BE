@@ -3,7 +3,7 @@ package com.dodream.recruit.presentation;
 import com.dodream.core.config.swagger.ApiErrorCode;
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.recruit.dto.response.RecruitResponseDetailDto;
-import com.dodream.recruit.dto.response.RecruitResponseDto;
+import com.dodream.recruit.dto.response.RecruitResponseListDto;
 import com.dodream.recruit.exception.RecruitException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,11 +19,12 @@ public interface RecruitSwagger {
             operationId = "/v1/recruit/list"
     )
     @ApiErrorCode(RecruitException.class)
-    ResponseEntity<RestResponse<RecruitResponseDto>> getRecruitListController(
+    ResponseEntity<RestResponse<RecruitResponseListDto>> getRecruitListController(
             @RequestParam int pageNum,
             @RequestParam(required = false) String keyWord,
             @RequestParam(required = false) String locationCode
     );
+
     @Operation(
             summary = "사람인 채용 상세 정보 반환 API",
             description = "각 공고별 상세 정보를 불러옵니다.",
