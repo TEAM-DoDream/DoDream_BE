@@ -25,6 +25,9 @@ public class Region extends BaseLongIdEntity {
     @Column(name = "region_name", nullable = false)
     private String regionName;
 
+    @Column(name = "saramin_region_code", unique = true)
+    private String saraminRegionCode;
+
     public static Region of(
             String regionCode,
             String regionName
@@ -33,5 +36,9 @@ public class Region extends BaseLongIdEntity {
                 .regionCode(regionCode)
                 .regionName(regionName)
                 .build();
+    }
+
+    public void updateSaraminRegionCode(String saraminRegionCode) {
+        this.saraminRegionCode = saraminRegionCode;
     }
 }
