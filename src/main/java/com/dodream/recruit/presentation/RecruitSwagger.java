@@ -10,6 +10,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Tag(name = "Recruit", description = "사람인 채용정보 관련 API")
 public interface RecruitSwagger {
 
