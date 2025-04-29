@@ -3,7 +3,6 @@ package com.dodream.recruit.presentation;
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.recruit.application.RecruitService;
 import com.dodream.recruit.dto.response.RecruitResponseDetailDto;
-import com.dodream.recruit.dto.response.RecruitResponseListApiDto;
 import com.dodream.recruit.dto.response.RecruitResponseListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
