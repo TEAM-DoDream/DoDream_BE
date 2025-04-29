@@ -1,7 +1,9 @@
 package com.dodream.region.repository;
 
 import com.dodream.region.domain.Region;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 
 import java.util.Optional;
 
