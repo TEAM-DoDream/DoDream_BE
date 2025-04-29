@@ -1,6 +1,6 @@
 package com.dodream.recruit.infrastructure.mapper;
 
-import com.dodream.training.exception.TrainingErrorCode;
+import com.dodream.recruit.exception.RecruitErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public abstract class AbstractRecruitMapper<L, D> {
@@ -14,7 +14,7 @@ public abstract class AbstractRecruitMapper<L, D> {
         try{
             return objectMapper.readValue(json, clazz);
         }catch(Exception e){
-            throw TrainingErrorCode.NOT_CONVERT_JSON_TO_OBJECT.toException();
+            throw RecruitErrorCode.CANNOT_CONVERT_JSON.toException();
         }
     }
 }
