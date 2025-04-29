@@ -26,10 +26,10 @@ public class RecruitController implements RecruitSwagger{
     public ResponseEntity<RestResponse<RecruitResponseListDto>> getRecruitListController(
             @RequestParam int pageNum,
             @RequestParam(required = false) String keyWord,
-            @RequestParam(required = false) String locationCode
+            @RequestParam(required = false) String locationName
     ){
         return ResponseEntity.ok(new RestResponse<>(
-                recruitService.getRecruitList(keyWord, locationCode, pageNum)
+                recruitService.getRecruitList(keyWord, locationName, pageNum)
         ));
     }
 

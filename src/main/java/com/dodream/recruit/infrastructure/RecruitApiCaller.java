@@ -1,7 +1,7 @@
 package com.dodream.recruit.infrastructure;
 
 import com.dodream.core.infrastructure.cache.annotation.CustomCacheableWithLock;
-import com.dodream.recruit.exception.RecruitException;
+import com.dodream.recruit.exception.RecruitErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -31,7 +31,7 @@ public class RecruitApiCaller {
                     pageSize
             );
         } catch (Exception e){
-            throw RecruitException.API_CONNECTION_ERROR.toException();
+            throw RecruitErrorCode.API_CONNECTION_ERROR.toException();
         }
     }
     @CustomCacheableWithLock(cacheName = "recruitDetail", ttl = 60)
@@ -43,7 +43,7 @@ public class RecruitApiCaller {
                     accessKey, id
             );
         }catch (Exception e){
-            throw RecruitException.API_CONNECTION_ERROR.toException();
+            throw RecruitErrorCode.API_CONNECTION_ERROR.toException();
         }
     }
 }
