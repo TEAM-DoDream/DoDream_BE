@@ -6,6 +6,7 @@ import com.dodream.core.config.swagger.ApiErrorCode;
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.training.exception.TrainingErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,9 +21,15 @@ public interface TrainingSwagger {
     )
     @ApiErrorCode(TrainingErrorCode.class)
     ResponseEntity<RestResponse<TrainingListApiResponse>> getBootcampList(
-            @RequestParam String pageNum,
-            @RequestParam(required = false) String regionName,
-            @RequestParam(required = false) String ncsName
+            @RequestParam
+            @Parameter(description = "검색 페이지 번호(1부터 시작하는 정수값)", example = "1")
+            String pageNum,
+            @RequestParam(required = false)
+            @Parameter(description = "/v1/region/all을 요청시 나오는 지역 목록의 이름", example = "경기 안양시 만안구")
+            String regionName,
+            @RequestParam(required = false)
+            @Parameter(description = "/v1/ncs/all을 호출하여 나오는 직무 코드의 이름", example = "보건")
+            String ncsName
     );
 
     @Operation(
@@ -32,9 +39,24 @@ public interface TrainingSwagger {
     )
     @ApiErrorCode(TrainingErrorCode.class)
     ResponseEntity<RestResponse<TrainingDetailApiResponse>> getBootcampDetail(
-            @RequestParam String srchTrprId,
-            @RequestParam String srchTrprDegr,
-            @RequestParam String srchTorgId
+            @RequestParam
+            @Parameter(
+                    description = "훈련과정 ID /v1/training/bootcamp/list 실행시 나오는 trgrId",
+                    example = "AIG20240000469334"
+            )
+            String srchTrprId,
+            @RequestParam
+            @Parameter(
+                    description = "훈련과정 ID /v1/training/bootcamp/list 실행시 나오는 trprDegr(차수 번호(String))",
+                    example = "3"
+            )
+            String srchTrprDegr,
+            @RequestParam
+            @Parameter(
+                    description = "훈련과정 ID /v1/training/bootcamp/list 실행시 나오는 trainstCstId",
+                    example = "500041590848"
+            )
+            String srchTorgId
     );
 
     @Operation(
@@ -44,9 +66,15 @@ public interface TrainingSwagger {
     )
     @ApiErrorCode(TrainingErrorCode.class)
     ResponseEntity<RestResponse<TrainingListApiResponse>> getDualTrainingList(
-            @RequestParam String pageNum,
-            @RequestParam(required = false) String regionName,
-            @RequestParam(required = false) String ncsName
+            @RequestParam
+            @Parameter(description = "검색 페이지 번호(1부터 시작하는 정수값)", example = "1")
+            String pageNum,
+            @RequestParam(required = false)
+            @Parameter(description = "/v1/region/all을 요청시 나오는 지역 목록의 이름", example = "경기 안양시 만안구")
+            String regionName,
+            @RequestParam(required = false)
+            @Parameter(description = "/v1/ncs/all을 호출하여 나오는 직무 코드의 이름", example = "보건")
+            String ncsName
     );
 
     @Operation(
@@ -56,8 +84,23 @@ public interface TrainingSwagger {
     )
     @ApiErrorCode(TrainingErrorCode.class)
     ResponseEntity<RestResponse<TrainingDetailApiResponse>> getDualTrainingDetail(
-            @RequestParam String srchTrprId,
-            @RequestParam String srchTrprDegr,
-            @RequestParam String srchTorgId
+            @RequestParam
+            @Parameter(
+                    description = "훈련과정 ID /v1/training/bootcamp/list 실행시 나오는 trgrId",
+                    example = "ABF20253001089849"
+            )
+            String srchTrprId,
+            @RequestParam
+            @Parameter(
+                    description = "훈련과정 ID /v1/training/bootcamp/list 실행시 나오는 trprDegr(차수 번호(String))",
+                    example = "1"
+            )
+            String srchTrprDegr,
+            @RequestParam
+            @Parameter(
+                    description = "훈련과정 ID /v1/training/bootcamp/list 실행시 나오는 trainstCstId",
+                    example = "500020058691"
+            )
+            String srchTorgId
     );
 }

@@ -43,7 +43,7 @@ public class RecruitApiCaller {
     ){
         try{
             return recruitFeignClient.getRecruitDetail(
-                    accessKey, id
+                    accessKey, id , FIELDS
             );
         }catch (Exception e){
             throw RecruitErrorCode.API_CONNECTION_ERROR.toException();

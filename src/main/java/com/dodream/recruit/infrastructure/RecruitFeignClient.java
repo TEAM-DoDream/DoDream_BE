@@ -19,6 +19,7 @@ public interface RecruitFeignClient {
     @GetMapping(value = "${saramin.endpoint}", headers = "Accept=application/json")
     String getRecruitDetail(
             @RequestParam(name = "access-key") String accessKey,
-            @RequestParam(name = "id") String id
+            @RequestParam(name = "id") String id,
+            @RequestParam(name = "fields") String fields
     );
 }

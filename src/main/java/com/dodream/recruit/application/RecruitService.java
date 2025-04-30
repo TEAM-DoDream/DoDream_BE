@@ -1,13 +1,10 @@
 package com.dodream.recruit.application;
 
-import com.dodream.recruit.dto.response.RecruitResponseDetailDto;
 import com.dodream.recruit.dto.response.RecruitResponseListApiDto;
 import com.dodream.recruit.dto.response.RecruitResponseListDto;
-import com.dodream.recruit.exception.RecruitErrorCode;
 import com.dodream.recruit.infrastructure.RecruitApiCaller;
 import com.dodream.recruit.infrastructure.mapper.RecruitMapper;
 import com.dodream.recruit.util.RecruitCodeResolver;
-import com.dodream.region.repository.RegionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -34,11 +31,13 @@ public class RecruitService {
         return recruitMapper.toSimpleListDto(mappedResult);
     }
 
-    public RecruitResponseDetailDto getRecruitDetail(
+    public RecruitResponseListDto getRecruitDetail(
             String id
     ) {
         String result = recruitApiCaller.recruitDetatilAPiCaller(id);
 
-        return recruitMapper.recruitDetailMapper(result);
+        RecruitResponseListApiDto mappedResult = recruitMapper.recruitListMapper(result);
+
+        return recruitMapper.toSimpleListDto(mappedResult);
     }
 }

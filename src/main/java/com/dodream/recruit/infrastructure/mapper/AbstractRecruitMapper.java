@@ -1,9 +1,12 @@
 package com.dodream.recruit.infrastructure.mapper;
 
+import com.dodream.recruit.dto.response.RecruitResponseListDto;
 import com.dodream.recruit.exception.RecruitErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public abstract class AbstractRecruitMapper<L, D> {
+import java.util.List;
+
+public abstract class AbstractRecruitMapper<T> {
     protected final ObjectMapper objectMapper;
 
     protected AbstractRecruitMapper(ObjectMapper objectMapper) {
