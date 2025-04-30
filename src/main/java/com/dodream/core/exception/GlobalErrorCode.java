@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor
 public enum GlobalErrorCode implements BaseErrorCode<RuntimeException> {
+    CANNOT_GET_CACHE_NAME(HttpStatus.INTERNAL_SERVER_ERROR, "어노테이션에서 캐시 이름을 가져오지 못했습니다."),
+    CANNOT_GET_LOCK(HttpStatus.INTERNAL_SERVER_ERROR, "캐시 락 획득 실패"),
     XML_TO_JSON_CONVERT_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "JSON 형식으로 변환 실패"),
     REDIS_GET_DATA_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "레디스 데이터 불러오기 실패"),
     REDIS_SET_DATA_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "레디스 데이터 저장 실패"),
