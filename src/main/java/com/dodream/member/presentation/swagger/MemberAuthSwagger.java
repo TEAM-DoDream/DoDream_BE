@@ -36,7 +36,7 @@ public interface MemberAuthSwagger {
         operationId = "/v1/member/auth/logout"
     )
     @ApiErrorCode(MemberErrorCode.class)
-    ResponseEntity<RestResponse<MemberNewTokenResponse>> getMemberLogout();
+    ResponseEntity<RestResponse<String>> getMemberLogout();
 
 
     @Operation(
@@ -78,8 +78,6 @@ public interface MemberAuthSwagger {
     @ApiErrorCode(MemberErrorCode.class)
     ResponseEntity<RestResponse<MemberNewTokenResponse>> issueNewToken(
         @RequestHeader(value = "refreshToken", required = false) String refreshToken);
-
-
 
 
 }

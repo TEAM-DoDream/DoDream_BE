@@ -41,9 +41,9 @@ public class MemberAuthController implements MemberAuthSwagger {
 
     @Override
     @PostMapping("/logout")
-    public ResponseEntity getMemberLogout() {
+    public ResponseEntity<RestResponse<String>> getMemberLogout() {
         memberAuthService.getMemberLogout();
-        return ResponseEntity.ok("로그아웃 완료");
+        return ResponseEntity.ok(new RestResponse<>("로그아웃 완료"));
     }
 
     @Override

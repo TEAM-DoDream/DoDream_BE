@@ -13,7 +13,10 @@ public enum AuthenticationErrorCode implements BaseErrorCode<DomainException> {
     INVALID_SIGNATURE(HttpStatus.UNAUTHORIZED, "유효하지 않은 토큰입니다."),
     EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, "만료된 토큰입니다."),
     NOT_MATCH_TOKEN_FORMAT(HttpStatus.UNAUTHORIZED, "토큰 형식이 맞지 않습니다."),
-    NOT_DEFINE_TOKEN(HttpStatus.UNAUTHORIZED, "정의되지 않은 토큰입니다.");
+    NOT_DEFINE_TOKEN(HttpStatus.UNAUTHORIZED, "정의되지 않은 토큰입니다."),
+    EMPTY_TOKEN(HttpStatus.UNAUTHORIZED, "토큰이 입력되지 않았습니다."),
+    NOT_AUTHENTICATED(HttpStatus.UNAUTHORIZED, "인증 정보가 없거나 유효하지 않은 사용자입니다.");
+
 
     private final HttpStatus httpStatus;
 

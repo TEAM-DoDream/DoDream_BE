@@ -17,9 +17,8 @@ public class RefreshTokenService {
 
     public void save(Long memberId, String refreshToken) {
         long ttl = jwtProperties.getRefreshExpiration();
-        redisTemplate.opsForValue().set(PREFIX + String.valueOf(memberId), refreshToken, ttl, TimeUnit.DAYS);
-
-        System.out.println("[Redis 저장] key = "+ PREFIX + String.valueOf(memberId)  + ", token = " + refreshToken + ", TTL = " + ttl);
+        redisTemplate.opsForValue()
+            .set(PREFIX + String.valueOf(memberId), refreshToken, ttl, TimeUnit.DAYS);
     }
 
     public boolean isValid(Long memberId, String token) {

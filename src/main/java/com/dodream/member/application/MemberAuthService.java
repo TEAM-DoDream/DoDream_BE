@@ -3,6 +3,7 @@ package com.dodream.member.application;
 import com.dodream.auth.application.RefreshTokenService;
 import com.dodream.auth.application.TokenService;
 import com.dodream.auth.dto.TokenRequest;
+import com.dodream.auth.exception.AuthenticationErrorCode;
 import com.dodream.core.config.security.SecurityUtils;
 import com.dodream.member.domain.Member;
 import com.dodream.member.dto.request.MemberLoginRequestDto;
@@ -47,6 +48,7 @@ public class MemberAuthService {
     }
 
     public void getMemberLogout() {
+
         Long currentId = SecurityUtils.getCurrentMemberId();
 
         refreshTokenService.delete(currentId);
@@ -84,6 +86,7 @@ public class MemberAuthService {
 
 
     public CheckMemberIdResponseDto checkDuplicateMemberId(String memberId) {
+
         if (memberRepository.existsByMemberId(memberId)) {
             throw MemberErrorCode.DUPLICATE_MEMBER_ID.toException();
         }
@@ -92,6 +95,7 @@ public class MemberAuthService {
 
 
     public CheckMemberNickNameResponseDto checkDuplicateMemberNickName(String nickName) {
+
         if (memberRepository.existsByNickName(nickName)) {
             throw MemberErrorCode.DUPLICATE_NICKNAME.toException();
         }
@@ -101,28 +105,22 @@ public class MemberAuthService {
     @Transactional
     public MemberNewTokenResponse issueNewToken(String refreshToken) {
 
+        if (refreshToken == null || refreshToken.isBlank()) {
+            throw AuthenticationErrorCode.EMPTY_TOKEN.toException();
+        }
+
         Long id = tokenService.getUserId(refreshToken);
 
         Member member = memberRepository.findById(id)
             .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
 
         String newAccessToken = tokenService.provideAccessToken(new TokenRequest(member.getId()));
-        String newRefreshToken = tokenService.provideAccessToken(new TokenRequest(member.getId()));
+        String newRefreshToken = tokenService.provideRefreshToken(new TokenRequest(member.getId()));
 
         refreshTokenService.delete(member.getId());
         refreshTokenService.save(member.getId(), newRefreshToken);
 
         return MemberNewTokenResponse.of(newAccessToken, newRefreshToken);
-    }
-
-
-    public Long getCurrentId() {
-        Long id = SecurityUtils.getCurrentMemberId();
-
-        Member member = memberRepository.findById(id)
-            .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
-
-        return member.getId();
     }
 
 }
