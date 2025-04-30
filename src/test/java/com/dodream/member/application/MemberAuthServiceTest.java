@@ -1,0 +1,177 @@
+package com.dodream.member.application;
+
+import static com.dodream.member.exception.MemberErrorCode.MEMBER_NOT_FOUND;
+import static com.dodream.member.exception.MemberErrorCode.PASSWORD_NOT_MATCH;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+import com.dodream.auth.application.TokenService;
+import com.dodream.core.exception.DomainException;
+import com.dodream.member.domain.Gender;
+import com.dodream.member.domain.Member;
+import com.dodream.member.dto.request.MemberLoginRequestDto;
+import com.dodream.member.dto.request.MemberSignUpRequestDto;
+import com.dodream.member.dto.response.MemberLoginResponseDto;
+import com.dodream.member.dto.response.MemberSignUpResponseDto;
+import com.dodream.member.repository.MemberRepository;
+import java.time.LocalDate;
+import java.util.Optional;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+@ExtendWith(MockitoExtension.class)
+public class MemberAuthServiceTest {
+
+    @Mock
+    private MemberRepository memberRepository;
+    @Mock
+    private TokenService tokenService;
+    @Mock
+    private BCryptPasswordEncoder passwordEncoder;
+    @InjectMocks
+    private MemberAuthService memberAuthService;
+
+    private static final Long TEST_ID = 1L;
+    private static final String TEST_MEMBER_ID = "dodream";
+    private static final String TEST_PASSWORD = "hello2025";
+    private static final String TEST_WRONG_PASSWORD = "wrongPW";
+    private static final String TEST_NICKNAME = "두둠칫";
+    private static final LocalDate TEST_BIRTHDATE = LocalDate.of(2000, 1, 1);
+    private static final Gender TEST_GENDER = Gender.FEMALE;
+    private static final String TEST_REGION_CODE = "11110";
+
+
+    @Nested
+    @DisplayName("회원가입 테스트")
+    class MemberSignUpTest {
+
+        @Test
+        @DisplayName("회원가입 성공 테스트")
+        void signUpMemberSuccess() {
+
+            // given
+            Member member = Member.builder()
+                .memberId(TEST_MEMBER_ID)
+                .password(TEST_PASSWORD)
+                .nickName(TEST_NICKNAME)
+                .birthDate(TEST_BIRTHDATE)
+                .gender(TEST_GENDER)
+                .regionCode(TEST_REGION_CODE)
+                .build();
+
+            when(memberRepository.save(any(Member.class))).thenReturn(member);
+
+            MemberSignUpRequestDto requestDto = new MemberSignUpRequestDto(TEST_MEMBER_ID,
+                TEST_PASSWORD, TEST_NICKNAME, TEST_BIRTHDATE, TEST_GENDER, TEST_REGION_CODE);
+
+            // when
+            MemberSignUpResponseDto response = memberAuthService.getMemberSignUp(requestDto);
+
+            // then
+            assertAll(
+                () -> assertThat(response).isNotNull(),
+                () -> assertThat(response.memberId()).isEqualTo(member.getMemberId())
+            );
+
+        }
+    }
+
+    @Nested
+    @DisplayName("회원가입 테스트")
+    class MemberLoginTest {
+
+        @Test
+        @DisplayName("로그인 성공 테스트")
+        void logInSuccess() {
+
+            // given
+            String encodedPassword = passwordEncoder.encode(TEST_PASSWORD);
+
+            Member member = Member.builder()
+                .id(TEST_ID)
+                .memberId(TEST_MEMBER_ID)
+                .password(encodedPassword)
+                .nickName(TEST_NICKNAME)
+                .birthDate(TEST_BIRTHDATE)
+                .gender(TEST_GENDER)
+                .regionCode(TEST_REGION_CODE)
+                .build();
+
+            MemberLoginRequestDto requestDto = new MemberLoginRequestDto(TEST_MEMBER_ID,
+                TEST_PASSWORD);
+
+            when(memberRepository.findByMemberId(TEST_MEMBER_ID)).thenReturn(Optional.of(member));
+            when(passwordEncoder.matches(TEST_PASSWORD, encodedPassword)).thenReturn(true);
+
+            // when
+            MemberLoginResponseDto response = memberAuthService.getMemberLogin(requestDto);
+
+            // then
+            assertAll(
+                () -> assertThat(response).isNotNull(),
+                () -> assertThat(response.memberId()).isEqualTo(TEST_MEMBER_ID)
+            );
+
+        }
+
+        @Test
+        @DisplayName("로그인 실패 테스트 - 아이디가 존재하지 않을 때")
+        void logInFailNotFoundMember() {
+
+            // given
+            when(memberRepository.findByMemberId(TEST_MEMBER_ID)).thenReturn(Optional.empty());
+
+            MemberLoginRequestDto requestDto = new MemberLoginRequestDto(TEST_MEMBER_ID,
+                TEST_PASSWORD);
+
+            // when & then
+            assertThatThrownBy(() -> memberAuthService.getMemberLogin(requestDto))
+                .isInstanceOf(DomainException.class)
+                .hasMessageContaining(MEMBER_NOT_FOUND.getMessage());
+        }
+
+        @Test
+        @DisplayName("로그인 실패 테스트 - 비밀번호가 일치하지 않을 때")
+        void logInFailPasswordDismatch() {
+
+            // given
+            String encodedPassword = passwordEncoder.encode(TEST_PASSWORD);
+
+            Member member = Member.builder()
+                .id(TEST_ID)
+                .memberId(TEST_MEMBER_ID)
+                .password(encodedPassword)
+                .nickName(TEST_NICKNAME)
+                .birthDate(TEST_BIRTHDATE)
+                .gender(TEST_GENDER)
+                .regionCode(TEST_REGION_CODE)
+                .build();
+
+            MemberLoginRequestDto requestDto = new MemberLoginRequestDto(TEST_MEMBER_ID,
+                TEST_WRONG_PASSWORD);
+
+            when(memberRepository.findByMemberId(TEST_MEMBER_ID)).thenReturn(Optional.of(member));
+            when(passwordEncoder.matches(TEST_WRONG_PASSWORD, encodedPassword)).thenReturn(false);
+
+            // then
+            assertThatThrownBy(() -> memberAuthService.getMemberLogin(requestDto))
+                .isInstanceOf(DomainException.class)
+                .hasMessageContaining(PASSWORD_NOT_MATCH.getMessage());
+
+
+        }
+
+
+    }
+
+
+}
