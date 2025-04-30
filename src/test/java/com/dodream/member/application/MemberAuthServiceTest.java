@@ -8,7 +8,9 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import com.dodream.auth.application.RefreshTokenService;
 import com.dodream.auth.application.TokenService;
+import com.dodream.auth.dto.TokenRequest;
 import com.dodream.core.exception.DomainException;
 import com.dodream.member.domain.Gender;
 import com.dodream.member.domain.Member;
@@ -37,6 +39,8 @@ public class MemberAuthServiceTest {
     private TokenService tokenService;
     @Mock
     private BCryptPasswordEncoder passwordEncoder;
+    @Mock
+    private RefreshTokenService refreshTokenService;
     @InjectMocks
     private MemberAuthService memberAuthService;
 
@@ -48,6 +52,8 @@ public class MemberAuthServiceTest {
     private static final LocalDate TEST_BIRTHDATE = LocalDate.of(2000, 1, 1);
     private static final Gender TEST_GENDER = Gender.FEMALE;
     private static final String TEST_REGION_CODE = "11110";
+    private static final String TEST_ACCESS_TOKEN = "access12345";
+    private static final String TEST_REFRESH_TOKEN = "refresh12345";
 
 
     @Nested
@@ -68,7 +74,11 @@ public class MemberAuthServiceTest {
                 .regionCode(TEST_REGION_CODE)
                 .build();
 
+            TokenRequest tokenRequest = new TokenRequest(TEST_ID);
+
             when(memberRepository.save(any(Member.class))).thenReturn(member);
+            when(tokenService.provideAccessToken(any(TokenRequest.class))).thenReturn(TEST_ACCESS_TOKEN);
+            when(tokenService.provideRefreshToken(any(TokenRequest.class))).thenReturn(TEST_REFRESH_TOKEN);
 
             MemberSignUpRequestDto requestDto = new MemberSignUpRequestDto(TEST_MEMBER_ID,
                 TEST_PASSWORD, TEST_NICKNAME, TEST_BIRTHDATE, TEST_GENDER, TEST_REGION_CODE);
@@ -79,14 +89,16 @@ public class MemberAuthServiceTest {
             // then
             assertAll(
                 () -> assertThat(response).isNotNull(),
-                () -> assertThat(response.memberId()).isEqualTo(member.getMemberId())
+                () -> assertThat(response.memberId()).isEqualTo(member.getMemberId()),
+                () -> assertThat(response.accessToken()).isEqualTo(TEST_ACCESS_TOKEN),
+                () -> assertThat(response.refreshToken()).isEqualTo(TEST_REFRESH_TOKEN)
             );
 
         }
     }
 
     @Nested
-    @DisplayName("회원가입 테스트")
+    @DisplayName("로그인 테스트")
     class MemberLoginTest {
 
         @Test
@@ -170,8 +182,6 @@ public class MemberAuthServiceTest {
 
         }
 
-
     }
-
 
 }
