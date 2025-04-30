@@ -7,6 +7,7 @@ import com.dodream.member.dto.request.MemberSignUpRequestDto;
 import com.dodream.member.dto.response.CheckMemberIdResponseDto;
 import com.dodream.member.dto.response.CheckMemberNickNameResponseDto;
 import com.dodream.member.dto.response.MemberLoginResponseDto;
+import com.dodream.member.dto.response.MemberNewTokenResponse;
 import com.dodream.member.dto.response.MemberSignUpResponseDto;
 import com.dodream.member.exception.MemberErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,13 +16,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 @Tag(name = "Member Auth", description = "회원 인증 관련 API")
 public interface MemberAuthSwagger {
 
     @Operation(
         summary = "회원 로그인 API",
-        description = "아이디와 비번 입력하여 로그인 진행",
+        description = "아이디와 비번 입력하여 로그인을 진행한다",
         operationId = "/v1/member/auth/login"
     )
     @ApiErrorCode(MemberErrorCode.class)
@@ -29,8 +31,17 @@ public interface MemberAuthSwagger {
         @RequestBody MemberLoginRequestDto memberLoginRequestDto);
 
     @Operation(
+        summary = "로그아웃",
+        description = "로그아웃을 진행한다",
+        operationId = "/v1/member/auth/logout"
+    )
+    @ApiErrorCode(MemberErrorCode.class)
+    ResponseEntity<RestResponse<MemberNewTokenResponse>> getMemberLogout();
+
+
+    @Operation(
         summary = "회원 회원가입 API",
-        description = "아이디,비밀번호,닉네임,성별 등을 입력하여 회원가입 진행",
+        description = "아이디,비밀번호,닉네임,성별 등을 입력하여 회원가입을 진행한다",
         operationId = "/v1/member/auth/sign-up"
     )
     @ApiErrorCode(MemberErrorCode.class)
@@ -39,7 +50,7 @@ public interface MemberAuthSwagger {
 
     @Operation(
         summary = "회원 회원가입 - 아이디 중복 확인 API",
-        description = "아이디의 중복 확인 여부를 확인",
+        description = "아이디의 중복 확인 여부를 확인한다",
         operationId = "/v1/member/auth/check-id/{memberId}"
     )
     @ApiErrorCode(MemberErrorCode.class)
@@ -50,7 +61,7 @@ public interface MemberAuthSwagger {
 
     @Operation(
         summary = "회원 회원가입 - 닉네임 중복 확인 API",
-        description = "닉네임 중복 확인 여부를 확인",
+        description = "닉네임 중복 확인 여부를 확인한다",
         operationId = "/v1/member/auth/check-nickname/{nickname}"
     )
     @ApiErrorCode(MemberErrorCode.class)
@@ -58,6 +69,17 @@ public interface MemberAuthSwagger {
         @Parameter(name = "nickname", description = "가입하려는 닉네임", example = "두둠칫")
         @PathVariable String nickname
     );
+
+    @Operation(
+        summary = "토큰 재발급",
+        description = "refresh 토큰을 이용하여 토큰을 재발급 받는다",
+        operationId = "/v1/member/auth/refresh"
+    )
+    @ApiErrorCode(MemberErrorCode.class)
+    ResponseEntity<RestResponse<MemberNewTokenResponse>> issueNewToken(
+        @RequestHeader(value = "refreshToken", required = false) String refreshToken);
+
+
 
 
 }

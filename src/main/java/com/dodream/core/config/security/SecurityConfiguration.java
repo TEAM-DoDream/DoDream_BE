@@ -20,10 +20,18 @@ public class SecurityConfiguration {
     private final ExceptionHandlerFilter exceptionHandlerFilter;
 
     private static final String[] WHITELIST = {
-            "/v3/api-docs/**",
-            "/swagger-ui/**",
-            "/swagger-ui.html",
-            "/test/**",
+        "/v3/api-docs/**",
+        "/swagger-ui/**",
+        "/swagger-ui.html",
+        "/test/**",
+        "/v1/recruit/**",
+        "/v1/ncs/**",
+        "/v1/training/**",
+        "/v1/region/**",
+        "/v1/member/auth/sign-up",
+        "/v1/member/auth/check-id/**",
+        "/v1/member/auth/check-nickname/**",
+        "/v1/member/auth/login"
     };
 
     @Bean
@@ -34,25 +42,25 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf((csrfConfig) ->
-                        csrfConfig.disable()
+            .csrf((csrfConfig) ->
+                csrfConfig.disable()
+            )
+            .cors(cors -> cors.configurationSource(corsConfigurationSource))
+            .headers((headerConfig) ->
+                headerConfig.frameOptions(frameOptionsConfig ->
+                    frameOptionsConfig.disable()
                 )
-                .cors(cors -> cors.configurationSource(corsConfigurationSource))
-                .headers((headerConfig) ->
-                        headerConfig.frameOptions(frameOptionsConfig ->
-                                frameOptionsConfig.disable()
-                        )
-                )
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(WHITELIST).permitAll()
-                        .anyRequest().permitAll()
-                )
-                .addFilterBefore(
-                        exceptionHandlerFilter, UsernamePasswordAuthenticationFilter.class
-                )
-                .addFilterBefore(
-                        jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class
-                );
+            )
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers(WHITELIST).permitAll()
+                .anyRequest().authenticated()
+            )
+            .addFilterBefore(
+                exceptionHandlerFilter, UsernamePasswordAuthenticationFilter.class
+            )
+            .addFilterBefore(
+                jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class
+            );
 
         return http.build();
     }

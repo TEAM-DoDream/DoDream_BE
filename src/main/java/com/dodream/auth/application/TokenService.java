@@ -11,12 +11,24 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class TokenService {
+
     private final TokenProvider tokenProvider;
     private final MemberRepository memberRepository;
 
     public String provideAccessToken(TokenRequest request) {
         Member member = memberRepository.findById(request.memberId())
-                .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
+            .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
         return tokenProvider.provideAccessToken(member);
     }
+
+    public String provideRefreshToken(TokenRequest request) {
+        Member member = memberRepository.findById(request.memberId())
+            .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
+        return tokenProvider.provideRefreshToken(member);
+    }
+
+    public Long getUserId(String token){
+        return tokenProvider.getUserId(token);
+    }
+
 }
