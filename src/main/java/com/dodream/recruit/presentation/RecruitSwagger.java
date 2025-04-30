@@ -6,6 +6,7 @@ import com.dodream.recruit.dto.response.RecruitResponseDetailDto;
 import com.dodream.recruit.dto.response.RecruitResponseListDto;
 import com.dodream.recruit.exception.RecruitErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,9 +21,17 @@ public interface RecruitSwagger {
     )
     @ApiErrorCode(RecruitErrorCode.class)
     ResponseEntity<RestResponse<RecruitResponseListDto>> getRecruitListController(
-            @RequestParam int pageNum,
-            @RequestParam(required = false) String keyWord,
-            @RequestParam(required = false) String locationCode
+            @RequestParam
+            @Parameter(description = "페이지 번호(0부터 시작)", example = "0")
+            int pageNum,
+
+            @RequestParam(required = false)
+            @Parameter(description = "검색을 위한 키워드", example = "요양보호사")
+            String keyWord,
+
+            @RequestParam(required = false)
+            @Parameter(description = "/v1/region/all을 호출해서 나오는 지역 이름", example = "경기 안양시 만안구")
+            String locationName
     );
 
     @Operation(
@@ -32,6 +41,8 @@ public interface RecruitSwagger {
     )
     @ApiErrorCode(RecruitErrorCode.class)
     ResponseEntity<RestResponse<RecruitResponseDetailDto>> getRecruitDetailController(
-            @RequestParam String id
+            @RequestParam
+            @Parameter(description = "채용공고 검색시 나오는 id", example = "50611581")
+            String id
     );
 }
