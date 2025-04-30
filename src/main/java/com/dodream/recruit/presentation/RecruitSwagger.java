@@ -2,7 +2,6 @@ package com.dodream.recruit.presentation;
 
 import com.dodream.core.config.swagger.ApiErrorCode;
 import com.dodream.core.presentation.RestResponse;
-import com.dodream.recruit.dto.response.RecruitResponseDetailDto;
 import com.dodream.recruit.dto.response.RecruitResponseListDto;
 import com.dodream.recruit.exception.RecruitErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
@@ -40,7 +39,7 @@ public interface RecruitSwagger {
             operationId = "/v1/recruit/detail"
     )
     @ApiErrorCode(RecruitErrorCode.class)
-    ResponseEntity<RestResponse<RecruitResponseDetailDto>> getRecruitDetailController(
+    ResponseEntity<RestResponse<RecruitResponseListDto>> getRecruitDetailController(
             @RequestParam
             @Parameter(description = "채용공고 검색시 나오는 id", example = "50611581")
             String id

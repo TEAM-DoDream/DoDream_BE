@@ -1,6 +1,5 @@
 package com.dodream.recruit.infrastructure.mapper;
 
-import com.dodream.recruit.dto.response.RecruitResponseDetailDto;
 import com.dodream.recruit.dto.response.RecruitResponseListApiDto;
 import com.dodream.recruit.dto.response.RecruitResponseListDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -9,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class RecruitMapper extends AbstractRecruitMapper<RecruitResponseListApiDto, RecruitResponseDetailDto> {
+public class RecruitMapper extends AbstractRecruitMapper<RecruitResponseListApiDto> {
 
     protected RecruitMapper(ObjectMapper objectMapper) {
         super(objectMapper);
@@ -17,10 +16,6 @@ public class RecruitMapper extends AbstractRecruitMapper<RecruitResponseListApiD
 
     public RecruitResponseListApiDto recruitListMapper(String json){
         return parse(json, RecruitResponseListApiDto.class);
-    }
-
-    public RecruitResponseDetailDto recruitDetailMapper(String json){
-        return parse(json, RecruitResponseDetailDto.class);
     }
 
     public RecruitResponseListDto toSimpleListDto(
