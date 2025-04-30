@@ -7,6 +7,7 @@ import com.dodream.member.dto.request.MemberSignUpRequestDto;
 import com.dodream.member.dto.response.CheckMemberIdResponseDto;
 import com.dodream.member.dto.response.CheckMemberNickNameResponseDto;
 import com.dodream.member.dto.response.MemberLoginResponseDto;
+import com.dodream.member.dto.response.MemberNewTokenResponse;
 import com.dodream.member.dto.response.MemberSignUpResponseDto;
 import com.dodream.member.presentation.swagger.MemberAuthSwagger;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -18,6 +19,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -35,6 +37,13 @@ public class MemberAuthController implements MemberAuthSwagger {
     MemberLoginRequestDto memberLoginRequestDto) {
         return ResponseEntity.ok(
             new RestResponse<>(memberAuthService.getMemberLogin(memberLoginRequestDto)));
+    }
+
+    @Override
+    @PostMapping("/logout")
+    public ResponseEntity getMemberLogout() {
+        memberAuthService.getMemberLogout();
+        return ResponseEntity.ok("로그아웃 완료");
     }
 
     @Override
@@ -62,5 +71,14 @@ public class MemberAuthController implements MemberAuthSwagger {
         return ResponseEntity.ok(
             new RestResponse<>(memberAuthService.checkDuplicateMemberNickName(nickname)));
     }
+
+    @Override
+    @PostMapping("/refresh")
+    public ResponseEntity<RestResponse<MemberNewTokenResponse>> issueNewToken(
+        @RequestHeader(value = "refreshToken", required = false) String refreshToken) {
+        return ResponseEntity.ok(
+            new RestResponse<>(memberAuthService.issueNewToken(refreshToken)));
+    }
+
 
 }

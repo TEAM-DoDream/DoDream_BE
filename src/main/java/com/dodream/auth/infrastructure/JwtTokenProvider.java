@@ -50,6 +50,7 @@ public class JwtTokenProvider implements TokenProvider {
         );
     }
 
+    @Override
     public String provideRefreshToken(Member member) {
         return createToken(
                 member,
@@ -80,9 +81,11 @@ public class JwtTokenProvider implements TokenProvider {
         }
     }
 
+    @Override
     public Long getUserId(String token) {
         return Long.parseLong(getPayload(token).getSubject());
     }
+
 
     private String createToken(Member member, Type type, long expiration) {
         Date expiryDate;
