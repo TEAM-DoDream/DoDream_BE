@@ -4,6 +4,7 @@ import com.dodream.core.presentation.RestResponse;
 import com.dodream.job.application.ClovaStudioService;
 import com.dodream.job.controller.swagger.ClovaSwagger;
 import com.dodream.job.dto.request.clova.ChatRequest;
+import com.dodream.job.dto.response.ChatResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +20,7 @@ public class ClovaController implements ClovaSwagger {
     private final ClovaStudioService clovaStudioService;
 
     @PostMapping("/chat")
-    public ResponseEntity<RestResponse<String>> getClovaResponse(
+    public ResponseEntity<RestResponse<ChatResponse>> getClovaResponse(
             @RequestBody ChatRequest chatRequest
     ){
         return ResponseEntity.ok(
