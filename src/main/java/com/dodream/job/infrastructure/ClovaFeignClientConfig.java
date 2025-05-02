@@ -10,7 +10,7 @@ import java.util.UUID;
 @Configuration
 public class ClovaFeignClientConfig {
 
-    @Value("${clova.api-key}")
+    @Value("${ncp.clova.api-key}")
     private String clovaApiKey;
 
     @Bean

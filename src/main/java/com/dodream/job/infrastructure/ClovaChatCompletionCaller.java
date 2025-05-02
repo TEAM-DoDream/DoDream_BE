@@ -3,6 +3,7 @@ package com.dodream.job.infrastructure;
 import com.dodream.job.dto.request.clova.ClovaMessage;
 import com.dodream.job.dto.request.clova.ClovaStudioRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,7 +14,8 @@ public class ClovaChatCompletionCaller {
 
     private final ClovaFeignClient clovaFeignClient;
 
-    private static final int MAX_TOKEN = 512;
+    @Value("${ncp.clova.max-token}")
+    private int maxToken;
 
     public String clovaChatCompletionApiCaller(
             String systemMessage, String userMessage
@@ -23,7 +25,7 @@ public class ClovaChatCompletionCaller {
                     ClovaMessage.createSystemMessage(systemMessage),
                     ClovaMessage.createUserMessage(userMessage)
                 ),
-                MAX_TOKEN
+                maxToken
         );
 
         return clovaFeignClient.callClovaStudio(
