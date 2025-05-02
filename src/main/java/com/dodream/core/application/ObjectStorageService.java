@@ -1,5 +1,7 @@
 package com.dodream.core.application;
 
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import java.io.IOException;
@@ -41,8 +43,12 @@ public class ObjectStorageService {
     public void deleteMemberProfileImage(String imageUrl) {
         String fileKey = extractFileKeyFromUrl(imageUrl);
 
-        if (amazonS3Client.doesObjectExist(bucketName, fileKey)) {
-            amazonS3Client.deleteObject(bucketName, fileKey);
+        try {
+            if (amazonS3Client.doesObjectExist(bucketName, fileKey)) {
+                amazonS3Client.deleteObject(bucketName, fileKey);
+            }
+        } catch (SdkClientException e) {
+            throw new RuntimeException("프로필 이미지를 삭제하는 중 오류가 발생했습니다.", e);
         }
     }
 

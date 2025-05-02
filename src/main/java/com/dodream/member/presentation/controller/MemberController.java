@@ -4,6 +4,7 @@ import com.dodream.core.presentation.RestResponse;
 import com.dodream.member.application.MemberService;
 import com.dodream.member.dto.response.UploadMemberProfileImageResponseDto;
 import com.dodream.member.presentation.swagger.MemberSwagger;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,7 @@ public class MemberController implements MemberSwagger {
     @Override
     @PostMapping(value = "/profile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<RestResponse<UploadMemberProfileImageResponseDto>> uploadMemberProfileImage(
+        @Parameter(name = "file", description = "업로드할 프로필 이미지 (최대 10MB, 지원 형식: JPG, PNG..)", required = true)
         @RequestParam("file") MultipartFile file) {
         return ResponseEntity.ok(
             new RestResponse<>(memberService.uploadMemberProfileImage(file)));
