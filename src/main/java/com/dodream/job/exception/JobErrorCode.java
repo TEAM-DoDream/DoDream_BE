@@ -10,7 +10,8 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum JobErrorCode implements BaseErrorCode<DomainException> {
 
-    CANNOT_CONVERT_OBJECT(HttpStatus.INTERNAL_SERVER_ERROR, "객체 변환에 실패했습니다.");
+    CANNOT_CONVERT_OBJECT(HttpStatus.INTERNAL_SERVER_ERROR, "객체 변환에 실패했습니다."),
+    CLOVA_API_CALL_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "Clova Chat Completion API 호출에 실패했습니다.");
 
     private final HttpStatus httpStatus;
 

@@ -2,6 +2,7 @@ package com.dodream.job.infrastructure;
 
 import com.dodream.job.dto.request.clova.ClovaMessage;
 import com.dodream.job.dto.request.clova.ClovaStudioRequest;
+import com.dodream.job.exception.JobErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -28,8 +29,13 @@ public class ClovaChatCompletionCaller {
                 maxToken
         );
 
-        return clovaFeignClient.callClovaStudio(
-                clovaStudioRequest
-        );
+        try{
+            return clovaFeignClient.callClovaStudio(
+                    clovaStudioRequest
+            );
+        } catch (Exception e){
+            throw JobErrorCode.CLOVA_API_CALL_FAILED.toException();
+        }
+
     }
 }
