@@ -38,7 +38,7 @@ public class RecruitApiCaller {
         }
     }
     @CustomCacheableWithLock(cacheName = "recruitDetail", ttl = 60)
-    public String recruitDetatilAPiCaller(
+    public String recruitDetailAPiCaller(
             String id
     ){
         try{

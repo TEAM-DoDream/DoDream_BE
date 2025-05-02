@@ -58,19 +58,19 @@ public class RecruitServiceTest {
 
         // then
         assertThat(result).isEqualTo(finalResult);
-        verify(recruitApiCaller).recruitListApiListCaller(KEYWORD, TEST_REGION_NAME, PAGE_NUMBER);
-        verify(recruitMapper).recruitListMapper(TEST_RESULT);
-        verify(recruitMapper).toSimpleListDto(mappedResult);
+        verify(recruitApiCaller, times(1)).recruitListApiListCaller(KEYWORD, TEST_REGION_NAME, PAGE_NUMBER);
+        verify(recruitMapper, times(1)).recruitListMapper(TEST_RESULT);
+        verify(recruitMapper, times(1)).toSimpleListDto(mappedResult);
     }
 
     @Test
     @DisplayName("[RecruitServiceTest] - 상세정보 반환 테스트")
-    void recruitServiceTest_Deatail(){
+    void recruitServiceTest_Detail(){
         // given
         RecruitResponseListApiDto mappedResult = mock(RecruitResponseListApiDto.class);
         RecruitResponseListDto finalResult = mock(RecruitResponseListDto.class);
 
-        given(recruitApiCaller.recruitDetatilAPiCaller(RECRUIT_ID)).willReturn(TEST_RESULT);
+        given(recruitApiCaller.recruitDetailAPiCaller(RECRUIT_ID)).willReturn(TEST_RESULT);
         given(recruitMapper.recruitListMapper(TEST_RESULT)).willReturn(mappedResult);
         given(recruitMapper.toSimpleListDto(mappedResult)).willReturn(finalResult);
 
@@ -79,8 +79,8 @@ public class RecruitServiceTest {
 
         // then
         assertThat(result).isEqualTo(finalResult);
-        verify(recruitApiCaller).recruitDetatilAPiCaller(RECRUIT_ID);
-        verify(recruitMapper).recruitListMapper(TEST_RESULT);
-        verify(recruitMapper).toSimpleListDto(mappedResult);
+        verify(recruitApiCaller, times(1)).recruitDetailAPiCaller(RECRUIT_ID);
+        verify(recruitMapper, times(1)).recruitListMapper(TEST_RESULT);
+        verify(recruitMapper, times(1)).toSimpleListDto(mappedResult);
     }
 }

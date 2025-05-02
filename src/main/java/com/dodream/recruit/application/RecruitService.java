@@ -34,7 +34,7 @@ public class RecruitService {
     public RecruitResponseListDto getRecruitDetail(
             String id
     ) {
-        String result = recruitApiCaller.recruitDetatilAPiCaller(id);
+        String result = recruitApiCaller.recruitDetailAPiCaller(id);
 
         RecruitResponseListApiDto mappedResult = recruitMapper.recruitListMapper(result);
 
