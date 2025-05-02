@@ -2,6 +2,7 @@ package com.dodream.job.controller.swagger;
 
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.job.dto.request.clova.ChatRequest;
+import com.dodream.job.dto.response.ChatResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ public interface ClovaSwagger {
             description = "Clova Studio관련 테스트를 진행합니다.",
             operationId = "/v1/clova/chat"
     )
-    ResponseEntity<RestResponse<String>> getClovaResponse(
+    ResponseEntity<RestResponse<ChatResponse>> getClovaResponse(
             @RequestBody ChatRequest chatRequest
     );
 }

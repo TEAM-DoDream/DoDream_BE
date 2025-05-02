@@ -1,6 +1,8 @@
 package com.dodream.job.application;
 
+import com.dodream.job.dto.response.ChatResponse;
 import com.dodream.job.infrastructure.ClovaChatCompletionCaller;
+import com.dodream.job.infrastructure.ClovaChatResponseMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,14 +11,17 @@ import org.springframework.stereotype.Service;
 public class ClovaStudioService {
 
     private final ClovaChatCompletionCaller clovaChatCompletionCaller;
+    private final ClovaChatResponseMapper clovaChatResponseMapper;
 
-    public String chatCompletionService(
+    public ChatResponse chatCompletionService(
             String systemMessage,
             String userMessage
     ){
-        return clovaChatCompletionCaller.clovaChatCompletionApiCaller(
+        String result = clovaChatCompletionCaller.clovaChatCompletionApiCaller(
                 systemMessage,
                 userMessage
         );
+
+        return clovaChatResponseMapper.jsonToChatResponse(result);
     }
 }
