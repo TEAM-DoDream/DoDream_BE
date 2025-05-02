@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import java.util.UUID;
 
 @Configuration
-public class ClovaFeignConfig {
+public class ClovaFeignClientConfig {
 
     @Value("${clova.api-key}")
     private String clovaApiKey;
@@ -16,7 +16,7 @@ public class ClovaFeignConfig {
     @Bean
     public RequestInterceptor clovaRequestInterceptor() {
         return restTemplate -> {
-            restTemplate.header("Authorization", clovaApiKey);
+            restTemplate.header("Authorization", "Bearer "+ clovaApiKey);
             restTemplate.header("X-NCP-CLOVASTUDIO-REQUEST-ID", UUID.randomUUID().toString());
             restTemplate.header("Content-Type", "application/json");
         };

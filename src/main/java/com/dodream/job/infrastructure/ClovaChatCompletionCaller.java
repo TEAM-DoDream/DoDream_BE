@@ -15,8 +15,6 @@ public class ClovaChatCompletionCaller {
 
     private static final int MAX_TOKEN = 512;
 
-    private static final String CLOVA_MODEL = "HCX-DASH-002";
-
     public String clovaChatCompletionApiCaller(
             String systemMessage, String userMessage
     ){
@@ -29,7 +27,6 @@ public class ClovaChatCompletionCaller {
         );
 
         return clovaFeignClient.callClovaStudio(
-                CLOVA_MODEL,
                 clovaStudioRequest
         );
     }

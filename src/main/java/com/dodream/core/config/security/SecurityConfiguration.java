@@ -31,7 +31,8 @@ public class SecurityConfiguration {
         "/v1/member/auth/sign-up",
         "/v1/member/auth/check-id/**",
         "/v1/member/auth/check-nickname/**",
-        "/v1/member/auth/login"
+        "/v1/member/auth/login",
+        "/v1/clova/**"
     };
 
     @Bean

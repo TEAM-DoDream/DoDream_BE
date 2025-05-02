@@ -2,16 +2,14 @@ package com.dodream.job.infrastructure;
 
 import com.dodream.job.dto.request.clova.ClovaStudioRequest;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "clovaFeignClient", url = "${clova.url}", configuration = ClovaFeignConfig.class)
+@FeignClient(name = "clovaFeignClient", url = "${clova.url}", configuration = ClovaFeignClientConfig.class)
 public interface ClovaFeignClient {
 
     @PostMapping("${clova.endpoint.studio}")
     String callClovaStudio(
-            @PathVariable String model,
             @RequestBody ClovaStudioRequest clovaStudioRequest
     );
 }
