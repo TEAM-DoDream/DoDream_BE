@@ -1,8 +1,11 @@
 package com.dodream.member.domain;
 
 import com.dodream.core.infrastructure.jpa.entity.BaseLongIdEntity;
+import com.dodream.member.exception.MemberErrorCode;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,6 +15,8 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Getter
@@ -38,14 +43,44 @@ public class Member extends BaseLongIdEntity {
     private LocalDate birthDate;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     private Gender gender;
 
     private String profileImage;
 
     private String regionCode;
 
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private State state;
+
     public void updateProfile(String imageUrl) {
         this.profileImage = imageUrl;
+    }
+
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
+    public void updateNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public void updateRegionCode(String regionCode) {
+        this.regionCode = regionCode;
+    }
+
+    public void updateBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public void withdraw() {
+        if (this.state == State.INACTIVE) {
+            throw MemberErrorCode.MEMBER_INACTIVE.toException();
+        }
+        this.state = State.INACTIVE;
     }
 
 }
