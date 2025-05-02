@@ -14,4 +14,7 @@ dependencies {
 
     // openfeign
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
+    // object storage
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.281'
 }
