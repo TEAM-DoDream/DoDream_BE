@@ -40,6 +40,12 @@ public class Member extends BaseLongIdEntity {
     @Column(nullable = false)
     private Gender gender;
 
+    private String profileImage;
+
     private String regionCode;
+
+    public void updateProfile(String imageUrl) {
+        this.profileImage = imageUrl;
+    }
 
 }

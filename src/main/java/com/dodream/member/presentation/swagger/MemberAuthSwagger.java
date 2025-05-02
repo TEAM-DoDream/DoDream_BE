@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-@Tag(name = "Member Auth", description = "회원 인증 관련 API")
+@Tag(name = "Auth", description = "회원 인증 관련 API")
 public interface MemberAuthSwagger {
 
     @Operation(
