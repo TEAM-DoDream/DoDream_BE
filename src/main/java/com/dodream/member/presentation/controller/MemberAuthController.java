@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -55,19 +56,19 @@ public class MemberAuthController implements MemberAuthSwagger {
     }
 
     @Override
-    @GetMapping("/check-id/{memberId}")
+    @GetMapping("/check-id")
     public ResponseEntity<RestResponse<CheckMemberIdResponseDto>> checkMemberId(
         @Parameter(name = "memberId", description = "가입하려는 아이디", example = "dodream")
-        @PathVariable String memberId) {
+        @RequestParam(required = true) String memberId) {
         return ResponseEntity.ok(
             new RestResponse<>(memberAuthService.checkDuplicateMemberId(memberId)));
     }
 
     @Override
-    @GetMapping("/check-nickname/{nickname}")
+    @GetMapping("/check-nickname")
     public ResponseEntity<RestResponse<CheckMemberNickNameResponseDto>> checkMemberNickName(
         @Parameter(name = "nickname", description = "가입하려는 닉네임", example = "두둠칫")
-        @PathVariable String nickname) {
+        @RequestParam(required = true) String nickname) {
         return ResponseEntity.ok(
             new RestResponse<>(memberAuthService.checkDuplicateMemberNickName(nickname)));
     }
