@@ -16,7 +16,7 @@ public class ClovaChatResponseMapper {
         try{
             return objectMapper.readValue(json, ChatResponse.class);
         } catch (Exception e){
-            throw JobErrorCode.CANNOT_CONVERT_OBJECT.toException();
+            throw JobErrorCode.CANNOT_CONVERT_CLOVA_RESPONSE.toException();
         }
     }
 }
