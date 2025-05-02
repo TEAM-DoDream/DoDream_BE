@@ -2,14 +2,23 @@ package com.dodream.member.presentation.controller;
 
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.member.application.MemberService;
+import com.dodream.member.dto.request.ChangeMemberBirthDateRequestDto;
+import com.dodream.member.dto.request.ChangeMemberNickNameRequestDto;
+import com.dodream.member.dto.request.ChangeMemberPasswordRequestDto;
+import com.dodream.member.dto.request.ChangeMemberRegionCodeRequestDto;
+import com.dodream.member.dto.request.MemberLoginRequestDto;
+import com.dodream.member.dto.response.MemberLoginResponseDto;
 import com.dodream.member.dto.response.UploadMemberProfileImageResponseDto;
 import com.dodream.member.presentation.swagger.MemberSwagger;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,5 +41,38 @@ public class MemberController implements MemberSwagger {
         return ResponseEntity.ok(
             new RestResponse<>(memberService.uploadMemberProfileImage(file)));
     }
+
+    @Override
+    @PutMapping("/password")
+    public ResponseEntity<RestResponse<String>> changeMemberPassword(@RequestBody @Valid
+    ChangeMemberPasswordRequestDto changeMemberPasswordRequestDto) {
+        memberService.changeMemberPassword(changeMemberPasswordRequestDto);
+        return ResponseEntity.ok(new RestResponse<>("비밀번호 변경 완료"));
+    }
+
+    @Override
+    @PutMapping("/nickname")
+    public ResponseEntity<RestResponse<String>> changeMemberNickName(@RequestBody @Valid
+    ChangeMemberNickNameRequestDto changeMemberNickNameRequestDto) {
+        memberService.changeMemberNickName(changeMemberNickNameRequestDto);
+        return ResponseEntity.ok(new RestResponse<>("닉네임 변경 완료"));
+    }
+
+    @Override
+    @PutMapping("/birth")
+    public ResponseEntity<RestResponse<String>> changeMemberBirth(@RequestBody @Valid
+    ChangeMemberBirthDateRequestDto changeMemberBirthDateRequestDto) {
+        memberService.changeMemberBirth(changeMemberBirthDateRequestDto);
+        return ResponseEntity.ok(new RestResponse<>("생년월일 변경 완료"));
+    }
+
+    @Override
+    @PutMapping("/region")
+    public ResponseEntity<RestResponse<String>> changeMemberRegion(@RequestBody @Valid
+    ChangeMemberRegionCodeRequestDto changeMemberRegionCodeRequestDto) {
+        memberService.changeMemberRegion(changeMemberRegionCodeRequestDto);
+        return ResponseEntity.ok(new RestResponse<>("거주지 변경 완료"));
+    }
+
 
 }
