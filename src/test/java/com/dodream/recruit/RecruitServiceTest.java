@@ -36,7 +36,7 @@ public class RecruitServiceTest {
     private static final String TEST_REGION_NAME = "경기도 안양시 만안구";
     private static final String KEYWORD = "요양 보호사";
     private static final String RECRUIT_ID = "50671849";
-    private static final String TEST_RESULT = "recruit result";
+    private static final String TEST_RESULT = "{\"result\" : \"test\"}";
 
     @Test
     @DisplayName("[RecruitServiceTest] - 채용 결과 리스트 반환 테스트")
@@ -59,6 +59,27 @@ public class RecruitServiceTest {
         // then
         assertThat(result).isEqualTo(finalResult);
         verify(recruitApiCaller).recruitListApiListCaller(KEYWORD, TEST_REGION_NAME, PAGE_NUMBER);
+        verify(recruitMapper).recruitListMapper(TEST_RESULT);
+        verify(recruitMapper).toSimpleListDto(mappedResult);
+    }
+
+    @Test
+    @DisplayName("[RecruitServiceTest] - 상세정보 반환 테스트")
+    void recruitServiceTest_Deatail(){
+        // given
+        RecruitResponseListApiDto mappedResult = mock(RecruitResponseListApiDto.class);
+        RecruitResponseListDto finalResult = mock(RecruitResponseListDto.class);
+
+        given(recruitApiCaller.recruitDetatilAPiCaller(RECRUIT_ID)).willReturn(TEST_RESULT);
+        given(recruitMapper.recruitListMapper(TEST_RESULT)).willReturn(mappedResult);
+        given(recruitMapper.toSimpleListDto(mappedResult)).willReturn(finalResult);
+
+        // when
+        RecruitResponseListDto result = recruitService.getRecruitDetail(RECRUIT_ID);
+
+        // then
+        assertThat(result).isEqualTo(finalResult);
+        verify(recruitApiCaller).recruitDetatilAPiCaller(RECRUIT_ID);
         verify(recruitMapper).recruitListMapper(TEST_RESULT);
         verify(recruitMapper).toSimpleListDto(mappedResult);
     }
