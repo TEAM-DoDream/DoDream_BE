@@ -6,6 +6,9 @@ import com.dodream.job.dto.response.JobResponseDto;
 import com.dodream.job.exception.JobErrorCode;
 import com.dodream.job.repository.JobRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,8 +27,9 @@ public class JobService {
         return JobResponseDto.from(job);
     }
 
-    public List<JobListDto> getAllJobs() {
-        List<Job> jobs = jobRepository.findAll();
+    public List<JobListDto> getAllJobs(int pageNumber) {
+        Pageable pageable = PageRequest.of(pageNumber, 9);
+        Page<Job> jobs = jobRepository.findAll(pageable);
 
         return jobs.stream()
                 .map(job -> JobListDto.from(job))

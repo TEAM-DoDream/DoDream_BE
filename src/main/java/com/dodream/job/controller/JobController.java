@@ -30,9 +30,11 @@ public class JobController implements JobSwagger {
 
     @Override
     @GetMapping("/list")
-    public ResponseEntity<RestResponse<List<JobListDto>>> getJobList() {
+    public ResponseEntity<RestResponse<List<JobListDto>>> getJobList(
+            @RequestParam int pageNum
+    ) {
         return ResponseEntity.ok(
-                new RestResponse<>(jobService.getAllJobs())
+                new RestResponse<>(jobService.getAllJobs(pageNum))
         );
     }
 }
