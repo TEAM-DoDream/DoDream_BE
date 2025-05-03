@@ -136,9 +136,25 @@ public class JobServiceTest {
             // when
             List<JobListDto> result = jobService.getAllJobs(TEST_PAGE_NUMBER);
 
+            // then
             assertThat(result).hasSize(2);
             assertThat(result.get(0).jobName()).isEqualTo("요양 보호사");
             assertThat(result.get(1).requiredCertification()).isEqualTo("필요함");
+        }
+
+        @Test
+        @DisplayName("빈 직업 리스트 반환 테스트")
+        void getAllJobs_emptyList(){
+            // given
+            Page<Job> emptyPage = new PageImpl<>(List.of(), pageable, 0);
+            given(jobRepository.findAll(pageable)).willReturn(emptyPage);
+
+            // when
+            List<JobListDto> result = jobService.getAllJobs(TEST_PAGE_NUMBER);
+
+            // then
+            assertThat(result).isEmpty();
+            then(jobRepository).should(times(1)).findAll(any(Pageable.class));
         }
     }
 }
