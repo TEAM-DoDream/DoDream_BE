@@ -44,7 +44,7 @@ public class Job extends BaseLongIdEntity {
 
     @Column(nullable = false, name = "physical_activity_level")
     @Enumerated(EnumType.STRING)
-    private Level physicalActivityLevel;
+    private PhysicalActivity physicalActivityLevel;
 
     @Column(nullable = false, name = "emotional_labor_level")
     @Enumerated(EnumType.STRING)
