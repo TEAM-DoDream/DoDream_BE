@@ -22,28 +22,30 @@ public class Job extends BaseLongIdEntity {
     @Column(nullable = false, name = "job_name")
     private String jobName;
 
-    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
-    List<Certification> certifications = new ArrayList<>();
-
     @Column(nullable = false, name = "requires_certification")
-    private boolean requiresCertification;
+    @Enumerated(EnumType.STRING)
+    private Require requiresCertification;
 
     @Column(nullable = false, name = "work_time_slot")
     private String workTimeSlot;
 
-    @Column(nullable = false, name = "salay_type")
-    private String salayType;
+    @Column(nullable = false, name = "salary_type")
+    @Enumerated(EnumType.STRING)
+    private SalaryType salaryType;
 
     @Column(nullable = false, name = "salary_cost")
     private int salaryCost;
 
     @Column(nullable = false, name = "interpersonal_contact_level")
+    @Enumerated(EnumType.STRING)
     private Level interpersonalContactLevel;
 
     @Column(nullable = false, name = "physical_activity_level")
+    @Enumerated(EnumType.STRING)
     private Level physicalActivityLevel;
 
     @Column(nullable = false, name = "emotional_labor_level")
+    @Enumerated(EnumType.STRING)
     private Level emotionalLaborLevel;
 
     @Column(name = "job_image_url")
@@ -51,4 +53,7 @@ public class Job extends BaseLongIdEntity {
 
     @Column(nullable = false, name = "ncs_name")
     private String ncsName;
+
+    @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<Certification> certifications = new ArrayList<>();
 }
