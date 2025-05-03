@@ -6,6 +6,7 @@ import com.dodream.auth.dto.TokenRequest;
 import com.dodream.auth.exception.AuthenticationErrorCode;
 import com.dodream.core.config.security.SecurityUtils;
 import com.dodream.member.domain.Member;
+import com.dodream.member.domain.State;
 import com.dodream.member.dto.request.MemberLoginRequestDto;
 import com.dodream.member.dto.request.MemberSignUpRequestDto;
 import com.dodream.member.dto.response.CheckMemberIdResponseDto;
@@ -32,7 +33,8 @@ public class MemberAuthService {
     @Transactional
     public MemberLoginResponseDto getMemberLogin(MemberLoginRequestDto memberLoginRequestDto) {
 
-        Member member = memberRepository.findByMemberId(memberLoginRequestDto.memberId())
+        Member member = memberRepository.findByMemberIdAndState(memberLoginRequestDto.memberId(),
+                State.ACTIVE)
             .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
 
         if (!passwordEncoder.matches(memberLoginRequestDto.password(), member.getPassword())) {
@@ -57,11 +59,11 @@ public class MemberAuthService {
     @Transactional
     public MemberSignUpResponseDto getMemberSignUp(MemberSignUpRequestDto requestDto) {
 
-        if (memberRepository.existsByMemberId(requestDto.memberId())) {
+        if (memberRepository.existsByMemberIdAndState(requestDto.memberId(), State.ACTIVE)) {
             throw MemberErrorCode.DUPLICATE_MEMBER_ID.toException();
         }
 
-        if (memberRepository.existsByNickName(requestDto.nickName())) {
+        if (memberRepository.existsByNickNameAndState(requestDto.nickName(), State.ACTIVE)) {
             throw MemberErrorCode.DUPLICATE_NICKNAME.toException();
         }
 
@@ -87,7 +89,7 @@ public class MemberAuthService {
 
     public CheckMemberIdResponseDto checkDuplicateMemberId(String memberId) {
 
-        if (memberRepository.existsByMemberId(memberId)) {
+        if (memberRepository.existsByMemberIdAndState(memberId, State.ACTIVE)) {
             throw MemberErrorCode.DUPLICATE_MEMBER_ID.toException();
         }
         return CheckMemberIdResponseDto.of(memberId, false);
@@ -96,7 +98,7 @@ public class MemberAuthService {
 
     public CheckMemberNickNameResponseDto checkDuplicateMemberNickName(String nickName) {
 
-        if (memberRepository.existsByNickName(nickName)) {
+        if (memberRepository.existsByNickNameAndState(nickName, State.ACTIVE)) {
             throw MemberErrorCode.DUPLICATE_NICKNAME.toException();
         }
         return CheckMemberNickNameResponseDto.of(nickName, false);
@@ -111,7 +113,7 @@ public class MemberAuthService {
 
         Long id = tokenService.getUserId(refreshToken);
 
-        Member member = memberRepository.findById(id)
+        Member member = memberRepository.findByIdAndState(id,State.ACTIVE)
             .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
 
         String newAccessToken = tokenService.provideAccessToken(new TokenRequest(member.getId()));
@@ -128,7 +130,7 @@ public class MemberAuthService {
     public void withdrawMember() {
 
         Long currentId = SecurityUtils.getCurrentMemberId();
-        Member member = memberRepository.findById(currentId)
+        Member member = memberRepository.findByIdAndState(currentId,State.ACTIVE)
             .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
 
         member.withdraw();

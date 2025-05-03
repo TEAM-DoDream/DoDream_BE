@@ -14,6 +14,7 @@ import com.dodream.auth.dto.TokenRequest;
 import com.dodream.core.exception.DomainException;
 import com.dodream.member.domain.Gender;
 import com.dodream.member.domain.Member;
+import com.dodream.member.domain.State;
 import com.dodream.member.dto.request.MemberLoginRequestDto;
 import com.dodream.member.dto.request.MemberSignUpRequestDto;
 import com.dodream.member.dto.response.MemberLoginResponseDto;
@@ -77,8 +78,10 @@ public class MemberAuthServiceTest {
             TokenRequest tokenRequest = new TokenRequest(TEST_ID);
 
             when(memberRepository.save(any(Member.class))).thenReturn(member);
-            when(tokenService.provideAccessToken(any(TokenRequest.class))).thenReturn(TEST_ACCESS_TOKEN);
-            when(tokenService.provideRefreshToken(any(TokenRequest.class))).thenReturn(TEST_REFRESH_TOKEN);
+            when(tokenService.provideAccessToken(any(TokenRequest.class))).thenReturn(
+                TEST_ACCESS_TOKEN);
+            when(tokenService.provideRefreshToken(any(TokenRequest.class))).thenReturn(
+                TEST_REFRESH_TOKEN);
 
             MemberSignUpRequestDto requestDto = new MemberSignUpRequestDto(TEST_MEMBER_ID,
                 TEST_PASSWORD, TEST_NICKNAME, TEST_BIRTHDATE, TEST_GENDER, TEST_REGION_CODE);
@@ -121,7 +124,8 @@ public class MemberAuthServiceTest {
             MemberLoginRequestDto requestDto = new MemberLoginRequestDto(TEST_MEMBER_ID,
                 TEST_PASSWORD);
 
-            when(memberRepository.findByMemberId(TEST_MEMBER_ID)).thenReturn(Optional.of(member));
+            when(memberRepository.findByMemberIdAndState(TEST_MEMBER_ID, State.ACTIVE)).thenReturn(
+                Optional.of(member));
             when(passwordEncoder.matches(TEST_PASSWORD, encodedPassword)).thenReturn(true);
 
             // when
@@ -140,7 +144,8 @@ public class MemberAuthServiceTest {
         void logInFailNotFoundMember() {
 
             // given
-            when(memberRepository.findByMemberId(TEST_MEMBER_ID)).thenReturn(Optional.empty());
+            when(memberRepository.findByMemberIdAndState(TEST_MEMBER_ID, State.ACTIVE)).thenReturn(
+                Optional.empty());
 
             MemberLoginRequestDto requestDto = new MemberLoginRequestDto(TEST_MEMBER_ID,
                 TEST_PASSWORD);
@@ -171,7 +176,8 @@ public class MemberAuthServiceTest {
             MemberLoginRequestDto requestDto = new MemberLoginRequestDto(TEST_MEMBER_ID,
                 TEST_WRONG_PASSWORD);
 
-            when(memberRepository.findByMemberId(TEST_MEMBER_ID)).thenReturn(Optional.of(member));
+            when(memberRepository.findByMemberIdAndState(TEST_MEMBER_ID, State.ACTIVE)).thenReturn(
+                Optional.of(member));
             when(passwordEncoder.matches(TEST_WRONG_PASSWORD, encodedPassword)).thenReturn(false);
 
             // then
