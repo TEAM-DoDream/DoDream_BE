@@ -1,0 +1,44 @@
+-- 직업 목록 init
+INSERT INTO job (job_name, requires_certification, work_time_slot, salary_cost, salary_type, interpersonal_contact_level, physical_activity_level, emotional_labor_level, ncs_name) VALUES ('요양보호사', 'REQUIRED', 'WEEKDAY_NINE_TO_SIX', '220', 'MONTHLY', 'HIGH', 'HIGH', 'HIGH', '요양지원');
+INSERT INTO job (job_name, requires_certification, work_time_slot, salary_cost, salary_type, interpersonal_contact_level, physical_activity_level, emotional_labor_level, ncs_name) VALUES ('간호조무사', 'REQUIRED', 'WEEKDAY_NINE_TO_SIX', '230', 'MONTHLY', 'HIGH', 'MEDIUM', 'HIGH', '감염관리');
+INSERT INTO job (job_name, requires_certification, work_time_slot, salary_cost, salary_type, interpersonal_contact_level, physical_activity_level, emotional_labor_level, ncs_name) VALUES ('보육교사', 'REQUIRED', 'WEEKDAY_NINE_TO_SIX', '220', 'MONTHLY', 'HIGH', 'HIGH', 'HIGH', '아이돌봄');
+INSERT INTO job (job_name, requires_certification, work_time_slot, salary_cost, salary_type, interpersonal_contact_level, physical_activity_level, emotional_labor_level, ncs_name) VALUES ('사회복지사', 'REQUIRED', 'WEEKDAY_NINE_TO_SIX', '250', 'MONTHLY', 'HIGH', 'MEDIUM', 'HIGH', '사회복지면담');
+INSERT INTO job (job_name, requires_certification, work_time_slot, salary_cost, salary_type, interpersonal_contact_level, physical_activity_level, emotional_labor_level, ncs_name) VALUES ('직업상담사', 'REQUIRED', 'WEEKDAY_NINE_TO_SIX', '250', 'MONTHLY', 'HIGH', 'LOW', 'MEDIUM', '직업상담');
+INSERT INTO job (job_name, requires_certification, work_time_slot, salary_cost, salary_type, interpersonal_contact_level, physical_activity_level, emotional_labor_level, ncs_name) VALUES ('심리상담사', 'REQUIRED', 'WEEKDAY_NINE_TO_SIX', '250', 'MONTHLY', 'HIGH', 'LOW', 'HIGH', '심리상담');
+INSERT INTO job (job_name, requires_certification, work_time_slot, salary_cost, salary_type, interpersonal_contact_level, physical_activity_level, emotional_labor_level, ncs_name) VALUES ('급식 도우미', 'NONE', 'WEEKDAY_MORNING', '170', 'MONTHLY', 'MEDIUM', 'HIGH', 'MEDIUM', '음식조리');
+INSERT INTO job (job_name, requires_certification, work_time_slot, salary_cost, salary_type, interpersonal_contact_level, physical_activity_level, emotional_labor_level, ncs_name) VALUES ('사무보조원', 'REQUIRED', 'WEEKDAY_NINE_TO_SIX', '210', 'MONTHLY', 'LOW', 'LOW', 'LOW', '사무행정');
+INSERT INTO job (job_name, requires_certification, work_time_slot, salary_cost, salary_type, interpersonal_contact_level, physical_activity_level, emotional_labor_level, ncs_name) VALUES ('회계사무원', 'REQUIRED', 'WEEKDAY_NINE_TO_SIX', '240', 'MONTHLY', 'LOW', 'LOW', 'LOW', '회계·감사');
+INSERT INTO job (job_name, requires_certification, work_time_slot, salary_cost, salary_type, interpersonal_contact_level, physical_activity_level, emotional_labor_level, ncs_name) VALUES ('수의테크니션', 'REQUIRED', 'WEEKDAY_NINE_TO_SIX', '220', 'MONTHLY', 'LOW', 'LOW', 'LOW', '수의서비스');
+INSERT INTO job (job_name, requires_certification, work_time_slot, salary_cost, salary_type, interpersonal_contact_level, physical_activity_level, emotional_labor_level, ncs_name) VALUES ('웨딩 헬퍼', 'NONE', 'EVENT', '20', 'DAILY', 'HIGH', 'HIGH', 'HIGH', '결혼서비스');
+INSERT INTO job (job_name, requires_certification, work_time_slot, salary_cost, salary_type, interpersonal_contact_level, physical_activity_level, emotional_labor_level, ncs_name) VALUES ('미용사 (일반)', 'REQUIRED', 'WEEKDAY_NINE_TO_SIX', '250', 'MONTHLY', 'HIGH', 'HIGH', 'MEDIUM', '헤어미용');
+INSERT INTO job (job_name, requires_certification, work_time_slot, salary_cost, salary_type, interpersonal_contact_level, physical_activity_level, emotional_labor_level, ncs_name) VALUES ('미용사 (피부)', 'REQUIRED', 'WEEKDAY_NINE_TO_SIX', '250', 'MONTHLY', 'HIGH', 'HIGH', 'HIGH', '피부미용');
+INSERT INTO job (job_name, requires_certification, work_time_slot, salary_cost, salary_type, interpersonal_contact_level, physical_activity_level, emotional_labor_level, ncs_name) VALUES ('미용사 (네일)', 'REQUIRED', 'WEEKDAY_NINE_TO_SIX', '230', 'MONTHLY', 'HIGH', 'MEDIUM', 'HIGH', '메이크업');
+INSERT INTO job (job_name, requires_certification, work_time_slot, salary_cost, salary_type, interpersonal_contact_level, physical_activity_level, emotional_labor_level, ncs_name) VALUES ('미용사 (메이크업)', 'REQUIRED', 'WEEKDAY_NINE_TO_SIX', '250', 'MONTHLY', 'HIGH', 'MEDIUM', 'HIGH', '네일미용');
+INSERT INTO job (job_name, requires_certification, work_time_slot, salary_cost, salary_type, interpersonal_contact_level, physical_activity_level, emotional_labor_level, ncs_name) VALUES ('반려동물미용사', 'REQUIRED', 'WEEKDAY_NINE_TO_SIX', '250', 'MONTHLY', 'MEDIUM', 'HIGH', 'LOW', '애완동물미용');
+INSERT INTO job (job_name, requires_certification, work_time_slot, salary_cost, salary_type, interpersonal_contact_level, physical_activity_level, emotional_labor_level, ncs_name) VALUES ('레크리에이션 지도사', 'REQUIRED', 'EVENT', '10', 'PER_CASE', 'HIGH', 'HIGH', 'MEDIUM', '레크리에이션지도');
+INSERT INTO job (job_name, requires_certification, work_time_slot, salary_cost, salary_type, interpersonal_contact_level, physical_activity_level, emotional_labor_level, ncs_name) VALUES ('바리스타', 'REQUIRED', 'WEEKDAY_NINE_TO_SIX', '190', 'MONTHLY', 'MEDIUM', 'MEDIUM', 'LOW', '커피관리');
+INSERT INTO job (job_name, requires_certification, work_time_slot, salary_cost, salary_type, interpersonal_contact_level, physical_activity_level, emotional_labor_level, ncs_name) VALUES ('공인중개사', 'REQUIRED', 'FLEXIBLE', '250', 'MONTHLY', 'HIGH', 'MEDIUM', 'HIGH', '부동산');
+INSERT INTO job (job_name, requires_certification, work_time_slot, salary_cost, salary_type, interpersonal_contact_level, physical_activity_level, emotional_labor_level, ncs_name) VALUES ('산후조리사', 'REQUIRED', 'WEEKDAY_NINE_TO_SIX', '230', 'MONTHLY', 'HIGH', 'MEDIUM', 'HIGH', '산후육아지원');
+
+-- 자격증
+INSERT INTO certification (job_id, certification_name, certification_preparation_period) VALUES ('1', '요양보호사 자격증', '1개월');
+INSERT INTO certification (job_id, certification_name, certification_preparation_period) VALUES ('2', '간호조무사 자격증', '1년');
+INSERT INTO certification (job_id, certification_name, certification_preparation_period) VALUES ('3', '보육교사 3급', '6~12개월');
+INSERT INTO certification (job_id, certification_name, certification_preparation_period) VALUES ('4', '사회복지사 2급', '1~2년');
+INSERT INTO certification (job_id, certification_name, certification_preparation_period) VALUES ('5', '직업 상담사 2급', '6~12개월');
+INSERT INTO certification (job_id, certification_name, certification_preparation_period) VALUES ('6', '임상심리사 2급', '3~6개월');
+INSERT INTO certification (job_id, certification_name, certification_preparation_period) VALUES ('8', 'ITQ정보기술자격증', '1~2개월');
+INSERT INTO certification (job_id, certification_name, certification_preparation_period) VALUES ('8', '컴퓨터활용능력2급', '1~2개월');
+INSERT INTO certification (job_id, certification_name, certification_preparation_period) VALUES ('9', '전산 회계 2급', '1~2개월');
+INSERT INTO certification (job_id, certification_name, certification_preparation_period) VALUES ('10', '동물 보건사 자격증', '1개월 내');
+INSERT INTO certification (job_id, certification_name, certification_preparation_period) VALUES ('12', '미용사(일반) 자격증', '3~6개월');
+INSERT INTO certification (job_id, certification_name, certification_preparation_period) VALUES ('13', '피부관리사 자격증', '3~6개월');
+INSERT INTO certification (job_id, certification_name, certification_preparation_period) VALUES ('13', '미용사(피부) 자격증', '3~6개월');
+INSERT INTO certification (job_id, certification_name, certification_preparation_period) VALUES ('14', '미용사 (네일) 자격증', '4~5개월');
+INSERT INTO certification (job_id, certification_name, certification_preparation_period) VALUES ('15', '미용사 (메이크업)자격증', '3~6개월');
+INSERT INTO certification (job_id, certification_name, certification_preparation_period) VALUES ('16', '애견미용사자격증', '3~6개월');
+INSERT INTO certification (job_id, certification_name, certification_preparation_period) VALUES ('16', '반려견 스타일리스트 자격증', '3~6개월');
+INSERT INTO certification (job_id, certification_name, certification_preparation_period) VALUES ('17', '레크리에이션 지도사 자격증', '1개월 내');
+INSERT INTO certification (job_id, certification_name, certification_preparation_period) VALUES ('18', '바리스타 자격증', '1개월 내');
+INSERT INTO certification (job_id, certification_name, certification_preparation_period) VALUES ('19', '공인중개사', '6개월~1년');
+INSERT INTO certification (job_id, certification_name, certification_preparation_period) VALUES ('20', '산후조리사 자격증(민간)', '1~2개월');
