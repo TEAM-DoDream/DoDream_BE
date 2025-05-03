@@ -26,7 +26,7 @@ public record JobResponseDto(
         String salaryCost,
 
         @Schema(name="강도")
-        Strong Strong
+        Strong strong
 ) {
 
     public record Strong(
