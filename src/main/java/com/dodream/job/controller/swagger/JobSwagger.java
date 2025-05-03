@@ -1,0 +1,34 @@
+package com.dodream.job.controller.swagger;
+
+import com.dodream.core.config.swagger.ApiErrorCode;
+import com.dodream.core.presentation.RestResponse;
+import com.dodream.job.dto.response.JobListDto;
+import com.dodream.job.dto.response.JobResponseDto;
+import com.dodream.job.exception.JobErrorCode;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
+
+@Tag(name = "Job-Search", description = "직업 탐색 관련 컨트롤러")
+public interface JobSwagger {
+
+    @Operation(
+            summary = "직업 상세정보 반환 컨트롤러",
+            description = "각 직업의 상세정보를 반환합니다.(직업 탐색 상세)",
+            operationId = "/v1/job/{id}"
+    )
+    @ApiErrorCode(JobErrorCode.class)
+    ResponseEntity<RestResponse<JobResponseDto>> getJobDetail(
+            @PathVariable Long id
+    );
+
+    @Operation(
+            summary = "직업 탐색 직업 반환",
+            description = "직업 탐색에서 사용하는 직업 카드 데이터를 반환합니다.",
+            operationId = "/v1/job/list"
+    )
+    ResponseEntity<RestResponse<List<JobListDto>>> getJobList();
+}
