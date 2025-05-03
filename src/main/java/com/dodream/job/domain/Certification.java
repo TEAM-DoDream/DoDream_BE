@@ -23,6 +23,6 @@ public class Certification extends BaseLongIdEntity {
     private String certificationPreparationPeriod;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "job_id")
     private Job job;
 }
