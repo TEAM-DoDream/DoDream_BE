@@ -84,7 +84,7 @@ public interface MemberAuthSwagger {
 
     @Operation(
          summary = "회원탈퇴 API",
-         description = "새로운 거주지로 변경한다.",
+         description = "회원탈퇴를 진행한다",
          operationId = "/v1/member/auth/withdraw"
      )
      @ApiErrorCode(MemberErrorCode.class)

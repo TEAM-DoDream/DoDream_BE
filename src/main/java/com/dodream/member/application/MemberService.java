@@ -51,7 +51,7 @@ public class MemberService {
         Member member = memberRepository.findById(currentId)
             .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
 
-        if (requestDto.newPassword().equals(requestDto.newPasswordCheck())) {
+        if (!requestDto.newPassword().equals(requestDto.newPasswordCheck())) {
             throw MemberErrorCode.PASSWORD_NOT_SAME.toException();
         }
         member.updatePassword(passwordEncoder.encode(requestDto.newPassword()));
@@ -63,6 +63,10 @@ public class MemberService {
         Long currentId = SecurityUtils.getCurrentMemberId();
         Member member = memberRepository.findById(currentId)
             .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
+
+        if (memberRepository.existsByNickName(requestDto.newNickName())){
+            throw MemberErrorCode.DUPLICATE_NICKNAME.toException();
+        }
 
         member.updateNickName(requestDto.newNickName());
     }
