@@ -28,6 +28,10 @@ public class JobService {
     }
 
     public List<JobListDto> getAllJobs(int pageNumber) {
+        if(pageNumber < 0) {
+            pageNumber = 0;
+        }
+
         Pageable pageable = PageRequest.of(pageNumber, 9);
         Page<Job> jobs = jobRepository.findAll(pageable);
 
