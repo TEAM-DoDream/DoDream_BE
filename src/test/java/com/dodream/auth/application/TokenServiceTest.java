@@ -4,6 +4,7 @@ import com.dodream.auth.domain.TokenProvider;
 import com.dodream.auth.dto.TokenRequest;
 import com.dodream.core.exception.DomainException;
 import com.dodream.member.domain.Member;
+import com.dodream.member.domain.State;
 import com.dodream.member.repository.MemberRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -36,7 +37,7 @@ public class TokenServiceTest {
         Optional<Member> member = Optional.of(mock(Member.class));
 
         TokenRequest tokenRequest = new TokenRequest(1L);
-        when(memberRepository.findById(1L)).thenReturn(member);
+        when(memberRepository.findByIdAndState(1L, State.ACTIVE)).thenReturn(member);
 
         // when
         tokenService.provideAccessToken(tokenRequest);
@@ -50,7 +51,7 @@ public class TokenServiceTest {
     void 토큰_발급_실패_회원_x(){
         // given
         TokenRequest tokenRequest = new TokenRequest(1L);
-        when(memberRepository.findById(1L)).thenReturn(Optional.empty());
+        when(memberRepository.findByIdAndState(1L,State.ACTIVE)).thenReturn(Optional.empty());
 
         // when & then
         Assertions.assertThatThrownBy(() -> tokenService.provideAccessToken(tokenRequest))

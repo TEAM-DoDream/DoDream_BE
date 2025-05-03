@@ -2,6 +2,7 @@ package com.dodream.core.application;
 
 import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.member.domain.Member;
+import com.dodream.member.domain.State;
 import com.dodream.member.exception.MemberErrorCode;
 import com.dodream.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,13 +19,15 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userNickName) throws UsernameNotFoundException {
-        Member member = memberRepository.findByNickName(userNickName).orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
+        Member member = memberRepository.findByNickNameAndState(userNickName, State.ACTIVE)
+            .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
 
         return new CustomUserDetails(member);
     }
 
     public UserDetails loadUserById(Long id) throws UsernameNotFoundException {
-        Member member = memberRepository.findById(id).orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
+        Member member = memberRepository.findByIdAndState(id,State.ACTIVE)
+            .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
 
         return new CustomUserDetails(member);
     }

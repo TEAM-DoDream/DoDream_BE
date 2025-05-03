@@ -3,6 +3,7 @@ package com.dodream.member.application;
 import com.dodream.core.application.ObjectStorageService;
 import com.dodream.core.config.security.SecurityUtils;
 import com.dodream.member.domain.Member;
+import com.dodream.member.domain.State;
 import com.dodream.member.dto.request.ChangeMemberBirthDateRequestDto;
 import com.dodream.member.dto.request.ChangeMemberNickNameRequestDto;
 import com.dodream.member.dto.request.ChangeMemberPasswordRequestDto;
@@ -29,7 +30,7 @@ public class MemberService {
     public UploadMemberProfileImageResponseDto uploadMemberProfileImage(MultipartFile file) {
 
         Long currentId = SecurityUtils.getCurrentMemberId();
-        Member member = memberRepository.findById(currentId)
+        Member member = memberRepository.findByIdAndState(currentId, State.ACTIVE)
             .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
 
         if (member.getProfileImage() != null) {
@@ -48,7 +49,7 @@ public class MemberService {
     public void changeMemberPassword(ChangeMemberPasswordRequestDto requestDto) {
 
         Long currentId = SecurityUtils.getCurrentMemberId();
-        Member member = memberRepository.findById(currentId)
+        Member member = memberRepository.findByIdAndState(currentId, State.ACTIVE)
             .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
 
         if (!requestDto.newPassword().equals(requestDto.newPasswordCheck())) {
@@ -61,10 +62,10 @@ public class MemberService {
     public void changeMemberNickName(ChangeMemberNickNameRequestDto requestDto) {
 
         Long currentId = SecurityUtils.getCurrentMemberId();
-        Member member = memberRepository.findById(currentId)
+        Member member = memberRepository.findByIdAndState(currentId, State.ACTIVE)
             .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
 
-        if (memberRepository.existsByNickName(requestDto.newNickName())){
+        if (memberRepository.existsByNickNameAndState(requestDto.newNickName(), State.ACTIVE)) {
             throw MemberErrorCode.DUPLICATE_NICKNAME.toException();
         }
 
@@ -75,7 +76,7 @@ public class MemberService {
     public void changeMemberBirth(ChangeMemberBirthDateRequestDto requestDto) {
 
         Long currentId = SecurityUtils.getCurrentMemberId();
-        Member member = memberRepository.findById(currentId)
+        Member member = memberRepository.findByIdAndState(currentId, State.ACTIVE)
             .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
 
         member.updateBirthDate(requestDto.newBirthDate());
@@ -85,7 +86,7 @@ public class MemberService {
     public void changeMemberRegion(ChangeMemberRegionCodeRequestDto requestDto) {
 
         Long currentId = SecurityUtils.getCurrentMemberId();
-        Member member = memberRepository.findById(currentId)
+        Member member = memberRepository.findByIdAndState(currentId, State.ACTIVE)
             .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
 
         member.updateRegionCode(requestDto.newRegionCode());

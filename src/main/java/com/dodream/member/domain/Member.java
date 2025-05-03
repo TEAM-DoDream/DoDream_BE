@@ -54,7 +54,8 @@ public class Member extends BaseLongIdEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.VARCHAR)
-    private State state;
+    @Builder.Default
+    private State state = State.ACTIVE;
 
     public void updateProfile(String imageUrl) {
         this.profileImage = imageUrl;
