@@ -123,4 +123,15 @@ public class MemberAuthService {
         return MemberNewTokenResponse.of(newAccessToken, newRefreshToken);
     }
 
+
+    @Transactional
+    public void withdrawMember() {
+
+        Long currentId = SecurityUtils.getCurrentMemberId();
+        Member member = memberRepository.findById(currentId)
+            .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
+
+        member.withdraw();
+    }
+
 }

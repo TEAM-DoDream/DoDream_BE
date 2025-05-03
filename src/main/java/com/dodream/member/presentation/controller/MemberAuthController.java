@@ -17,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -81,5 +80,13 @@ public class MemberAuthController implements MemberAuthSwagger {
             new RestResponse<>(memberAuthService.issueNewToken(refreshToken)));
     }
 
+
+    @Override
+    @PostMapping("/withdraw")
+    public ResponseEntity<RestResponse<String>> withdrawMember() {
+        memberAuthService.withdrawMember();
+        return ResponseEntity.ok(
+            new RestResponse<>("회원탈퇴가 완료되었습니다"));
+    }
 
 }

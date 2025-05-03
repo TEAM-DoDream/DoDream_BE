@@ -2,6 +2,7 @@ package com.dodream.member.presentation.swagger;
 
 import com.dodream.core.config.swagger.ApiErrorCode;
 import com.dodream.core.presentation.RestResponse;
+import com.dodream.member.dto.request.ChangeMemberRegionCodeRequestDto;
 import com.dodream.member.dto.request.MemberLoginRequestDto;
 import com.dodream.member.dto.request.MemberSignUpRequestDto;
 import com.dodream.member.dto.response.CheckMemberIdResponseDto;
@@ -79,6 +80,16 @@ public interface MemberAuthSwagger {
     @ApiErrorCode(MemberErrorCode.class)
     ResponseEntity<RestResponse<MemberNewTokenResponse>> issueNewToken(
         @RequestHeader(value = "refreshToken", required = false) String refreshToken);
+
+
+    @Operation(
+         summary = "회원탈퇴 API",
+         description = "새로운 거주지로 변경한다.",
+         operationId = "/v1/member/auth/withdraw"
+     )
+     @ApiErrorCode(MemberErrorCode.class)
+     ResponseEntity<RestResponse<String>> withdrawMember();
+
 
 
 }
