@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -30,5 +31,7 @@ public interface JobSwagger {
             description = "직업 탐색에서 사용하는 직업 카드 데이터를 반환합니다.",
             operationId = "/v1/job/list"
     )
-    ResponseEntity<RestResponse<List<JobListDto>>> getJobList();
+    ResponseEntity<RestResponse<List<JobListDto>>> getJobList(
+            @RequestParam int pageNum
+    );
 }
