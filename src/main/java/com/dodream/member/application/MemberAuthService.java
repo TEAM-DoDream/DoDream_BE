@@ -44,7 +44,7 @@ public class MemberAuthService {
 
         refreshTokenService.save(member.getId(), refreshToken);
 
-        return MemberLoginResponseDto.of(member.getMemberId(), accessToken, refreshToken);
+        return MemberLoginResponseDto.of(member.getMemberId(), member.getNickName(), accessToken, refreshToken);
     }
 
     public void getMemberLogout() {
