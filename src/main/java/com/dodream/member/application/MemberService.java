@@ -40,6 +40,7 @@ public class MemberService {
         String createdImageUrl = objectStorageService.uploadMemberProfileImage(file, currentId);
 
         member.updateProfile(createdImageUrl);
+        memberRepository.save(member);
 
         return UploadMemberProfileImageResponseDto.from(createdImageUrl);
 
@@ -56,6 +57,7 @@ public class MemberService {
             throw MemberErrorCode.PASSWORD_NOT_SAME.toException();
         }
         member.updatePassword(passwordEncoder.encode(requestDto.newPassword()));
+        memberRepository.save(member);
     }
 
     @Transactional
@@ -70,6 +72,7 @@ public class MemberService {
         }
 
         member.updateNickName(requestDto.newNickName());
+        memberRepository.save(member);
     }
 
     @Transactional
@@ -80,6 +83,7 @@ public class MemberService {
             .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
 
         member.updateBirthDate(requestDto.newBirthDate());
+        memberRepository.save(member);
     }
 
     @Transactional
@@ -90,6 +94,8 @@ public class MemberService {
             .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
 
         member.updateRegionCode(requestDto.newRegionCode());
+
+        memberRepository.save(member);
     }
 
 

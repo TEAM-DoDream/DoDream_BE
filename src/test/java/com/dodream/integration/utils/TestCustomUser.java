@@ -1,4 +1,4 @@
-package com.dodream.utils;
+package com.dodream.integration.utils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -7,10 +7,7 @@ import org.springframework.security.test.context.support.WithSecurityContext;
 
 @Retention(RetentionPolicy.RUNTIME)
 @WithSecurityContext(factory = WithUserDetailsSecurityContextFactory.class)
-public @interface TestAccount {
+public @interface TestCustomUser {
 
-//    long id() default 1L;
-//
-//    String nickname() default "mockUser";
 
 }
