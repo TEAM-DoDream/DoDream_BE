@@ -1,8 +1,9 @@
-package com.dodream.job.infrastructure;
+package com.dodream.job.infrastructure.caller;
 
 import com.dodream.job.dto.request.clova.ClovaMessage;
 import com.dodream.job.dto.request.clova.ClovaStudioRequest;
 import com.dodream.job.exception.JobErrorCode;
+import com.dodream.job.infrastructure.feign.ClovaFeignClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

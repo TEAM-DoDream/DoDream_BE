@@ -1,4 +1,4 @@
-package com.dodream.job.infrastructure;
+package com.dodream.job.infrastructure.feign;
 
 import feign.RequestInterceptor;
 import org.springframework.beans.factory.annotation.Value;
