@@ -1,4 +1,4 @@
-package com.dodream.job.infrastructure;
+package com.dodream.job.infrastructure.feign;
 
 import com.dodream.job.dto.request.clova.ClovaStudioRequest;
 import org.springframework.cloud.openfeign.FeignClient;
