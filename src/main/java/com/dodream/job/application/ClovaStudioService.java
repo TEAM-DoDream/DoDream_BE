@@ -1,8 +1,8 @@
 package com.dodream.job.application;
 
 import com.dodream.job.dto.response.ChatResponse;
-import com.dodream.job.infrastructure.ClovaChatCompletionCaller;
-import com.dodream.job.infrastructure.ClovaChatResponseMapper;
+import com.dodream.job.infrastructure.caller.ClovaChatCompletionCaller;
+import com.dodream.job.infrastructure.mapper.ClovaChatResponseMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.dodream.job.infrastructure;
+package com.dodream.job.infrastructure.mapper;
 
 import com.dodream.job.dto.response.ChatResponse;
 import com.dodream.job.exception.JobErrorCode;
