@@ -74,8 +74,11 @@ public class MemberAuthService {
             throw MemberErrorCode.DUPLICATE_NICKNAME.toException();
         }
 
-        Region region = regionRepository.findByRegionCode(requestDto.regionCode())
-                  .orElseThrow(RegionErrorCode.NOT_FOUND_REGION::toException);
+        Region region = null;
+        if (requestDto.regionCode()!=null) {
+            region = regionRepository.findByRegionCode(requestDto.regionCode())
+                .orElseThrow(RegionErrorCode.NOT_FOUND_REGION::toException);
+        }
 
         Member member = Member.builder()
             .loginId(requestDto.loginId())
