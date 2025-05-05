@@ -16,6 +16,9 @@ import com.dodream.member.dto.response.MemberNewTokenResponse;
 import com.dodream.member.dto.response.MemberSignUpResponseDto;
 import com.dodream.member.exception.MemberErrorCode;
 import com.dodream.member.repository.MemberRepository;
+import com.dodream.region.domain.Region;
+import com.dodream.region.exception.RegionErrorCode;
+import com.dodream.region.repository.RegionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -26,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberAuthService {
 
     private final MemberRepository memberRepository;
+    private final RegionRepository regionRepository;
     private final TokenService tokenService;
     private final RefreshTokenService refreshTokenService;
     private final BCryptPasswordEncoder passwordEncoder;
@@ -33,7 +37,7 @@ public class MemberAuthService {
     @Transactional
     public MemberLoginResponseDto getMemberLogin(MemberLoginRequestDto memberLoginRequestDto) {
 
-        Member member = memberRepository.findByMemberIdAndState(memberLoginRequestDto.memberId(),
+        Member member = memberRepository.findByLoginIdAndState(memberLoginRequestDto.loginId(),
                 State.ACTIVE)
             .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
 
@@ -46,7 +50,10 @@ public class MemberAuthService {
 
         refreshTokenService.save(member.getId(), refreshToken);
 
-        return MemberLoginResponseDto.of(member.getMemberId(), member.getNickName(), accessToken, refreshToken);
+        Region region = regionRepository.findByRegionCode(member.getRegion().getRegionCode())
+            .orElseThrow(RegionErrorCode.NOT_FOUND_REGION::toException);
+
+        return MemberLoginResponseDto.of(member,accessToken, refreshToken);
     }
 
     public void getMemberLogout() {
@@ -59,7 +66,7 @@ public class MemberAuthService {
     @Transactional
     public MemberSignUpResponseDto getMemberSignUp(MemberSignUpRequestDto requestDto) {
 
-        if (memberRepository.existsByMemberIdAndState(requestDto.memberId(), State.ACTIVE)) {
+        if (memberRepository.existsByLoginIdAndState(requestDto.loginId(), State.ACTIVE)) {
             throw MemberErrorCode.DUPLICATE_MEMBER_ID.toException();
         }
 
@@ -67,13 +74,16 @@ public class MemberAuthService {
             throw MemberErrorCode.DUPLICATE_NICKNAME.toException();
         }
 
+        Region region = regionRepository.findByRegionCode(requestDto.regionCode())
+                  .orElseThrow(RegionErrorCode.NOT_FOUND_REGION::toException);
+
         Member member = Member.builder()
-            .memberId(requestDto.memberId())
+            .loginId(requestDto.loginId())
             .password(passwordEncoder.encode(requestDto.password()))
             .nickName(requestDto.nickName())
             .birthDate(requestDto.birthDate())
             .gender(requestDto.gender())
-            .regionCode(requestDto.regionCode())
+            .region(region)
             .build();
 
         Member newMember = memberRepository.save(member);
@@ -83,16 +93,16 @@ public class MemberAuthService {
 
         refreshTokenService.save(member.getId(), refreshToken);
 
-        return new MemberSignUpResponseDto(newMember.getMemberId(), accessToken, refreshToken);
+        return new MemberSignUpResponseDto(newMember.getId(), accessToken, refreshToken);
     }
 
 
-    public CheckMemberIdResponseDto checkDuplicateMemberId(String memberId) {
+    public CheckMemberIdResponseDto checkDuplicateMemberId(String loginId) {
 
-        if (memberRepository.existsByMemberIdAndState(memberId, State.ACTIVE)) {
+        if (memberRepository.existsByLoginIdAndState(loginId, State.ACTIVE)) {
             throw MemberErrorCode.DUPLICATE_MEMBER_ID.toException();
         }
-        return CheckMemberIdResponseDto.of(memberId, false);
+        return CheckMemberIdResponseDto.of(loginId, false);
     }
 
 

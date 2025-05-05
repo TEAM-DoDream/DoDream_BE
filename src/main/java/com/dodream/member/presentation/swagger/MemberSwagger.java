@@ -5,9 +5,10 @@ import com.dodream.core.presentation.RestResponse;
 import com.dodream.member.dto.request.ChangeMemberBirthDateRequestDto;
 import com.dodream.member.dto.request.ChangeMemberNickNameRequestDto;
 import com.dodream.member.dto.request.ChangeMemberPasswordRequestDto;
-import com.dodream.member.dto.request.ChangeMemberRegionCodeRequestDto;
-import com.dodream.member.dto.request.MemberSignUpRequestDto;
-import com.dodream.member.dto.response.CheckMemberNickNameResponseDto;
+import com.dodream.member.dto.request.ChangeMemberRegionRequestDto;
+import com.dodream.member.dto.response.ChangeMemberBirthDateResponseDto;
+import com.dodream.member.dto.response.ChangeMemberNickNameResponseDto;
+import com.dodream.member.dto.response.ChangeMemberRegionResponseDto;
 import com.dodream.member.dto.response.UploadMemberProfileImageResponseDto;
 import com.dodream.member.exception.MemberErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,7 +45,7 @@ public interface MemberSwagger {
         operationId = "/v1/member/nickname"
     )
     @ApiErrorCode(MemberErrorCode.class)
-    ResponseEntity<RestResponse<String>> changeMemberNickName(
+    ResponseEntity<RestResponse<ChangeMemberNickNameResponseDto>> changeMemberNickName(
         @RequestBody ChangeMemberNickNameRequestDto changeMemberNickNameRequestDto);
 
     @Operation(
@@ -53,7 +54,7 @@ public interface MemberSwagger {
         operationId = "/v1/member/birth"
     )
     @ApiErrorCode(MemberErrorCode.class)
-    ResponseEntity<RestResponse<String>> changeMemberBirth(
+    ResponseEntity<RestResponse<ChangeMemberBirthDateResponseDto>> changeMemberBirth(
         @RequestBody ChangeMemberBirthDateRequestDto changeMemberBirthDateRequestDto);
 
     @Operation(
@@ -62,8 +63,8 @@ public interface MemberSwagger {
         operationId = "/v1/member/region"
     )
     @ApiErrorCode(MemberErrorCode.class)
-    ResponseEntity<RestResponse<String>> changeMemberRegion(
-        @RequestBody ChangeMemberRegionCodeRequestDto changeMemberRegionCodeRequestDto);
+    ResponseEntity<RestResponse<ChangeMemberRegionResponseDto>> changeMemberRegion(
+        @RequestBody ChangeMemberRegionRequestDto changeMemberRegionCodeRequestDto);
 
 
 }

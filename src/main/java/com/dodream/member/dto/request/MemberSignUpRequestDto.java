@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public record MemberSignUpRequestDto(
     @NotBlank
     @Schema(description = "아이디", example = "dodream")
-    String memberId,
+    String loginId,
     @NotBlank
     @Schema(description = "비밀번호", example = "hello2025")
     String password,
