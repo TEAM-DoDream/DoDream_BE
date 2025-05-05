@@ -54,9 +54,9 @@ public interface MemberAuthSwagger {
         operationId = "/v1/member/auth/check-id"
     )
     @ApiErrorCode(MemberErrorCode.class)
-    ResponseEntity<RestResponse<CheckMemberIdResponseDto>> checkMemberId(
-        @Parameter(name = "memberId", description = "가입하려는 아이디", example = "dodream")
-        @RequestParam String memberId
+    ResponseEntity<RestResponse<CheckMemberIdResponseDto>> checkMemberLoginId(
+        @Parameter(name = "loginId", description = "가입하려는 아이디", example = "dodream")
+        @RequestParam String loginId
     );
 
     @Operation(

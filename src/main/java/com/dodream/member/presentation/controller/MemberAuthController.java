@@ -51,11 +51,11 @@ public class MemberAuthController implements MemberAuthSwagger {
 
     @Override
     @GetMapping("/check-id")
-    public ResponseEntity<RestResponse<CheckMemberIdResponseDto>> checkMemberId(
-        @Parameter(name = "memberId", description = "가입하려는 아이디", example = "dodream")
-        @RequestParam(required = true) String memberId) {
+    public ResponseEntity<RestResponse<CheckMemberIdResponseDto>> checkMemberLoginId(
+        @Parameter(name = "loginId", description = "가입하려는 아이디", example = "dodream")
+        @RequestParam(required = true) String loginId) {
         return ResponseEntity.ok(
-            new RestResponse<>(memberAuthService.checkDuplicateMemberId(memberId)));
+            new RestResponse<>(memberAuthService.checkDuplicateMemberLoginId(loginId)));
     }
 
     @Override
