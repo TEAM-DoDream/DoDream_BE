@@ -6,8 +6,9 @@ import java.util.List;
 
 public class UserPromptLoader {
 
+    private static final String MESSAGE_HEADER_SUFFIX = "님의 온보딩 질문 답변 결과입니다.";
+
     public static List<String> USER_PROMPTS = List.of(
-            "님의 온보딩 질문 답변 결과입니다.",
             "1. 최근에 \"재밌다\"거나 \"잘할 수 있겠다\"는 생각이 든 순간은 언제였나요?",
             "2. 시간이 가는 줄 모르고 몰입하셨던 순간은 언제였나요?",
             "3. 다른 사람에게 자주 들었던 칭찬은 무엇인가요?",
@@ -23,7 +24,7 @@ public class UserPromptLoader {
         List<OnboardingAnswerSet.Answer> answers = answerSet.answers();
 
         StringBuilder sb = new StringBuilder();
-        sb.append(memberName).append("님의 온보딩 질문 답변 결과입니다.").append("\n");
+        sb.append(memberName).append(MESSAGE_HEADER_SUFFIX).append("\n");
 
         for(OnboardingAnswerSet.Answer answer : answers) {
             sb.append(USER_PROMPTS.get(answer.questionNum())).append("\n");
