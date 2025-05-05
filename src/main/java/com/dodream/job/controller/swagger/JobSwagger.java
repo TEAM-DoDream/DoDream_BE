@@ -37,6 +37,7 @@ public interface JobSwagger {
             description = "직업 탐색에서 사용하는 직업 카드 데이터를 반환합니다.",
             operationId = "/v1/job/list"
     )
+    @ApiErrorCode(JobErrorCode.class)
     ResponseEntity<RestResponse<List<JobListDto>>> getJobList(
             @RequestParam int pageNum
     );
@@ -46,7 +47,8 @@ public interface JobSwagger {
             description = "온보딩 결과 사용자에게 맞는 직업을 3개 추천합니다.",
             operationId = "/v1/job/recommend"
     )
-    ResponseEntity<RestResponse<JobRecommendationResponse>> getJobList(
+    @ApiErrorCode(JobErrorCode.class)
+    ResponseEntity<RestResponse<JobRecommendationResponse>> recommendJobsForUser(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestBody OnboardingAnswerSet onboardingAnswerSet
     );

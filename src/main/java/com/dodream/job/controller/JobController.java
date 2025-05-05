@@ -47,7 +47,7 @@ public class JobController implements JobSwagger {
 
     @Override
     @PostMapping("/recommend")
-    public ResponseEntity<RestResponse<JobRecommendationResponse>> getJobList(
+    public ResponseEntity<RestResponse<JobRecommendationResponse>> recommendJobsForUser(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestBody OnboardingAnswerSet onboardingAnswerSet
     ) {

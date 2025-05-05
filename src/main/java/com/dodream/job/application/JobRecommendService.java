@@ -31,11 +31,16 @@ public class JobRecommendService {
                 UserPromptLoader.getPrompt(customUserDetails.getUsername(), answerSet)
         );
 
-        try{
-            return JsonCleaner.cleanAndParse(getContentFromResult(result), JobRecommendationResponse.class);
-        } catch (Exception e){
+        if(result == null || result.isEmpty()) {
             throw JobErrorCode.CANNOT_CONVERT_CLOVA_RESPONSE.toException();
         }
+
+        try{
+            return JsonCleaner.cleanAndParse(getContentFromResult(result), JobRecommendationResponse.class);
+        }catch (Exception e){
+            throw JobErrorCode.CANNOT_CONVERT_CLOVA_RESPONSE.toException();
+        }
+
     }
 
     private List<ExampleJobList> getExampleJobList(List<Job> jobs) {
