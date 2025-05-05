@@ -23,8 +23,12 @@ public class UserPromptLoader {
         List<OnboardingAnswerSet.Answer> answers = answerSet.answers();
 
         StringBuilder sb = new StringBuilder();
-        sb.append(memberName).append("님의 온보딩 질문 답변 결과입니다.\n");
+        sb.append(memberName).append("님의 온보딩 질문 답변 결과입니다.").append("\n");
 
+        for(OnboardingAnswerSet.Answer answer : answers) {
+            sb.append(USER_PROMPTS.get(answer.questionNum())).append("\n");
+            sb.append("답변:").append(String.join(",", answer.responses())).append("\n");
+        }
 
         return sb.toString();
     }
