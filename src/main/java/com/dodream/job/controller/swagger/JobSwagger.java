@@ -3,6 +3,7 @@ package com.dodream.job.controller.swagger;
 import com.dodream.core.config.swagger.ApiErrorCode;
 import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.core.presentation.RestResponse;
+import com.dodream.job.dto.request.recommend.JobRecommendationResponse;
 import com.dodream.job.dto.request.recommend.OnboardingAnswerSet;
 import com.dodream.job.dto.response.ChatResponse;
 import com.dodream.job.dto.response.JobListDto;
@@ -45,7 +46,7 @@ public interface JobSwagger {
             description = "온보딩 결과 사용자에게 맞는 직업을 3개 추천합니다.",
             operationId = "/v1/job/recommend"
     )
-    ResponseEntity<RestResponse<ChatResponse>> getJobList(
+    ResponseEntity<RestResponse<JobRecommendationResponse>> getJobList(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestBody OnboardingAnswerSet onboardingAnswerSet
     );

@@ -16,8 +16,7 @@ public class ClovaChatCompletionCaller {
 
     private final ClovaFeignClient clovaFeignClient;
 
-    @Value("${ncp.clova.max-token}")
-    private int maxToken;
+    private static final int MAX_TOKEN = 512;
 
     public String clovaChatCompletionApiCaller(
             String systemMessage, String userMessage
@@ -27,7 +26,7 @@ public class ClovaChatCompletionCaller {
                     ClovaMessage.createSystemMessage(systemMessage),
                     ClovaMessage.createUserMessage(userMessage)
                 ),
-                maxToken
+                MAX_TOKEN
         );
 
         try{
