@@ -1,14 +1,19 @@
 package com.dodream.job.controller.swagger;
 
 import com.dodream.core.config.swagger.ApiErrorCode;
+import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.core.presentation.RestResponse;
+import com.dodream.job.dto.request.recommend.OnboardingAnswerSet;
+import com.dodream.job.dto.response.ChatResponse;
 import com.dodream.job.dto.response.JobListDto;
 import com.dodream.job.dto.response.JobResponseDto;
 import com.dodream.job.exception.JobErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -33,5 +38,15 @@ public interface JobSwagger {
     )
     ResponseEntity<RestResponse<List<JobListDto>>> getJobList(
             @RequestParam int pageNum
+    );
+
+    @Operation(
+            summary = "온보딩 결과 직업 추천 API",
+            description = "온보딩 결과 사용자에게 맞는 직업을 3개 추천합니다.",
+            operationId = "/v1/job/recommend"
+    )
+    ResponseEntity<RestResponse<ChatResponse>> getJobList(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestBody OnboardingAnswerSet onboardingAnswerSet
     );
 }
