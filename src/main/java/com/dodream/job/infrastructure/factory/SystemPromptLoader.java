@@ -1,5 +1,7 @@
 package com.dodream.job.infrastructure.factory;
 
+import com.dodream.job.dto.request.recommend.ExampleJobList;
+
 import java.util.List;
 
 public class SystemPromptLoader {
@@ -16,6 +18,8 @@ public class SystemPromptLoader {
                 각 문장은 1~2줄 정도로 간결하게 구성해주세요.
                 
                 직업 목록은 다음과 같습니다. 각 데이터는 쉼표로 구분되며 각 칼럼과 매칭됩니다.
+                각 칼럼은 다음과 같습니다.
+                직업 이름, 자격증 필요 여부, 근무 시간대, 급여 종류, 급여, 대인관계 빈도, 신체활동 정도, 감정노동 빈도, 자격증 이름, 자격증 준비 기간
             """,
             """
                     아래 형식에 맞춰 오직 JSON만 출력해주세요.
@@ -53,11 +57,20 @@ public class SystemPromptLoader {
             """
     );
 
-    public static String getPrompt(String exampleJobList){
+    public static String getPrompt(List<ExampleJobList> exampleJobList){
         StringBuilder sb = new StringBuilder();
 
+        List<String> jobList =
+                exampleJobList.stream()
+                .map(exampleJob -> exampleJob.toString())
+                .toList();
+
         sb.append(SYSTEM_PROMPT_LIST.get(0)).append('\n');
-        sb.append(exampleJobList).append('\n');
+
+        for(String job : jobList){
+            sb.append(job).append('\n');
+        }
+
         sb.append(SYSTEM_PROMPT_LIST.get(1));
 
         return sb.toString();
