@@ -13,9 +13,15 @@ import com.dodream.member.domain.State;
 import com.dodream.member.dto.request.ChangeMemberBirthDateRequestDto;
 import com.dodream.member.dto.request.ChangeMemberNickNameRequestDto;
 import com.dodream.member.dto.request.ChangeMemberPasswordRequestDto;
-import com.dodream.member.dto.request.ChangeMemberRegionCodeRequestDto;
+import com.dodream.member.dto.request.ChangeMemberRegionRequestDto;
+import com.dodream.member.dto.response.ChangeMemberBirthDateResponseDto;
+import com.dodream.member.dto.response.ChangeMemberNickNameResponseDto;
+import com.dodream.member.dto.response.ChangeMemberRegionResponseDto;
+import com.dodream.member.dto.response.CheckMemberNickNameResponseDto;
 import com.dodream.member.exception.MemberErrorCode;
 import com.dodream.member.repository.MemberRepository;
+import com.dodream.region.domain.Region;
+import com.dodream.region.repository.RegionRepository;
 import java.time.LocalDate;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
@@ -39,12 +45,14 @@ public class MemberServiceTest {
     @Mock
     private MemberRepository memberRepository;
     @Mock
+    private RegionRepository regionRepository;
+    @Mock
     private BCryptPasswordEncoder passwordEncoder;
     @InjectMocks
     private MemberService memberService;
 
     private static final Long TEST_ID = 1L;
-    private static final String TEST_MEMBER_ID = "dodream";
+    private static final String TEST_LOGIN_ID = "dodream";
     private static final String TEST_PASSWORD = "password";
     private static final String TEST_WRONG_CHECK_PASSWORD = "wrongCheckPassword";
     private static final String TEST_NICKNAME = "nickname";
@@ -53,10 +61,13 @@ public class MemberServiceTest {
     private static final LocalDate TEST_NEW_BIRTHDATE = LocalDate.of(2002, 12, 24);
     private static final Gender TEST_GENDER = Gender.FEMALE;
     private static final State TEST_STATE = State.ACTIVE;
-    private static final String TEST_REGION_CODE = "11110";
-    private static final String TEST_NEW_REGION_CODE = "11111";
-
+    private static final String TEST_REGION_CODE1 = "11110";
+    private static final String TEST_REGION_NAME1 = "서울 종로구";
+    private static final String TEST_REGION_CODE2 = "11170";
+    private static final String TEST_REGION_NAME2 = "서울 용산구";
     private Member mockMember;
+    private Region region1;
+    private Region region2;
 
     @Nested
     @DisplayName("나의 계정 - 정보 변경 테스트")
@@ -65,14 +76,27 @@ public class MemberServiceTest {
         @BeforeEach
         void setupSecurityContext() {
 
+            //given
+            region1 = Region.builder()
+                .id(1L)
+                .regionCode(TEST_REGION_CODE1)
+                .regionName(TEST_REGION_NAME1)
+                .build();
+
+            region2 = Region.builder()
+                .id(2L)
+                .regionCode(TEST_REGION_CODE2)
+                .regionName(TEST_REGION_NAME2)
+                .build();
+
             mockMember = Member.builder()
                 .id(TEST_ID)
-                .memberId(TEST_MEMBER_ID)
+                .loginId(TEST_LOGIN_ID)
                 .password(passwordEncoder.encode(TEST_PASSWORD))
                 .nickName(TEST_NICKNAME)
                 .birthDate(TEST_BIRTHDATE)
                 .gender(TEST_GENDER)
-                .regionCode(TEST_REGION_CODE)
+                .region(region1)
                 .build();
 
             CustomUserDetails userDetails = new CustomUserDetails(mockMember);
@@ -102,12 +126,13 @@ public class MemberServiceTest {
             ChangeMemberNickNameRequestDto requestDto = new ChangeMemberNickNameRequestDto(
                 TEST_NEW_NICKNAME);
 
-            memberService.changeMemberNickName(requestDto);
+            ChangeMemberNickNameResponseDto responseDto = memberService.changeMemberNickName(
+                requestDto);
 
             assertAll(
                 () -> assertThat(mockMember).isNotNull(),
-                () -> assertThat(mockMember.getId()).isEqualTo(TEST_ID),
-                () -> assertThat(mockMember.getNickName()).isEqualTo(TEST_NEW_NICKNAME)
+                () -> assertThat(mockMember.getId()).isEqualTo(responseDto.memberId()),
+                () -> assertThat(mockMember.getNickName()).isEqualTo(responseDto.newNickname())
             );
 
         }
@@ -178,12 +203,13 @@ public class MemberServiceTest {
             ChangeMemberBirthDateRequestDto requestDto = new ChangeMemberBirthDateRequestDto(
                 TEST_NEW_BIRTHDATE);
 
-            memberService.changeMemberBirth(requestDto);
+            ChangeMemberBirthDateResponseDto responseDto = memberService.changeMemberBirth(
+                requestDto);
 
             assertAll(
                 () -> assertThat(mockMember).isNotNull(),
-                () -> assertThat(mockMember.getId()).isEqualTo(TEST_ID),
-                () -> assertThat(mockMember.getBirthDate()).isEqualTo(TEST_NEW_BIRTHDATE)
+                () -> assertThat(mockMember.getId()).isEqualTo(responseDto.memberId()),
+                () -> assertThat(mockMember.getBirthDate()).isEqualTo(responseDto.newBirthDate())
             );
 
         }
@@ -195,15 +221,21 @@ public class MemberServiceTest {
             when(memberRepository.findByIdAndState(1L, State.ACTIVE))
                 .thenReturn(Optional.of(mockMember));
 
-            ChangeMemberRegionCodeRequestDto requestDto = new ChangeMemberRegionCodeRequestDto(
-                TEST_NEW_REGION_CODE);
+            when(regionRepository.findByRegionCode(TEST_REGION_CODE2))
+                .thenReturn(Optional.of(region2));
 
-            memberService.changeMemberRegion(requestDto);
+            ChangeMemberRegionRequestDto requestDto = new ChangeMemberRegionRequestDto(
+                TEST_REGION_CODE2);
+
+            ChangeMemberRegionResponseDto responseDto = memberService.changeMemberRegion(requestDto);
 
             assertAll(
                 () -> assertThat(mockMember).isNotNull(),
-                () -> assertThat(mockMember.getId()).isEqualTo(TEST_ID),
-                () -> assertThat(mockMember.getRegionCode()).isEqualTo(TEST_NEW_REGION_CODE)
+                () -> assertThat(mockMember.getId()).isEqualTo(responseDto.memberId()),
+                () -> assertThat(mockMember.getRegion().getRegionCode()).isEqualTo(
+                    responseDto.newRegionCode()),
+                () -> assertThat(mockMember.getRegion().getRegionName()).isEqualTo(
+                    responseDto.newRegionName())
             );
 
         }

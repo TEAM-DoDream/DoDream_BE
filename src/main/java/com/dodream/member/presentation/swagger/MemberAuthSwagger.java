@@ -2,7 +2,6 @@ package com.dodream.member.presentation.swagger;
 
 import com.dodream.core.config.swagger.ApiErrorCode;
 import com.dodream.core.presentation.RestResponse;
-import com.dodream.member.dto.request.ChangeMemberRegionCodeRequestDto;
 import com.dodream.member.dto.request.MemberLoginRequestDto;
 import com.dodream.member.dto.request.MemberSignUpRequestDto;
 import com.dodream.member.dto.response.CheckMemberIdResponseDto;
@@ -15,7 +14,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;

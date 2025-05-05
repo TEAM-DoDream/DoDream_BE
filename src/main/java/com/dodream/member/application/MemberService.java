@@ -7,11 +7,16 @@ import com.dodream.member.domain.State;
 import com.dodream.member.dto.request.ChangeMemberBirthDateRequestDto;
 import com.dodream.member.dto.request.ChangeMemberNickNameRequestDto;
 import com.dodream.member.dto.request.ChangeMemberPasswordRequestDto;
-import com.dodream.member.dto.request.ChangeMemberRegionCodeRequestDto;
+import com.dodream.member.dto.request.ChangeMemberRegionRequestDto;
+import com.dodream.member.dto.response.ChangeMemberBirthDateResponseDto;
+import com.dodream.member.dto.response.ChangeMemberNickNameResponseDto;
+import com.dodream.member.dto.response.ChangeMemberRegionResponseDto;
 import com.dodream.member.dto.response.UploadMemberProfileImageResponseDto;
 import com.dodream.member.exception.MemberErrorCode;
 import com.dodream.member.repository.MemberRepository;
-import java.time.LocalDate;
+import com.dodream.region.domain.Region;
+import com.dodream.region.exception.RegionErrorCode;
+import com.dodream.region.repository.RegionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class MemberService {
 
     private final ObjectStorageService objectStorageService;
+    private final RegionRepository regionRepository;
     private final MemberRepository memberRepository;
     private final BCryptPasswordEncoder passwordEncoder;
 
@@ -43,7 +49,6 @@ public class MemberService {
         memberRepository.save(member);
 
         return UploadMemberProfileImageResponseDto.from(createdImageUrl);
-
     }
 
     @Transactional
@@ -61,7 +66,7 @@ public class MemberService {
     }
 
     @Transactional
-    public void changeMemberNickName(ChangeMemberNickNameRequestDto requestDto) {
+    public ChangeMemberNickNameResponseDto changeMemberNickName(ChangeMemberNickNameRequestDto requestDto) {
 
         Long currentId = SecurityUtils.getCurrentMemberId();
         Member member = memberRepository.findByIdAndState(currentId, State.ACTIVE)
@@ -73,10 +78,12 @@ public class MemberService {
 
         member.updateNickName(requestDto.newNickName());
         memberRepository.save(member);
+
+        return ChangeMemberNickNameResponseDto.of(member.getId(), requestDto.newNickName());
     }
 
     @Transactional
-    public void changeMemberBirth(ChangeMemberBirthDateRequestDto requestDto) {
+    public ChangeMemberBirthDateResponseDto changeMemberBirth(ChangeMemberBirthDateRequestDto requestDto) {
 
         Long currentId = SecurityUtils.getCurrentMemberId();
         Member member = memberRepository.findByIdAndState(currentId, State.ACTIVE)
@@ -84,19 +91,23 @@ public class MemberService {
 
         member.updateBirthDate(requestDto.newBirthDate());
         memberRepository.save(member);
+
+        return ChangeMemberBirthDateResponseDto.of(member.getId(),requestDto.newBirthDate());
     }
 
     @Transactional
-    public void changeMemberRegion(ChangeMemberRegionCodeRequestDto requestDto) {
+    public ChangeMemberRegionResponseDto changeMemberRegion(ChangeMemberRegionRequestDto requestDto) {
 
         Long currentId = SecurityUtils.getCurrentMemberId();
         Member member = memberRepository.findByIdAndState(currentId, State.ACTIVE)
             .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
 
-        member.updateRegionCode(requestDto.newRegionCode());
+        Region newRegion = regionRepository.findByRegionCode(requestDto.newRegionCode())
+                   .orElseThrow(RegionErrorCode.NOT_FOUND_REGION::toException);
 
+        member.updateRegionCode(newRegion);
         memberRepository.save(member);
+
+        return ChangeMemberRegionResponseDto.of(member.getId(), newRegion);
     }
-
-
 }
