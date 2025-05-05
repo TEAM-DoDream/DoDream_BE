@@ -1,10 +1,8 @@
 package com.dodream.job.infrastructure.factory;
 
-import org.springframework.stereotype.Component;
-
 import java.util.List;
 
-public class PromptLoader {
+public class SystemPromptLoader {
     private static final List<String> SYSTEM_PROMPT_LIST = List.of(
             """
                 아래 사용자 정보와 온보딩 질문 답변 결과를 보고, 아래 주어진 직업 데이터 내 직업중 3개의 직업을 추천해주세요
@@ -55,7 +53,7 @@ public class PromptLoader {
             """
     );
 
-    public static String getSystemPrompt(String exampleJobList){
+    public static String getPrompt(String exampleJobList){
         StringBuilder sb = new StringBuilder();
 
         sb.append(SYSTEM_PROMPT_LIST.get(0)).append('\n');
