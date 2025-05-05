@@ -3,12 +3,15 @@ package com.dodream.job.application;
 import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.job.domain.Job;
 import com.dodream.job.dto.request.recommend.ExampleJobList;
+import com.dodream.job.dto.request.recommend.JobRecommendationResponse;
 import com.dodream.job.dto.request.recommend.OnboardingAnswerSet;
 import com.dodream.job.dto.response.ChatResponse;
+import com.dodream.job.exception.JobErrorCode;
 import com.dodream.job.infrastructure.caller.ClovaChatCompletionCaller;
 import com.dodream.job.infrastructure.factory.SystemPromptLoader;
 import com.dodream.job.infrastructure.factory.UserPromptLoader;
 import com.dodream.job.infrastructure.mapper.ClovaChatResponseMapper;
+import com.dodream.job.infrastructure.mapper.JsonCleaner;
 import com.dodream.job.repository.JobRepository;
 import com.dodream.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +28,7 @@ public class JobRecommendService {
     private final MemberRepository memberRepository;
     private final ClovaChatResponseMapper clovaChatResponseMapper;
 
-    public ChatResponse recommendJob(CustomUserDetails customUserDetails, OnboardingAnswerSet answerSet) {
+    public JobRecommendationResponse recommendJob(CustomUserDetails customUserDetails, OnboardingAnswerSet answerSet) {
         List<Job> jobs = jobRepository.findAll();
 
         List<ExampleJobList> exampleJobList = jobs.stream()
@@ -39,6 +42,12 @@ public class JobRecommendService {
                 UserPromptLoader.getPrompt(userName, answerSet)
         );
 
-        return clovaChatResponseMapper.jsonToChatResponse(result);
+        String content = clovaChatResponseMapper.jsonToChatResponse(result).result().message().content();
+
+        try{
+            return JsonCleaner.cleanAndParse(content, JobRecommendationResponse.class);
+        } catch (Exception e){
+            throw JobErrorCode.CANNOT_CONVERT_CLOVA_RESPONSE.toException();
+        }
     }
 }

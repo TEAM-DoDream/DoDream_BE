@@ -6,7 +6,7 @@ public record ClovaStudioRequest(
 
         List<ClovaMessage> messages,
 
-        int maxToken
+        int maxTokens
 ){
 
 }

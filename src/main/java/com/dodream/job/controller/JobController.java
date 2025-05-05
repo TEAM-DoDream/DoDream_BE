@@ -5,6 +5,7 @@ import com.dodream.core.presentation.RestResponse;
 import com.dodream.job.application.JobRecommendService;
 import com.dodream.job.application.JobService;
 import com.dodream.job.controller.swagger.JobSwagger;
+import com.dodream.job.dto.request.recommend.JobRecommendationResponse;
 import com.dodream.job.dto.request.recommend.OnboardingAnswerSet;
 import com.dodream.job.dto.response.ChatResponse;
 import com.dodream.job.dto.response.JobListDto;
@@ -46,12 +47,14 @@ public class JobController implements JobSwagger {
 
     @Override
     @PostMapping("/recommend")
-    public ResponseEntity<RestResponse<ChatResponse>> getJobList(
+    public ResponseEntity<RestResponse<JobRecommendationResponse>> getJobList(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestBody OnboardingAnswerSet onboardingAnswerSet
     ) {
         return ResponseEntity.ok(
-                new RestResponse<>(jobRecommendService.recommendJob(customUserDetails, onboardingAnswerSet))
+                new RestResponse<>(
+                        jobRecommendService.recommendJob(customUserDetails, onboardingAnswerSet)
+                )
         );
     }
 }
