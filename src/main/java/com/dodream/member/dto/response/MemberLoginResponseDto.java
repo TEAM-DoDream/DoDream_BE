@@ -40,8 +40,8 @@ public record MemberLoginResponseDto(
             .birthDate(member.getBirthDate())
             .gender(member.getGender().getValue())
             .profileImage(member.getProfileImage())
-            .regionCode(member.getRegion().getRegionCode())
-            .regionName(member.getRegion().getRegionName())
+            .regionCode(member.getRegion() != null ? member.getRegion().getRegionCode() : null)
+            .regionName(member.getRegion() != null ? member.getRegion().getRegionName() : null)
             .accessToken(accessToken)
             .refreshToken(refreshToken)
             .build();

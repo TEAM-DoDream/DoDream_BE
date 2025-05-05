@@ -41,7 +41,7 @@ public interface MemberAuthSwagger {
 
     @Operation(
         summary = "회원 회원가입 API",
-        description = "아이디,비밀번호,닉네임,성별 등을 입력하여 회원가입을 진행한다",
+        description = "아이디,비밀번호,닉네임,성별 등을 입력하여 회원가입을 진행한다 <br>✅ 만약 거주지(선택사항)를 입력하지 않은 경우: \"regionCode\": null 로 보낸다.",
         operationId = "/v1/member/auth/sign-up"
     )
     @ApiErrorCode(MemberErrorCode.class)
