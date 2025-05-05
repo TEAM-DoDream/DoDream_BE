@@ -27,8 +27,8 @@ public class JobRecommendService {
 
     public JobRecommendationResponse recommendJob(CustomUserDetails customUserDetails, OnboardingAnswerSet answerSet) {
         String result = clovaChatCompletionCaller.clovaChatCompletionApiCaller(
-                SystemPromptLoader.getPrompt(getExampleJobList(getAllJobs())),
-                UserPromptLoader.getPrompt(getUserName(customUserDetails), answerSet)
+                SystemPromptLoader.getPrompt(getExampleJobList(jobRepository.findAll())),
+                UserPromptLoader.getPrompt(customUserDetails.getUsername(), answerSet)
         );
 
         try{
@@ -38,18 +38,10 @@ public class JobRecommendService {
         }
     }
 
-    private String getUserName(CustomUserDetails customUserDetails) {
-        return customUserDetails.getUsername();
-    }
-
     private List<ExampleJobList> getExampleJobList(List<Job> jobs) {
         return jobs.stream()
-                .map(job -> ExampleJobList.from(job))
+                .map(ExampleJobList::from)
                 .toList();
-    }
-
-    private List<Job> getAllJobs(){
-        return jobRepository.findAll();
     }
 
     private String getContentFromResult(String result) {
