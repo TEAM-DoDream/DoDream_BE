@@ -100,7 +100,7 @@ public class MemberAuthService {
     }
 
 
-    public CheckMemberIdResponseDto checkDuplicateMemberId(String loginId) {
+    public CheckMemberIdResponseDto checkDuplicateMemberLoginId(String loginId) {
 
         if (memberRepository.existsByLoginIdAndState(loginId, State.ACTIVE)) {
             throw MemberErrorCode.DUPLICATE_MEMBER_ID.toException();
