@@ -6,7 +6,7 @@ public record OnboardingAnswerSet(
         List<Answer> answers
 ) {
     public record Answer(
-            String questionNum,
+            int questionNum,
             List<String> responses
     ) {}
 }
