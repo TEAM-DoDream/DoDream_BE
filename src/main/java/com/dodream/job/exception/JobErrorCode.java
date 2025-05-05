@@ -13,7 +13,7 @@ public enum JobErrorCode implements BaseErrorCode<DomainException> {
     CANNOT_CONVERT_CLOVA_RESPONSE(HttpStatus.INTERNAL_SERVER_ERROR, "객체 변환에 실패했습니다."),
     CANNOT_GET_JOB_DATA(HttpStatus.NOT_FOUND, "직업 데이터를 찾을 수 없습니다."),
     CLOVA_API_CALL_FAILED(HttpStatus.SERVICE_UNAVAILABLE, "Clova Chat Completion API 호출에 실패했습니다."),
-    QUESTION_NUM_TOO_LARGE(HttpStatus.BAD_REQUEST, "질문 번호는 1에서 9사이 입니다.");
+    QUESTION_NUM_INVALID_RANGE(HttpStatus.BAD_REQUEST, "질문 번호는 1에서 9사이 입니다.");
 
     private final HttpStatus httpStatus;
 
