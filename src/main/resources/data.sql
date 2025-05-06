@@ -1,3 +1,44 @@
+-- table 만들기
+drop table certification;
+drop table job;
+
+-- 직업
+CREATE TABLE IF NOT EXISTS job (
+     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+     created_at DATETIME NOT NULL,
+     updated_at DATETIME NOT NULL,
+     deleted BOOLEAN NOT NULL,
+
+     job_name VARCHAR(255) NOT NULL,
+     requires_certification ENUM('REQUIRED', 'OPTIONAL', 'NONE') NOT NULL,
+     work_time_slot ENUM('WEEKDAY_MORNING', 'WEEKDAY_AFTERNOON', 'WEEKDAY_NINE_TO_SIX', 'WEEKEND', 'EVENT', 'FLEXIBLE') NOT NULL,
+     salary_type ENUM('MONTHLY', 'DAILY', 'PER_CASE') NOT NULL,
+     salary_cost INT NOT NULL,
+
+     interpersonal_contact_level ENUM('LOW', 'MEDIUM', 'HIGH') NOT NULL,
+     physical_activity_level ENUM('LOW', 'MEDIUM', 'HIGH') NOT NULL,
+     emotional_labor_level ENUM('LOW', 'MEDIUM', 'HIGH') NOT NULL,
+
+     job_image_url VARCHAR(1000),
+     ncs_name VARCHAR(255) NOT NULL,
+     job_code VARCHAR(50) NOT NULL
+);
+
+
+-- 자격증
+CREATE TABLE IF NOT EXISTS certification (
+   id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   created_at DATETIME NOT NULL,
+   updated_at DATETIME NOT NULL,
+   deleted BOOLEAN NOT NULL,
+
+   certification_name VARCHAR(255) NOT NULL,
+   certification_preparation_period VARCHAR(255) NOT NULL,
+
+   job_id BIGINT,
+   CONSTRAINT fk_certification_job FOREIGN KEY (job_id) REFERENCES job(id) ON DELETE CASCADE
+);
+
 -- 직업 목록 init
 INSERT INTO job (created_at, deleted, updated_at, emotional_labor_level, interpersonal_contact_level, job_code, job_image_url, job_name, ncs_name, physical_activity_level, requires_certification, salary_cost, salary_type, work_time_slot) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, 'HIGH', 'HIGH', 'K000000850', '', '요양보호사', '요양지원', 'HIGH', 'REQUIRED', '220', 'MONTHLY', 'WEEKDAY_NINE_TO_SIX');
 INSERT INTO job (created_at, deleted, updated_at, emotional_labor_level, interpersonal_contact_level, job_code, job_image_url, job_name, ncs_name, physical_activity_level, requires_certification, salary_cost, salary_type, work_time_slot) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP,'HIGH', 'HIGH', 'K000007576', '', '간호조무사', '감염관리', 'MEDIUM', 'REQUIRED', '230', 'MONTHLY', 'WEEKDAY_NINE_TO_SIX');
