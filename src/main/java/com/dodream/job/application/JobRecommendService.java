@@ -6,12 +6,11 @@ import com.dodream.job.dto.request.recommend.ExampleJobList;
 import com.dodream.job.dto.response.JobRecommendationResponse;
 import com.dodream.job.dto.request.recommend.OnboardingAnswerSet;
 import com.dodream.job.exception.JobErrorCode;
+import com.dodream.job.infrastructure.JobDescriptionResolver;
 import com.dodream.job.infrastructure.caller.ClovaChatCompletionCaller;
-import com.dodream.job.infrastructure.caller.JobApiCaller;
 import com.dodream.job.infrastructure.factory.SystemPromptLoader;
 import com.dodream.job.infrastructure.factory.UserPromptLoader;
 import com.dodream.job.infrastructure.mapper.ClovaChatResponseMapper;
-import com.dodream.job.infrastructure.mapper.JobDescriptionMapper;
 import com.dodream.job.infrastructure.mapper.JobRecommendMapper;
 import com.dodream.job.infrastructure.mapper.JsonCleaner;
 import com.dodream.job.repository.JobRepository;
@@ -28,37 +27,16 @@ public class JobRecommendService {
     private final ClovaChatCompletionCaller clovaChatCompletionCaller;
     private final ClovaChatResponseMapper clovaChatResponseMapper;
     private final JobRecommendMapper jobRecommendMapper;
-    private final JobApiCaller jobApiCaller;
-    private final JobDescriptionMapper jobDescriptionMapper;
+    private final JobDescriptionResolver jobDescriptionResolver;
 
     public JobRecommendationResponse recommendJob(CustomUserDetails customUserDetails, OnboardingAnswerSet answerSet) {
-        String result = clovaChatCompletionCaller.clovaChatCompletionApiCaller(
-                SystemPromptLoader.getPrompt(getExampleJobList(jobRepository.findAll())),
-                UserPromptLoader.getPrompt(customUserDetails.getUsername(), answerSet)
-        );
+        String rawResponse = callClovaApi(customUserDetails.getUsername(), answerSet);
 
-        if(result == null || result.isEmpty()) {
-            throw JobErrorCode.CANNOT_CONVERT_CLOVA_RESPONSE.toException();
-        }
+        JobRecommendationResponse rawRecommendation = parseRecommendationResponse(rawResponse);
+        List<JobRecommendationResponse.RecommendedJob> enrichedJobs
+                = enrichRecommendedJobs(rawRecommendation.recommendedJobs());
 
-        JobRecommendationResponse jobRecommendationResponse
-                = jobRecommendMapper.parse(JsonCleaner.cleanJson(getContentFromResult(result)));
-
-        List<JobRecommendationResponse.RecommendedJob> updatedJobs = jobRecommendationResponse.recommendedJobs().stream()
-                .map(job -> new JobRecommendationResponse.RecommendedJob(
-                        job.jobTitle(),
-                        jobDescriptionMapper.toJobDescriptionDto(
-                                jobApiCaller.jobDesriptionApiCaller(
-                                        jobRepository.findByJobName(job.jobTitle()).orElseThrow(
-                                                JobErrorCode.CANNOT_GET_JOB_DATA::toException
-                                        ).getJobCode()
-                                )
-                        ).jobSum(),
-                        job.reasons()
-                ))
-                .toList();
-
-        return new JobRecommendationResponse(updatedJobs);
+        return new JobRecommendationResponse(enrichedJobs);
     }
 
     private List<ExampleJobList> getExampleJobList(List<Job> jobs) {
@@ -67,10 +45,41 @@ public class JobRecommendService {
                 .toList();
     }
 
+    private String callClovaApi(String username, OnboardingAnswerSet answerSet) {
+        String systemPrompt = SystemPromptLoader.getPrompt(getExampleJobList(jobRepository.findAll()));
+        String userPrompt = UserPromptLoader.getPrompt(username, answerSet);
+        String result = clovaChatCompletionCaller.clovaChatCompletionApiCaller(systemPrompt, userPrompt);
+
+        if (result == null || result.isEmpty()) {
+            throw JobErrorCode.CANNOT_CONVERT_CLOVA_RESPONSE.toException();
+        }
+
+        return result;
+    }
+
+    private List<JobRecommendationResponse.RecommendedJob> enrichRecommendedJobs(
+            List<JobRecommendationResponse.RecommendedJob> rawJobs
+    ) {
+        return rawJobs.stream()
+                .map(this::enrichJobWithDescription)
+                .toList();
+    }
+
+    private JobRecommendationResponse.RecommendedJob enrichJobWithDescription(JobRecommendationResponse.RecommendedJob job) {
+        String jobSum = jobDescriptionResolver.resolveJobSummary(job.jobTitle());
+        return new JobRecommendationResponse.RecommendedJob(job.jobTitle(), jobSum, job.reasons());
+    }
+
+    private JobRecommendationResponse parseRecommendationResponse(String rawResponse) {
+        String cleanedJson = JsonCleaner.cleanJson(getContentFromResult(rawResponse));
+        return jobRecommendMapper.parse(cleanedJson);
+    }
+
     private String getContentFromResult(String result) {
         return clovaChatResponseMapper.jsonToChatResponse(result)
                 .result()
                 .message()
                 .content();
     }
+
 }
