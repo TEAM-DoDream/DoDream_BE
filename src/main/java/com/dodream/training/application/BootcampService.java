@@ -13,16 +13,19 @@ import org.springframework.stereotype.Service;
 @Log4j2
 public class BootcampService{
 
-    private final TrainingMapper<TrainingListApiResponse, TrainingDetailApiResponse> trainingMapper;
+    private final TrainingMapper<TrainingListApiResponse> listMapper;
+    private final TrainingMapper<TrainingDetailApiResponse> detailMapper;
     private final TrainingCodeResolver trainingCodeResolver;
     private final TrainingApiExecuter trainingApiExecuter;
 
     public BootcampService(
-            TrainingMapper<TrainingListApiResponse, TrainingDetailApiResponse> trainingMapper,
+            @Qualifier("trainingListApiReseponseMapper") TrainingMapper<TrainingListApiResponse> listMapper,
+            @Qualifier("trainingDetailResponseDtoMapper") TrainingMapper<TrainingDetailApiResponse> detailMapper,
             TrainingCodeResolver trainingCodeResolver,
             @Qualifier("bootcampApiExecuter") TrainingApiExecuter trainingApiExecuter
     ) {
-        this.trainingMapper = trainingMapper;
+        this.listMapper = listMapper;
+        this.detailMapper = detailMapper;
         this.trainingCodeResolver = trainingCodeResolver;
         this.trainingApiExecuter = trainingApiExecuter;
     }
@@ -37,7 +40,7 @@ public class BootcampService{
                 pageNum, regionCode, ncsCode
         );
 
-        return trainingMapper.jsonToListResponseDto(result);
+        return listMapper.jsonToResponseDto(result);
     }
 
     public TrainingDetailApiResponse getDetail(
@@ -47,6 +50,6 @@ public class BootcampService{
                 srchTrprId, srchTrprDegr, srchTorgId
         );
 
-        return trainingMapper.jsonToDetailResponseDto(result);
+        return detailMapper.jsonToResponseDto(result);
     }
 }
