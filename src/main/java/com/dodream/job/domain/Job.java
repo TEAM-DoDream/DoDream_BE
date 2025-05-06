@@ -56,9 +56,11 @@ public class Job extends BaseLongIdEntity {
     @Column(nullable = false, name = "ncs_name")
     private String ncsName;
 
+    @Column(nullable = false, name = "job_code")
+    private String jobCode;
+
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Certification> certifications = new ArrayList<>();
-
 
     public List<String> getCertificationNames(List<Certification> certificationList) {
         return certificationList.stream()
