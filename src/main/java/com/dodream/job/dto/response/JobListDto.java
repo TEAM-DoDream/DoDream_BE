@@ -29,17 +29,15 @@ public record JobListDto(
         String imageUrl
 ) {
 
-        public static JobListDto from(Job job){
+        public static JobListDto from(Job job, String jobDescription){
                 return new JobListDto(
                         job.getId(),
                         job.getJobName(),
-                        // TODO: 직업 상세 추후 추가
-                        "직업 상세는 추후 추가",
+                        jobDescription,
                         job.getRequiresCertification().getDescription(),
                         job.getWorkTimeSlot().getDescription(),
                         job.getPhysicalActivityLevel().getDescription(),
-                        // TODO: 직업 이미지 추가 후 추가
-                        "직업 이미지 url은 추후 추가"
+                        job.getJobImageUrl()
                 );
         }
 }
