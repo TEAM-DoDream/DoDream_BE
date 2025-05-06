@@ -21,7 +21,7 @@ public class JobApiCaller {
     private static final String DTL_GB = "1";
 
     @CustomCacheableWithLock(cacheName = "jobDescription", ttl = 360)
-    private String jobDesriptionApiCaller(String jobCode){
+    public String jobDesriptionApiCaller(String jobCode){
         return jobDescriptionFeignClient.getJobDescription(
                 apiKey,
                 RETURN_TYPE,

@@ -1,13 +1,13 @@
-package com.dodream.job.dto.request.recommend;
+package com.dodream.job.dto.response;
 
 import java.util.List;
 
 public record JobRecommendationResponse(
-        String userName,
         List<RecommendedJob> recommendedJobs
 ) {
     public record RecommendedJob(
             String jobTitle,
+            String jobDescription,
             Reasons reasons
     ) {}
 

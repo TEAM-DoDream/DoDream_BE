@@ -1,5 +1,6 @@
 package com.dodream.training.infrastructure.mapper;
 
+import com.dodream.core.exception.GlobalErrorCode;
 import com.dodream.training.exception.TrainingErrorCode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -15,7 +16,7 @@ public abstract class AbstractTrainingMapper<L,D> implements TrainingMapper<L,D>
         try{
             return objectMapper.readValue(json, clazz);
         }catch(Exception e){
-            throw TrainingErrorCode.NOT_CONVERT_JSON_TO_OBJECT.toException();
+            throw GlobalErrorCode.CANNOT_CONVERT_OBJECT.toException();
         }
     }
 }

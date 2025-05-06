@@ -27,7 +27,7 @@ public class UserPromptLoader {
         sb.append(memberName).append(MESSAGE_HEADER_SUFFIX).append("\n");
 
         for(OnboardingAnswerSet.Answer answer : answers) {
-            sb.append(USER_PROMPTS.get(answer.questionNum())).append("\n");
+            sb.append(USER_PROMPTS.get(answer.questionNum() - 1)).append("\n");
             sb.append("답변:").append(String.join(",", answer.responses())).append("\n");
         }
 
