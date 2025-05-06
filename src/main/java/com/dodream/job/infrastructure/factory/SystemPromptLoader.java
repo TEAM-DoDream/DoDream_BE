@@ -22,38 +22,37 @@ public class SystemPromptLoader {
                 직업 이름, 자격증 필요 여부, 근무 시간대, 급여 종류, 급여, 대인관계 빈도, 신체활동 정도, 감정노동 빈도, 자격증 이름, 자격증 준비 기간
             """,
             """
-                    아래 형식에 맞춰 오직 JSON만 출력해주세요.
-                    설명, 마크다운(````json 포함), 주석 없이 JSON 본문만 출력하고
-                    모든 key는 아래 형식과 정확히 일치해야 하며, 대소문자나 철자를 절대 변경하지 마세요.
+                아래 형식에 맞춰 오직 JSON만 출력해주세요.
+                설명, 마크다운(````json 포함), 주석 없이 JSON 본문만 출력하고
+                모든 key는 아래 형식과 정확히 일치해야 하며, 대소문자나 철자를 절대 변경하지 마세요.
+                {
+                  "recommendedJobs": [
                     {
-                      "userName": "사용자 이름",
-                      "recommendedJobs": [
-                        {
-                          "jobTitle": "직업1",
-                          "reasons": {
-                            "personality": "직업1 추천 이유 - 성향",
-                            "strong": "직업1 추천 이유 - 강점",
-                            "condition": "직업 1 추천 이유 - 조건"
-                          }
-                        },
-                        {
-                          "jobTitle": "직업2",
-                          "reasons": {
-                            "personality": "직업2 추천 이유 - 성향",
-                            "strong": "직업2 추천 이유 - 강점",
-                            "condition": "직업2 추천 이유 - 조건"
-                          }
-                        },
-                        {
-                          "jobTitle": "직업3",
-                          "reasons": {
-                            "personality": "직업3 추천 이유 - 성향",
-                            "strong": "직업3 추천 이유 - 강점",
-                            "condition": "직업3 추천 이유 - 조건"
-                          }
-                        }
-                      ]
-                    }        
+                      "jobTitle": "직업1",
+                      "reasons": {
+                        "personality": "직업1 추천 이유 - 성향",
+                        "strong": "직업1 추천 이유 - 강점",
+                        "condition": "직업 1 추천 이유 - 조건"
+                      }
+                    },
+                    {
+                      "jobTitle": "직업2",
+                      "reasons": {
+                        "personality": "직업2 추천 이유 - 성향",
+                        "strong": "직업2 추천 이유 - 강점",
+                        "condition": "직업2 추천 이유 - 조건"
+                      }
+                    },
+                    {
+                      "jobTitle": "직업3",
+                      "reasons": {
+                        "personality": "직업3 추천 이유 - 성향",
+                        "strong": "직업3 추천 이유 - 강점",
+                        "condition": "직업3 추천 이유 - 조건"
+                      }
+                    }
+                  ]
+                }        
             """
     );
 
