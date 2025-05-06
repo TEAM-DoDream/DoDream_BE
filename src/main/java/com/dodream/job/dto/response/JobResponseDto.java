@@ -41,10 +41,10 @@ public record JobResponseDto(
             String relationship
     ) {}
 
-    public static JobResponseDto from(Job job){
+    public static JobResponseDto from(Job job, String jobDescription){
         return new JobResponseDto(
                 job.getJobName(),
-                "직업 상세는 추후 추가",
+                jobDescription,
                 job.getCertificationNames(job.getCertifications()),
                 job.getCertificationPeriods(job.getCertifications()),
                 job.getSalaryType().getDescription(),
