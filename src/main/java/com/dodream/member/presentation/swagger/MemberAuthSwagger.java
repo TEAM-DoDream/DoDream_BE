@@ -13,6 +13,7 @@ import com.dodream.member.exception.MemberErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -28,7 +29,7 @@ public interface MemberAuthSwagger {
     )
     @ApiErrorCode(MemberErrorCode.class)
     ResponseEntity<RestResponse<MemberLoginResponseDto>> getMemberLogin(
-        @RequestBody MemberLoginRequestDto memberLoginRequestDto);
+        @RequestBody @Valid MemberLoginRequestDto memberLoginRequestDto);
 
     @Operation(
         summary = "로그아웃",
@@ -46,7 +47,7 @@ public interface MemberAuthSwagger {
     )
     @ApiErrorCode(MemberErrorCode.class)
     ResponseEntity<RestResponse<MemberSignUpResponseDto>> getMemberSignUp(
-        @RequestBody MemberSignUpRequestDto memberSignUpRequestDto);
+        @RequestBody @Valid MemberSignUpRequestDto memberSignUpRequestDto);
 
     @Operation(
         summary = "회원 회원가입 - 아이디 중복 확인 API",

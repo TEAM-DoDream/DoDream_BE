@@ -18,4 +18,8 @@ dependencies {
     // object storage
     implementation 'com.amazonaws:aws-java-sdk-s3:1.12.281'
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
+    // validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
 }
