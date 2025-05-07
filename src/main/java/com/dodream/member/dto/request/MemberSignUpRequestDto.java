@@ -17,13 +17,13 @@ public record MemberSignUpRequestDto(
     @Schema(description = "닉네임", example = "두둠칫")
     String nickName,
     @NotBlank
-    @Schema(description = "생년월일", example = "2000-01-05", type = "string")
-    @JsonFormat(pattern = "yyyy-MM-dd")
+    @Schema(description = "생년월일", example = "2000/01/05", type = "string")
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "yyyy/MM/dd")
     LocalDate birthDate,
     @NotBlank
     @Schema(description = "성별", example = "FEMALE")
     Gender gender,
-    @Schema(description = "지역코드", example = "11100")
+    @Schema(description = "지역코드", example = "11110")
     String regionCode
 ) {
 }

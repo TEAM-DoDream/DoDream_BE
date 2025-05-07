@@ -14,8 +14,8 @@ public record MemberLoginResponseDto(
     String loginId,
     @Schema(description = "닉네임", example = "두둠칫")
     String nickname,
-    @Schema(description = "생년월일", example = "2001-01-05", type = "string")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    @Schema(description = "생년월일", example = "2001/01/05", type = "string")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
     LocalDate birthDate,
     @Schema(description = "성벌", example = "여자")
     String gender,
