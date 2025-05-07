@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 @Log4j2
 public class DualTrainingService {
@@ -33,13 +35,13 @@ public class DualTrainingService {
     }
 
     public TrainingListApiResponse getList(
-            String pageNum, String regionName, String ncsName
+            String pageNum, String regionName, String ncsName, LocalDate startDate, LocalDate endDate
     ) {
         String regionCode = trainingCodeResolver.resolveRegionCode(regionName);
         String ncsCode = trainingCodeResolver.resolveNcsCode(ncsName);
 
         String result = trainingApiExecuter.callListApi(
-                pageNum, regionCode, ncsCode
+                pageNum, regionCode, ncsCode, startDate, endDate
         );
 
         return listMapper.jsonToResponseDto(result);

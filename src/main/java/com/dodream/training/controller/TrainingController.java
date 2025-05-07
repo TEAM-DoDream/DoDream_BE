@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+
 @RestController
 @RequestMapping("/v1/training")
 @RequiredArgsConstructor
@@ -25,10 +27,12 @@ public class TrainingController implements TrainingSwagger {
     public ResponseEntity<RestResponse<TrainingListApiResponse>> getBootcampList(
         @RequestParam String pageNum,
         @RequestParam(required = false) String regionName,
-        @RequestParam(required = false) String ncsName
+        @RequestParam(required = false) String jobName,
+        @RequestParam(required = false) LocalDate startDate,
+        @RequestParam(required = false) LocalDate endDate
     ){
         return ResponseEntity.ok(new RestResponse<>(
-                bootcampService.getList(pageNum, regionName, ncsName))
+                bootcampService.getList(pageNum, regionName, jobName, startDate, endDate))
         );
     }
 
@@ -48,10 +52,12 @@ public class TrainingController implements TrainingSwagger {
     public ResponseEntity<RestResponse<TrainingListApiResponse>> getDualTrainingList(
             @RequestParam String pageNum,
             @RequestParam(required = false) String regionName,
-            @RequestParam(required = false) String ncsName
+            @RequestParam(required = false) String jobName,
+            @RequestParam(required = false) LocalDate startDate,
+            @RequestParam(required = false) LocalDate endDate
     ) {
         return ResponseEntity.ok(new RestResponse<>(
-                dualTrainingService.getList(pageNum, regionName, ncsName)
+                dualTrainingService.getList(pageNum, regionName, jobName, startDate, endDate)
         ));
     }
 

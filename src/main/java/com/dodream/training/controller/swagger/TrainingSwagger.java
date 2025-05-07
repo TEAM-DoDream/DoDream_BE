@@ -8,8 +8,11 @@ import com.dodream.training.exception.TrainingErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.time.LocalDate;
 
 @Tag(name="Training", description = "국민내일배움카드 훈련과정 및 일병행학습 훈련과정 관련 API")
 public interface TrainingSwagger {
@@ -24,12 +27,24 @@ public interface TrainingSwagger {
             @RequestParam
             @Parameter(description = "검색 페이지 번호(1부터 시작하는 정수값)", example = "1")
             String pageNum,
+
             @RequestParam(required = false)
             @Parameter(description = "/v1/region/all을 요청시 나오는 지역 목록의 이름", example = "경기 안양시 만안구")
             String regionName,
+
             @RequestParam(required = false)
-            @Parameter(description = "/v1/ncs/all을 호출하여 나오는 직무 코드의 이름", example = "보건")
-            String ncsName
+            @Parameter(description = "/v1/job/list를 호출하여 나오는 직업의 이름", example = "요양보호사")
+            String jobName,
+
+            @RequestParam(required = false)
+            @DateTimeFormat(pattern = "yyyy/MM/dd")
+            @Parameter(description = "훈련 시작일 (yyyy/mm/dd)", example = "2025/05/07")
+            LocalDate startDate,
+
+            @RequestParam(required = false)
+            @DateTimeFormat(pattern = "yyyy/MM/dd")
+            @Parameter(description = "훈련 종료일 (yyyy/MM/dd)", example = "2025/08/07")
+            LocalDate endDate
     );
 
     @Operation(
@@ -69,12 +84,24 @@ public interface TrainingSwagger {
             @RequestParam
             @Parameter(description = "검색 페이지 번호(1부터 시작하는 정수값)", example = "1")
             String pageNum,
+
             @RequestParam(required = false)
             @Parameter(description = "/v1/region/all을 요청시 나오는 지역 목록의 이름", example = "경기 안양시 만안구")
             String regionName,
+
             @RequestParam(required = false)
-            @Parameter(description = "/v1/ncs/all을 호출하여 나오는 직무 코드의 이름", example = "보건")
-            String ncsName
+            @Parameter(description = "/v1/job/list를 호출하여 나오는 직업의 이름", example = "요양보호사")
+            String jobName,
+
+            @RequestParam(required = false)
+            @DateTimeFormat(pattern = "yyyy/MM/dd")
+            @Parameter(description = "훈련 시작일 (yyyy/MM/dd)", example = "2025/05/07")
+            LocalDate startDate,
+
+            @RequestParam(required = false)
+            @DateTimeFormat(pattern = "yyyy/MM/dd")
+            @Parameter(description = "훈련 종료일 (yyyy/MM/dd)", example = "2025/08/07")
+            LocalDate endDate
     );
 
     @Operation(

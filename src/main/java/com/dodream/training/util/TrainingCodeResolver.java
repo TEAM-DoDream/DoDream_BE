@@ -1,5 +1,8 @@
 package com.dodream.training.util;
 
+import com.dodream.job.domain.Job;
+import com.dodream.job.exception.JobErrorCode;
+import com.dodream.job.repository.JobRepository;
 import com.dodream.ncs.domain.Ncs;
 import com.dodream.ncs.exception.NcsErrorCode;
 import com.dodream.ncs.repository.NcsRepository;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Component;
 public class TrainingCodeResolver {
 
     private final RegionRepository regionRepository;
+    private final JobRepository jobRepository;
     private final NcsRepository ncsRepository;
 
     public String resolveRegionCode(String regionName){
@@ -24,11 +28,14 @@ public class TrainingCodeResolver {
         return region.getRegionCode();
     }
 
-    public String resolveNcsCode(String ncsName) {
-        if (ncsName == null || ncsName.isEmpty()) return null;
+    public String resolveNcsCode(String jobName) {
+        if (jobName == null || jobName.isEmpty()) return null;
 
-        Ncs ncs = ncsRepository.findByNcsName(ncsName)
-                .orElseThrow(NcsErrorCode.NOT_FOUND_NCS::toException);
-        return ncs.getNcsCode();
+        Job job = jobRepository.findByJobName(jobName)
+                .orElseThrow(JobErrorCode.CANNOT_GET_JOB_DATA::toException);
+
+        return ncsRepository.findByNcsName(job.getNcsName())
+                .orElseThrow(NcsErrorCode.NOT_FOUND_NCS::toException)
+                .getNcsCode();
     }
 }
