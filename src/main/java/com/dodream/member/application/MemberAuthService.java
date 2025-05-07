@@ -55,9 +55,9 @@ public class MemberAuthService {
 
     public void getMemberLogout() {
 
-        Long currentId = SecurityUtils.getCurrentMemberId();
+        Member member = getCurrentMember();
 
-        refreshTokenService.delete(currentId);
+        refreshTokenService.delete(member.getId());
     }
 
     @Transactional
@@ -139,11 +139,15 @@ public class MemberAuthService {
     @Transactional
     public void withdrawMember() {
 
-        Long currentId = SecurityUtils.getCurrentMemberId();
-        Member member = memberRepository.findByIdAndState(currentId, State.ACTIVE)
-            .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
-
+        Member member = getCurrentMember();
         member.withdraw();
+    }
+
+    public Member getCurrentMember() {
+
+        Long currentId = SecurityUtils.getCurrentMemberId();
+        return memberRepository.findByIdAndState(currentId, State.ACTIVE)
+            .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
     }
 
 }
