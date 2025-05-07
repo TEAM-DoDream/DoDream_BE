@@ -50,10 +50,7 @@ public class MemberAuthService {
 
         refreshTokenService.save(member.getId(), refreshToken);
 
-        Region region = regionRepository.findByRegionCode(member.getRegion().getRegionCode())
-            .orElseThrow(RegionErrorCode.NOT_FOUND_REGION::toException);
-
-        return MemberLoginResponseDto.of(member,accessToken, refreshToken);
+        return MemberLoginResponseDto.of(member, accessToken, refreshToken);
     }
 
     public void getMemberLogout() {
@@ -75,7 +72,7 @@ public class MemberAuthService {
         }
 
         Region region = null;
-        if (requestDto.regionCode()!=null) {
+        if (requestDto.regionCode() != null) {
             region = regionRepository.findByRegionCode(requestDto.regionCode())
                 .orElseThrow(RegionErrorCode.NOT_FOUND_REGION::toException);
         }
@@ -126,7 +123,7 @@ public class MemberAuthService {
 
         Long id = tokenService.getUserId(refreshToken);
 
-        Member member = memberRepository.findByIdAndState(id,State.ACTIVE)
+        Member member = memberRepository.findByIdAndState(id, State.ACTIVE)
             .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
 
         String newAccessToken = tokenService.provideAccessToken(new TokenRequest(member.getId()));
@@ -143,7 +140,7 @@ public class MemberAuthService {
     public void withdrawMember() {
 
         Long currentId = SecurityUtils.getCurrentMemberId();
-        Member member = memberRepository.findByIdAndState(currentId,State.ACTIVE)
+        Member member = memberRepository.findByIdAndState(currentId, State.ACTIVE)
             .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
 
         member.withdraw();
