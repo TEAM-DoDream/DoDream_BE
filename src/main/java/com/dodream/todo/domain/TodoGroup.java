@@ -46,10 +46,7 @@ public class TodoGroup extends BaseLongIdEntity {
     @OneToMany(mappedBy = "todoGroup", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Todo> todo = new ArrayList<>();
 
-    @NotNull
-    private String imageUrl;
-
     @Builder.Default
-    private Long viewCount = 0L;
+    private Long totalView = 0L;
 
 }
