@@ -109,6 +109,10 @@ public record RecruitResponseListDto(
                     LocalDate todayKst = LocalDate.now(ZoneId.of("Asia/Seoul"));
                     long daysBetween = ChronoUnit.DAYS.between(todayKst, expirationLocalDate);
 
+                    if(daysBetween < 0){
+                            return "마감됨";
+                    }
+
                     return "D-" + daysBetween;
             }else if(closeType.equals("2")){
                     return "채용시 마감";
