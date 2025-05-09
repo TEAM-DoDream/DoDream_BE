@@ -9,8 +9,8 @@ public interface RecruitFeignClient {
     @GetMapping(value = "${saramin.endpoint}", headers = "Accept=application/json")
     String getRecruitList(
             @RequestParam(name = "access-key") String accessKey,
-            @RequestParam(name = "keywords") String keywords,
-            @RequestParam(name = "loc_cd") String locCd,
+            @RequestParam(name = "keywords", required = false) String keywords,
+            @RequestParam(name = "loc_cd", required = false) String locCd,
             @RequestParam(name = "fields") String fields,
             @RequestParam(name = "start") int start,
             @RequestParam(name = "count") int count

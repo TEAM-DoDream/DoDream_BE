@@ -1,6 +1,7 @@
 package com.dodream.recruit.util;
 
 import com.dodream.recruit.exception.RecruitErrorCode;
+import com.dodream.region.domain.Region;
 import com.dodream.region.repository.RegionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -13,7 +14,7 @@ public class RecruitCodeResolver {
 
     public String resolveRecruitLocationName(String locName){
         return regionRepository.findByRegionName(locName)
-                .orElseThrow(RecruitErrorCode.REGION_CODE_ERROR::toException)
-                .getSaraminRegionCode();
+                .map(Region::getSaraminRegionCode)
+                .orElse(null);
     }
 }
