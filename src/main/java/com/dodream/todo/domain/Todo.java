@@ -1,7 +1,7 @@
 package com.dodream.todo.domain;
 
 import com.dodream.core.infrastructure.jpa.entity.BaseLongIdEntity;
-import com.dodream.job.domain.Job;
+import com.dodream.job.domain.JobTodo;
 import com.dodream.job.domain.TodoCategory;
 import com.dodream.member.domain.Member;
 import jakarta.persistence.CascadeType;
@@ -33,20 +33,25 @@ import org.hibernate.type.SqlTypes;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @SuperBuilder
-@Table(name = "my_todo")
-public class MyTodo extends BaseLongIdEntity {
+@Table(name = "todo")
+public class Todo extends BaseLongIdEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "todo_group_id", nullable = false)
+    private TodoGroup todoGroup;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "job_id")
-    private Job job;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private TodoCategory todoCategory;
 
     @Column(nullable = false)
     private String title;
@@ -57,20 +62,25 @@ public class MyTodo extends BaseLongIdEntity {
     @Builder.Default
     private Boolean isPublic = false;
 
-    @Builder.Default
-    private Long viewCount = 0L;
-
     private String memoText;
 
-
-    @OneToMany(mappedBy = "my_todo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "todo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<MemoImage> images = new ArrayList<>();
 
+    @Builder
+    private Todo(TodoGroup todoGroup, Member member, String title, TodoCategory todoCategory) {
+        this.todoGroup = todoGroup;
+        this.member = member;
+        this.title = title;
+        this.todoCategory = todoCategory;
+    }
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    @JdbcTypeCode(SqlTypes.VARCHAR)
-    private TodoCategory todoCategory;
-
-
+    public static Todo of(TodoGroup todoGroup, Member member, JobTodo jobTodo) {
+        return Todo.builder()
+            .todoGroup(todoGroup)
+            .member(member)
+            .title(jobTodo.getTitle())
+            .todoCategory(jobTodo.getTodoCategory())
+            .build();
+    }
 }
