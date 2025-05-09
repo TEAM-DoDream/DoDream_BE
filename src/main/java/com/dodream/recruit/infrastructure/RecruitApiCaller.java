@@ -2,12 +2,15 @@ package com.dodream.recruit.infrastructure;
 
 import com.dodream.core.infrastructure.cache.annotation.CustomCacheableWithLock;
 import com.dodream.recruit.exception.RecruitErrorCode;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class RecruitApiCaller {
 
     private final RecruitFeignClient recruitFeignClient;
@@ -20,15 +23,17 @@ public class RecruitApiCaller {
 
     private final String FIELDS = "expiration-date";
 
-    @CustomCacheableWithLock(cacheName = "recruitList", ttl = 3)
+    @CustomCacheableWithLock(cacheName = "recruitList", ttl = 10)
     public String recruitListApiListCaller(
-            String keyWords, String locCd, int start
+            String keyWords, String locCd, String startDate, String endDate, int start
     ){
         try{
             return recruitFeignClient.getRecruitList(
                     accessKey,
                     keyWords,
                     locCd,
+                    startDate,
+                    endDate,
                     FIELDS,
                     start,
                     pageSize

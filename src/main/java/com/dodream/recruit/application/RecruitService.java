@@ -9,6 +9,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
 @Service
 @RequiredArgsConstructor
 @Log4j2
@@ -19,11 +24,11 @@ public class RecruitService {
     private final RecruitCodeResolver recruitCodeResolver;
 
     public RecruitResponseListDto getRecruitList(
-            String keyWord, String locationName, int pageNum
+            String keyWord, String locationName, String startDate, String endDate, int pageNum
     ){
-        String result
-                = recruitApiCaller.recruitListApiListCaller(
-                        keyWord, recruitCodeResolver.resolveRecruitLocationName(locationName), pageNum
+        String result = recruitApiCaller.recruitListApiListCaller(
+                        keyWord, recruitCodeResolver.resolveRecruitLocationName(locationName),
+                        getDateTimeString(startDate), getDateTimeString(endDate), pageNum
                 );
 
         RecruitResponseListApiDto mappedResult = recruitMapper.recruitListMapper(result);
@@ -39,5 +44,20 @@ public class RecruitService {
         RecruitResponseListApiDto mappedResult = recruitMapper.recruitListMapper(result);
 
         return recruitMapper.toSimpleListDto(mappedResult);
+    }
+
+    private String getDateTimeString(String date){
+        if(date == null || date.isEmpty()){
+            return null;
+        }
+
+        DateTimeFormatter inputDateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+
+        LocalDate localDate = LocalDate.parse(date, inputDateFormatter);
+        LocalDateTime localDateTime = localDate.atStartOfDay();
+
+        ZoneId seoulZoneId = ZoneId.of("Asia/Seoul"); // KST (UTC+9)
+        long unixTimestampSecondsSeoul = localDateTime.atZone(seoulZoneId).toEpochSecond();
+        return String.valueOf(unixTimestampSecondsSeoul);
     }
 }
