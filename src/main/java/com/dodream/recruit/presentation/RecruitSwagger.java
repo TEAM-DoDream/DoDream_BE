@@ -28,8 +28,11 @@ public interface RecruitSwagger {
             @Parameter(description = "검색을 위한 키워드", example = "요양보호사")
             String keyWord,
 
-            @RequestParam(required = false)
-            @Parameter(description = "/v1/region/all을 호출해서 나오는 지역 이름", example = "경기 안양시 만안구")
+            @RequestParam
+            @Parameter(
+                    description = "/v1/region/all을 호출해서 나오는 지역 이름(필수 입력 부탁드립니다.)",
+                    example = "경기 안양시 만안구"
+            )
             String locationName
     );
 
