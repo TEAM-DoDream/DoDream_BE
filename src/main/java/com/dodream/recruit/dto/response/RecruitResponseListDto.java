@@ -72,7 +72,7 @@ public record RecruitResponseListDto(
             @Schema(description = "게시일", example = "05/22(수)")
             String expirationDate,
 
-            @Schema(description = "마감일까지 남은 일수(채용시 마감인 경우 채용시 마감)", example = "6")
+            @Schema(description = "마감일까지 남은 일수(채용시 마감인 경우 채용시 마감)", example = "D-6")
             String deadline
     ){}
 
