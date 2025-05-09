@@ -4,6 +4,8 @@ import com.dodream.core.infrastructure.jpa.entity.BaseLongIdEntity;
 import com.dodream.job.domain.JobTodo;
 import com.dodream.job.domain.TodoCategory;
 import com.dodream.member.domain.Member;
+import com.dodream.member.domain.State;
+import com.dodream.member.exception.MemberErrorCode;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -66,6 +68,18 @@ public class Todo extends BaseLongIdEntity {
 
     @OneToMany(mappedBy = "todo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<MemoImage> images = new ArrayList<>();
+
+    public void updateDeleted() {
+        this.deleted = true;
+    }
+
+    public void updateCompleted() {
+        this.completed = !this.completed;
+    }
+
+    public void updateIsPublic() {
+        this.isPublic = !this.isPublic;
+    }
 
     @Builder
     private Todo(TodoGroup todoGroup, Member member, String title, TodoCategory todoCategory) {
