@@ -150,7 +150,6 @@ INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job
 INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '고용센터, 여성인력개발센터, 청소년진로센터 등 관련 기관에 이력서 제출하기 (채용유형 확인: 정규직 / 공무직 / 위촉직 / 시간제 상담사)', 'CHALLENGE', '5');
 INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '첫 출근 전, 실제 구직자에게 자주 묻는 질문과 직업정보 제공법 정리해보기 (예: 워크넷 활용법, 자격증 추천 키워드 정리 등)', 'CHALLENGE', '5');
 
-
 INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '유튜브나 네이버에 “심리상담사 하는 일” 검색하여 공공기관/학교/민간센터 등 근무 환경 차이 메모하기', 'PREPARE', '6');
 INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '“심리상담사”, “청소년 상담사”, “상담심리사” 차이점 정리 후 나의 상황에 맞는 자격 루트 결정하기 (예: 청소년상담사 3급, 상담심리사 2급, 민간 심리상담사 등)', 'PREPARE', '6');
 INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '“심리상담사 자격증 과정 온라인” 검색하여 민간자격/국가자격 교육기관 살펴보기 (예: 한국상담심리학회, 지역 평생교육원 등)', 'PREPARE', '6');
@@ -160,6 +159,94 @@ INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job
 INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '시험 일정에 맞추어 응시표 출력 & 수험표 준비하기', 'CHALLENGE', '6');
 INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '자격 취득 후, 사람인/워크넷 등에서 “심리상담사 채용”, “청소년상담사 채용” 키워드로 공고 검색해보기', 'CHALLENGE', '6');
 INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '전화 상담, 비대면 상담 등 다양한 상담 형태에 익숙해지기 위해 관련 사례나 모의상담 영상 시청하기', 'CHALLENGE', '6');
+
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '네이버 또는 유튜브에 “급식 도우미 일상”, “급식 도우미 후기” 검색하여 배식 환경, 일과 시간 흐름 등 메모하기', 'PREPARE', '7');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '“급식 도우미 채용 사이트” 검색해서 알바몬, 잡코리아, 사람인 등 주요 구직 플랫폼 즐겨찾기 하기', 'PREPARE', '7');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '“급식 도우미 근무 조건” 키워드로 업무 시간대, 복장, 식단 보조 등 기본 정보 확인하기', 'PREPARE', '7');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '푸앤잡플러스, 구직 플랫폼(알바몬/워크넷 등) 회원가입 및 이력서 등록하기', 'START', '7');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '내 체력에 맞는 희망 근무 요일·시간대 체크하며, 구인 공고 확인하기(예: 오전 10시~오후 2시 근무)', 'START', '7');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '식품의약품안전처 및 각 지자체 보건소에서 지정한 기관에서 급식 위생 교육 수료 여부 확인하기', 'START', '7');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '지역 교육청/복지관에서 “급식도우미 위생 교육” 으로 검색하여 온라인 수강 계획 세우기', 'START', '7');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '두드림, 푸드앤잡플로서, 지역 새일센터 등에서 “급식 도우미”, “학교 급식 보조” 채용 공고에 지원하기', 'CHALLENGE', '7');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '면접 전 “급식 보조 예절”, “학교 보조직 근무 요령” 검색해 기본 매너와 주의사항 파악하기', 'CHALLENGE', '7');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '첫 출근 전, 위생 관련 규칙(앞치마, 위생모 착용 등) 숙지하고, 근무 시 필요한 편한 신발·복장 준비하기', 'CHALLENGE', '7');
+
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '유튜브에 “사무직/행정직 일과” 검색하여 실제 사무 환경과 업무 범위(문서정리/출장비처리/회계보조 등) 메모하기', 'PREPARE', '8');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '두드림 또는 사람인에서 “사무보조”, “행정사무원” 키워드로 공고 검색하기', 'PREPARE', '8');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '요구 및 우대 조건에서 ‘전산회계’, ‘컴활2급’ 등 관련 자격증 정보를 확인하고 필요 여부 검토하기', 'PREPARE', '8');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '문서 작성 프로그램(한글, 엑셀, 워드 등) 기본 기능 연습하기', 'START', '8');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '오프라인 교육기관이나 유튜브 강의로 컴퓨터 기초 사용법 복습하기', 'START', '8');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '근무 환경에 맞는 단정한 복장 준비하고, 사무실 내 기본 예절 확인하기', 'START', '8');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '원하는 조건(근무 요일, 시간대, 거리 등)에 맞는 사무직 공고에 지원하기', 'CHALLENGE', '8');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '사무보조 인턴, 단기 아르바이트 등으로 실무 감각 익히기', 'CHALLENGE', '8');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '첫 출근 전, “기본 전화 응대법”, “사무용어 정리” 등을 검색하여 업무 적응 준비하기', 'CHALLENGE', '8');
+
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false,'유튜브·블로그에서 ‘회계사무원 일상’ 키워드로 검색 후 실제 업무 환경과 전표 입력, 세금계산서, 급여정리 등 메모하기', '준비하기', '9');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '‘더존’, ‘케이랩(K-Lep)’ 같은 회계 프로그램의 무료 사용법 영상 찾아보기', '준비하기', '9');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false,'워드, 엑셀 기초 활용법을 네이버 블로그나 유튜브에서 학습 시작하기 (추천 키워드: 회계 실무 엑셀 단축키, 회계용 엑셀 자동화)', '준비하기', '9');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '[전산회계 2급(한국세무사회)] 또는 [FAT 자격증(한국공인회계사회)] 중 하나 자격 요건 확인하고 준비하기', '시작하기', '9');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '두드림 또는 사람인에 ‘회계보조’, ‘경리’ 키워드로 공고 비교 검색해보기', '시작하기', '9');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '지역 새일센터/여성인력개발센터에 ‘경리사무원 실무 과정’ 여부 문의하기', '시작하기', '9');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '가까운 학원 또는 온라인 과정으로 회계 자격증 교육 신청하기', '도전하기', '9');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '연습용 회계 프로그램 설치 후, 블로그 강의 따라가며 데이터 입력 실습하기', '도전하기', '9');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '일단 단기 근무 공고(회계보조, 단순 전표 입력 등)에 지원해 실전 감각 익히기', '도전하기', '9');
+
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '유튜브에서 ‘동물병원 보조 일상’, ‘수의테크니션’ 관련 영상 시청 후 동물 위생관리, 보조 업무 난이도 등 메모하기', '준비하기', '10');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '동물보건사 자격증 공식 요건 확인 (학력/인정 교육기관)', '준비하기', '10');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '두드림 또는 고용24에서 “수의 테크니션” 관련 교육과정 검색 후 내일배움카드 지원 여부 확인하기', '시작하기', '10');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '‘동물병원 보조’ 아르바이트 공고 3곳 찾아 지원하기 (알바천국/벳잡스/도루스/사람인)', '시작하기', '10');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '실습 병원 유무 및 수업 커리큘럼 확인 후 교육기관 등록하기', '시작하기', '10');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '벳잡스·한국동물병원협회 채용 게시판에 이력서 등록 후, 주 1회 이상 지원하기', '도전하기', '10');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '관심 병원 3곳 이상 직접 방문 또는 전화 문의하기', '도전하기', '10');
+
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '동물병원에서 사용하는 진료 보조 도구/기기등 기본 용어 목록화하여 학습하기', '도전하기', '11');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '유튜브의 “웨딩헬퍼 일상”, “결혼식 도우미 브이로그” 영상 시청 후 공통된 주요 역할 메모해보기', '준비하기', '11');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '실제 채용 공고 5개 스크랩하여 공통 요구사항 정리해보기 (복장, 체력, 나이 등)', '준비하기', '11');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '집 근처 예식장 5곳 전화하여 채용 가능성 문의해보기 → 실제 가능성 있는 곳은 메모해두기', '준비하기', '11');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '공고 조건 비교 후 나에게 맞는 일정 및 근무조건 정리한 개인 조건표 만들어보기', '시작하기', '11');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '인근 여성인력개발센터, 평생교육원, 고용24 등에서 진행하는 예절교육 또는 웨딩 실무 강의 알아보기', '시작하기', '11');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '“본식 순서”를 A4 한 장에 정리하고, 각 순서에서 웨딩헬퍼 역할 예측해보기', '시작하기', '11');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '체력 & 센스를 강조한 3문장 자기소개 작성해보고 말하기 연습하기', '도전하기', '11');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '‘위기 상황 대응 표’ 만들어보기 (예: 신랑 넥타이 분실, 신부 입장 시간 지연 시 대처법 등)', '도전하기', '11');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '실제 웨딩홀 아르바이트 시작 전, 첫 출근 준비물(단화, 검정 바지, 편한 상의 등) 미리 챙기기', '도전하기', '11');
+
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '유튜브·블로그에서 ‘헤어 디자이너 브이로그’, “미용실 인턴 일상” 검색하여 실제 업무 목록 메모해보기', '준비하기', '12');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '네이버에서 “미용사(일반) 자격증 과목”, “헤어 국가자격증 실기” 검색하여 메모해보고 과목별 난이도 & 중요도 체크하기', '준비하기', '12');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '두드림에서 “[지역명] 미용학원”, “헤어 국가자격증 학원” 3곳 검색한뒤 인근 학원 3곳 비교표 만들기 (위치/비용/수강 기간/재료비 포함 여부 등)', '준비하기', '12');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '두드림 또는 고용24에서 “미용사 일반” 과정 검색 후 국비지원 과정 신청하기', '시작하기', '12');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '실기 도구 구매하기: 각 도구 사용법 1줄 요약 메모해보며 예습하기', '시작하기', '12');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '기본 이론서 구매하고 기본 미용 동영상 시청하며 커트, 펌, 드라이 기본 동작 예습하기', '시작하기', '12');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '큐넷(Q-net)에서 미용사(일반) 국가자격시험 일정 확인 후 이론+실기 시험 접수하기', '도전하기', '12');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '두드림, 헤어인잡 등에서 “헤어 디자이너”, “미용사 인턴”, “미용사 신입” 키워드로 일자리 탐색하기', '도전하기', '12');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '면접 전, “내가 잘 할 수 있는 3가지”와 “배우고 싶은 점 3가지” 메모해보기', '도전하기', '12');
+
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '유튜브에서 “피부미용사 브이로그”, “피부 관리사 하루일과” 검색해 실무 환경과 직무 흐름 이해하기', 'PREPARE', '13');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '네이버에서 “미용사(피부) 자격증 ” 검색해 시험 과목과 준비물 파악하기', 'PREPARE', '13');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '구글 또는 네이버에서 “[지역명] 피부미용 학원”, “국가자격 피부미용 교육기관” 검색해 학원 조사하기', 'PREPARE', '13');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, 'HRD-Net 또는 고용24에서 “미용사(피부)” 국비지원 과정 검색하고 내일배움카드 지원 가능 여부 확인하기', 'START', '13');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '학원에 문의해 실기 커리큘럼과 재료 포함 여부 확인 후 상담 예약하기', 'START', '13');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '실기 대비 도구(마사지크림, 타올, 스파츌라 등) 및 이론 교재 준비해 피부 구조와 시술 단계별 흐름 예습하기', 'START', '13');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '큐넷(Q-net)에서 미용사(피부) 국가자격시험 일정 확인하고 이론 및 실기 시험 접수하기', 'CHALLENGE', '13');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '두드림 또는 사람인에서 “피부관리사”, “에스테틱 직원”, “피부미용사” 키워드로 구직 활동하기', 'CHALLENGE', '13');
+
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '유튜브에서 “네일 아티스트 브이로그” 영상 시청 후 업무 내용 메모하기', 'PREPARE', '14');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '지역 네일샵 3곳 방문하고 직접 네일아트를 받으며 시술자에게 취준 고민, 현실적 조언 이야기 해보기', 'PREPARE', '14');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '두드림 또는 고용24에서 “네일아트 자격증 과정”, “미용사(네일)” 국비 과정 검색 후 상담 신청 하기: 실습 키트 포함 여부(팁박스, 푸셔, 파일 등), 실습 횟수, 포트폴리오 수업 포함 여부 등', 'START', '14');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '가족, 친구, 지인에게 실기 연습 해보며 실전감각 익히기: 고객 입장에서의 조언 요청해보고 보완할 점 메모해두기', 'START', '14');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '큐넷(Q-net)에서 미용사(네일) 국가자격시험 일정 확인하고 이론+실기 접수하기', 'CHALLENGE', '14');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '아트 감각 익히기: SNS에서 ‘이달의 네일’ 검색 후 계정 3개 팔로우하기, 주마다 1개씩 셀프 디자인 제작한 뒤 포트폴리오 정리하기', 'CHALLENGE', '14');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '두드림 또는 헤어인잡 등에서 “네일 아티스트”, “네일샵 직원”, “네일리스트” 키워드로 취업처 탐색하기', 'CHALLENGE', '14');
+
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '유튜브에서 “중년 메이크업 아티스트 일상”, “시니어 메이크업” 영상 시청: 고객군, 메이크업 분위기, 업무 흐름 등 메모해두기', 'PREPARE', '15');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '내 관심 분야 정하기: 웨딩샵 / 백화점 브랜드 / 실버 모델 / 출장 / 무용인 전담 메이크업 등', 'PREPARE', '15');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '가족이나 친구에게 메이크업 해준 뒤 조언 받아보기', 'PREPARE', '15');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '두드림 또는 고용24에서 “미용사 (메이크업)” 과정 검색 후 국비지원 유무 및 내일배움카드 적용 여부 확인하기', 'START', '15');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '희망 학원에 전화하여 상담 받아보기: 수업 일정, 실기 시험 도구 제공 여부, 모델 연습 기회, 포트폴리오 수업 포함 여부 물어보기', 'START', '15');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '유튜브, SNS의 아티스트 구독한 뒤 트렌드 감각 익히기: 40대/50대 메이크업, 아이브로우 그리기, 눈매 교정 메이크업 등 시청하며 관찰력 키우고 팁 메모해두기', 'START', '15');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '큐넷(Q-net)에서 미용사(메이크업) 국가자격시험 일정 확인 후 이론+실기 접수하기', 'CHALLENGE', '15');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '가족, 친구, 지인 대상으로 메이크업 진행하며 포트폴리오 제작하기: 모델 3인 이상 전/후 사진, 사용한 색조와 도구 구성, 집중한 부분, 고객 후기 정리', 'CHALLENGE', '15');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '두드림, 사람인 등 플랫폼 통해 “메이크업 아티스트”, “웨딩샵 스텝”, “백화점 화장품 브랜드 직원”, “여성인력개발센터 실버 메이크업 강사” 구인공고 탐색하기', 'CHALLENGE', '15');
+
 
 
 
