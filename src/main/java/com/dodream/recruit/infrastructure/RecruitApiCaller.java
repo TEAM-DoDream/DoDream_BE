@@ -18,7 +18,7 @@ public class RecruitApiCaller {
     @Value("${saramin.page-size}")
     private int pageSize;
 
-    private final String FIELDS = "count";
+    private final String FIELDS = "expiration-date";
 
     @CustomCacheableWithLock(cacheName = "recruitList", ttl = 3)
     public String recruitListApiListCaller(
