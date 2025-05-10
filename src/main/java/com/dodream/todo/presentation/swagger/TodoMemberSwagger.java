@@ -20,8 +20,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface TodoMemberSwagger {
 
     @Operation(
-        summary = "마이드림 - 투두 첫화면 조회 API",
-        description = "마이드림 - 투두 화면을 조회한다. (마이드림 - 투두리스트)",
+        summary = "마이드림 - 투두리스트 첫화면 조회 API",
+        description = "마이드림 - 투두리스트 첫화면을 조회한다. (마이드림 - 투두리스트)",
         operationId = "/v1/my-dream/todo"
     )
     @ApiErrorCode(TodoErrorCode.class)
@@ -59,7 +59,7 @@ public interface TodoMemberSwagger {
 
     @Operation(
         summary = "개별 투두 아이템 메모 조회 API",
-        description = "개별 투두 아이템 메모를 조회한다 (마이드림 - 투두리스트 - 개별 조회 - 메모)",
+        description = "개별 투두 아이템 메모를 조회한다 (마이드림 - 투두리스트 - 개별 투두 조회 - 투두 메모)",
         operationId = "/v1/my-dream/todo/{todoGroupId}/{todoId}"
     )
     @ApiErrorCode(TodoErrorCode.class)
@@ -69,7 +69,7 @@ public interface TodoMemberSwagger {
 
     @Operation(
         summary = "개별 투두 삭제 API",
-        description = "개별 투두 아이템 메모를 조회한다 (마이드림 - 투두리스트 - 개별 조회 - 삭제)",
+        description = "개별 투두 아이템 메모를 조회한다 (마이드림 - 투두리스트 - 개별 투두 조회 - 삭제)",
         operationId = "/v1/my-dream/todo/{todoGroupId}/{todoId}"
     )
     @ApiErrorCode(TodoErrorCode.class)
@@ -79,7 +79,7 @@ public interface TodoMemberSwagger {
 
     @Operation(
         summary = "개별 투두 공개 상태 변경 API",
-        description = "개별 투두 아이템의 공개 상태를 변경한다 (마이드림 - 투두리스트 - 개별 조회 - 공개상태 변경)",
+        description = "개별 투두 아이템의 공개 상태를 변경한다 (마이드림 - 투두리스트 - 개별 투두 조회 - 공개상태 변경)",
         operationId = "/v1/my-dream/todo/{todoGroupId}/{todoId}/public-state"
     )
     @ApiErrorCode(TodoErrorCode.class)
@@ -89,7 +89,7 @@ public interface TodoMemberSwagger {
 
     @Operation(
         summary = "개별 투두 완료 상태 변경 API",
-        description = "개별 투두 아이템의 완료 상태를 변경한다 (마이드림 - 투두리스트 - 개별 조회 - 완료상태 변경)",
+        description = "개별 투두 아이템의 완료 상태를 변경한다 (마이드림 - 투두리스트 - 개별 투두 조회 - 완료상태 변경)",
         operationId = "/v1/my-dream/todo/{todoGroupId}/{todoId}/complete-state"
     )
     @ApiErrorCode(TodoErrorCode.class)
