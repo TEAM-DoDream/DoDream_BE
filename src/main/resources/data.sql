@@ -1,0 +1,85 @@
+-- table 만들기
+drop table certification;
+drop table job;
+
+-- 직업
+CREATE TABLE IF NOT EXISTS job (
+     id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+     created_at DATETIME NOT NULL,
+     updated_at DATETIME NOT NULL,
+     deleted BOOLEAN NOT NULL,
+
+     job_name VARCHAR(255) NOT NULL,
+     requires_certification ENUM('REQUIRED', 'OPTIONAL', 'NONE') NOT NULL,
+     work_time_slot ENUM('WEEKDAY_MORNING', 'WEEKDAY_AFTERNOON', 'WEEKDAY_NINE_TO_SIX', 'WEEKEND', 'EVENT', 'FLEXIBLE') NOT NULL,
+     salary_type ENUM('MONTHLY', 'DAILY', 'PER_CASE') NOT NULL,
+     salary_cost INT NOT NULL,
+
+     interpersonal_contact_level ENUM('LOW', 'MEDIUM', 'HIGH') NOT NULL,
+     physical_activity_level ENUM('LOW', 'MEDIUM', 'HIGH') NOT NULL,
+     emotional_labor_level ENUM('LOW', 'MEDIUM', 'HIGH') NOT NULL,
+
+     job_image_url VARCHAR(1000),
+     ncs_name VARCHAR(255) NOT NULL,
+     job_code VARCHAR(50) NOT NULL
+);
+
+
+-- 자격증
+CREATE TABLE IF NOT EXISTS certification (
+   id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+   created_at DATETIME NOT NULL,
+   updated_at DATETIME NOT NULL,
+   deleted BOOLEAN NOT NULL,
+
+   certification_name VARCHAR(255) NOT NULL,
+   certification_preparation_period VARCHAR(255) NOT NULL,
+
+   job_id BIGINT,
+   CONSTRAINT fk_certification_job FOREIGN KEY (job_id) REFERENCES job(id) ON DELETE CASCADE
+);
+
+-- 직업 목록 init
+INSERT INTO job (created_at, deleted, updated_at, emotional_labor_level, interpersonal_contact_level, job_code, job_image_url, job_name, ncs_name, physical_activity_level, requires_certification, salary_cost, salary_type, work_time_slot) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, 'HIGH', 'HIGH', 'K000000850', '', '요양보호사', '요양지원', 'HIGH', 'REQUIRED', '220', 'MONTHLY', 'WEEKDAY_NINE_TO_SIX');
+INSERT INTO job (created_at, deleted, updated_at, emotional_labor_level, interpersonal_contact_level, job_code, job_image_url, job_name, ncs_name, physical_activity_level, requires_certification, salary_cost, salary_type, work_time_slot) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP,'HIGH', 'HIGH', 'K000007576', '', '간호조무사', '감염관리', 'MEDIUM', 'REQUIRED', '230', 'MONTHLY', 'WEEKDAY_NINE_TO_SIX');
+INSERT INTO job (created_at, deleted, updated_at, emotional_labor_level, interpersonal_contact_level, job_code, job_image_url, job_name, ncs_name, physical_activity_level, requires_certification, salary_cost, salary_type, work_time_slot) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, 'HIGH', 'HIGH', 'K000007502', '', '보육교사', '아이돌봄', 'HIGH', 'REQUIRED', '220', 'MONTHLY', 'WEEKDAY_NINE_TO_SIX');
+INSERT INTO job (created_at, deleted, updated_at, emotional_labor_level, interpersonal_contact_level, job_code, job_image_url, job_name, ncs_name, physical_activity_level, requires_certification, salary_cost, salary_type, work_time_slot) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, 'HIGH', 'HIGH', 'K000000857', '', '사회복지사', '사회복지면담', 'MEDIUM', 'REQUIRED', '250', 'MONTHLY', 'WEEKDAY_NINE_TO_SIX');
+INSERT INTO job (created_at, deleted, updated_at, emotional_labor_level, interpersonal_contact_level, job_code, job_image_url, job_name, ncs_name, physical_activity_level, requires_certification, salary_cost, salary_type, work_time_slot) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, 'MEDIUM', 'HIGH', 'K000007565', '', '직업상담사', '직업상담', 'LOW', 'REQUIRED', '250', 'MONTHLY', 'WEEKDAY_NINE_TO_SIX');
+INSERT INTO job (created_at, deleted, updated_at, emotional_labor_level, interpersonal_contact_level, job_code, job_image_url, job_name, ncs_name, physical_activity_level, requires_certification, salary_cost, salary_type, work_time_slot) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, 'HIGH', 'HIGH', 'K000001049', '', '심리상담사', '심리상담', 'LOW', 'REQUIRED', '250', 'MONTHLY', 'WEEKDAY_NINE_TO_SIX');
+INSERT INTO job (created_at, deleted, updated_at, emotional_labor_level, interpersonal_contact_level, job_code, job_image_url, job_name, ncs_name, physical_activity_level, requires_certification, salary_cost, salary_type, work_time_slot) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, 'MEDIUM', 'MEDIUM', 'K000007556', '', '급식 도우미', '음식조리', 'HIGH', 'NONE', '170', 'MONTHLY', 'WEEKDAY_MORNING');
+INSERT INTO job (created_at, deleted, updated_at, emotional_labor_level, interpersonal_contact_level, job_code, job_image_url, job_name, ncs_name, physical_activity_level, requires_certification, salary_cost, salary_type, work_time_slot) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, 'LOW', 'LOW', 'K000001219', '', '사무보조원', '사무행정', 'LOW', 'OPTIONAL', '210', 'MONTHLY', 'WEEKDAY_NINE_TO_SIX');
+INSERT INTO job (created_at, deleted, updated_at, emotional_labor_level, interpersonal_contact_level, job_code, job_image_url, job_name, ncs_name, physical_activity_level, requires_certification, salary_cost, salary_type, work_time_slot) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, 'LOW', 'LOW', 'K000007487', '', '회계사무원', '회계·감사', 'LOW', 'OPTIONAL', '240', 'MONTHLY', 'WEEKDAY_NINE_TO_SIX');
+INSERT INTO job (created_at, deleted, updated_at, emotional_labor_level, interpersonal_contact_level, job_code, job_image_url, job_name, ncs_name, physical_activity_level, requires_certification, salary_cost, salary_type, work_time_slot) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, 'LOW', 'LOW', 'K000007497', '', '수의테크니션', '수의서비스', 'LOW', 'REQUIRED', '220', 'MONTHLY', 'WEEKDAY_NINE_TO_SIX');
+INSERT INTO job (created_at, deleted, updated_at, emotional_labor_level, interpersonal_contact_level, job_code, job_image_url, job_name, ncs_name, physical_activity_level, requires_certification, salary_cost, salary_type, work_time_slot) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, 'HIGH', 'HIGH', 'K000001167', '', '웨딩 헬퍼', '결혼서비스', 'HIGH', 'NONE', '20', 'DAILY', 'EVENT');
+INSERT INTO job (created_at, deleted, updated_at, emotional_labor_level, interpersonal_contact_level, job_code, job_image_url, job_name, ncs_name, physical_activity_level, requires_certification, salary_cost, salary_type, work_time_slot) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, 'MEDIUM', 'HIGH', 'K000007481', '', '미용사 (일반)', '헤어미용', 'HIGH', 'REQUIRED', '250', 'MONTHLY', 'WEEKDAY_NINE_TO_SIX');
+INSERT INTO job (created_at, deleted, updated_at, emotional_labor_level, interpersonal_contact_level, job_code, job_image_url, job_name, ncs_name, physical_activity_level, requires_certification, salary_cost, salary_type, work_time_slot) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, 'HIGH', 'HIGH', 'K000001091', '', '미용사 (피부)', '피부미용', 'HIGH', 'REQUIRED', '250', 'MONTHLY', 'WEEKDAY_NINE_TO_SIX');
+INSERT INTO job (created_at, deleted, updated_at, emotional_labor_level, interpersonal_contact_level, job_code, job_image_url, job_name, ncs_name, physical_activity_level, requires_certification, salary_cost, salary_type, work_time_slot) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, 'HIGH', 'HIGH', 'K000000972', '', '미용사 (네일)', '메이크업', 'MEDIUM', 'REQUIRED', '230', 'MONTHLY', 'WEEKDAY_NINE_TO_SIX');
+INSERT INTO job (created_at, deleted, updated_at, emotional_labor_level, interpersonal_contact_level, job_code, job_image_url, job_name, ncs_name, physical_activity_level, requires_certification, salary_cost, salary_type, work_time_slot) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, 'HIGH', 'HIGH', 'K000001178', '', '미용사 (메이크업)', '네일미용', 'MEDIUM', 'REQUIRED', '250', 'MONTHLY', 'WEEKDAY_NINE_TO_SIX');
+INSERT INTO job (created_at, deleted, updated_at, emotional_labor_level, interpersonal_contact_level, job_code, job_image_url, job_name, ncs_name, physical_activity_level, requires_certification, salary_cost, salary_type, work_time_slot) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, 'LOW', 'MEDIUM', 'K000007477', '', '반려동물미용사', '애완동물미용', 'HIGH', 'REQUIRED', '250', 'MONTHLY', 'WEEKDAY_NINE_TO_SIX');
+INSERT INTO job (created_at, deleted, updated_at, emotional_labor_level, interpersonal_contact_level, job_code, job_image_url, job_name, ncs_name, physical_activity_level, requires_certification, salary_cost, salary_type, work_time_slot) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, 'MEDIUM', 'HIGH', 'K000000981', '', '레크리에이션 지도사', '레크리에이션지도', 'HIGH', 'OPTIONAL', '10', 'PER_CASE', 'EVENT');
+INSERT INTO job (created_at, deleted, updated_at, emotional_labor_level, interpersonal_contact_level, job_code, job_image_url, job_name, ncs_name, physical_activity_level, requires_certification, salary_cost, salary_type, work_time_slot) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, 'LOW', 'MEDIUM', 'K000000893', '', '바리스타', '커피관리', 'MEDIUM', 'OPTIONAL', '190', 'MONTHLY', 'WEEKDAY_NINE_TO_SIX');
+INSERT INTO job (created_at, deleted, updated_at, emotional_labor_level, interpersonal_contact_level, job_code, job_image_url, job_name, ncs_name, physical_activity_level, requires_certification, salary_cost, salary_type, work_time_slot) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, 'HIGH', 'HIGH', 'K000007536', '', '공인중개사', '부동산', 'MEDIUM', 'REQUIRED', '250', 'MONTHLY', 'FLEXIBLE');
+INSERT INTO job (created_at, deleted, updated_at, emotional_labor_level, interpersonal_contact_level, job_code, job_image_url, job_name, ncs_name, physical_activity_level, requires_certification, salary_cost, salary_type, work_time_slot) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, 'HIGH', 'HIGH', 'K000001146', '', '산후조리사', '산후육아지원', 'MEDIUM', 'OPTIONAL', '230', 'MONTHLY', 'WEEKDAY_NINE_TO_SIX');
+
+-- 자격증
+INSERT INTO certification (created_at, deleted, updated_at, job_id, certification_name, certification_preparation_period) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, '1', '요양보호사 자격증', '1개월');
+INSERT INTO certification (created_at, deleted, updated_at, job_id, certification_name, certification_preparation_period) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, '2', '간호조무사 자격증', '1년');
+INSERT INTO certification (created_at, deleted, updated_at, job_id, certification_name, certification_preparation_period) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, '3', '보육교사 3급', '6~12개월');
+INSERT INTO certification (created_at, deleted, updated_at, job_id, certification_name, certification_preparation_period) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, '4', '사회복지사 2급', '1~2년');
+INSERT INTO certification (created_at, deleted, updated_at, job_id, certification_name, certification_preparation_period) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, '5', '직업 상담사 2급', '6~12개월');
+INSERT INTO certification (created_at, deleted, updated_at, job_id, certification_name, certification_preparation_period) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, '6', '임상심리사 2급', '3~6개월');
+INSERT INTO certification (created_at, deleted, updated_at, job_id, certification_name, certification_preparation_period) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, '8', 'ITQ정보기술자격증', '1~2개월');
+INSERT INTO certification (created_at, deleted, updated_at, job_id, certification_name, certification_preparation_period) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, '8', '컴퓨터활용능력2급', '1~2개월');
+INSERT INTO certification (created_at, deleted, updated_at, job_id, certification_name, certification_preparation_period) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, '9', '전산 회계 2급', '1~2개월');
+INSERT INTO certification (created_at, deleted, updated_at, job_id, certification_name, certification_preparation_period) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, '10', '동물 보건사 자격증', '1개월 내');
+INSERT INTO certification (created_at, deleted, updated_at, job_id, certification_name, certification_preparation_period) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, '12', '미용사(일반) 자격증', '3~6개월');
+INSERT INTO certification (created_at, deleted, updated_at, job_id, certification_name, certification_preparation_period) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, '13', '피부관리사 자격증', '3~6개월');
+INSERT INTO certification (created_at, deleted, updated_at, job_id, certification_name, certification_preparation_period) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, '13', '미용사(피부) 자격증', '3~6개월');
+INSERT INTO certification (created_at, deleted, updated_at, job_id, certification_name, certification_preparation_period) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, '14', '미용사 (네일) 자격증', '4~5개월');
+INSERT INTO certification (created_at, deleted, updated_at, job_id, certification_name, certification_preparation_period) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, '15', '미용사 (메이크업)자격증', '3~6개월');
+INSERT INTO certification (created_at, deleted, updated_at, job_id, certification_name, certification_preparation_period) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, '16', '애견미용사자격증', '3~6개월');
+INSERT INTO certification (created_at, deleted, updated_at, job_id, certification_name, certification_preparation_period) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, '16', '반려견 스타일리스트 자격증', '3~6개월');
+INSERT INTO certification (created_at, deleted, updated_at, job_id, certification_name, certification_preparation_period) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, '17', '레크리에이션 지도사 자격증', '1개월 내');
+INSERT INTO certification (created_at, deleted, updated_at, job_id, certification_name, certification_preparation_period) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, '18', '바리스타 자격증', '1개월 내');
+INSERT INTO certification (created_at, deleted, updated_at, job_id, certification_name, certification_preparation_period) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, '19', '공인중개사', '6개월~1년');
+INSERT INTO certification (created_at, deleted, updated_at, job_id, certification_name, certification_preparation_period) VALUES (CURRENT_TIMESTAMP, false, CURRENT_TIMESTAMP, '20', '산후조리사 자격증(민간)', '1~2개월');
