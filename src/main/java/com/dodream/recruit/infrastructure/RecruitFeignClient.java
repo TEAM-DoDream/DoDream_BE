@@ -11,8 +11,8 @@ public interface RecruitFeignClient {
             @RequestParam(name = "access-key") String accessKey,
             @RequestParam(name = "keywords") String keywords,
             @RequestParam(name = "loc_cd") String locCd,
-            @RequestParam(name = "published_min") String publishedMin, // TODO: datetime임
-            @RequestParam(name = "deadline") String deadline,           // TODO: 얘도 datetime
+            @RequestParam(name = "published_min") String publishedMin,
+            @RequestParam(name = "deadline") String deadline,
             @RequestParam(name = "fields") String fields,
             @RequestParam(name = "start") int start,
             @RequestParam(name = "count") int count

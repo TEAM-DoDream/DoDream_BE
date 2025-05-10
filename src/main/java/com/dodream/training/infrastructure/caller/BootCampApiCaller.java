@@ -28,7 +28,7 @@ public class BootCampApiCaller implements TrainingApiCaller{
     private int pageSize;
 
     @Override
-    @CustomCacheableWithLock(cacheName = "bootcampList", ttl = 3)
+    @CustomCacheableWithLock(cacheName = "bootcampList", ttl = 15)
     public String getListApi(
             String pageNum, String regionCode, String ncsCode,
             String startDate, String endDate
@@ -54,7 +54,7 @@ public class BootCampApiCaller implements TrainingApiCaller{
     }
 
     @Override
-    @CustomCacheableWithLock(cacheName = "bootcampDetail", ttl = 60)
+    @CustomCacheableWithLock(cacheName = "bootcampDetail", ttl = 360)
     public String getDetailApi(
             String srchTrprId,
             String srchTrprDegr,
