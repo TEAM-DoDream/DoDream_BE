@@ -7,8 +7,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum TodoCategory {
 
-    START("시작하기"),
     PREPARE("준비하기"),
+    START("시작하기"),
     CHALLENGE("도전하기");
 
     private final String value;

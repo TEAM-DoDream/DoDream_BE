@@ -4,8 +4,6 @@ import com.dodream.core.infrastructure.jpa.entity.BaseLongIdEntity;
 import com.dodream.job.domain.JobTodo;
 import com.dodream.job.domain.TodoCategory;
 import com.dodream.member.domain.Member;
-import com.dodream.member.domain.State;
-import com.dodream.member.exception.MemberErrorCode;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -3,6 +3,7 @@ package com.dodream.todo.dto.response;
 import com.dodream.member.domain.Member;
 import com.dodream.todo.domain.TodoGroup;
 import io.swagger.v3.oas.annotations.media.Schema;
+import java.util.Collections;
 import java.util.List;
 import lombok.Builder;
 
@@ -31,5 +32,11 @@ public record GetOneTodoGroupResponseDto(
             .todos(todos)
             .build();
     }
+
+    public static GetOneTodoGroupResponseDto empty(Member member) {
+        return new GetOneTodoGroupResponseDto(null, member.getId(), null, null,
+            Collections.emptyList());
+    }
+
 
 }

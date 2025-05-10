@@ -36,4 +36,8 @@ public class MemoImage extends BaseLongIdEntity {
     @NotNull
     private String imageUrl;
 
+    public void updateDeleted() {
+         this.deleted = true;
+     }
+
 }
