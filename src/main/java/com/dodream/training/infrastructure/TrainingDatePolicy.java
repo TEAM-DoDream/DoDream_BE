@@ -16,11 +16,17 @@ public class TrainingDatePolicy {
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
 
-    public String calculateStartDate() {
-        return LocalDate.now().minusMonths(monthDiff).format(FORMATTER);
+    public String calculateStartDate(LocalDate startDate) {
+        if(startDate == null || startDate.isBefore(LocalDate.now())) {
+            return LocalDate.now().format(FORMATTER);
+        }
+        return startDate.format(FORMATTER);
     }
 
-    public String calculateEndDate() {
-        return LocalDate.now().plusMonths(monthDiff).format(FORMATTER);
+    public String calculateEndDate(LocalDate endDate) {
+        if(endDate == null || endDate.isBefore(LocalDate.now())) {
+            return LocalDate.now().plusMonths(monthDiff).format(FORMATTER);
+        }
+        return endDate.format(FORMATTER);
     }
 }

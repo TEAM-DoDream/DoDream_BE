@@ -12,34 +12,39 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+
 @Service
 @Log4j2
 public class DualTrainingService {
-    private final TrainingMapper<TrainingListApiResponse, TrainingDetailApiResponse> trainingMapper;
+    private final TrainingMapper<TrainingListApiResponse> listMapper;
+    private final TrainingMapper<TrainingDetailApiResponse> detailMapper;
     private final TrainingCodeResolver trainingCodeResolver;
     private final TrainingApiExecuter trainingApiExecuter;
 
     public DualTrainingService(
-            TrainingMapper<TrainingListApiResponse, TrainingDetailApiResponse> trainingMapper,
+            @Qualifier("trainingListApiReseponseMapper") TrainingMapper<TrainingListApiResponse> listMapper,
+            @Qualifier("trainingDetailResponseDtoMapper") TrainingMapper<TrainingDetailApiResponse> detailMapper,
             TrainingCodeResolver trainingCodeResolver,
             @Qualifier("dualTrainingApiExecuter") TrainingApiExecuter trainingApiExecuter
     ){
-        this.trainingMapper = trainingMapper;
+        this.listMapper = listMapper;
+        this.detailMapper = detailMapper;
         this.trainingCodeResolver = trainingCodeResolver;
         this.trainingApiExecuter = trainingApiExecuter;
     }
 
     public TrainingListApiResponse getList(
-            String pageNum, String regionName, String ncsName
+            String pageNum, String regionName, String ncsName, LocalDate startDate, LocalDate endDate
     ) {
         String regionCode = trainingCodeResolver.resolveRegionCode(regionName);
         String ncsCode = trainingCodeResolver.resolveNcsCode(ncsName);
 
         String result = trainingApiExecuter.callListApi(
-                pageNum, regionCode, ncsCode
+                pageNum, regionCode, ncsCode, startDate, endDate
         );
 
-        return trainingMapper.jsonToListResponseDto(result);
+        return listMapper.jsonToResponseDto(result);
     }
 
 
@@ -47,6 +52,6 @@ public class DualTrainingService {
         String result = trainingApiExecuter.callDetailApi(
                 srchTrprId, srchTrprDegr, srchTorgId
         );
-        return trainingMapper.jsonToDetailResponseDto(result);
+        return detailMapper.jsonToResponseDto(result);
     }
 }

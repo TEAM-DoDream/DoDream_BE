@@ -7,6 +7,7 @@ import com.dodream.recruit.exception.RecruitErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -28,9 +29,28 @@ public interface RecruitSwagger {
             @Parameter(description = "검색을 위한 키워드", example = "요양보호사")
             String keyWord,
 
-            @RequestParam(required = false)
-            @Parameter(description = "/v1/region/all을 호출해서 나오는 지역 이름", example = "경기 안양시 만안구")
-            String locationName
+            @RequestParam
+            @Parameter(
+                    description = "/v1/region/all을 호출해서 나오는 지역 이름",
+                    example = "경기 안양시 만안구"
+            )
+            String locationName,
+
+            @RequestParam
+            @DateTimeFormat(pattern = "yyyy/MM/dd")
+            @Parameter(
+                    description = "공고 시작일(yyyy/MM/dd)",
+                    example = "2025/05/09"
+            )
+            String startDate,
+
+            @RequestParam
+            @DateTimeFormat(pattern = "yyyy/MM/dd")
+            @Parameter(
+                    description = "공고 마감일(yyyy/MM/dd)",
+                    example = "2026/05/09"
+            )
+            String endDate
     );
 
     @Operation(

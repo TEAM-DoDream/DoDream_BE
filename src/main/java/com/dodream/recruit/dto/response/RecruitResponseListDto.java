@@ -3,7 +3,13 @@ package com.dodream.recruit.dto.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Locale;
 
 public record RecruitResponseListDto(
         @JsonProperty("count")
@@ -35,16 +41,12 @@ public record RecruitResponseListDto(
             String title,
 
             @JsonProperty("locationName")
-            @Schema(description = "지역 이름", example = "경기 > 안양시 만안구")
+            @Schema(description = "지역 이름", example = "경기 안양시 만안구")
             String locationName,
 
             @JsonProperty("jobTypeName")
             @Schema(description = "근무형태", example = "정규직")
             String jobTypeName,
-
-            @JsonProperty("jobCode")
-            @Schema(description = "직무 이름", example = "노인복지, 간병인, 환자 안내")
-            String jobCode,
 
             @JsonProperty("experienceLevel")
             @Schema(description = "경력 정보", example = "경력 무관")
@@ -58,24 +60,25 @@ public record RecruitResponseListDto(
             @Schema(description = "접수 마감 정보", example = "접수 마감일")
             String closeType,
 
-            @JsonProperty("keyword")
-            @Schema(description = "직무 키워드", example = "노인 복지")
-            String keyword,
-
-            @JsonProperty("readCnt")
-            @Schema(description = "조회수", example = "25")
-            String readCnt,
-
             @JsonProperty("salary")
             @Schema(description = "연봉 값", example = "면접 후 결정")
             String salary,
 
             @JsonProperty("id")
             @Schema(description = "사람인 공고 ID", example = "50390519")
-            String id
+            String id,
+
+            @JsonProperty("expiration-date")
+            @Schema(description = "게시일", example = "05/22(수)")
+            String expirationDate,
+
+            @Schema(description = "마감일까지 남은 일수(채용시 마감인 경우 채용시 마감)", example = "D-6")
+            String deadline
     ){}
 
-    public static List<RecruitResponseListDto.Job> toResponseListDto(RecruitResponseListApiDto recruitResponseListApiDto){
+    public static List<RecruitResponseListDto.Job> toResponseListDto(
+            RecruitResponseListApiDto recruitResponseListApiDto
+    ){
         return recruitResponseListApiDto.jobs().job() == null
                 ? List.of()
                 : recruitResponseListApiDto.jobs().job().stream()
@@ -83,17 +86,71 @@ public record RecruitResponseListDto(
                         job.url(),
                         job.active(),
                         job.position() != null ? job.position().title() : null,
-                        job.position() != null && job.position().location() != null ? job.position().location().name().replace("&gt;", ">") : null,
+                        job.position() != null && job.position().location() != null
+                                ? job.position().location().name().replace("&gt;", "").replaceAll("\\s+", " ")
+                                : null,
                         job.position() != null && job.position().jobType() != null ? job.position().jobType().name() : null,
-                        job.position() != null && job.position().jobCode() != null ? job.position().jobCode().name() : null,
                         job.position() != null && job.position().experienceLevel() != null ? job.position().experienceLevel().name() : null,
                         job.position() != null && job.position().requiredEducationLevel() != null ? job.position().requiredEducationLevel().name() : null,
                         job.closeType() != null ? job.closeType().name() : null,
-                        job.keyword(),
-                        job.readCnt(),
                         job.salary() != null ? job.salary().name() : null,
-                        job.id()
+                        job.id(),
+                        getExpirationDate(job.expirationDate(), job.closeType().code()),
+                        getRemainingDate(job.expirationDate(), job.closeType().code())
                 ))
                 .toList();
+    }
+
+    private static String getRemainingDate(String date, String closeType){
+            if(closeType.equals("1")){
+                    ZonedDateTime expirationZdt = ZonedDateTime.parse(date, DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssZ"));
+                    LocalDate expirationLocalDate = expirationZdt.toLocalDate();
+
+                    LocalDate todayKst = LocalDate.now(ZoneId.of("Asia/Seoul"));
+                    long daysBetween = ChronoUnit.DAYS.between(todayKst, expirationLocalDate);
+
+                    if(daysBetween < 0){
+                            return "마감됨";
+                    }
+
+                    return "D-" + daysBetween;
+            }else if(closeType.equals("2")){
+                    return "채용시 마감";
+            }else if(closeType.equals("3")) {
+                    return "상시 채용";
+            }else if(closeType.equals("4")) {
+                    return "수시 채용";
+            }
+
+            return "일자 변환 오류";
+    }
+
+    private static String getExpirationDate(String date, String closeType){
+            if(closeType.equals("1")){
+                    return getFormattedDate(date);
+            }else if(closeType.equals("2")){
+                    return "채용시 마감";
+            }else if(closeType.equals("3")) {
+                    return "상시 채용";
+            }else if(closeType.equals("4")) {
+                    return "수시 채용";
+            }
+
+            return "일자 변환 오류";
+    }
+
+    private static String getFormattedDate(String date){
+            DateTimeFormatter INPUT_DATE_TIME_FORMATTER =
+                    DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssZ");
+
+            DateTimeFormatter OUTPUT_DATE_FORMATTER =
+                    DateTimeFormatter.ofPattern("MM/dd(E)", Locale.KOREAN);
+
+            String trimmedDateString = date.trim();
+
+            ZonedDateTime expirationZdt = ZonedDateTime.parse(trimmedDateString, INPUT_DATE_TIME_FORMATTER);
+            LocalDate localDate = expirationZdt.toLocalDate();
+
+            return localDate.format(OUTPUT_DATE_FORMATTER);
     }
 }

@@ -2,12 +2,15 @@ package com.dodream.recruit.infrastructure;
 
 import com.dodream.core.infrastructure.cache.annotation.CustomCacheableWithLock;
 import com.dodream.recruit.exception.RecruitErrorCode;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class RecruitApiCaller {
 
     private final RecruitFeignClient recruitFeignClient;
@@ -18,17 +21,19 @@ public class RecruitApiCaller {
     @Value("${saramin.page-size}")
     private int pageSize;
 
-    private final String FIELDS = "count";
+    private final String FIELDS = "expiration-date";
 
-    @CustomCacheableWithLock(cacheName = "recruitList", ttl = 3)
+    @CustomCacheableWithLock(cacheName = "recruitList", ttl = 15)
     public String recruitListApiListCaller(
-            String keyWords, String locCd, int start
+            String keyWords, String locCd, String startDate, String endDate, int start
     ){
         try{
             return recruitFeignClient.getRecruitList(
                     accessKey,
                     keyWords,
                     locCd,
+                    startDate,
+                    null,   // 사람인 OpenAPI 관련 오류 해결후 null 해제
                     FIELDS,
                     start,
                     pageSize
@@ -37,7 +42,7 @@ public class RecruitApiCaller {
             throw RecruitErrorCode.API_CONNECTION_ERROR.toException();
         }
     }
-    @CustomCacheableWithLock(cacheName = "recruitDetail", ttl = 60)
+    @CustomCacheableWithLock(cacheName = "recruitDetail", ttl = 360)
     public String recruitDetailAPiCaller(
             String id
     ){
