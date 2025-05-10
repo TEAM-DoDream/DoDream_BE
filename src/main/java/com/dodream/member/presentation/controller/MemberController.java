@@ -13,12 +13,15 @@ import com.dodream.member.dto.response.UploadMemberProfileImageResponseDto;
 import com.dodream.member.presentation.swagger.MemberSwagger;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -41,7 +44,7 @@ public class MemberController implements MemberSwagger {
 
     @Override
     @PutMapping("/password")
-    public ResponseEntity<RestResponse<String>> changeMemberPassword(@RequestBody @Valid
+    public ResponseEntity<RestResponse<String>> changeMemberPassword(@RequestBody
     ChangeMemberPasswordRequestDto changeMemberPasswordRequestDto) {
         memberService.changeMemberPassword(changeMemberPasswordRequestDto);
         return ResponseEntity.ok(new RestResponse<>("비밀번호 변경 완료"));
@@ -49,24 +52,27 @@ public class MemberController implements MemberSwagger {
 
     @Override
     @PutMapping("/nickname")
-    public ResponseEntity<RestResponse<ChangeMemberNickNameResponseDto>> changeMemberNickName(@RequestBody @Valid
-    ChangeMemberNickNameRequestDto changeMemberNickNameRequestDto) {
+    public ResponseEntity<RestResponse<ChangeMemberNickNameResponseDto>> changeMemberNickName(
+        @RequestBody
+        ChangeMemberNickNameRequestDto changeMemberNickNameRequestDto) {
         return ResponseEntity.ok(
             new RestResponse<>(memberService.changeMemberNickName(changeMemberNickNameRequestDto)));
     }
 
     @Override
     @PutMapping("/birth")
-    public ResponseEntity<RestResponse<ChangeMemberBirthDateResponseDto>> changeMemberBirth(@RequestBody @Valid
-    ChangeMemberBirthDateRequestDto changeMemberBirthDateRequestDto) {
+    public ResponseEntity<RestResponse<ChangeMemberBirthDateResponseDto>> changeMemberBirth(
+        @RequestBody
+        ChangeMemberBirthDateRequestDto changeMemberBirthDateRequestDto) {
         return ResponseEntity.ok(
             new RestResponse<>(memberService.changeMemberBirth(changeMemberBirthDateRequestDto)));
     }
 
     @Override
     @PutMapping("/region")
-    public ResponseEntity<RestResponse<ChangeMemberRegionResponseDto>> changeMemberRegion(@RequestBody @Valid
-    ChangeMemberRegionRequestDto changeMemberRegionCodeRequestDto) {
+    public ResponseEntity<RestResponse<ChangeMemberRegionResponseDto>> changeMemberRegion(
+        @RequestBody
+        ChangeMemberRegionRequestDto changeMemberRegionCodeRequestDto) {
         return ResponseEntity.ok(
             new RestResponse<>(memberService.changeMemberRegion(changeMemberRegionCodeRequestDto)));
     }

@@ -13,6 +13,7 @@ import com.dodream.member.dto.response.UploadMemberProfileImageResponseDto;
 import com.dodream.member.exception.MemberErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,7 +38,7 @@ public interface MemberSwagger {
     )
     @ApiErrorCode(MemberErrorCode.class)
     ResponseEntity<RestResponse<String>> changeMemberPassword(
-        @RequestBody ChangeMemberPasswordRequestDto changeMemberPasswordRequestDto);
+        @RequestBody @Valid ChangeMemberPasswordRequestDto changeMemberPasswordRequestDto);
 
     @Operation(
         summary = "닉네임 변경 API",
@@ -46,7 +47,7 @@ public interface MemberSwagger {
     )
     @ApiErrorCode(MemberErrorCode.class)
     ResponseEntity<RestResponse<ChangeMemberNickNameResponseDto>> changeMemberNickName(
-        @RequestBody ChangeMemberNickNameRequestDto changeMemberNickNameRequestDto);
+        @RequestBody @Valid ChangeMemberNickNameRequestDto changeMemberNickNameRequestDto);
 
     @Operation(
         summary = "생년월일 변경 API",
@@ -55,7 +56,7 @@ public interface MemberSwagger {
     )
     @ApiErrorCode(MemberErrorCode.class)
     ResponseEntity<RestResponse<ChangeMemberBirthDateResponseDto>> changeMemberBirth(
-        @RequestBody ChangeMemberBirthDateRequestDto changeMemberBirthDateRequestDto);
+        @RequestBody @Valid ChangeMemberBirthDateRequestDto changeMemberBirthDateRequestDto);
 
     @Operation(
         summary = "거주지 변경 API",
@@ -64,7 +65,7 @@ public interface MemberSwagger {
     )
     @ApiErrorCode(MemberErrorCode.class)
     ResponseEntity<RestResponse<ChangeMemberRegionResponseDto>> changeMemberRegion(
-        @RequestBody ChangeMemberRegionRequestDto changeMemberRegionCodeRequestDto);
+        @RequestBody @Valid ChangeMemberRegionRequestDto changeMemberRegionCodeRequestDto);
 
 
 }

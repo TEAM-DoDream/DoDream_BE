@@ -28,7 +28,7 @@ public class MemberAuthController implements MemberAuthSwagger {
 
     @Override
     @PostMapping("/login")
-    public ResponseEntity<RestResponse<MemberLoginResponseDto>> getMemberLogin(@RequestBody @Valid
+    public ResponseEntity<RestResponse<MemberLoginResponseDto>> getMemberLogin(@RequestBody
     MemberLoginRequestDto memberLoginRequestDto) {
         return ResponseEntity.ok(
             new RestResponse<>(memberAuthService.getMemberLogin(memberLoginRequestDto)));
@@ -43,7 +43,7 @@ public class MemberAuthController implements MemberAuthSwagger {
 
     @Override
     @PostMapping("/sign-up")
-    public ResponseEntity<RestResponse<MemberSignUpResponseDto>> getMemberSignUp(@RequestBody @Valid
+    public ResponseEntity<RestResponse<MemberSignUpResponseDto>> getMemberSignUp(@RequestBody
     MemberSignUpRequestDto memberSignUpRequestDto) {
         return ResponseEntity.ok(
             new RestResponse<>(memberAuthService.getMemberSignUp(memberSignUpRequestDto)));
