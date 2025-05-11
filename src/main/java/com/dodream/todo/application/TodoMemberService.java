@@ -5,12 +5,12 @@ import com.dodream.job.domain.JobTodo;
 import com.dodream.job.domain.TodoCategory;
 import com.dodream.job.exception.JobErrorCode;
 import com.dodream.job.repository.JobRepository;
+import com.dodream.job.repository.JobTodoRepository;
 import com.dodream.member.application.MemberAuthService;
 import com.dodream.member.domain.Member;
-import com.dodream.ncs.repository.JobTodoRespository;
-import com.dodream.todo.domain.TodoImage;
 import com.dodream.todo.domain.Todo;
 import com.dodream.todo.domain.TodoGroup;
+import com.dodream.todo.domain.TodoImage;
 import com.dodream.todo.dto.request.PostTodoRequestDto;
 import com.dodream.todo.dto.response.AddJobTodoResponseDto;
 import com.dodream.todo.dto.response.ChangeCompleteStateTodoResponseDto;
@@ -41,7 +41,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TodoMemberService {
 
     private final MemberAuthService memberAuthService;
-    private final JobTodoRespository jobTodoRespository;
+    private final JobTodoRepository jobTodoRepository;
     private final JobRepository jobRepository;
     private final TodoRepository todoRepository;
     private final TodoGroupRepository todoGroupRepository;
@@ -71,7 +71,7 @@ public class TodoMemberService {
         Job job = jobRepository.findById(jobId)
             .orElseThrow(JobErrorCode.CANNOT_GET_JOB_DATA::toException);
 
-        List<JobTodo> todoList = jobTodoRespository.findAllByJob(job);
+        List<JobTodo> todoList = jobTodoRepository.findAllByJob(job);
 
         TodoGroup todoGroup = TodoGroup.builder()
             .member(member)
@@ -158,7 +158,6 @@ public class TodoMemberService {
 
     }
 
-    // 투두 메모 조회
     @Transactional(readOnly = true)
     public GetOneTodoWithMemoResponseDto getOneTodoWithMemo(Long todoId) {
 
@@ -170,7 +169,6 @@ public class TodoMemberService {
         return GetOneTodoWithMemoResponseDto.from(todo);
     }
 
-    // 투두 삭제
     @Transactional
     public DeleteTodoResponseDto deleteOneTodo(Long todoId) {
 
