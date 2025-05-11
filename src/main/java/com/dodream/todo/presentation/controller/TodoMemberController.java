@@ -41,7 +41,7 @@ public class TodoMemberController implements TodoMemberSwagger {
     }
 
     @Override
-    @PostMapping(value = "/todo/{todoGroupId}")
+    @PostMapping(value = "/todo-group/{todoGroupId}")
     public ResponseEntity<RestResponse<PostTodoResponseDto>> postNewTodo(
         @PathVariable Long todoGroupId, @RequestBody PostTodoRequestDto postTodoRequestDto) {
         return ResponseEntity.ok(
@@ -64,7 +64,7 @@ public class TodoMemberController implements TodoMemberSwagger {
     }
 
     @Override
-    @GetMapping(value = "/todo/{todoGroupId}")
+    @GetMapping(value = "/todo-group/{todoGroupId}")
     public ResponseEntity<RestResponse<GetOneTodoGroupResponseDto>> getOneTodoGroup(
         @PathVariable Long todoGroupId) {
         return ResponseEntity.ok(
