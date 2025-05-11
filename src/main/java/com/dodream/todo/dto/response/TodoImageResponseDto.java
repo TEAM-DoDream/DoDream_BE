@@ -1,6 +1,6 @@
 package com.dodream.todo.dto.response;
 
-import com.dodream.todo.domain.MemoImage;
+import com.dodream.todo.domain.TodoImage;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public record TodoImageResponseDto(
@@ -12,7 +12,7 @@ public record TodoImageResponseDto(
 
 ) {
 
-    public static TodoImageResponseDto from(MemoImage memoImage) {
+    public static TodoImageResponseDto from(TodoImage memoImage) {
         return new TodoImageResponseDto(memoImage.getId(), memoImage.getImageUrl());
     }
 

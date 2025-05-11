@@ -65,7 +65,7 @@ public class Todo extends BaseLongIdEntity {
     private String memoText;
 
     @OneToMany(mappedBy = "todo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<MemoImage> images = new ArrayList<>();
+    private List<TodoImage> images = new ArrayList<>();
 
     public void updateDeleted() {
         this.deleted = true;
@@ -93,6 +93,16 @@ public class Todo extends BaseLongIdEntity {
             .member(member)
             .title(jobTodo.getTitle())
             .todoCategory(jobTodo.getTodoCategory())
+            .build();
+    }
+
+    public static Todo of(TodoGroup todoGroup, Member member, String title,
+        TodoCategory todoCategory) {
+        return Todo.builder()
+            .todoGroup(todoGroup)
+            .member(member)
+            .title(title)
+            .todoCategory(todoCategory)
             .build();
     }
 }
