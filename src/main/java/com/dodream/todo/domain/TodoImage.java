@@ -1,6 +1,7 @@
 package com.dodream.todo.domain;
 
 import com.dodream.core.infrastructure.jpa.entity.BaseLongIdEntity;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -29,11 +30,10 @@ public class TodoImage extends BaseLongIdEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "todo_id")
-    @NotNull
+    @JoinColumn(name = "todo_id", nullable = false)
     private Todo todo;
 
-    @NotNull
+    @Column(nullable = false)
     private String imageUrl;
 
     public void updateDeleted() {

@@ -5,7 +5,7 @@ import com.dodream.job.domain.JobTodo;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface JobTodoRepository  extends JpaRepository<JobTodo, Integer> {
+public interface JobTodoRepository extends JpaRepository<JobTodo, Integer> {
 
     List<JobTodo> findAllByJob(Job job);
 }
