@@ -25,10 +25,6 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "memo_image")
 public class TodoImage extends BaseLongIdEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "todo_id", nullable = false)
     private Todo todo;

@@ -36,10 +36,6 @@ import org.hibernate.type.SqlTypes;
 @Table(name = "todo")
 public class Todo extends BaseLongIdEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "todo_group_id", nullable = false)
     private TodoGroup todoGroup;
@@ -79,13 +75,13 @@ public class Todo extends BaseLongIdEntity {
         this.isPublic = !this.isPublic;
     }
 
-    @Builder
-    private Todo(TodoGroup todoGroup, Member member, String title, TodoCategory todoCategory) {
-        this.todoGroup = todoGroup;
-        this.member = member;
-        this.title = title;
-        this.todoCategory = todoCategory;
-    }
+//    @Builder
+//    private Todo(TodoGroup todoGroup, Member member, String title, TodoCategory todoCategory) {
+//        this.todoGroup = todoGroup;
+//        this.member = member;
+//        this.title = title;
+//        this.todoCategory = todoCategory;
+//    }
 
     public static Todo of(TodoGroup todoGroup, Member member, JobTodo jobTodo) {
         return Todo.builder()

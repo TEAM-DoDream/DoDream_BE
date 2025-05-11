@@ -31,10 +31,6 @@ import lombok.experimental.SuperBuilder;
 @Table(name = "todo_group")
 public class TodoGroup extends BaseLongIdEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "job_id")
     private Job job;
