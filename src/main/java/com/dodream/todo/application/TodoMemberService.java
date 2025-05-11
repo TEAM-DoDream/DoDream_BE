@@ -164,7 +164,7 @@ public class TodoMemberService {
         Member member = memberAuthService.getCurrentMember();
 
         Todo todo = todoRepository.findByIdAndMemberAndDeletedIsFalse(todoId, member)
-            .orElseThrow(TodoErrorCode.TODO_FOUND_NCS::toException);
+            .orElseThrow(TodoErrorCode.TODO_NOT_FOUND::toException);
 
         return GetOneTodoWithMemoResponseDto.from(todo);
     }
@@ -175,7 +175,7 @@ public class TodoMemberService {
         Member member = memberAuthService.getCurrentMember();
 
         Todo todo = todoRepository.findByIdAndMemberAndDeletedIsFalse(todoId, member)
-            .orElseThrow(TodoErrorCode.TODO_FOUND_NCS::toException);
+            .orElseThrow(TodoErrorCode.TODO_NOT_FOUND::toException);
         todo.updateDeleted();
 
         todo.getImages()
@@ -191,7 +191,7 @@ public class TodoMemberService {
         Member member = memberAuthService.getCurrentMember();
 
         Todo todo = todoRepository.findByIdAndMemberAndDeletedIsFalse(todoId, member)
-            .orElseThrow(TodoErrorCode.TODO_FOUND_NCS::toException);
+            .orElseThrow(TodoErrorCode.TODO_NOT_FOUND::toException);
         todo.updateIsPublic();
 
         return ChangePublicStateTodoResponseDto.from(todo);
@@ -204,7 +204,7 @@ public class TodoMemberService {
         Member member = memberAuthService.getCurrentMember();
 
         Todo todo = todoRepository.findByIdAndMemberAndDeletedIsFalse(todoId, member)
-            .orElseThrow(TodoErrorCode.TODO_FOUND_NCS::toException);
+            .orElseThrow(TodoErrorCode.TODO_NOT_FOUND::toException);
         todo.updateCompleted();
 
         return ChangeCompleteStateTodoResponseDto.from(todo);

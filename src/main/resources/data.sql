@@ -49,8 +49,7 @@ CREATE TABLE IF NOT EXISTS job_todo (
     todo_category VARCHAR(255) NOT NULL,
     job_id BIGINT NOT NULL,
 
-    CONSTRAINT fk_job_todo_job_id FOREIGN KEY (job_id)
-        REFERENCES job(id)
+    CONSTRAINT fk_job_todo_job_id FOREIGN KEY (job_id) REFERENCES job(id) ON DELETE CASCADE
 
 );
 
@@ -181,44 +180,44 @@ INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job
 INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '사무보조 인턴, 단기 아르바이트 등으로 실무 감각 익히기', 'CHALLENGE', '8');
 INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '첫 출근 전, “기본 전화 응대법”, “사무용어 정리” 등을 검색하여 업무 적응 준비하기', 'CHALLENGE', '8');
 
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false,'유튜브·블로그에서 ‘회계사무원 일상’ 키워드로 검색 후 실제 업무 환경과 전표 입력, 세금계산서, 급여정리 등 메모하기', '준비하기', '9');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '‘더존’, ‘케이랩(K-Lep)’ 같은 회계 프로그램의 무료 사용법 영상 찾아보기', '준비하기', '9');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false,'워드, 엑셀 기초 활용법을 네이버 블로그나 유튜브에서 학습 시작하기 (추천 키워드: 회계 실무 엑셀 단축키, 회계용 엑셀 자동화)', '준비하기', '9');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '[전산회계 2급(한국세무사회)] 또는 [FAT 자격증(한국공인회계사회)] 중 하나 자격 요건 확인하고 준비하기', '시작하기', '9');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '두드림 또는 사람인에 ‘회계보조’, ‘경리’ 키워드로 공고 비교 검색해보기', '시작하기', '9');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '지역 새일센터/여성인력개발센터에 ‘경리사무원 실무 과정’ 여부 문의하기', '시작하기', '9');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '가까운 학원 또는 온라인 과정으로 회계 자격증 교육 신청하기', '도전하기', '9');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '연습용 회계 프로그램 설치 후, 블로그 강의 따라가며 데이터 입력 실습하기', '도전하기', '9');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '일단 단기 근무 공고(회계보조, 단순 전표 입력 등)에 지원해 실전 감각 익히기', '도전하기', '9');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false,'유튜브·블로그에서 ‘회계사무원 일상’ 키워드로 검색 후 실제 업무 환경과 전표 입력, 세금계산서, 급여정리 등 메모하기', 'PREPARE', '9');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '‘더존’, ‘케이랩(K-Lep)’ 같은 회계 프로그램의 무료 사용법 영상 찾아보기', 'PREPARE', '9');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false,'워드, 엑셀 기초 활용법을 네이버 블로그나 유튜브에서 학습 시작하기 (추천 키워드: 회계 실무 엑셀 단축키, 회계용 엑셀 자동화)', 'PREPARE', '9');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '[전산회계 2급(한국세무사회)] 또는 [FAT 자격증(한국공인회계사회)] 중 하나 자격 요건 확인하고 준비하기', 'START', '9');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '두드림 또는 사람인에 ‘회계보조’, ‘경리’ 키워드로 공고 비교 검색해보기', 'START', '9');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '지역 새일센터/여성인력개발센터에 ‘경리사무원 실무 과정’ 여부 문의하기','START', '9');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '가까운 학원 또는 온라인 과정으로 회계 자격증 교육 신청하기', 'CHALLENGE', '9');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '연습용 회계 프로그램 설치 후, 블로그 강의 따라가며 데이터 입력 실습하기', 'CHALLENGE', '9');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '일단 단기 근무 공고(회계보조, 단순 전표 입력 등)에 지원해 실전 감각 익히기', 'CHALLENGE', '9');
 
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '유튜브에서 ‘동물병원 보조 일상’, ‘수의테크니션’ 관련 영상 시청 후 동물 위생관리, 보조 업무 난이도 등 메모하기', '준비하기', '10');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '동물보건사 자격증 공식 요건 확인 (학력/인정 교육기관)', '준비하기', '10');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '두드림 또는 고용24에서 “수의 테크니션” 관련 교육과정 검색 후 내일배움카드 지원 여부 확인하기', '시작하기', '10');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '‘동물병원 보조’ 아르바이트 공고 3곳 찾아 지원하기 (알바천국/벳잡스/도루스/사람인)', '시작하기', '10');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '실습 병원 유무 및 수업 커리큘럼 확인 후 교육기관 등록하기', '시작하기', '10');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '벳잡스·한국동물병원협회 채용 게시판에 이력서 등록 후, 주 1회 이상 지원하기', '도전하기', '10');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '관심 병원 3곳 이상 직접 방문 또는 전화 문의하기', '도전하기', '10');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '유튜브에서 ‘동물병원 보조 일상’, ‘수의테크니션’ 관련 영상 시청 후 동물 위생관리, 보조 업무 난이도 등 메모하기', 'PREPARE', '10');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '동물보건사 자격증 공식 요건 확인 (학력/인정 교육기관)', 'PREPARE', '10');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '두드림 또는 고용24에서 “수의 테크니션” 관련 교육과정 검색 후 내일배움카드 지원 여부 확인하기', 'START', '10');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '‘동물병원 보조’ 아르바이트 공고 3곳 찾아 지원하기 (알바천국/벳잡스/도루스/사람인)', 'START', '10');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '실습 병원 유무 및 수업 커리큘럼 확인 후 교육기관 등록하기', 'START', '10');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '벳잡스·한국동물병원협회 채용 게시판에 이력서 등록 후, 주 1회 이상 지원하기', 'CHALLENGE', '10');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '관심 병원 3곳 이상 직접 방문 또는 전화 문의하기', 'CHALLENGE', '10');
 
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '동물병원에서 사용하는 진료 보조 도구/기기등 기본 용어 목록화하여 학습하기', '도전하기', '11');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '유튜브의 “웨딩헬퍼 일상”, “결혼식 도우미 브이로그” 영상 시청 후 공통된 주요 역할 메모해보기', '준비하기', '11');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '실제 채용 공고 5개 스크랩하여 공통 요구사항 정리해보기 (복장, 체력, 나이 등)', '준비하기', '11');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '집 근처 예식장 5곳 전화하여 채용 가능성 문의해보기 → 실제 가능성 있는 곳은 메모해두기', '준비하기', '11');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '공고 조건 비교 후 나에게 맞는 일정 및 근무조건 정리한 개인 조건표 만들어보기', '시작하기', '11');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '인근 여성인력개발센터, 평생교육원, 고용24 등에서 진행하는 예절교육 또는 웨딩 실무 강의 알아보기', '시작하기', '11');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '“본식 순서”를 A4 한 장에 정리하고, 각 순서에서 웨딩헬퍼 역할 예측해보기', '시작하기', '11');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '체력 & 센스를 강조한 3문장 자기소개 작성해보고 말하기 연습하기', '도전하기', '11');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '‘위기 상황 대응 표’ 만들어보기 (예: 신랑 넥타이 분실, 신부 입장 시간 지연 시 대처법 등)', '도전하기', '11');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '실제 웨딩홀 아르바이트 시작 전, 첫 출근 준비물(단화, 검정 바지, 편한 상의 등) 미리 챙기기', '도전하기', '11');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '동물병원에서 사용하는 진료 보조 도구/기기등 기본 용어 목록화하여 학습하기', 'PREPARE', '11');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '유튜브의 “웨딩헬퍼 일상”, “결혼식 도우미 브이로그” 영상 시청 후 공통된 주요 역할 메모해보기', 'PREPARE', '11');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '실제 채용 공고 5개 스크랩하여 공통 요구사항 정리해보기 (복장, 체력, 나이 등)', 'PREPARE', '11');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '집 근처 예식장 5곳 전화하여 채용 가능성 문의해보기 → 실제 가능성 있는 곳은 메모해두기', 'PREPARE', '11');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '공고 조건 비교 후 나에게 맞는 일정 및 근무조건 정리한 개인 조건표 만들어보기', 'START', '11');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '인근 여성인력개발센터, 평생교육원, 고용24 등에서 진행하는 예절교육 또는 웨딩 실무 강의 알아보기', 'START', '11');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '“본식 순서”를 A4 한 장에 정리하고, 각 순서에서 웨딩헬퍼 역할 예측해보기', 'START', '11');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '체력 & 센스를 강조한 3문장 자기소개 작성해보고 말하기 연습하기', 'CHALLENGE', '11');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '‘위기 상황 대응 표’ 만들어보기 (예: 신랑 넥타이 분실, 신부 입장 시간 지연 시 대처법 등)', 'CHALLENGE', '11');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '실제 웨딩홀 아르바이트 시작 전, 첫 출근 준비물(단화, 검정 바지, 편한 상의 등) 미리 챙기기', 'CHALLENGE', '11');
 
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '유튜브·블로그에서 ‘헤어 디자이너 브이로그’, “미용실 인턴 일상” 검색하여 실제 업무 목록 메모해보기', '준비하기', '12');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '네이버에서 “미용사(일반) 자격증 과목”, “헤어 국가자격증 실기” 검색하여 메모해보고 과목별 난이도 & 중요도 체크하기', '준비하기', '12');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '두드림에서 “[지역명] 미용학원”, “헤어 국가자격증 학원” 3곳 검색한뒤 인근 학원 3곳 비교표 만들기 (위치/비용/수강 기간/재료비 포함 여부 등)', '준비하기', '12');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '두드림 또는 고용24에서 “미용사 일반” 과정 검색 후 국비지원 과정 신청하기', '시작하기', '12');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '실기 도구 구매하기: 각 도구 사용법 1줄 요약 메모해보며 예습하기', '시작하기', '12');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '기본 이론서 구매하고 기본 미용 동영상 시청하며 커트, 펌, 드라이 기본 동작 예습하기', '시작하기', '12');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '큐넷(Q-net)에서 미용사(일반) 국가자격시험 일정 확인 후 이론+실기 시험 접수하기', '도전하기', '12');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '두드림, 헤어인잡 등에서 “헤어 디자이너”, “미용사 인턴”, “미용사 신입” 키워드로 일자리 탐색하기', '도전하기', '12');
-INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '면접 전, “내가 잘 할 수 있는 3가지”와 “배우고 싶은 점 3가지” 메모해보기', '도전하기', '12');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '유튜브·블로그에서 ‘헤어 디자이너 브이로그’, “미용실 인턴 일상” 검색하여 실제 업무 목록 메모해보기', 'PREPARE', '12');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '네이버에서 “미용사(일반) 자격증 과목”, “헤어 국가자격증 실기” 검색하여 메모해보고 과목별 난이도 & 중요도 체크하기', 'PREPARE', '12');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '두드림에서 “[지역명] 미용학원”, “헤어 국가자격증 학원” 3곳 검색한뒤 인근 학원 3곳 비교표 만들기 (위치/비용/수강 기간/재료비 포함 여부 등)', 'PREPARE', '12');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '두드림 또는 고용24에서 “미용사 일반” 과정 검색 후 국비지원 과정 신청하기',  'START', '12');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '실기 도구 구매하기: 각 도구 사용법 1줄 요약 메모해보며 예습하기',  'START', '12');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '기본 이론서 구매하고 기본 미용 동영상 시청하며 커트, 펌, 드라이 기본 동작 예습하기',  'START', '12');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '큐넷(Q-net)에서 미용사(일반) 국가자격시험 일정 확인 후 이론+실기 시험 접수하기', 'CHALLENGE', '12');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '두드림, 헤어인잡 등에서 “헤어 디자이너”, “미용사 인턴”, “미용사 신입” 키워드로 일자리 탐색하기', 'CHALLENGE', '12');
+INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '면접 전, “내가 잘 할 수 있는 3가지”와 “배우고 싶은 점 3가지” 메모해보기', 'CHALLENGE', '12');
 
 INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '유튜브에서 “피부미용사 브이로그”, “피부 관리사 하루일과” 검색해 실무 환경과 직무 흐름 이해하기', 'PREPARE', '13');
 INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '네이버에서 “미용사(피부) 자격증 ” 검색해 시험 과목과 준비물 파악하기', 'PREPARE', '13');
