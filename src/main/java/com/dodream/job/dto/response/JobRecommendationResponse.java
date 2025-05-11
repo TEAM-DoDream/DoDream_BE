@@ -8,6 +8,7 @@ public record JobRecommendationResponse(
     public record RecommendedJob(
             String jobTitle,
             String jobDescription,
+            String imageUrl,
             Reasons reasons
     ) {}
 

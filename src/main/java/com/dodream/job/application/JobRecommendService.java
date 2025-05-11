@@ -30,6 +30,10 @@ public class JobRecommendService {
     private final JobDescriptionResolver jobDescriptionResolver;
 
     public JobRecommendationResponse recommendJob(CustomUserDetails customUserDetails, OnboardingAnswerSet answerSet) {
+        if(customUserDetails == null) {
+            throw JobErrorCode.CANNOT_FIND_USER_DATA.toException();
+        }
+
         String rawResponse = callClovaApi(customUserDetails.getUsername(), answerSet);
 
         JobRecommendationResponse rawRecommendation = parseRecommendationResponse(rawResponse);
@@ -67,7 +71,10 @@ public class JobRecommendService {
 
     private JobRecommendationResponse.RecommendedJob enrichJobWithDescription(JobRecommendationResponse.RecommendedJob job) {
         String jobSum = jobDescriptionResolver.resolveJobSummary(job.jobTitle());
-        return new JobRecommendationResponse.RecommendedJob(job.jobTitle(), jobSum, job.reasons());
+        String imageUrl = jobRepository.findByJobName(job.jobTitle())
+                .orElseThrow(JobErrorCode.CANNOT_GET_JOB_DATA::toException)
+                .getJobImageUrl();
+        return new JobRecommendationResponse.RecommendedJob(job.jobTitle(), jobSum, imageUrl, job.reasons());
     }
 
     private JobRecommendationResponse parseRecommendationResponse(String rawResponse) {
