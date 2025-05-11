@@ -30,6 +30,10 @@ public class JobRecommendService {
     private final JobDescriptionResolver jobDescriptionResolver;
 
     public JobRecommendationResponse recommendJob(CustomUserDetails customUserDetails, OnboardingAnswerSet answerSet) {
+        if(customUserDetails == null) {
+            throw JobErrorCode.CANNOT_FIND_USER_DATA.toException();
+        }
+
         String rawResponse = callClovaApi(customUserDetails.getUsername(), answerSet);
 
         JobRecommendationResponse rawRecommendation = parseRecommendationResponse(rawResponse);
