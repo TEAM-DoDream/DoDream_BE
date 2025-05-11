@@ -8,9 +8,10 @@ import com.dodream.job.repository.JobRepository;
 import com.dodream.member.application.MemberAuthService;
 import com.dodream.member.domain.Member;
 import com.dodream.ncs.repository.JobTodoRespository;
-import com.dodream.todo.domain.MemoImage;
+import com.dodream.todo.domain.TodoImage;
 import com.dodream.todo.domain.Todo;
 import com.dodream.todo.domain.TodoGroup;
+import com.dodream.todo.dto.request.PostTodoRequestDto;
 import com.dodream.todo.dto.response.AddJobTodoResponseDto;
 import com.dodream.todo.dto.response.ChangeCompleteStateTodoResponseDto;
 import com.dodream.todo.dto.response.ChangePublicStateTodoResponseDto;
@@ -20,6 +21,7 @@ import com.dodream.todo.dto.response.GetOneTodoResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoWithMemoResponseDto;
 import com.dodream.todo.dto.response.GetTodoGroupByCategoryResponseDto;
 import com.dodream.todo.dto.response.GetTodoJobResponseDto;
+import com.dodream.todo.dto.response.PostTodoResponseDto;
 import com.dodream.todo.exception.TodoErrorCode;
 import com.dodream.todo.exception.TodoGroupErrorCode;
 import com.dodream.todo.repository.TodoGroupRepository;
@@ -44,7 +46,23 @@ public class TodoMemberService {
     private final TodoRepository todoRepository;
     private final TodoGroupRepository todoGroupRepository;
 
-    // 직업 담기
+    @Transactional
+    public PostTodoResponseDto postNewTodo(Long todoGroupId, PostTodoRequestDto requestDto) {
+
+        Member member = memberAuthService.getCurrentMember();
+
+        TodoGroup todoGroup = todoGroupRepository.findByIdAndMember(todoGroupId,
+                member)
+            .orElseThrow(TodoGroupErrorCode.TODO_GROUP_NOT_FOUND::toException);
+
+        Todo newTodo = Todo.of(todoGroup, member, requestDto.todoTitle(),
+            requestDto.todoCategory());
+        todoRepository.save(newTodo);
+
+        return PostTodoResponseDto.of(todoGroup.getId(), newTodo);
+    }
+
+
     @Transactional
     public AddJobTodoResponseDto addJobToMyList(Long jobId) {
 
@@ -53,16 +71,16 @@ public class TodoMemberService {
         Job job = jobRepository.findById(jobId)
             .orElseThrow(JobErrorCode.CANNOT_GET_JOB_DATA::toException);
 
-        List<JobTodo> todoList = jobTodoRespository.findAllByJob(job);  // 해당 직업의 투두 가져오기
+        List<JobTodo> todoList = jobTodoRespository.findAllByJob(job);
 
-        TodoGroup todoGroup = TodoGroup.builder()  //새로운 MyJobTodoGroup 생성
+        TodoGroup todoGroup = TodoGroup.builder()
             .member(member)
             .job(job)
             .build();
 
         TodoGroup savedGroup = todoGroupRepository.save(todoGroup);
 
-        List<Todo> myTodos = todoList.stream()   // 투두 생성하기
+        List<Todo> myTodos = todoList.stream()
             .map(todo -> Todo.of(savedGroup, member, todo))
             .toList();
 
@@ -72,7 +90,6 @@ public class TodoMemberService {
     }
 
 
-    // 자신이 담은 직업 목록 조회
     @Transactional(readOnly = true)
     public List<GetTodoJobResponseDto> getTodoJobList() {
         Member member = memberAuthService.getCurrentMember();
@@ -85,7 +102,7 @@ public class TodoMemberService {
 
     }
 
-    // 투두 처음 화면 조회
+
     @Transactional(readOnly = true)
     public GetOneTodoGroupResponseDto getOneTodoGroupAtHome() {
 
@@ -108,15 +125,14 @@ public class TodoMemberService {
 
         List<GetTodoGroupByCategoryResponseDto> todos = Arrays.stream(TodoCategory.values())
             .filter(groupedMap::containsKey)
-            .map(category -> new GetTodoGroupByCategoryResponseDto(
-                category.getValue(), groupedMap.get(category)))
+            .map(category -> GetTodoGroupByCategoryResponseDto.of(
+                category, groupedMap.get(category)))
             .toList();
 
         return GetOneTodoGroupResponseDto.of(member, todoGroup.get(), todos);
     }
 
 
-    // 개별 투두 그룹 조회
     @Transactional(readOnly = true)
     public GetOneTodoGroupResponseDto getOneTodoGroup(Long TodoGroupId) {
 
@@ -134,7 +150,7 @@ public class TodoMemberService {
 
         List<GetTodoGroupByCategoryResponseDto> todos = Arrays.stream(TodoCategory.values())
             .filter(groupedMap::containsKey)
-            .map(category -> new GetTodoGroupByCategoryResponseDto(category.getValue(),
+            .map(category -> GetTodoGroupByCategoryResponseDto.of(category,
                 groupedMap.get(category)))
             .collect(Collectors.toList());
 
@@ -165,12 +181,12 @@ public class TodoMemberService {
         todo.updateDeleted();
 
         todo.getImages()
-            .forEach(MemoImage::updateDeleted);
+            .forEach(TodoImage::updateDeleted);
 
         return DeleteTodoResponseDto.from(todo);
     }
 
-    // 투두 메모 공개 여부 결정
+
     @Transactional
     public ChangePublicStateTodoResponseDto changeOneTodoPublicState(Long todoId) {
 
@@ -184,7 +200,6 @@ public class TodoMemberService {
 
     }
 
-    // 투두 완료 처리
     @Transactional
     public ChangeCompleteStateTodoResponseDto changeOneTodoCompleteState(Long todoId) {
 
@@ -197,14 +212,5 @@ public class TodoMemberService {
         return ChangeCompleteStateTodoResponseDto.from(todo);
 
     }
-
-    // 투두 메모 작성하기
-
-    // 특정 투두 수정하기
-
-    // 새로운 투두 생성하기
-
-    // 이미지 첨부하기
-
 
 }

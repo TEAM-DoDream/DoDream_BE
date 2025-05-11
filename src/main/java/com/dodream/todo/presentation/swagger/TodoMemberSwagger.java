@@ -2,6 +2,7 @@ package com.dodream.todo.presentation.swagger;
 
 import com.dodream.core.config.swagger.ApiErrorCode;
 import com.dodream.core.presentation.RestResponse;
+import com.dodream.todo.dto.request.PostTodoRequestDto;
 import com.dodream.todo.dto.response.AddJobTodoResponseDto;
 import com.dodream.todo.dto.response.ChangeCompleteStateTodoResponseDto;
 import com.dodream.todo.dto.response.ChangePublicStateTodoResponseDto;
@@ -9,18 +10,21 @@ import com.dodream.todo.dto.response.DeleteTodoResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoWithMemoResponseDto;
 import com.dodream.todo.dto.response.GetTodoJobResponseDto;
+import com.dodream.todo.dto.response.PostTodoResponseDto;
 import com.dodream.todo.exception.TodoErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Tag(name = "Todo", description = "마이드림 - 투두 리스트 관련 API")
 public interface TodoMemberSwagger {
 
     @Operation(
-        summary = "마이드림 - 투두리스트 첫화면 조회 API",
+        summary = "투두리스트 - 투두리스트 첫화면 조회 API",
         description = "마이드림 - 투두리스트 첫화면을 조회한다. (마이드림 - 투두리스트)",
         operationId = "/v1/my-dream/todo"
     )
@@ -29,8 +33,18 @@ public interface TodoMemberSwagger {
 
 
     @Operation(
+        summary = "투두리스트 - 새로운 투두 추가",
+        description = "마이드림 - 투두리스트에 새로운 투두를 추가한다. (마이드림 - 투두리스트 - 개별 투두 추가)",
+        operationId = "/v1/my-dream/todo/{todoGroupId}"
+    )
+    @ApiErrorCode(TodoErrorCode.class)
+    ResponseEntity<RestResponse<PostTodoResponseDto>> postNewTodo(
+        @PathVariable Long todoGroupId, @RequestBody @Valid PostTodoRequestDto postTodoRequestDto);
+
+
+    @Operation(
         summary = "직업 담기 API",
-        description = "해당 직업의 투두를 담는다. (마이드림 - 투두리스트)",
+        description = "해당 직업의 투두리스트를 담는다.",
         operationId = "/v1/my-dream/job/{jobId}"
     )
     @ApiErrorCode(TodoErrorCode.class)
@@ -39,7 +53,7 @@ public interface TodoMemberSwagger {
 
 
     @Operation(
-        summary = "나의 투두 직업 목록 조회 API",
+        summary = "투두리스트 - 나의 투두 직업 목록 조회 API",
         description = "나의 투두 직업 목록을 조회한다. (마이드림 - 투두리스트)",
         operationId = "/v1/my-dream/todo/jobs"
     )
@@ -48,8 +62,8 @@ public interface TodoMemberSwagger {
 
 
     @Operation(
-        summary = "나의 직업별 투두 조회 API",
-        description = "직업별 투두를 조회한다 (마이드림 - 투두리스트 - 개별 조회)",
+        summary = "투두리스트 - 나의 직업별 투두리스트 조회 API",
+        description = "직업별 투두리스트를 조회한다 (마이드림 - 투두리스트 - 개별 조회)",
         operationId = "/v1/my-dream/todo/{todoGroupId}"
     )
     @ApiErrorCode(TodoErrorCode.class)
@@ -58,42 +72,42 @@ public interface TodoMemberSwagger {
 
 
     @Operation(
-        summary = "개별 투두 아이템 메모 조회 API",
+        summary = "투두리스트 - 개별 투두의 메모 조회 API",
         description = "개별 투두 아이템 메모를 조회한다 (마이드림 - 투두리스트 - 개별 투두 조회 - 투두 메모)",
-        operationId = "/v1/my-dream/todo/{todoGroupId}/{todoId}"
+        operationId = "/v1/my-dream/todo/{todoId}"
     )
     @ApiErrorCode(TodoErrorCode.class)
     ResponseEntity<RestResponse<GetOneTodoWithMemoResponseDto>> getOneTodoMemo(
-        @PathVariable Long todoGroupId, @PathVariable Long todoId);
+        @PathVariable Long todoId);
 
 
     @Operation(
-        summary = "개별 투두 삭제 API",
+        summary = "투두리스트 - 개별 투두 삭제 API",
         description = "개별 투두 아이템 메모를 조회한다 (마이드림 - 투두리스트 - 개별 투두 조회 - 삭제)",
-        operationId = "/v1/my-dream/todo/{todoGroupId}/{todoId}"
+        operationId = "/v1/my-dream/todo/{todoId}"
     )
     @ApiErrorCode(TodoErrorCode.class)
     ResponseEntity<RestResponse<DeleteTodoResponseDto>> deleteOneTodo(
-        @PathVariable Long todoGroupId, @PathVariable Long todoId);
+        @PathVariable Long todoId);
 
 
     @Operation(
-        summary = "개별 투두 공개 상태 변경 API",
+        summary = "투두리스트 - 개별 투두 공개 상태 변경 API",
         description = "개별 투두 아이템의 공개 상태를 변경한다 (마이드림 - 투두리스트 - 개별 투두 조회 - 공개상태 변경)",
-        operationId = "/v1/my-dream/todo/{todoGroupId}/{todoId}/public-state"
+        operationId = "/v1/my-dream/todo/{todoId}/public-state"
     )
     @ApiErrorCode(TodoErrorCode.class)
     ResponseEntity<RestResponse<ChangePublicStateTodoResponseDto>> changeOneTodoPublicState(
-        @PathVariable Long todoGroupId, @PathVariable Long todoId);
+        @PathVariable Long todoId);
 
 
     @Operation(
-        summary = "개별 투두 완료 상태 변경 API",
+        summary = "투두리스트 - 개별 투두 완료 상태 변경 API",
         description = "개별 투두 아이템의 완료 상태를 변경한다 (마이드림 - 투두리스트 - 개별 투두 조회 - 완료상태 변경)",
-        operationId = "/v1/my-dream/todo/{todoGroupId}/{todoId}/complete-state"
+        operationId = "/v1/my-dream/todo/{todoId}/complete-state"
     )
     @ApiErrorCode(TodoErrorCode.class)
     ResponseEntity<RestResponse<ChangeCompleteStateTodoResponseDto>> changeOneTodoCompleteState(
-        @PathVariable Long todoGroupId, @PathVariable Long todoId);
+        @PathVariable Long todoId);
 
 }
