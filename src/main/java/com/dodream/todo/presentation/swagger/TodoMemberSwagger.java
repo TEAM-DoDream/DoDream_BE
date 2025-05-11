@@ -35,7 +35,7 @@ public interface TodoMemberSwagger {
     @Operation(
         summary = "투두리스트 - 새로운 투두 추가",
         description = "마이드림 - 투두리스트에 새로운 투두를 추가한다. (마이드림 - 투두리스트 - 개별 투두 추가)",
-        operationId = "/v1/my-dream/todo/{todoGroupId}"
+        operationId = "/v1/my-dream/todo-group/{todoGroupId}"
     )
     @ApiErrorCode(TodoErrorCode.class)
     ResponseEntity<RestResponse<PostTodoResponseDto>> postNewTodo(
@@ -64,7 +64,7 @@ public interface TodoMemberSwagger {
     @Operation(
         summary = "투두리스트 - 나의 직업별 투두리스트 조회 API",
         description = "직업별 투두리스트를 조회한다 (마이드림 - 투두리스트 - 개별 조회)",
-        operationId = "/v1/my-dream/todo/{todoGroupId}"
+        operationId = "/v1/my-dream/todo-group/{todoGroupId}"
     )
     @ApiErrorCode(TodoErrorCode.class)
     ResponseEntity<RestResponse<GetOneTodoGroupResponseDto>> getOneTodoGroup(
