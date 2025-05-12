@@ -296,4 +296,26 @@ INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job
 INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '두드림, 사람인, 워크넷 등에서 “산후조리사”, “산모도우미” 키워드로 일자리 검색하여 구인글 최소 5개 찾아보기', 'CHALLENGE','20');
 INSERT INTO job_todo (created_at, updated_at, deleted, title, todo_category, job_id) VALUES (CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, false, '첫 출근 전, 유튜브에서 “초보 산후조리사”, “신생아 케어 기본” 영상 시청하며 실전 대응력 키우기', 'CHALLENGE', '20');
 
+-- 직업 요약 추가 방법 (추후 직업 INSERT문에 합칠 예정)
+alter table job drop column job_code;
 
+UPDATE job SET job_summary = '어르신의 일상생활을 도와드리는 따뜻한 돌봄 직업이에요.' where id=1;
+UPDATE job SET job_summary = '병원이나 의원에서 진료를 보조하고 환자를 돌보는 일을 해요.' where id=2;
+UPDATE job SET job_summary = '아이들을 돌보며 건강하고 안전한 하루를 만들어주는 직업이에요.' where id=3;
+UPDATE job SET job_summary = '도움이 필요한 이웃에게 복지 서비스를 연결해주는 따뜻한 일이에요.' where id=4;
+UPDATE job SET job_summary = '구직자에게 맞는 일자리를 찾도록 돕고 이력서·면접 준비도 도와주는 역할을 해요.' where id=5;
+UPDATE job SET job_summary = '마음을 힘들어하는 사람들의 이야기를 듣고 위로를 전하는 일이에요.' where id=6;
+UPDATE job SET job_summary = '학교나 복지시설 등에서 식재료 준비, 배식, 정리까지 함께 돕는 일이에요.' where id=7;
+UPDATE job SET job_summary = '서류 정리, 전화 응대 등 사무실의 다양한 업무를 담당해요.' where id=8;
+UPDATE job SET job_summary = '영수증 정리, 비용 입력 등 돈과 관련된 회사 기록을 꼼꼼하게 정리하는 일을 해요.' where id=9;
+UPDATE job SET job_summary = '동물 병원에서 수의사를 도와 동물을 치료하고 돌보는 직업이에요.' where id=10;
+UPDATE job SET job_summary = '결혼식 당일, 신부님 옷과 액세서리, 이동 등을 도와주는 일이에요.' where id=11;
+UPDATE job SET job_summary = '고객의 머리 손질을 돕고 미용 서비스를 제공하는 일이에요.' where id=12;
+UPDATE job SET job_summary = '피부 관리실에서 얼굴, 피부 마사지 등 미용 관리를 해주는 일이에요.' where id=13;
+UPDATE job SET job_summary = '손톱·발톱 관리와 네일아트를 통해 고객의 손을 예쁘게 꾸며주는 일이에요.' where id=14;
+UPDATE job SET job_summary = '결혼식, 행사, 촬영 등을 위해 사람의 얼굴 화장을 전문적으로 해주는 직업이에요.' where id=15;
+UPDATE job SET job_summary = '반려동물의 털을 깔끔하게 다듬고 목욕시키는 일을 해요.' where id=16;
+UPDATE job SET job_summary = '어르신이나 아이들 대상 프로그램을 진행하며 놀이, 게임 등 활동을 안내해요. ' where id=17;
+UPDATE job SET job_summary = '커피를 만들고 손님과 소통하는 따뜻한 공간을 만드는 일이에요.' where id=18;
+UPDATE job SET job_summary = '사무실에서 부동산 매매나 임대 계약을 돕는 업무를 해요.' where id=19;
+UPDATE job SET job_summary = '출산 후 산모와 아기를 돌보며 회복을 돕는 따뜻한 돌봄이에요.' where id=20;
