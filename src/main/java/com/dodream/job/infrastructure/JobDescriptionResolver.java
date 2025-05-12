@@ -35,6 +35,6 @@ public class JobDescriptionResolver {
     private String getJobCodeByJobName(String jobName){
         return jobRepository.findByJobName(jobName)
                 .orElseThrow(JobErrorCode.CANNOT_GET_JOB_DATA::toException)
-                .getJobCode();
+                .getJobSummary();
     }
 }

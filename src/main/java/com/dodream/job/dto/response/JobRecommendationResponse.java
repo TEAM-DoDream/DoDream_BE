@@ -7,6 +7,7 @@ public record JobRecommendationResponse(
 ) {
     public record RecommendedJob(
             String jobTitle,
+            Long jobId,
             String jobDescription,
             String imageUrl,
             Reasons reasons

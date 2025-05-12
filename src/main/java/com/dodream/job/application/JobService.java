@@ -26,9 +26,7 @@ public class JobService {
                 JobErrorCode.CANNOT_GET_JOB_DATA::toException
         );
 
-        return JobResponseDto.from(
-                job, jobDescriptionResolver.resolveJobummaryByCode(job.getJobCode())
-        );
+        return JobResponseDto.from(job);
     }
 
     public List<JobListDto> getAllJobs(int pageNumber) {
@@ -40,11 +38,7 @@ public class JobService {
         Page<Job> jobs = jobRepository.findAll(pageable);
 
         return jobs.stream()
-                .map(
-                        job -> JobListDto.from(
-                                job, jobDescriptionResolver.resolveJobummaryByCode(job.getJobCode())
-                        )
-                )
+                .map(JobListDto::from)
                 .toList();
     }
 }
