@@ -75,13 +75,13 @@ public class Todo extends BaseLongIdEntity {
         this.isPublic = !this.isPublic;
     }
 
-//    @Builder
-//    private Todo(TodoGroup todoGroup, Member member, String title, TodoCategory todoCategory) {
-//        this.todoGroup = todoGroup;
-//        this.member = member;
-//        this.title = title;
-//        this.todoCategory = todoCategory;
-//    }
+    @Builder
+    private Todo(TodoGroup todoGroup, Member member, String title, TodoCategory todoCategory) {
+        this.todoGroup = todoGroup;
+        this.member = member;
+        this.title = title;
+        this.todoCategory = todoCategory;
+    }
 
     public static Todo of(TodoGroup todoGroup, Member member, JobTodo jobTodo) {
         return Todo.builder()
