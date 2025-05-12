@@ -27,7 +27,6 @@ public class JobRecommendService {
     private final ClovaChatCompletionCaller clovaChatCompletionCaller;
     private final ClovaChatResponseMapper clovaChatResponseMapper;
     private final JobRecommendMapper jobRecommendMapper;
-    private final JobDescriptionResolver jobDescriptionResolver;
 
     public JobRecommendationResponse recommendJob(CustomUserDetails customUserDetails, OnboardingAnswerSet answerSet) {
         if(customUserDetails == null) {
@@ -70,11 +69,16 @@ public class JobRecommendService {
     }
 
     private JobRecommendationResponse.RecommendedJob enrichJobWithDescription(JobRecommendationResponse.RecommendedJob job) {
-        String jobSum = jobDescriptionResolver.resolveJobSummary(job.jobTitle());
-        String imageUrl = jobRepository.findByJobName(job.jobTitle())
-                .orElseThrow(JobErrorCode.CANNOT_GET_JOB_DATA::toException)
-                .getJobImageUrl();
-        return new JobRecommendationResponse.RecommendedJob(job.jobTitle(), jobSum, imageUrl, job.reasons());
+        Job result = jobRepository.findByJobName(job.jobTitle())
+                .orElseThrow(JobErrorCode.CANNOT_GET_JOB_DATA::toException);
+
+        return new JobRecommendationResponse.RecommendedJob(
+                job.jobTitle(),
+                result.getId(),
+                result.getJobSummary(),
+                result.getJobImageUrl(),
+                job.reasons()
+        );
     }
 
     private JobRecommendationResponse parseRecommendationResponse(String rawResponse) {

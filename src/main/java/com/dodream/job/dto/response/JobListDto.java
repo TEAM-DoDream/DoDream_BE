@@ -29,11 +29,11 @@ public record JobListDto(
         String imageUrl
 ) {
 
-        public static JobListDto from(Job job, String jobDescription){
+        public static JobListDto from(Job job){
                 return new JobListDto(
                         job.getId(),
                         job.getJobName(),
-                        jobDescription,
+                        job.getJobSummary(),
                         job.getRequiresCertification().getDescription(),
                         job.getWorkTimeSlot().getDescription(),
                         job.getPhysicalActivityLevel().getDescription(),
