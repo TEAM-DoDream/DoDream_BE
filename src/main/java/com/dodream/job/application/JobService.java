@@ -4,7 +4,6 @@ import com.dodream.job.domain.Job;
 import com.dodream.job.dto.response.JobListDto;
 import com.dodream.job.dto.response.JobResponseDto;
 import com.dodream.job.exception.JobErrorCode;
-import com.dodream.job.infrastructure.JobDescriptionResolver;
 import com.dodream.job.repository.JobRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,7 +18,6 @@ import java.util.List;
 public class JobService {
 
     private final JobRepository jobRepository;
-    private final JobDescriptionResolver jobDescriptionResolver;
 
     public JobResponseDto getJobById(Long id) {
         Job job = jobRepository.findById(id).orElseThrow(

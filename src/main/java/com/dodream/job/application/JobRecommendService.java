@@ -6,7 +6,6 @@ import com.dodream.job.dto.request.recommend.ExampleJobList;
 import com.dodream.job.dto.response.JobRecommendationResponse;
 import com.dodream.job.dto.request.recommend.OnboardingAnswerSet;
 import com.dodream.job.exception.JobErrorCode;
-import com.dodream.job.infrastructure.JobDescriptionResolver;
 import com.dodream.job.infrastructure.caller.ClovaChatCompletionCaller;
 import com.dodream.job.infrastructure.factory.SystemPromptLoader;
 import com.dodream.job.infrastructure.factory.UserPromptLoader;
