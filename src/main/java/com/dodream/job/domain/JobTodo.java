@@ -28,10 +28,6 @@ import org.hibernate.type.SqlTypes;
 @Table(name = "job_todo")
 public class JobTodo extends BaseLongIdEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "job_id")
     private Job job;
