@@ -80,8 +80,13 @@ public record RecruitResponseListDto(
             @Schema(description = "마감일", example = "05/22(수)")
             String expirationDate,
 
+            @JsonProperty("deadline")
             @Schema(description = "마감일까지 남은 일수(채용시 마감인 경우 채용시 마감)", example = "D-6")
-            String deadline
+            String deadline,
+
+            @JsonProperty("count")
+            @Schema(description = "조회수(N명이 관심을 보였어요)", example = "5")
+            String count
     ){}
 
     public static List<RecruitResponseListDto.Job> toResponseListDto(
@@ -106,7 +111,8 @@ public record RecruitResponseListDto(
                         job.id(),
                         job.expirationDate(),
                         getExpirationDate(job.expirationDate(), job.closeType().code()),
-                        getRemainingDate(job.expirationDate(), job.closeType().code())
+                        getRemainingDate(job.expirationDate(), job.closeType().code()),
+                        job.readCnt()
                 ))
                 .toList();
     }
