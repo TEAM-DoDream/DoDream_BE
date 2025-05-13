@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Getter
 public enum Require {
-    NONE("필요 없음"),
+    NONE("불필요함"),
     OPTIONAL("선택 사항"),
     REQUIRED("필요함");
 
