@@ -40,6 +40,10 @@ public record RecruitResponseListDto(
             @Schema(description = "공고 제목", example = "요양원에서 근무할 남 . 여 요양보호사 채용공고")
             String title,
 
+            @JsonProperty("companyName")
+            @Schema(description = "회사 이름", example = "재가요양센터")
+            String companyName,
+
             @JsonProperty("locationName")
             @Schema(description = "지역 이름", example = "경기 안양시 만안구")
             String locationName,
@@ -57,7 +61,7 @@ public record RecruitResponseListDto(
             String requiredEducationLevel,
 
             @JsonProperty("closeType")
-            @Schema(description = "접수 마감 정보", example = "접수 마감일")
+            @Schema(description = "접수 마감 정보", example = "접수마감일")
             String closeType,
 
             @JsonProperty("salary")
@@ -68,8 +72,12 @@ public record RecruitResponseListDto(
             @Schema(description = "사람인 공고 ID", example = "50390519")
             String id,
 
+            @JsonProperty("expiration-timestamp")
+            @Schema(description = "마감일 타임스탬프(DB저장에 활용)", example = "2025-06-01T23:59:59+0900")
+            String expirationTimestamp,
+
             @JsonProperty("expiration-date")
-            @Schema(description = "게시일", example = "05/22(수)")
+            @Schema(description = "마감일", example = "05/22(수)")
             String expirationDate,
 
             @Schema(description = "마감일까지 남은 일수(채용시 마감인 경우 채용시 마감)", example = "D-6")
@@ -86,8 +94,9 @@ public record RecruitResponseListDto(
                         job.url(),
                         job.active(),
                         job.position() != null ? job.position().title() : null,
+                        job.company().detail().name(),
                         job.position() != null && job.position().location() != null
-                                ? job.position().location().name().replace("&gt;", "").replaceAll("\\s+", " ")
+                                ? getLocationName(job.position().location().name())
                                 : null,
                         job.position() != null && job.position().jobType() != null ? job.position().jobType().name() : null,
                         job.position() != null && job.position().experienceLevel() != null ? job.position().experienceLevel().name() : null,
@@ -95,10 +104,15 @@ public record RecruitResponseListDto(
                         job.closeType() != null ? job.closeType().name() : null,
                         job.salary() != null ? job.salary().name() : null,
                         job.id(),
+                        job.expirationDate(),
                         getExpirationDate(job.expirationDate(), job.closeType().code()),
                         getRemainingDate(job.expirationDate(), job.closeType().code())
                 ))
                 .toList();
+    }
+
+    private static String getLocationName(String locName){
+            return locName.replace("&gt;","").replaceAll("\\s+", " ");
     }
 
     private static String getRemainingDate(String date, String closeType){
