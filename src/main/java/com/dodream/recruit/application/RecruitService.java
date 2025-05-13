@@ -45,163 +45,133 @@ public class RecruitService {
     public RecruitResponseListDto getRecruitList(
             String keyWord, String locationName,
             String startDate, String endDate, int pageNum
-    ){
-        if(keyWord == null){
-            keyWord = getTopJobNameInTodo();
+    ) {
+        if (keyWord == null) {
+            keyWord = getTopJobNameFromAllUserTodoGroup();
         }
 
-        String result = recruitApiCaller.recruitListApiListCaller(
-                    keyWord, recruitCodeResolver.resolveRecruitLocationName(locationName),
-                    getDateTimeString(startDate), getDateTimeString(endDate), pageNum
-        );
+        String regionCode = recruitCodeResolver.resolveRecruitLocationName(locationName);
+        String result = callRecruitListApi(keyWord, regionCode, startDate, endDate, pageNum);
 
-        RecruitResponseListApiDto mappedResult = recruitMapper.recruitListMapper(result);
-
-        return recruitMapper.toSimpleListDto(mappedResult);
+        return toRecruitListDto(result);
     }
 
     public RecruitResponseListDto getRecruitListByToken(
-            CustomUserDetails customUserDetails, String keyWord, String locationName,
-            String startDate, String endDate, int pageNum
-    ){
-        if(keyWord == null){
-            keyWord = getTopJobNameInMemberTodoGroup(customUserDetails);
+            CustomUserDetails customUserDetails, String keyWord,
+            String locationName, String startDate, String endDate, int pageNum
+    ) {
+        if (keyWord == null) {
+            keyWord = getTopJobNameFromMemberTodoGroup(customUserDetails);
         }
-        String result = recruitApiCaller.recruitListApiListCaller(
-                keyWord,
-                getRegionCodeByToken(customUserDetails),
-                getDateTimeString(startDate),
-                getDateTimeString(endDate),
-                pageNum
-        );
 
-        RecruitResponseListApiDto mappedResult = recruitMapper.recruitListMapper(result);
+        String regionCode = getRegionCodeFromMember(customUserDetails);
+        String result = callRecruitListApi(keyWord, regionCode, startDate, endDate, pageNum);
 
-        return recruitMapper.toSimpleListDto(mappedResult);
+        return toRecruitListDto(result);
     }
 
-    public List<PopularRecruitResponse> getPopularJobListByAllMember(){
-        List<Job> popularJobList = jobRepository.findTop3PopularJob();
+    public List<PopularRecruitResponse> getPopularJobListByAllMember() {
+        List<Job> jobList = getTopJobListWithFallback(jobRepository.findTop3PopularJob());
 
-        // 만약 아무것도 안담긴 경우 랜덤하게 3개 담기
-        if(popularJobList.isEmpty() || popularJobList.size() < 3){
-            popularJobList = jobRepository.findAll();
-            Collections.shuffle(popularJobList);
-            popularJobList = popularJobList.stream().limit(3).collect(Collectors.toList());
-        }
-
-        List<PopularRecruitResponse> popularRecruitResponseList = new ArrayList<>();
-        for(Job job : popularJobList){
-            String result = recruitApiCaller.recruitListApiListCaller(
-                    job.getJobName(),
-                    null,
-                    null,
-                    null,
-                    0
-            );
-
-            RecruitResponseListApiDto mappedResult = recruitMapper.recruitListMapper(result);
-
-            popularRecruitResponseList.add(new PopularRecruitResponse(
-                    job.getJobName(),
-                    Integer.parseInt(mappedResult.jobs().total())
-            ));
-        }
-
-        return popularRecruitResponseList;
+        return jobList.stream()
+                .map(job -> new PopularRecruitResponse(
+                        job.getJobName(),
+                        getRecruitCount(job.getJobName(), null)
+                ))
+                .collect(Collectors.toList());
     }
 
-    public List<PopularRecruitResponse> getPopularJobListByTodoGroup(CustomUserDetails customUserDetails){
-        Member member = memberRepository.findById(customUserDetails.getId())
-                .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
+    public List<PopularRecruitResponse> getPopularJobListByTodoGroup(CustomUserDetails userDetails) {
+        Member member = getMember(userDetails.getId());
 
-        List<Job> jobList = todoGroupRepository.findTop3ByMemberOrderByTotalViewDesc(member)
-                .stream()
+        List<Job> jobList = todoGroupRepository.findTop3ByMemberOrderByTotalViewDesc(member).stream()
                 .map(TodoGroup::getJob)
                 .filter(Objects::nonNull)
+                .distinct()
                 .collect(Collectors.toList());
 
-        // 만약 아무것도 안담긴 경우 랜덤하게 3개 담기
-        if(jobList.isEmpty() || jobList.size() < 3){
-            jobList = jobRepository.findAll();
-            Collections.shuffle(jobList);
-            jobList = jobList.stream().limit(3).collect(Collectors.toList());
-        }
+        jobList = getTopJobListWithFallback(jobList);
 
-        List<PopularRecruitResponse> popularRecruitResponseList = new ArrayList<>();
+        String regionCode = getRegionCodeFromMember(userDetails);
 
-        for (Job job : jobList){
-            String result = recruitApiCaller.recruitListApiListCaller(
-                    job.getJobName(),
-                    getRegionCodeByToken(customUserDetails),
-                    null,
-                    null,
-                    0
-            );
-
-            RecruitResponseListApiDto mappedResult = recruitMapper.recruitListMapper(result);
-
-            popularRecruitResponseList.add(new PopularRecruitResponse(
-                    job.getJobName(),
-                    Integer.parseInt(mappedResult.jobs().total())
-            ));
-        }
-
-        return popularRecruitResponseList;
+        return jobList.stream()
+                .map(job -> new PopularRecruitResponse(
+                        job.getJobName(),
+                        getRecruitCount(job.getJobName(), regionCode)
+                ))
+                .collect(Collectors.toList());
     }
 
-    public RecruitResponseListDto getRecruitDetail(
-            String id
-    ) {
+    public RecruitResponseListDto getRecruitDetail(String id) {
         String result = recruitApiCaller.recruitDetailAPiCaller(id);
-
-        RecruitResponseListApiDto mappedResult = recruitMapper.recruitListMapper(result);
-
-        return recruitMapper.toSimpleListDto(mappedResult);
+        return toRecruitListDto(result);
     }
 
-    private String getDateTimeString(String date){
-        if(date == null || date.isEmpty()){
-            return null;
-        }
+    // === 헬퍼 메서드 ===
 
-        DateTimeFormatter inputDateFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-
-        LocalDate localDate = LocalDate.parse(date, inputDateFormatter);
-        LocalDateTime localDateTime = localDate.atStartOfDay();
-
-        ZoneId seoulZoneId = ZoneId.of("Asia/Seoul"); // KST (UTC+9)
-        long unixTimestampSecondsSeoul = localDateTime.atZone(seoulZoneId).toEpochSecond();
-        return String.valueOf(unixTimestampSecondsSeoul);
+    private String callRecruitListApi(String keyWord, String regionCode, String startDate, String endDate, int pageNum) {
+        return recruitApiCaller.recruitListApiListCaller(
+                keyWord,
+                regionCode,
+                toUnixTime(startDate),
+                toUnixTime(endDate),
+                pageNum
+        );
     }
 
-    private String getRegionCodeByToken(CustomUserDetails customUserDetails) {
-        Member member = memberRepository.findById(customUserDetails.getId())
+    private RecruitResponseListDto toRecruitListDto(String apiResult) {
+        RecruitResponseListApiDto mapped = recruitMapper.recruitListMapper(apiResult);
+        return recruitMapper.toSimpleListDto(mapped);
+    }
+
+    private String toUnixTime(String date) {
+        if (date == null || date.isEmpty()) return null;
+        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+        return String.valueOf(localDate.atStartOfDay(ZoneId.of("Asia/Seoul")).toEpochSecond());
+    }
+
+    private String getRegionCodeFromMember(CustomUserDetails userDetails) {
+        return getMember(userDetails.getId())
+                .getRegion().getSaraminRegionCode();
+    }
+
+    private Member getMember(Long id) {
+        return memberRepository.findById(id)
                 .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
-
-        if(member.getRegion() == null) {
-            return null;
-        } else{
-            return member.getRegion().getSaraminRegionCode();
-        }
     }
 
-    private String getTopJobNameInMemberTodoGroup(CustomUserDetails customUserDetails){
-        Member member = memberRepository.findById(customUserDetails.getId())
-                .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
-
-        TodoGroup todoGroup = todoGroupRepository.findTopByMemberOrderByTotalViewDesc(member)
+    private String getTopJobNameFromMemberTodoGroup(CustomUserDetails userDetails) {
+        Member member = getMember(userDetails.getId());
+        return todoGroupRepository.findTopByMemberOrderByTotalViewDesc(member)
+                .map(TodoGroup::getJob)
+                .map(Job::getJobName)
                 .orElseThrow(TodoGroupErrorCode.TODO_GROUP_NOT_FOUND::toException);
-
-        Job job = todoGroup.getJob();
-
-        return job.getJobName();
     }
 
-    private String getTopJobNameInTodo(){
-        Job job = jobRepository.findMostPopularJob()
+    private String getTopJobNameFromAllUserTodoGroup() {
+        return jobRepository.findMostPopularJob()
+                .map(Job::getJobName)
                 .orElseThrow(JobErrorCode.CANNOT_GET_JOB_DATA::toException);
+    }
 
-        return job.getJobName();
+    private int getRecruitCount(String jobName, String regionCode) {
+        String result = recruitApiCaller.recruitListApiListCaller(
+                jobName, regionCode, null, null, 0
+        );
+        return Integer.parseInt(recruitMapper.recruitListMapper(result).jobs().total());
+    }
+
+    private List<Job> getTopJobListWithFallback(List<Job> topJobs) {
+        if (topJobs == null) topJobs = new ArrayList<>();
+        List<Job> result = new ArrayList<>(topJobs);
+
+        if (result.size() < 3) {
+            List<Job> allJobs = new ArrayList<>(jobRepository.findAll());
+            allJobs.removeAll(result);
+            Collections.shuffle(allJobs);
+            result.addAll(allJobs.stream().limit(3 - result.size()).toList());
+        }
+
+        return result.stream().limit(3).collect(Collectors.toList());
     }
 }
