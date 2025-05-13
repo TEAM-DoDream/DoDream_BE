@@ -27,7 +27,7 @@ public class JobService {
         return JobResponseDto.from(job);
     }
 
-    public List<JobListDto> getAllJobs(int pageNumber) {
+    public Page<JobListDto> getAllJobs(int pageNumber) {
         if(pageNumber < 0) {
             pageNumber = 0;
         }
@@ -35,8 +35,6 @@ public class JobService {
         Pageable pageable = PageRequest.of(pageNumber, 9);
         Page<Job> jobs = jobRepository.findAll(pageable);
 
-        return jobs.stream()
-                .map(JobListDto::from)
-                .toList();
+        return jobs.map(JobListDto::from);
     }
 }
