@@ -3,6 +3,7 @@ package com.dodream.recruit.presentation;
 import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.recruit.application.RecruitService;
+import com.dodream.recruit.dto.response.PopularRecruitResponse;
 import com.dodream.recruit.dto.response.RecruitResponseListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -53,5 +54,21 @@ public class RecruitController implements RecruitSwagger{
             @RequestParam String id
     ) {
         return ResponseEntity.ok(new RestResponse<>(recruitService.getRecruitDetail(id)));
+    }
+
+    @Override
+    @GetMapping("/popular")
+    public ResponseEntity<RestResponse<List<PopularRecruitResponse>>> getPopularRecruitDetailController(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ) {
+        if(customUserDetails == null){
+            return ResponseEntity.ok(new RestResponse<>(
+                    recruitService.getPopularJobListByAllMember()
+            ));
+        }else{
+            return ResponseEntity.ok(new RestResponse<>(
+                    recruitService.getPopularJobListByTodoGroup(customUserDetails)
+            ));
+        }
     }
 }

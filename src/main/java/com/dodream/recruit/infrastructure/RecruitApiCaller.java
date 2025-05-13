@@ -23,7 +23,7 @@ public class RecruitApiCaller {
 
     private final String FIELDS = "expiration-date+count";
 
-    @CustomCacheableWithLock(cacheName = "recruitList", ttl = 15)
+    @CustomCacheableWithLock(cacheName = "recruitList", ttl = 120)
     public String recruitListApiListCaller(
             String keyWords, String locCd, String startDate, String endDate, int start
     ){
