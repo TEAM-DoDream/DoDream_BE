@@ -6,43 +6,46 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.List;
 
 public record JobResponseDto(
+        @Schema(description = "직업 id", example = "1")
+        Long jobId,
 
-        @Schema(name="직업 이름", example = "요양보호사")
+        @Schema(description="직업 이름", example = "요양보호사")
         String jobName,
 
-        @Schema(name = "직업 소개", example = "요양보호사는 ~")
+        @Schema(description = "직업 소개", example = "요양보호사는 ~")
         String jobDescription,
 
-        @Schema(name = "자격증", example = "요양보호사 자격증")
+        @Schema(description = "자격증", example = "요양보호사 자격증")
         List<String> certification,
 
-        @Schema(name = "자격증 준비 기간", example = "약 1개월")
+        @Schema(description = "자격증 준비 기간", example = "약 1개월")
         List<String> certificationPeriod,
 
-        @Schema(name = "급여 태그", example = "월급")
+        @Schema(description = "급여 태그", example = "월급")
         String salaryType,
 
-        @Schema(name = "급여 금액", example = "약 220만원")
+        @Schema(description = "급여 금액", example = "약 220만원")
         String salaryCost,
 
-        @Schema(name="강도")
+        @Schema(description="강도")
         Strong strong
 ) {
 
     public record Strong(
 
-            @Schema(name = "신체활동 정도", example = "움직임이 많은 활동")
+            @Schema(description = "신체활동 정도", example = "움직임이 많은 활동")
             String physical,
 
-            @Schema(name = "정신적 스트레스", example = "높음")
+            @Schema(description = "정신적 스트레스", example = "높음")
             String stress,
 
-            @Schema(name = "대인관계 빈도", example = "높음")
+            @Schema(description = "대인관계 빈도", example = "높음")
             String relationship
     ) {}
 
     public static JobResponseDto from(Job job){
         return new JobResponseDto(
+                job.getId(),
                 job.getJobName(),
                 job.getJobSummary(),
                 job.getCertificationNames(job.getCertifications()),
