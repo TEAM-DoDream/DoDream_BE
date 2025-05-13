@@ -1,10 +1,12 @@
 package com.dodream.recruit.presentation;
 
+import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.recruit.application.RecruitService;
 import com.dodream.recruit.dto.response.RecruitResponseListDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +24,7 @@ public class RecruitController implements RecruitSwagger{
     @Override
     @GetMapping("/list")
     public ResponseEntity<RestResponse<RecruitResponseListDto>> getRecruitListController(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestParam int pageNum,
             @RequestParam(required = false) String keyWord,
             @RequestParam(required = false) String locationName,
@@ -29,7 +32,7 @@ public class RecruitController implements RecruitSwagger{
             @RequestParam(required = false) String endDate
     ){
         return ResponseEntity.ok(new RestResponse<>(
-                recruitService.getRecruitList(keyWord, locationName, startDate, endDate, pageNum)
+                recruitService.getRecruitList(customUserDetails, keyWord, locationName, startDate, endDate, pageNum)
         ));
     }
 

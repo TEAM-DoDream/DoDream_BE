@@ -1,5 +1,6 @@
 package com.dodream.recruit.application;
 
+import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.recruit.dto.response.RecruitResponseListApiDto;
 import com.dodream.recruit.dto.response.RecruitResponseListDto;
 import com.dodream.recruit.infrastructure.RecruitApiCaller;
@@ -24,12 +25,25 @@ public class RecruitService {
     private final RecruitCodeResolver recruitCodeResolver;
 
     public RecruitResponseListDto getRecruitList(
-            String keyWord, String locationName, String startDate, String endDate, int pageNum
+            CustomUserDetails customUserDetails, String keyWord, String locationName,
+            String startDate, String endDate, int pageNum
     ){
-        String result = recruitApiCaller.recruitListApiListCaller(
-                        keyWord, recruitCodeResolver.resolveRecruitLocationName(locationName),
-                        getDateTimeString(startDate), getDateTimeString(endDate), pageNum
-                );
+        String result = null;
+        if(customUserDetails != null){
+            String locCode = customUserDetails.member().getRegion().getRegionCode();
+            result = recruitApiCaller.recruitListApiListCaller(
+                    keyWord,
+                    locCode,
+                    getDateTimeString(startDate),
+                    getDateTimeString(endDate),
+                    pageNum
+            );
+        }else{
+            result = recruitApiCaller.recruitListApiListCaller(
+                    keyWord, recruitCodeResolver.resolveRecruitLocationName(locationName),
+                    getDateTimeString(startDate), getDateTimeString(endDate), pageNum
+            );
+        }
 
         RecruitResponseListApiDto mappedResult = recruitMapper.recruitListMapper(result);
 

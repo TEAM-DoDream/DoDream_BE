@@ -1,6 +1,7 @@
 package com.dodream.recruit.presentation;
 
 import com.dodream.core.config.swagger.ApiErrorCode;
+import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.recruit.dto.response.RecruitResponseListDto;
 import com.dodream.recruit.exception.RecruitErrorCode;
@@ -9,6 +10,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Tag(name = "Recruit", description = "사람인 채용정보 관련 API")
@@ -21,6 +23,9 @@ public interface RecruitSwagger {
     )
     @ApiErrorCode(RecruitErrorCode.class)
     ResponseEntity<RestResponse<RecruitResponseListDto>> getRecruitListController(
+            @AuthenticationPrincipal
+            CustomUserDetails customUserDetails,
+
             @RequestParam
             @Parameter(description = "페이지 번호(0부터 시작)", example = "0")
             int pageNum,
