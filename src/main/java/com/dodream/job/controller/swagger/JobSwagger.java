@@ -10,6 +10,7 @@ import com.dodream.job.dto.response.JobResponseDto;
 import com.dodream.job.exception.JobErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,7 +38,7 @@ public interface JobSwagger {
             operationId = "/v1/job/list"
     )
     @ApiErrorCode(JobErrorCode.class)
-    ResponseEntity<RestResponse<List<JobListDto>>> getJobList(
+    ResponseEntity<RestResponse<Page<JobListDto>>> getJobList(
             @RequestParam int pageNum
     );
 

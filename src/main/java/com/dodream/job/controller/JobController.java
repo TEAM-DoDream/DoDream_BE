@@ -10,6 +10,7 @@ import com.dodream.job.dto.request.recommend.OnboardingAnswerSet;
 import com.dodream.job.dto.response.JobListDto;
 import com.dodream.job.dto.response.JobResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +37,7 @@ public class JobController implements JobSwagger {
 
     @Override
     @GetMapping("/list")
-    public ResponseEntity<RestResponse<List<JobListDto>>> getJobList(
+    public ResponseEntity<RestResponse<Page<JobListDto>>> getJobList(
             @RequestParam int pageNum
     ) {
         return ResponseEntity.ok(
