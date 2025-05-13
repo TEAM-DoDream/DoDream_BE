@@ -7,6 +7,7 @@ import com.dodream.job.repository.JobRepository;
 import com.dodream.member.domain.Member;
 import com.dodream.member.exception.MemberErrorCode;
 import com.dodream.member.repository.MemberRepository;
+import com.dodream.recruit.dto.response.PopularRecruitResponse;
 import com.dodream.recruit.dto.response.RecruitResponseListApiDto;
 import com.dodream.recruit.dto.response.RecruitResponseListDto;
 import com.dodream.recruit.infrastructure.RecruitApiCaller;
@@ -23,6 +24,11 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -72,6 +78,76 @@ public class RecruitService {
         RecruitResponseListApiDto mappedResult = recruitMapper.recruitListMapper(result);
 
         return recruitMapper.toSimpleListDto(mappedResult);
+    }
+
+    public List<PopularRecruitResponse> getPopularJobListByAllMember(){
+        List<Job> popularJobList = jobRepository.findTop3PopularJob();
+
+        // 만약 아무것도 안담긴 경우 랜덤하게 3개 담기
+        if(popularJobList.isEmpty() || popularJobList.size() < 3){
+            popularJobList = jobRepository.findAll();
+            Collections.shuffle(popularJobList);
+            popularJobList = popularJobList.stream().limit(3).collect(Collectors.toList());
+        }
+
+        List<PopularRecruitResponse> popularRecruitResponseList = new ArrayList<>();
+        for(Job job : popularJobList){
+            String result = recruitApiCaller.recruitListApiListCaller(
+                    job.getJobName(),
+                    null,
+                    null,
+                    null,
+                    0
+            );
+
+            RecruitResponseListApiDto mappedResult = recruitMapper.recruitListMapper(result);
+
+            popularRecruitResponseList.add(new PopularRecruitResponse(
+                    job.getJobName(),
+                    Integer.parseInt(mappedResult.jobs().total())
+            ));
+        }
+
+        return popularRecruitResponseList;
+    }
+
+    public List<PopularRecruitResponse> getPopularJobListByTodoGroup(CustomUserDetails customUserDetails){
+        Member member = memberRepository.findById(customUserDetails.getId())
+                .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
+
+        List<Job> jobList = todoGroupRepository.findTop3ByMemberOrderByTotalViewDesc(member)
+                .stream()
+                .map(TodoGroup::getJob)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+
+        // 만약 아무것도 안담긴 경우 랜덤하게 3개 담기
+        if(jobList.isEmpty() || jobList.size() < 3){
+            jobList = jobRepository.findAll();
+            Collections.shuffle(jobList);
+            jobList = jobList.stream().limit(3).collect(Collectors.toList());
+        }
+
+        List<PopularRecruitResponse> popularRecruitResponseList = new ArrayList<>();
+
+        for (Job job : jobList){
+            String result = recruitApiCaller.recruitListApiListCaller(
+                    job.getJobName(),
+                    getRegionCodeByToken(customUserDetails),
+                    null,
+                    null,
+                    0
+            );
+
+            RecruitResponseListApiDto mappedResult = recruitMapper.recruitListMapper(result);
+
+            popularRecruitResponseList.add(new PopularRecruitResponse(
+                    job.getJobName(),
+                    Integer.parseInt(mappedResult.jobs().total())
+            ));
+        }
+
+        return popularRecruitResponseList;
     }
 
     public RecruitResponseListDto getRecruitDetail(

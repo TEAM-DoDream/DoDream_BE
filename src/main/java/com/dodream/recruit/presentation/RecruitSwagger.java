@@ -3,6 +3,7 @@ package com.dodream.recruit.presentation;
 import com.dodream.core.config.swagger.ApiErrorCode;
 import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.core.presentation.RestResponse;
+import com.dodream.recruit.dto.response.PopularRecruitResponse;
 import com.dodream.recruit.dto.response.RecruitResponseListDto;
 import com.dodream.recruit.exception.RecruitErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,6 +13,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Tag(name = "Recruit", description = "사람인 채용정보 관련 API")
 public interface RecruitSwagger {
@@ -68,5 +71,16 @@ public interface RecruitSwagger {
             @RequestParam
             @Parameter(description = "채용공고 검색시 나오는 id", example = "50611581")
             String id
+    );
+
+    @Operation(
+            summary = "인기 직업 공고 건수 반환 API",
+            description = "현재 가장 인기있는 직업의 공고 건수를 반환합니다. (홈화면 - 구인 현황(오른쪽 상단))",
+            operationId = "/v1/recruit/popular"
+    )
+    @ApiErrorCode(RecruitErrorCode.class)
+    ResponseEntity<RestResponse<List<PopularRecruitResponse>>> getPopularRecruitDetailController(
+            @AuthenticationPrincipal
+            CustomUserDetails customUserDetails
     );
 }
