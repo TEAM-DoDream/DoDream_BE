@@ -5,7 +5,6 @@ import com.dodream.todo.domain.TodoGroup;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 public interface TodoGroupRepository extends JpaRepository<TodoGroup, Long> {
 
@@ -15,5 +14,5 @@ public interface TodoGroupRepository extends JpaRepository<TodoGroup, Long> {
 
     Optional<TodoGroup> findFirstByMemberOrderByIdAsc(Member member);
 
-
+    Optional<TodoGroup> findTopByMemberOrderByTotalViewDesc(Member member);
 }
