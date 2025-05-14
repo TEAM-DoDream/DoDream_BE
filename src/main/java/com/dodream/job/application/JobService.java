@@ -5,10 +5,12 @@ import com.dodream.job.dto.response.JobListDto;
 import com.dodream.job.dto.response.JobResponseDto;
 import com.dodream.job.exception.JobErrorCode;
 import com.dodream.job.repository.JobRepository;
+import com.dodream.job.repository.JobSpecification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,13 +29,14 @@ public class JobService {
         return JobResponseDto.from(job);
     }
 
-    public Page<JobListDto> getAllJobs(int pageNumber) {
+    public Page<JobListDto> getAllJobs(int pageNumber, String require, String workTime, String physical) {
         if(pageNumber < 0) {
             pageNumber = 0;
         }
 
         Pageable pageable = PageRequest.of(pageNumber, 9);
-        Page<Job> jobs = jobRepository.findAll(pageable);
+        Specification<Job> spec = JobSpecification.matchesFilter(require, workTime, physical);
+        Page<Job> jobs = jobRepository.findAll(spec, pageable);
 
         return jobs.map(JobListDto::from);
     }

@@ -9,6 +9,7 @@ import com.dodream.job.dto.response.JobListDto;
 import com.dodream.job.dto.response.JobResponseDto;
 import com.dodream.job.exception.JobErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,20 @@ public interface JobSwagger {
     )
     @ApiErrorCode(JobErrorCode.class)
     ResponseEntity<RestResponse<Page<JobListDto>>> getJobList(
-            @RequestParam int pageNum
+            @RequestParam
+            int pageNum,
+
+            @RequestParam(required = false)
+            @Parameter(description = "자격증 필요 여부", example = "필요함")
+            String require,
+
+            @RequestParam(required = false)
+            @Parameter(description = "근무시간대", example = "평일 9시-18시")
+            String workTime,
+
+            @RequestParam(required = false)
+            @Parameter(description = "신체활동 정도", example = "정적인 활동")
+            String physical
     );
 
     @Operation(

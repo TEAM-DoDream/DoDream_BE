@@ -2,12 +2,13 @@ package com.dodream.job.repository;
 
 import com.dodream.job.domain.Job;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface JobRepository extends JpaRepository<Job, Long> {
+public interface JobRepository extends JpaRepository<Job, Long>, JpaSpecificationExecutor<Job> {
     Optional<Job> findByJobName(String jobName);
 
     @Query(value = """
