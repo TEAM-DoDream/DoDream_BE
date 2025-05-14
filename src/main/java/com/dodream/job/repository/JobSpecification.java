@@ -42,7 +42,8 @@ public class JobSpecification {
             if(workTime != null && !workTime.isBlank()){
                 WorkTime workTimeEnum = Arrays.stream(WorkTime.values())
                         .filter(w -> w.getDescription().equals(workTime))
-                        .findFirst().orElse(null);
+                        .findFirst()
+                        .orElse(null);
 
                 if(workTimeEnum != null){
                     predicates.add(cb.equal(root.get("workTimeSlot"), workTimeEnum));

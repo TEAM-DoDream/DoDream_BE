@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 public enum WorkTime {
     WEEKDAY_MORNING("평일 오전"),
     WEEKDAY_AFTERNOON("평일 오후"),
-    WEEKDAY_NINE_TO_SIX("평일 9-18시"),
+    WEEKDAY_NINE_TO_SIX("평일 9시-18시"),
     WEEKEND("주말 근무"),
     EVENT("이벤트성"),
     FLEXIBLE("탄력 근무");
