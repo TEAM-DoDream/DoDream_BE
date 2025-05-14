@@ -1,10 +1,14 @@
 package com.dodream.todo.repository;
 
+import com.dodream.job.domain.Job;
 import com.dodream.member.domain.Member;
 import com.dodream.todo.domain.TodoGroup;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface TodoGroupRepository extends JpaRepository<TodoGroup, Long> {
 
@@ -15,6 +19,14 @@ public interface TodoGroupRepository extends JpaRepository<TodoGroup, Long> {
     Optional<TodoGroup> findFirstByMemberOrderByIdAsc(Member member);
 
     Optional<TodoGroup> findTopByMemberOrderByTotalViewDesc(Member member);
+
+    boolean existsByMemberAndJob(Member member, Job job);
+
+    @Query("SELECT tg FROM TodoGroup tg " +
+           "WHERE tg.member <> :currentMember " +
+           "AND tg.job = :job " +
+           "AND tg.deleted = false")
+    List<TodoGroup> findTop3ByJobAndNotMember(@Param("job") Job job, @Param("currentMember") Member currentMember, Pageable pageable);
 
     List<TodoGroup> findTop3ByMemberOrderByTotalViewDesc(Member member);
 }
