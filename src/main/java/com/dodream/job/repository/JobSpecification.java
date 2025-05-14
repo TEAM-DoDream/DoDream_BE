@@ -34,9 +34,6 @@ public class JobSpecification {
                         .findFirst()
                         .orElse(null);
 
-                System.out.println("physical = " + physical);
-                System.out.println("매핑된 physicalEnum = " + physicalEnum);
-
                 if (physicalEnum != null) {
                     predicates.add(cb.equal(root.get("physicalActivityLevel"), physicalEnum));
                 }
