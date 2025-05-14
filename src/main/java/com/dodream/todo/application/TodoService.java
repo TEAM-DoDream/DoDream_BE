@@ -23,8 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class TodoService {
 
     private final MemberAuthService memberAuthService;
-    private final JobTodoRepository jobTodoRepository;
-    private final JobRepository jobRepository;
     private final TodoRepository todoRepository;
     private final TodoGroupRepository todoGroupRepository;
 
@@ -45,17 +43,13 @@ public class TodoService {
             todoGroup.get().getJob(), member, limit3);
 
         Pageable top2 = PageRequest.of(0, 2);
-        List<GetOthersTodoGroupResponseDto> result = todoGroups.stream()
+        return todoGroups.stream()
             .map(group -> {
                 List<Todo> todos = todoRepository.findTop2ByTodoGroup(group, top2);
                 Long todoCount = todoRepository.countByTodoGroup(group);
                 return GetOthersTodoGroupResponseDto.of(group, todos, todoCount);
             })
             .toList();
-
-        return result;
-
     }
-
 
 }
