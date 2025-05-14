@@ -21,7 +21,7 @@ public class TodoController implements TodoSwagger {
     private final TodoService todoService;
 
     @Override
-    @GetMapping(value = "")
+    @GetMapping(value = "/other")
     public ResponseEntity<RestResponse<List<GetOthersTodoGroupResponseDto>>> getOneTodoGroupAtHome() {
         return ResponseEntity.ok(
             new RestResponse<>(todoService.getOneTodoGroupAtHome()));
