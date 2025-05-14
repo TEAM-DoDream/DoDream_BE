@@ -8,6 +8,7 @@ import com.dodream.job.repository.JobRepository;
 import com.dodream.job.repository.JobTodoRepository;
 import com.dodream.member.application.MemberAuthService;
 import com.dodream.member.domain.Member;
+import com.dodream.member.exception.MemberErrorCode;
 import com.dodream.todo.domain.Todo;
 import com.dodream.todo.domain.TodoGroup;
 import com.dodream.todo.domain.TodoImage;
@@ -70,6 +71,10 @@ public class TodoMemberService {
 
         Job job = jobRepository.findById(jobId)
             .orElseThrow(JobErrorCode.CANNOT_GET_JOB_DATA::toException);
+
+        if (todoGroupRepository.existsByMemberAndJob(member, job)){
+            throw TodoGroupErrorCode.JOB_EXISTS.toException();
+        }
 
         List<JobTodo> todoList = jobTodoRepository.findAllByJob(job);
 
