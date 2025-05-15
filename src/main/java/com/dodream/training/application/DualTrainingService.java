@@ -13,6 +13,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 @Log4j2
@@ -44,7 +45,23 @@ public class DualTrainingService {
                 pageNum, regionCode, ncsCode, startDate, endDate
         );
 
-        return listMapper.jsonToResponseDto(result);
+        TrainingListApiResponse trainingListApiResponse = listMapper.jsonToResponseDto(result);
+
+        List<TrainingListApiResponse.BootcampItem> updatedList = trainingListApiResponse.srchList().stream()
+                .map(item -> {
+                    int trainingTime = getDetail(item.trprId(), item.trprDegr(), item.trainstCstId())
+                            .instBaseInfo().trtm();
+
+                    return TrainingListApiResponse.BootcampItem.from(item, trainingTime);
+                })
+                .toList();
+
+        return new TrainingListApiResponse(
+                trainingListApiResponse.scnCnt(),
+                trainingListApiResponse.pageNum(),
+                trainingListApiResponse.pageSize(),
+                updatedList
+        );
     }
 
 
