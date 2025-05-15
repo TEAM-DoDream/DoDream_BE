@@ -18,7 +18,7 @@ public class TrainingDatePolicy {
 
     public String calculateStartDate(LocalDate startDate) {
         if(startDate == null) {
-            return LocalDate.now().format(FORMATTER);
+            return LocalDate.now().minusMonths(monthDiff).format(FORMATTER);
         }
         return startDate.format(FORMATTER);
     }
