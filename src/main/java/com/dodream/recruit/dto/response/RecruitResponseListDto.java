@@ -35,6 +35,9 @@ public record RecruitResponseListDto(
                 @Schema(description = "공고 제목", example = "요양원에서 근무할 남 . 여 요양보호사 채용공고")
                 String title,
 
+                @Schema(description = "직업 이름", example = "요양보호사")
+                String jobName,
+
                 @JsonProperty("companyName")
                 @Schema(description = "회사 이름", example = "재가요양센터")
                 String companyName,
@@ -91,7 +94,8 @@ public record RecruitResponseListDto(
         ){}
 
         public static List<RecruitResponseListDto.Job> toResponseListDto(
-                RecruitResponseListApiDto recruitResponseListApiDto
+                RecruitResponseListApiDto recruitResponseListApiDto,
+                String keyword
         ){
                 if (recruitResponseListApiDto.jobs().job() == null) {
                         return List.of();
@@ -102,6 +106,7 @@ public record RecruitResponseListDto(
                                 job.url(),
                                 job.active(),
                                 getPositionTitle(job),
+                                keyword,
                                 getCompanyName(job),
                                 getLocationNameSafe(job),
                                 getJobTypeName(job),

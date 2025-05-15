@@ -54,7 +54,7 @@ public class RecruitService {
         String regionCode = recruitCodeResolver.resolveRecruitLocationName(locationName);
         String result = callRecruitListApi(keyWord, regionCode, startDate, endDate, pageNum);
 
-        return toRecruitListDto(result);
+        return toRecruitListDto(result, keyWord);
     }
 
     public RecruitResponseListDto getRecruitListByToken(
@@ -68,7 +68,7 @@ public class RecruitService {
         String regionCode = getRegionCodeFromMember(customUserDetails);
         String result = callRecruitListApi(keyWord, regionCode, startDate, endDate, pageNum);
 
-        return toRecruitListDto(result);
+        return toRecruitListDto(result, keyWord);
     }
 
     public List<PopularRecruitResponse> getPopularJobListByAllMember() {
@@ -105,7 +105,7 @@ public class RecruitService {
 
     public RecruitResponseListDto getRecruitDetail(String id) {
         String result = recruitApiCaller.recruitDetailAPiCaller(id);
-        return toRecruitListDto(result);
+        return toRecruitListDto(result, null);
     }
 
     // === 헬퍼 메서드 ===
@@ -120,9 +120,9 @@ public class RecruitService {
         );
     }
 
-    private RecruitResponseListDto toRecruitListDto(String apiResult) {
+    private RecruitResponseListDto toRecruitListDto(String apiResult, String keyword) {
         RecruitResponseListApiDto mapped = recruitMapper.recruitListMapper(apiResult);
-        return recruitMapper.toSimpleListDto(mapped);
+        return recruitMapper.toSimpleListDto(mapped, keyword);
     }
 
     private String getRegionCodeFromMember(CustomUserDetails userDetails) {
@@ -146,7 +146,7 @@ public class RecruitService {
     private String getTopJobNameFromAllUserTodoGroup() {
         return jobRepository.findMostPopularJob()
                 .map(Job::getJobName)
-                .orElseThrow(JobErrorCode.CANNOT_GET_JOB_DATA::toException);
+                .orElse(null);
     }
 
     private int getRecruitCount(String jobName, String regionCode) {

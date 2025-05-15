@@ -20,14 +20,15 @@ public class RecruitMapper extends AbstractObjectMapper<RecruitResponseListApiDt
     }
 
     public RecruitResponseListDto toSimpleListDto(
-            RecruitResponseListApiDto recruitResponseListApiDto
+            RecruitResponseListApiDto recruitResponseListApiDto,
+            String keyword
     ) {
         if (recruitResponseListApiDto == null || recruitResponseListApiDto.jobs() == null) {
             return new RecruitResponseListDto(0, 0, "0", List.of());
         }
 
         List<RecruitResponseListDto.Job> simpleJobs =
-                RecruitResponseListDto.toResponseListDto(recruitResponseListApiDto);
+                RecruitResponseListDto.toResponseListDto(recruitResponseListApiDto, keyword);
 
         return new RecruitResponseListDto(
                 recruitResponseListApiDto.jobs().count(),
