@@ -14,19 +14,23 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
 
-@Tag(name="Training", description = "국민내일배움카드 훈련과정 및 일병행학습 훈련과정 관련 API")
+@Tag(name="Training", description = "배움터 찾기 관련 API")
 public interface TrainingSwagger {
 
     @Operation(
-            summary = "국민내일배움카드 훈련과정 목록 반환 API",
-            description = "지역 정보와 NCS 직무 이름 정보에 맞는 국민내일배움카드 훈련과정 목록을 반환합니다.",
-            operationId = "/v1/training/bootcamp/list"
+            summary = "배움터 찾기 훈련과정 목록 반환 API",
+            description = "배움터 찾기 내 필터를 사용하여 훈련 과정을 검색하는 API",
+            operationId = "/v1/training/list"
     )
     @ApiErrorCode(TrainingErrorCode.class)
     ResponseEntity<RestResponse<TrainingListApiResponse>> getBootcampList(
             @RequestParam
             @Parameter(description = "검색 페이지 번호(1부터 시작하는 정수값)", example = "1")
             String pageNum,
+
+            @RequestParam(required = false, defaultValue = "이론 위주")
+            @Parameter(description = "훈련방식 필터(null 입력시 이론 위주)", example = "이론 위주")
+            String type,
 
             @RequestParam(required = false)
             @Parameter(description = "/v1/region/all을 요청시 나오는 지역 목록의 이름", example = "경기 안양시 만안구")
@@ -48,12 +52,16 @@ public interface TrainingSwagger {
     );
 
     @Operation(
-            summary = "국민내일배움카드 훈련과정 세부정보 반환 API",
-            description = "국민내일배움카드 훈련과정 상세정보를 반환합니다.",
-            operationId = "/v1/training/bootcamp/detail"
+            summary = "배움터 찾기 훈련과정 세부사항 반환 API",
+            description = "배움터 찾기 내 검색 이후 훈련과정의 상세 정보를 검색하는 API",
+            operationId = "/v1/training/detail"
     )
     @ApiErrorCode(TrainingErrorCode.class)
     ResponseEntity<RestResponse<TrainingDetailApiResponse>> getBootcampDetail(
+            @RequestParam
+            @Parameter(description = "훈련 방식(null 입력시 이론 위주)", example = "이론 위주")
+            String type,
+
             @RequestParam
             @Parameter(
                     description = "훈련과정 ID /v1/training/bootcamp/list 실행시 나오는 trgrId",
@@ -70,63 +78,6 @@ public interface TrainingSwagger {
             @Parameter(
                     description = "훈련과정 ID /v1/training/bootcamp/list 실행시 나오는 trainstCstId",
                     example = "500041590848"
-            )
-            String srchTorgId
-    );
-
-    @Operation(
-            summary = "일병행학습 훈련과정 목록 반환 API",
-            description = "지역 정보와 NCS 직무 이름 정보에 맞는 일병행학습 훈련과정 목록을 반환합니다.",
-            operationId = "/v1/training/dual/list"
-    )
-    @ApiErrorCode(TrainingErrorCode.class)
-    ResponseEntity<RestResponse<TrainingListApiResponse>> getDualTrainingList(
-            @RequestParam
-            @Parameter(description = "검색 페이지 번호(1부터 시작하는 정수값)", example = "1")
-            String pageNum,
-
-            @RequestParam(required = false)
-            @Parameter(description = "/v1/region/all을 요청시 나오는 지역 목록의 이름", example = "경기 안양시 만안구")
-            String regionName,
-
-            @RequestParam(required = false)
-            @Parameter(description = "/v1/job/list를 호출하여 나오는 직업의 이름", example = "요양보호사")
-            String jobName,
-
-            @RequestParam(required = false)
-            @DateTimeFormat(pattern = "yyyy/MM/dd")
-            @Parameter(description = "훈련 시작일 (yyyy/MM/dd)", example = "2025/05/07")
-            LocalDate startDate,
-
-            @RequestParam(required = false)
-            @DateTimeFormat(pattern = "yyyy/MM/dd")
-            @Parameter(description = "훈련 종료일 (yyyy/MM/dd)", example = "2025/08/07")
-            LocalDate endDate
-    );
-
-    @Operation(
-            summary = "일병행학습 훈련과정 세부정보 반환 API",
-            description = "일병행학습 훈련과정 상세정보를 반환합니다.",
-            operationId = "/v1/training/dual/detail"
-    )
-    @ApiErrorCode(TrainingErrorCode.class)
-    ResponseEntity<RestResponse<TrainingDetailApiResponse>> getDualTrainingDetail(
-            @RequestParam
-            @Parameter(
-                    description = "훈련과정 ID /v1/training/bootcamp/list 실행시 나오는 trgrId",
-                    example = "ABF20253001089849"
-            )
-            String srchTrprId,
-            @RequestParam
-            @Parameter(
-                    description = "훈련과정 ID /v1/training/bootcamp/list 실행시 나오는 trprDegr(차수 번호(String))",
-                    example = "1"
-            )
-            String srchTrprDegr,
-            @RequestParam
-            @Parameter(
-                    description = "훈련과정 ID /v1/training/bootcamp/list 실행시 나오는 trainstCstId",
-                    example = "500020058691"
             )
             String srchTorgId
     );
