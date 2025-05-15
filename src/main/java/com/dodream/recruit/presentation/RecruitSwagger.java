@@ -58,7 +58,11 @@ public interface RecruitSwagger {
                     description = "공고 마감일(yyyy/MM/dd)",
                     example = "2026/05/09"
             )
-            String endDate
+            String endDate,
+
+            @RequestParam
+            @Parameter(description = "정렬 기준(null인경우 마감일로 정렬)", example = "post")
+            String sortBy
     );
 
     @Operation(
