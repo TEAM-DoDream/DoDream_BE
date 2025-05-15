@@ -118,6 +118,7 @@ public record RecruitResponseListDto(
     }
 
     private static String getLocationName(String locName){
+            if(locName == null || locName.isEmpty()) return null;
             return locName.replace("&gt;","").replaceAll("\\s+", " ");
     }
 
