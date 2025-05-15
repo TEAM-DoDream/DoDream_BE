@@ -23,14 +23,17 @@ public class RecruitApiCaller {
 
     private final String FIELDS = "expiration-date+count+posting-date";
 
+    private final String SORTED_BY_END_DATE = "da";
+    private final String SORTED_BY_POST_DATE = "pd";
+
     @CustomCacheableWithLock(cacheName = "recruitList", ttl = 15)
     public String recruitListApiListCaller(
             String keyWords, String locCd, String startDate, String endDate, int start, String sortBy
     ){
         try{
-            String sort = "da";
+            String sort = SORTED_BY_END_DATE;
             if(sortBy != null){
-                sort = "pd";
+                sort = SORTED_BY_POST_DATE;
             }
 
             return recruitFeignClient.getRecruitList(
