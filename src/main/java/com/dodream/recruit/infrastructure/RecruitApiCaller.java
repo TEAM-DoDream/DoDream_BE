@@ -21,7 +21,7 @@ public class RecruitApiCaller {
     @Value("${saramin.page-size}")
     private int pageSize;
 
-    private final String FIELDS = "expiration-date+count";
+    private final String FIELDS = "expiration-date+count+posting-date";
 
     private final String sort = "da";
 
