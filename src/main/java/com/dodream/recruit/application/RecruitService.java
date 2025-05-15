@@ -13,6 +13,7 @@ import com.dodream.recruit.dto.response.RecruitResponseListDto;
 import com.dodream.recruit.infrastructure.RecruitApiCaller;
 import com.dodream.recruit.infrastructure.mapper.RecruitMapper;
 import com.dodream.recruit.util.RecruitCodeResolver;
+import com.dodream.recruit.util.RecruitDateUtil;
 import com.dodream.todo.domain.TodoGroup;
 import com.dodream.todo.exception.TodoGroupErrorCode;
 import com.dodream.todo.repository.TodoGroupRepository;
@@ -113,8 +114,8 @@ public class RecruitService {
         return recruitApiCaller.recruitListApiListCaller(
                 keyWord,
                 regionCode,
-                toUnixTime(startDate),
-                toUnixTime(endDate),
+                RecruitDateUtil.toUnixTime(startDate),
+                RecruitDateUtil.toUnixTime(endDate),
                 pageNum
         );
     }
@@ -122,12 +123,6 @@ public class RecruitService {
     private RecruitResponseListDto toRecruitListDto(String apiResult) {
         RecruitResponseListApiDto mapped = recruitMapper.recruitListMapper(apiResult);
         return recruitMapper.toSimpleListDto(mapped);
-    }
-
-    private String toUnixTime(String date) {
-        if (date == null || date.isEmpty()) return null;
-        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-        return String.valueOf(localDate.atStartOfDay(ZoneId.of("Asia/Seoul")).toEpochSecond());
     }
 
     private String getRegionCodeFromMember(CustomUserDetails userDetails) {
