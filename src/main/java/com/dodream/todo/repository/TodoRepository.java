@@ -17,6 +17,9 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
     @Query("SELECT t FROM Todo t WHERE t.todoGroup = :group AND t.deleted = false ORDER BY t.createdAt DESC")
     List<Todo> findTop2ByTodoGroup(@Param("group") TodoGroup group, Pageable pageable);
 
+    @Query("SELECT t FROM Todo t WHERE t.todoGroup = :group AND t.deleted = false ORDER BY t.createdAt DESC")
+    List<Todo> findTop3ByTodoGroup(@Param("group") TodoGroup group, Pageable pageable);
+
     @Query("SELECT COUNT(t) FROM Todo t WHERE t.todoGroup = :group AND t.deleted = false")
     Long countByTodoGroup(@Param("group") TodoGroup group);
 
