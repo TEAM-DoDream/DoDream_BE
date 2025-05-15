@@ -23,6 +23,8 @@ public class RecruitApiCaller {
 
     private final String FIELDS = "expiration-date+count";
 
+    private final String sort = "da";
+
     @CustomCacheableWithLock(cacheName = "recruitList", ttl = 120)
     public String recruitListApiListCaller(
             String keyWords, String locCd, String startDate, String endDate, int start
@@ -36,7 +38,8 @@ public class RecruitApiCaller {
                     null,   // 사람인 OpenAPI 관련 오류 해결후 null 해제
                     FIELDS,
                     start,
-                    pageSize
+                    pageSize,
+                    sort
             );
         } catch (Exception e){
             throw RecruitErrorCode.API_CONNECTION_ERROR.toException();

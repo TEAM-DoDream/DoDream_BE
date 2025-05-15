@@ -15,7 +15,8 @@ public interface RecruitFeignClient {
             @RequestParam(name = "deadline") String deadline,
             @RequestParam(name = "fields") String fields,
             @RequestParam(name = "start") int start,
-            @RequestParam(name = "count") int count
+            @RequestParam(name = "count") int count,
+            @RequestParam(name = "sort") String sort
     );
 
     @GetMapping(value = "${saramin.endpoint}", headers = "Accept=application/json")

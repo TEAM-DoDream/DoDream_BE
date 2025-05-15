@@ -134,6 +134,10 @@ public record RecruitResponseListDto(
                             return "마감됨";
                     }
 
+                    if(daysBetween == 0){
+                            return "D-day";
+                    }
+
                     return "D-" + daysBetween;
             }else if(closeType.equals("2")){
                     return "채용시 마감";
