@@ -16,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@Tag(name = "Recruit", description = "사람인 채용정보 관련 API")
+@Tag(name = "Recruit", description = "일자리 찾기 관련 API")
 public interface RecruitSwagger {
 
     @Operation(
-            summary = "사람인 채용정보 반환 API",
-            description = "키워드 및 지역 정보를 활용하여 채용정보 리스트를 불러옵니다.",
+            summary = "일자리 찾기 리스트 반환 API",
+            description = "키워드 및 지역 정보를 활용하여 채용 정보 리스트를 불러옵니다.",
             operationId = "/v1/recruit/list"
     )
     @ApiErrorCode(RecruitErrorCode.class)
@@ -62,7 +62,7 @@ public interface RecruitSwagger {
     );
 
     @Operation(
-            summary = "사람인 채용 상세 정보 반환 API",
+            summary = "일자리 찾기 상세 정보 반환 API",
             description = "각 공고별 상세 정보를 불러옵니다.",
             operationId = "/v1/recruit/detail"
     )
@@ -74,7 +74,7 @@ public interface RecruitSwagger {
     );
 
     @Operation(
-            summary = "인기 직업 공고 건수 반환 API",
+            summary = "홈화면 - 인기 직업 공고 건수 반환 API",
             description = "현재 가장 인기있는 직업의 공고 건수를 반환합니다. (홈화면 - 구인 현황(오른쪽 상단))",
             operationId = "/v1/recruit/popular"
     )
