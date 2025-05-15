@@ -30,19 +30,20 @@ public class RecruitController implements RecruitSwagger{
             @RequestParam(required = false) String keyWord,
             @RequestParam(required = false) String locationName,
             @RequestParam(required = false) String startDate,
-            @RequestParam(required = false) String endDate
+            @RequestParam(required = false) String endDate,
+            @RequestParam(required = false) String sortBy
     ){
 
         if(customUserDetails != null){
             return ResponseEntity.ok(new RestResponse<>(
                     recruitService.getRecruitListByToken(
-                            customUserDetails, keyWord, locationName, startDate, endDate, pageNum
+                            customUserDetails, keyWord, locationName, startDate, endDate, pageNum, sortBy
                     )
             ));
         }else {
             return ResponseEntity.ok(new RestResponse<>(
                     recruitService.getRecruitList(
-                            keyWord, locationName, startDate, endDate, pageNum
+                            keyWord, locationName, startDate, endDate, pageNum, sortBy
                     )
             ));
         }
