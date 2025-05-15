@@ -12,7 +12,7 @@ public interface RecruitFeignClient {
             @RequestParam(name = "keywords") String keywords,
             @RequestParam(name = "loc_cd") String locCd,
             @RequestParam(name = "published_min") String publishedMin,
-            @RequestParam(name = "deadline") String deadline,
+            @RequestParam(name = "deadline_max") String deadline,
             @RequestParam(name = "fields") String fields,
             @RequestParam(name = "start") int start,
             @RequestParam(name = "count") int count,
