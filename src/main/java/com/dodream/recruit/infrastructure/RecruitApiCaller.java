@@ -35,13 +35,14 @@ public class RecruitApiCaller {
                     keyWords,
                     locCd,
                     startDate,
-                    null,   // 사람인 OpenAPI 관련 오류 해결후 null 해제
+                    endDate,
                     FIELDS,
                     start,
                     pageSize,
                     sort
             );
-        } catch (Exception e){
+        } catch (FeignException e){
+            System.out.println(e.contentUTF8());
             throw RecruitErrorCode.API_CONNECTION_ERROR.toException();
         }
     }
