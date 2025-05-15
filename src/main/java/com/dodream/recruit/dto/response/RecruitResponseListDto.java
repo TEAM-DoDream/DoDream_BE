@@ -72,6 +72,12 @@ public record RecruitResponseListDto(
             @Schema(description = "사람인 공고 ID", example = "50390519")
             String id,
 
+            @Schema(description = "공고 게시일 타임스탬프(DB용)", example = "2025-05-15T23:59:59+0900")
+            String postTimestamp,
+
+            @Schema(description = "공고 게시 후 지난 시간(n 시간전)", example = "7시간 전")
+            String postDate,
+
             @JsonProperty("expiration-timestamp")
             @Schema(description = "마감일 타임스탬프(DB저장에 활용)", example = "2025-06-01T23:59:59+0900")
             String expirationTimestamp,
@@ -109,6 +115,8 @@ public record RecruitResponseListDto(
                         job.closeType() != null ? job.closeType().name() : null,
                         job.salary() != null ? job.salary().name() : null,
                         job.id(),
+                        job.postingDate(),
+                        getFormattedPostingDate(job.postingDate()),
                         job.expirationDate(),
                         getExpirationDate(job.expirationDate(), job.closeType().code()),
                         getRemainingDate(job.expirationDate(), job.closeType().code()),
@@ -177,5 +185,27 @@ public record RecruitResponseListDto(
             LocalDate localDate = expirationZdt.toLocalDate();
 
             return localDate.format(OUTPUT_DATE_FORMATTER);
+    }
+
+    private static String getFormattedPostingDate(String date){
+            DateTimeFormatter INPUT_DATE_TIME_FORMATTER =
+                    DateTimeFormatter.ofPattern("uuuu-MM-dd'T'HH:mm:ssZ");
+
+            ZonedDateTime inputTime = ZonedDateTime.parse(date, INPUT_DATE_TIME_FORMATTER);
+
+            // 2. 현재 시각 가져오기 (시스템 시간대 기준)
+            ZonedDateTime now = ZonedDateTime.now();
+
+            // 3. 시간 차이 계산
+            long days = ChronoUnit.DAYS.between(inputTime, now);
+            if (days > 0) return days + "일 전";
+
+            long hours = ChronoUnit.HOURS.between(inputTime, now);
+            if (hours > 0) return hours + "시간 전";
+
+            long minutes = ChronoUnit.MINUTES.between(inputTime, now);
+            if (minutes > 0) return minutes + "분 전";
+
+            return "방금 전";
     }
 }
