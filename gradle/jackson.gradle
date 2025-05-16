@@ -1,0 +1,4 @@
+dependencies {
+    // xml mapper
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.18.2"
+}
