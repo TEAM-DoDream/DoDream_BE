@@ -1,9 +1,8 @@
 package com.dodream.job.dto.response;
 
 import com.dodream.job.domain.Job;
+import com.dodream.job.infrastructure.JobImageUrlGenerator;
 import io.swagger.v3.oas.annotations.media.Schema;
-
-import java.util.List;
 
 public record JobListDto(
 
@@ -29,7 +28,7 @@ public record JobListDto(
         String imageUrl
 ) {
 
-        public static JobListDto from(Job job){
+        public static JobListDto from(Job job, JobImageUrlGenerator jobImageUrlGenerator){
                 return new JobListDto(
                         job.getId(),
                         job.getJobName(),
@@ -37,7 +36,7 @@ public record JobListDto(
                         job.getRequiresCertification().getDescription(),
                         job.getWorkTimeSlot().getDescription(),
                         job.getPhysicalActivityLevel().getDescription(),
-                        job.getJobImageUrl()
+                        jobImageUrlGenerator.getImageUrl(job.getId())
                 );
         }
 }
