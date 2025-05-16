@@ -6,6 +6,7 @@ import com.dodream.job.dto.request.recommend.ExampleJobList;
 import com.dodream.job.dto.response.JobRecommendationResponse;
 import com.dodream.job.dto.request.recommend.OnboardingAnswerSet;
 import com.dodream.job.exception.JobErrorCode;
+import com.dodream.job.infrastructure.JobImageUrlGenerator;
 import com.dodream.job.infrastructure.caller.ClovaChatCompletionCaller;
 import com.dodream.job.infrastructure.factory.SystemPromptLoader;
 import com.dodream.job.infrastructure.factory.UserPromptLoader;
@@ -26,6 +27,7 @@ public class JobRecommendService {
     private final ClovaChatCompletionCaller clovaChatCompletionCaller;
     private final ClovaChatResponseMapper clovaChatResponseMapper;
     private final JobRecommendMapper jobRecommendMapper;
+    private final JobImageUrlGenerator imageUrlGenerator;
 
     public JobRecommendationResponse recommendJob(CustomUserDetails customUserDetails, OnboardingAnswerSet answerSet) {
         if(customUserDetails == null) {
@@ -75,7 +77,7 @@ public class JobRecommendService {
                 job.jobTitle(),
                 result.getId(),
                 result.getJobSummary(),
-                result.getJobImageUrl(),
+                imageUrlGenerator.getImageUrl(result.getId()),
                 job.reasons()
         );
     }
