@@ -1,6 +1,5 @@
 package com.dodream.training.application;
 
-
 import com.dodream.training.dto.response.TrainingDetailApiResponse;
 import com.dodream.training.dto.response.TrainingListApiResponse;
 import com.dodream.training.infrastructure.mapper.TrainingMapper;
@@ -42,7 +41,18 @@ public class DualTrainingService {
                 pageNum, regionCode, ncsCode
         );
 
-        return listMapper.jsonToResponseDto(result);
+        TrainingListApiResponse response = listMapper.jsonToResponseDto(result);
+
+        List<TrainingListApiResponse.BootcampItem> mappedResult = response.srchList().stream()
+                .map(TrainingListApiResponse.BootcampItem::from)
+                .toList();
+
+        return new TrainingListApiResponse(
+                response.scnCnt(),
+                response.pageNum(),
+                response.pageSize(),
+                mappedResult
+        );
     }
 
 
