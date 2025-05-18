@@ -26,20 +26,8 @@ public record TrainingDetailApiResponse(
             @Schema(description = "훈련 기관 이름", example = "느티나무요양보호사교육원")
             String inoNm,
 
-            @JsonProperty("trDcnt")
-            @Schema(description = "총 훈련 일수", example = "12")
-            int trDcnt,
-
-            @JsonProperty("trtm")
-            @Schema(description = "총 훈련 시간", example = "50")
-            int trtm,
-
             @JsonProperty("instPerTrco")
             @Schema(description = "실제 훈련비", example = "250000")
-            int instPerTrco,
-
-            @JsonProperty("perTrco")
-            @Schema(description = "정부 지원금", example = "118000")
-            int perTrco
+            int instPerTrco
     ){}
 }

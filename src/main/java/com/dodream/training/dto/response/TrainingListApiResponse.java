@@ -1,5 +1,6 @@
 package com.dodream.training.dto.response;
 
+import com.dodream.training.util.TrainingDateUtils;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -27,12 +28,8 @@ public record TrainingListApiResponse(
             @Schema(description = "주소", example = "경기 안양시 만안구")
             String address,
 
-            @JsonProperty("courseMan")
-            @Schema(description = "수강비", example = "189850")
-            String courseMan,
-
             @JsonProperty("realMan")
-            @Schema(description = "실제 훈련비", example = "250000")
+            @Schema(description = "수강비", example = "189850")
             String realMan,
 
             @JsonProperty("subTitle")
@@ -50,21 +47,20 @@ public record TrainingListApiResponse(
             )
             String titleLink,
 
-            @JsonProperty("traEndDate")
-            @Schema(description = "훈련 종료일", example = "2025-07-26")
-            String traEndDate,
-
             @JsonProperty("traStartDate")
             @Schema(description = "훈련 시작일", example = "2025-07-11")
             String traStartDate,
 
+            @JsonProperty("traEndDate")
+            @Schema(description = "훈련 종료일", example = "2025-07-26")
+            String traEndDate,
+
+            @Schema(description = "총 훈련기간", example = "약 15일")
+            String traDuraion,
+
             @JsonProperty("trainstCstId")
             @Schema(description = "훈련기관 아이디", example = "500041590848")
             String trainstCstId,
-
-            @JsonProperty("trngAreaCd")
-            @Schema(description = "지역 아이디", example = "41171")
-            String trngAreaCd,
 
             @JsonProperty("trprDegr")
             @Schema(description = "훈련차수", example = "3")
@@ -72,27 +68,21 @@ public record TrainingListApiResponse(
 
             @JsonProperty("trprId")
             @Schema(description = "훈련 고유 id", example = "AIG20240000469334")
-            String trprId,
-
-            @JsonProperty("ncsCd")
-            @Schema(description = "ncs 직무 코드", example = "06010108")
-            String ncsCd
+            String trprId
     ) {
             public static BootcampItem from(BootcampItem item) {
                     return new BootcampItem(
                             item.address(),
-                            item.courseMan(),
                             item.realMan(),
                             item.subTitle(),
                             item.title(),
                             item.titleLink(),
                             item.traEndDate(),
                             item.traStartDate(),
+                            TrainingDateUtils.calculateDuration(item.traStartDate, item.traEndDate),
                             item.trainstCstId(),
-                            item.trngAreaCd(),
                             item.trprDegr(),
-                            item.trprId(),
-                            item.ncsCd()
+                            item.trprId()
                     );
             }
     }

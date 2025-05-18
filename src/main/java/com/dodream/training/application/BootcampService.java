@@ -9,6 +9,8 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Log4j2
 public class BootcampService{
@@ -40,7 +42,18 @@ public class BootcampService{
                 pageNum, regionCode, ncsCode
         );
 
-        return listMapper.jsonToResponseDto(result);
+        TrainingListApiResponse response = listMapper.jsonToResponseDto(result);
+
+        List<TrainingListApiResponse.BootcampItem> mappedResult = response.srchList().stream()
+                .map(TrainingListApiResponse.BootcampItem::from)
+                .toList();
+
+        return new TrainingListApiResponse(
+                response.scnCnt(),
+                response.pageNum(),
+                response.pageSize(),
+                mappedResult
+        );
     }
 
     public TrainingDetailApiResponse getDetail(
