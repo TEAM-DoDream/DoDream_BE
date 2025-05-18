@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/v1/training")
@@ -29,17 +28,15 @@ public class TrainingController implements TrainingSwagger {
         @RequestParam String pageNum,
         @RequestParam(required = false) String type,
         @RequestParam(required = false) String regionName,
-        @RequestParam(required = false) String jobName,
-        @RequestParam(required = false) LocalDate startDate,
-        @RequestParam(required = false) LocalDate endDate
+        @RequestParam(required = false) String jobName
     ){
         if(type.equals(TrainingType.BOOTCAMP.getDescription())){
             return ResponseEntity.ok(new RestResponse<>(
-                    bootcampService.getList(pageNum, regionName, jobName, startDate, endDate)
+                    bootcampService.getList(pageNum, regionName, jobName)
             ));
         }else{
             return ResponseEntity.ok(new RestResponse<>(
-                    dualTrainingService.getList(pageNum, regionName, jobName, startDate, endDate))
+                    dualTrainingService.getList(pageNum, regionName, jobName))
             );
         }
     }

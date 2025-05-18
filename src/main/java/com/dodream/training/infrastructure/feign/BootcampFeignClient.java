@@ -15,8 +15,6 @@ public interface BootcampFeignClient {
             @RequestParam(name="pageSize") String pageSize,
             @RequestParam(name="srchTraArea1", required = false) String srchTraArea1,
             @RequestParam(name="srchNcs1", required = false) String srchNcs1,
-            @RequestParam(name = "srchTraStDt") String srchTraStDt,
-            @RequestParam(name = "srchTraEndDt") String srchTraEndDt,
             @RequestParam(name = "sort") String sort,
             @RequestParam(name = "sortCol") String sortCol
     );

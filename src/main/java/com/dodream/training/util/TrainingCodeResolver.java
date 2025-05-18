@@ -3,7 +3,6 @@ package com.dodream.training.util;
 import com.dodream.job.domain.Job;
 import com.dodream.job.exception.JobErrorCode;
 import com.dodream.job.repository.JobRepository;
-import com.dodream.ncs.domain.Ncs;
 import com.dodream.ncs.exception.NcsErrorCode;
 import com.dodream.ncs.repository.NcsRepository;
 import com.dodream.region.domain.Region;

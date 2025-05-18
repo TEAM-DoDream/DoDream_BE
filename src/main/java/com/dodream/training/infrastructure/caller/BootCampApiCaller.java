@@ -30,8 +30,7 @@ public class BootCampApiCaller implements TrainingApiCaller{
     @Override
     @CustomCacheableWithLock(cacheName = "bootcampList", ttl = 15)
     public String getListApi(
-            String pageNum, String regionCode, String ncsCode,
-            String startDate, String endDate
+            String pageNum, String regionCode, String ncsCode
     ){
         try {
             log.info("[searchBootCampList] 메소드 실행");
@@ -43,8 +42,6 @@ public class BootCampApiCaller implements TrainingApiCaller{
                     String.valueOf(pageSize),
                     regionCode,
                     ncsCode,
-                    startDate,
-                    endDate,
                     SORT,
                     SORT_COLUMN
             );

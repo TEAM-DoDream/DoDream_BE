@@ -15,8 +15,6 @@ public interface DualTrainingFeignClient {
             @RequestParam(name="pageSize") String pageSize,
             @RequestParam(name="srchTraArea1", required = false) String srchTraArea1,
             @RequestParam(name="srchKeco1", required = false) String srchKeco1,
-            @RequestParam(name = "srchTraStDt") String srchTraStDt,
-            @RequestParam(name = "srchTraEndDt") String srchTraEndDt,
             @RequestParam(name = "sort") String sort,
             @RequestParam(name = "sortCol") String sortCol
     );

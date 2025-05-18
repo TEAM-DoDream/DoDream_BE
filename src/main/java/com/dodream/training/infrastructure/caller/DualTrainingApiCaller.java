@@ -28,7 +28,7 @@ public class DualTrainingApiCaller implements TrainingApiCaller{
 
     @Override
     @CustomCacheableWithLock(cacheName = "dualList", ttl = 15)
-    public String getListApi(String pageNum, String regionCode, String ncsCode, String startDate, String endDate) {
+    public String getListApi(String pageNum, String regionCode, String ncsCode) {
         try {
             return dualTrainingFeignClient.getDualTrainingList(
                     apiKey,
@@ -38,8 +38,6 @@ public class DualTrainingApiCaller implements TrainingApiCaller{
                     String.valueOf(pageSize),
                     regionCode,
                     ncsCode,
-                    startDate,
-                    endDate,
                     SORT,
                     SORT_COLUMN
             );
