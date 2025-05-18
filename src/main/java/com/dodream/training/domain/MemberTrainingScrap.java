@@ -2,13 +2,15 @@ package com.dodream.training.domain;
 
 import com.dodream.core.infrastructure.jpa.entity.BaseLongIdEntity;
 import com.dodream.member.domain.Member;
+import com.dodream.training.dto.request.TrainingSaveReqeustDto;
+import com.dodream.training.dto.response.TrainingDetailApiResponse;
+import com.dodream.training.util.TrainingAddressUtils;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.Fetch;
 
 @Entity
 @Getter
@@ -52,10 +54,28 @@ public class MemberTrainingScrap extends BaseLongIdEntity {
 
     // 훈련 비용
     @Column(name = "training_manage", nullable = false)
-    private String trainingManage;
+    private int trainingManage;
 
     // 멤버 연관
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
+
+    public static MemberTrainingScrap of(
+            TrainingType trainingType, Member member,
+            TrainingSaveReqeustDto request, TrainingDetailApiResponse response
+    ) {
+        return MemberTrainingScrap.builder()
+                .trainingId(request.trprId())
+                .trainingType(trainingType)
+                .trainingName(response.instBaseInfo().trprNm())
+                .trainingOrgName(response.instBaseInfo().inoNm())
+                .trainingOrgAddr(TrainingAddressUtils.extractMainRegion(response.instBaseInfo().addr()))
+                .trainingStartDate(request.traStartDate())
+                .trainingEndDate(request.traEndDate())
+                .trainingDegree(String.valueOf(response.instBaseInfo().trprDegr()))
+                .trainingManage(response.instBaseInfo().instPerTrco())
+                .member(member)
+                .build();
+    }
 }

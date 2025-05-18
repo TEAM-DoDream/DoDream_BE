@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public interface RecruitScrapSwagger {
 
     @Operation(
-            summary = "채용 공고 스크랩 컨트롤러",
+            summary = "채용 공고 스크랩 API",
             description = "채용 공고를 저장합니다. (로그인 필요, 중복 저장 금지 적용)",
             operationId = "/v1/recruit/saved/{recruitId}"
     )
