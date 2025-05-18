@@ -1,10 +1,11 @@
-package com.dodream.recruit.presentation;
+package com.dodream.recruit.presentation.controller;
 
 import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.recruit.application.RecruitService;
 import com.dodream.recruit.dto.response.PopularRecruitResponse;
 import com.dodream.recruit.dto.response.RecruitResponseListDto;
+import com.dodream.recruit.presentation.swagger.RecruitSwagger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/recruit")
 @RequiredArgsConstructor
-public class RecruitController implements RecruitSwagger{
+public class RecruitController implements RecruitSwagger {
 
     private final RecruitService recruitService;
 
