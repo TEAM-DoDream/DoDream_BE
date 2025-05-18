@@ -63,10 +63,6 @@ public class Todo extends BaseLongIdEntity {
     @OneToMany(mappedBy = "todo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<TodoImage> images = new ArrayList<>();
 
-    public void updateDeleted() {
-        this.deleted = true;
-    }
-
     public void updateCompleted() {
         this.completed = !this.completed;
     }

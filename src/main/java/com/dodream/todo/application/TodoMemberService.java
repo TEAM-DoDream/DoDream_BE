@@ -8,14 +8,13 @@ import com.dodream.job.repository.JobRepository;
 import com.dodream.job.repository.JobTodoRepository;
 import com.dodream.member.application.MemberAuthService;
 import com.dodream.member.domain.Member;
-import com.dodream.member.exception.MemberErrorCode;
 import com.dodream.todo.domain.Todo;
 import com.dodream.todo.domain.TodoGroup;
-import com.dodream.todo.domain.TodoImage;
 import com.dodream.todo.dto.request.PostTodoRequestDto;
 import com.dodream.todo.dto.response.AddJobTodoResponseDto;
 import com.dodream.todo.dto.response.ChangeCompleteStateTodoResponseDto;
 import com.dodream.todo.dto.response.ChangePublicStateTodoResponseDto;
+import com.dodream.todo.dto.response.DeleteTodoGroupResponseDto;
 import com.dodream.todo.dto.response.DeleteTodoResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoResponseDto;
@@ -72,7 +71,7 @@ public class TodoMemberService {
         Job job = jobRepository.findById(jobId)
             .orElseThrow(JobErrorCode.CANNOT_GET_JOB_DATA::toException);
 
-        if (todoGroupRepository.existsByMemberAndJob(member, job)){
+        if (todoGroupRepository.existsByMemberAndJob(member, job)) {
             throw TodoGroupErrorCode.JOB_EXISTS.toException();
         }
 
@@ -97,6 +96,7 @@ public class TodoMemberService {
 
     @Transactional(readOnly = true)
     public List<GetTodoJobResponseDto> getTodoJobList() {
+
         Member member = memberAuthService.getCurrentMember();
 
         List<TodoGroup> todoGroups = todoGroupRepository.findAllByMember(member);
@@ -104,7 +104,6 @@ public class TodoMemberService {
         return todoGroups.stream()
             .map(GetTodoJobResponseDto::from)
             .collect(Collectors.toList());
-
     }
 
 
@@ -160,7 +159,6 @@ public class TodoMemberService {
             .collect(Collectors.toList());
 
         return GetOneTodoGroupResponseDto.of(member, todoGroup, todos);
-
     }
 
     @Transactional(readOnly = true)
@@ -168,7 +166,7 @@ public class TodoMemberService {
 
         Member member = memberAuthService.getCurrentMember();
 
-        Todo todo = todoRepository.findByIdAndMemberAndDeletedIsFalse(todoId, member)
+        Todo todo = todoRepository.findByIdAndMember(todoId, member)
             .orElseThrow(TodoErrorCode.TODO_NOT_FOUND::toException);
 
         return GetOneTodoWithMemoResponseDto.from(todo);
@@ -179,12 +177,10 @@ public class TodoMemberService {
 
         Member member = memberAuthService.getCurrentMember();
 
-        Todo todo = todoRepository.findByIdAndMemberAndDeletedIsFalse(todoId, member)
+        Todo todo = todoRepository.findByIdAndMember(todoId, member)
             .orElseThrow(TodoErrorCode.TODO_NOT_FOUND::toException);
-        todo.updateDeleted();
 
-        todo.getImages()
-            .forEach(TodoImage::updateDeleted);
+        todoRepository.delete(todo);
 
         return DeleteTodoResponseDto.from(todo);
     }
@@ -195,12 +191,11 @@ public class TodoMemberService {
 
         Member member = memberAuthService.getCurrentMember();
 
-        Todo todo = todoRepository.findByIdAndMemberAndDeletedIsFalse(todoId, member)
+        Todo todo = todoRepository.findByIdAndMember(todoId, member)
             .orElseThrow(TodoErrorCode.TODO_NOT_FOUND::toException);
         todo.updateIsPublic();
 
         return ChangePublicStateTodoResponseDto.from(todo);
-
     }
 
     @Transactional
@@ -208,12 +203,18 @@ public class TodoMemberService {
 
         Member member = memberAuthService.getCurrentMember();
 
-        Todo todo = todoRepository.findByIdAndMemberAndDeletedIsFalse(todoId, member)
+        Todo todo = todoRepository.findByIdAndMember(todoId, member)
             .orElseThrow(TodoErrorCode.TODO_NOT_FOUND::toException);
         todo.updateCompleted();
 
         return ChangeCompleteStateTodoResponseDto.from(todo);
-
     }
 
+    @Transactional
+    public DeleteTodoGroupResponseDto deleteTodoGroups(List<Long> jobIds,Member member) {
+
+        todoGroupRepository.deleteByMemberAndJobIdIn(member,jobIds);
+
+        return DeleteTodoGroupResponseDto.from(jobIds);
+    }
 }

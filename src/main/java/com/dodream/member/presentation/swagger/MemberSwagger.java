@@ -3,14 +3,17 @@ package com.dodream.member.presentation.swagger;
 import com.dodream.core.config.swagger.ApiErrorCode;
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.member.dto.request.ChangeMemberBirthDateRequestDto;
+import com.dodream.member.dto.request.ChangeMemberJobsRequestDto;
 import com.dodream.member.dto.request.ChangeMemberNickNameRequestDto;
 import com.dodream.member.dto.request.ChangeMemberPasswordRequestDto;
 import com.dodream.member.dto.request.ChangeMemberRegionRequestDto;
 import com.dodream.member.dto.response.ChangeMemberBirthDateResponseDto;
 import com.dodream.member.dto.response.ChangeMemberNickNameResponseDto;
 import com.dodream.member.dto.response.ChangeMemberRegionResponseDto;
+import com.dodream.member.dto.response.GetMemberInfoResponseDto;
 import com.dodream.member.dto.response.UploadMemberProfileImageResponseDto;
 import com.dodream.member.exception.MemberErrorCode;
+import com.dodream.todo.dto.response.DeleteTodoGroupResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -66,6 +69,24 @@ public interface MemberSwagger {
     @ApiErrorCode(MemberErrorCode.class)
     ResponseEntity<RestResponse<ChangeMemberRegionResponseDto>> changeMemberRegion(
         @RequestBody @Valid ChangeMemberRegionRequestDto changeMemberRegionCodeRequestDto);
+
+    @Operation(
+        summary = "관심 직업 변경 API",
+        description = "관심 직업을 변경한다.",
+        operationId = "/v1/member/job"
+    )
+    @ApiErrorCode(MemberErrorCode.class)
+    ResponseEntity<RestResponse<DeleteTodoGroupResponseDto>> changeMemberInterestedJobs(
+        @RequestBody @Valid ChangeMemberJobsRequestDto changeMemberJobsRequestDto);
+
+
+    @Operation(
+        summary = "나의 계정 조회 API",
+        description = "나의 계정 상세 정보를 조회한다.",
+        operationId = "/v1/member/info"
+    )
+    @ApiErrorCode(MemberErrorCode.class)
+    ResponseEntity<RestResponse<GetMemberInfoResponseDto>> getMemberInfo();
 
 
 }

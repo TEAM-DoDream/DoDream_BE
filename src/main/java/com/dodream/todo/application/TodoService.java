@@ -40,7 +40,6 @@ public class TodoService {
     private final TodoGroupRepository todoGroupRepository;
     private final JobRepository jobRepository;
 
-
     @Transactional(readOnly = true)
     public List<GetOthersTodoGroupResponseDto> getOneTodoGroupAtHome() {
 
@@ -82,11 +81,8 @@ public class TodoService {
                 return GetOthersTodoSimpleResponseDto.of(group, todoCount);
             })
             .collect(Collectors.toList());
-
     }
 
-
-    // 특정 직업에 대한 타 유저 투두 리스트 조회( 전체 )
     @Transactional(readOnly = true)
     public Page<GetOthersTodoGroupResponseDto> getOthersTodoByJob(Long jobId, int page) {
 
@@ -109,10 +105,8 @@ public class TodoService {
             .toList();
 
         return new PageImpl<>(result, pageable, todoGroups.getTotalElements());
-
     }
 
-    // 타유저 - 세부 조회
     @Transactional(readOnly = true)
     public GetOneTodoGroupResponseDto getOneOthersTodoGroup(Long TodoGroupId) {
 
@@ -135,6 +129,5 @@ public class TodoService {
             .collect(Collectors.toList());
 
         return GetOneTodoGroupResponseDto.of(member, todoGroup, todos);
-
     }
 }

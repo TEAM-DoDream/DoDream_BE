@@ -5,18 +5,27 @@ import com.dodream.core.config.security.SecurityUtils;
 import com.dodream.member.domain.Member;
 import com.dodream.member.domain.State;
 import com.dodream.member.dto.request.ChangeMemberBirthDateRequestDto;
+import com.dodream.member.dto.request.ChangeMemberJobsRequestDto;
 import com.dodream.member.dto.request.ChangeMemberNickNameRequestDto;
 import com.dodream.member.dto.request.ChangeMemberPasswordRequestDto;
 import com.dodream.member.dto.request.ChangeMemberRegionRequestDto;
 import com.dodream.member.dto.response.ChangeMemberBirthDateResponseDto;
 import com.dodream.member.dto.response.ChangeMemberNickNameResponseDto;
 import com.dodream.member.dto.response.ChangeMemberRegionResponseDto;
+import com.dodream.member.dto.response.GetMemberInfoResponseDto;
+import com.dodream.member.dto.response.GetMemberInterestedJobResponseDto;
 import com.dodream.member.dto.response.UploadMemberProfileImageResponseDto;
 import com.dodream.member.exception.MemberErrorCode;
 import com.dodream.member.repository.MemberRepository;
 import com.dodream.region.domain.Region;
 import com.dodream.region.exception.RegionErrorCode;
 import com.dodream.region.repository.RegionRepository;
+import com.dodream.todo.application.TodoMemberService;
+import com.dodream.todo.domain.TodoGroup;
+import com.dodream.todo.dto.response.DeleteTodoGroupResponseDto;
+import com.dodream.todo.repository.TodoGroupRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,20 +39,23 @@ public class MemberService {
     private final ObjectStorageService objectStorageService;
     private final RegionRepository regionRepository;
     private final MemberRepository memberRepository;
+    private final TodoGroupRepository todoGroupRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final MemberAuthService memberAuthService;
+    private final TodoMemberService todoMemberService;
+
 
     @Transactional
     public UploadMemberProfileImageResponseDto uploadMemberProfileImage(MultipartFile file) {
 
-        Long currentId = SecurityUtils.getCurrentMemberId();
-        Member member = memberRepository.findByIdAndState(currentId, State.ACTIVE)
-            .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
+        Member member = memberAuthService.getCurrentMember();
 
         if (member.getProfileImage() != null) {
             objectStorageService.deleteMemberProfileImage(member.getProfileImage());
         }
 
-        String createdImageUrl = objectStorageService.uploadMemberProfileImage(file, currentId);
+        String createdImageUrl = objectStorageService.uploadMemberProfileImage(file,
+            member.getId());
 
         member.updateProfile(createdImageUrl);
         memberRepository.save(member);
@@ -54,9 +66,7 @@ public class MemberService {
     @Transactional
     public void changeMemberPassword(ChangeMemberPasswordRequestDto requestDto) {
 
-        Long currentId = SecurityUtils.getCurrentMemberId();
-        Member member = memberRepository.findByIdAndState(currentId, State.ACTIVE)
-            .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
+        Member member = memberAuthService.getCurrentMember();
 
         if (!requestDto.newPassword().equals(requestDto.newPasswordCheck())) {
             throw MemberErrorCode.PASSWORD_NOT_SAME.toException();
@@ -66,11 +76,10 @@ public class MemberService {
     }
 
     @Transactional
-    public ChangeMemberNickNameResponseDto changeMemberNickName(ChangeMemberNickNameRequestDto requestDto) {
+    public ChangeMemberNickNameResponseDto changeMemberNickName(
+        ChangeMemberNickNameRequestDto requestDto) {
 
-        Long currentId = SecurityUtils.getCurrentMemberId();
-        Member member = memberRepository.findByIdAndState(currentId, State.ACTIVE)
-            .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
+        Member member = memberAuthService.getCurrentMember();
 
         if (memberRepository.existsByNickNameAndState(requestDto.newNickName(), State.ACTIVE)) {
             throw MemberErrorCode.DUPLICATE_NICKNAME.toException();
@@ -83,31 +92,51 @@ public class MemberService {
     }
 
     @Transactional
-    public ChangeMemberBirthDateResponseDto changeMemberBirth(ChangeMemberBirthDateRequestDto requestDto) {
+    public ChangeMemberBirthDateResponseDto changeMemberBirth(
+        ChangeMemberBirthDateRequestDto requestDto) {
 
-        Long currentId = SecurityUtils.getCurrentMemberId();
-        Member member = memberRepository.findByIdAndState(currentId, State.ACTIVE)
-            .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
+        Member member = memberAuthService.getCurrentMember();
 
         member.updateBirthDate(requestDto.newBirthDate());
         memberRepository.save(member);
 
-        return ChangeMemberBirthDateResponseDto.of(member.getId(),requestDto.newBirthDate());
+        return ChangeMemberBirthDateResponseDto.of(member.getId(), requestDto.newBirthDate());
     }
 
     @Transactional
-    public ChangeMemberRegionResponseDto changeMemberRegion(ChangeMemberRegionRequestDto requestDto) {
+    public ChangeMemberRegionResponseDto changeMemberRegion(
+        ChangeMemberRegionRequestDto requestDto) {
 
-        Long currentId = SecurityUtils.getCurrentMemberId();
-        Member member = memberRepository.findByIdAndState(currentId, State.ACTIVE)
-            .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
+        Member member = memberAuthService.getCurrentMember();
 
         Region newRegion = regionRepository.findByRegionCode(requestDto.newRegionCode())
-                   .orElseThrow(RegionErrorCode.NOT_FOUND_REGION::toException);
+            .orElseThrow(RegionErrorCode.NOT_FOUND_REGION::toException);
 
         member.updateRegionCode(newRegion);
         memberRepository.save(member);
 
         return ChangeMemberRegionResponseDto.of(member.getId(), newRegion);
+    }
+
+    @Transactional(readOnly = true)
+    public GetMemberInfoResponseDto getMemberInfo() {
+
+        Member member = memberAuthService.getCurrentMember();
+
+        List<GetMemberInterestedJobResponseDto> jobs = todoGroupRepository.findAllByMember(member)
+            .stream()
+            .map(todoGroup -> GetMemberInterestedJobResponseDto.from(todoGroup.getJob()))
+            .toList();
+
+        return GetMemberInfoResponseDto.of(member,jobs);
+
+    }
+
+    public DeleteTodoGroupResponseDto deleteInterestedJobs(ChangeMemberJobsRequestDto requestDto){
+
+        Member member = memberAuthService.getCurrentMember();
+
+        return todoMemberService.deleteTodoGroups(requestDto.jobIds(),member);
+
     }
 }

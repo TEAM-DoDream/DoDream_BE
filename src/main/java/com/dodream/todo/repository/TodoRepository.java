@@ -12,7 +12,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface TodoRepository extends JpaRepository<Todo, Long> {
 
-    Optional<Todo> findByIdAndMemberAndDeletedIsFalse(Long todoId, Member member);
+    Optional<Todo> findByIdAndMember(Long todoId, Member member);
 
     @Query("SELECT t FROM Todo t WHERE t.todoGroup = :group AND t.deleted = false ORDER BY t.createdAt DESC")
     List<Todo> findTop2ByTodoGroup(@Param("group") TodoGroup group, Pageable pageable);
