@@ -56,7 +56,7 @@ public record TrainingListApiResponse(
             String traEndDate,
 
             @Schema(description = "총 훈련기간", example = "약 15일")
-            String traDuraion,
+            String traDuration,
 
             @JsonProperty("trainstCstId")
             @Schema(description = "훈련기관 아이디", example = "500041590848")
@@ -77,8 +77,8 @@ public record TrainingListApiResponse(
                             item.subTitle(),
                             item.title(),
                             item.titleLink(),
-                            item.traEndDate(),
                             item.traStartDate(),
+                            item.traEndDate(),
                             TrainingDateUtils.calculateDuration(item.traStartDate, item.traEndDate),
                             item.trainstCstId(),
                             item.trprDegr(),
