@@ -19,34 +19,34 @@ import lombok.experimental.SuperBuilder;
 public class MemberRecruitScrap extends BaseLongIdEntity {
 
     @Column(name = "recruit_id", nullable = false)
-    String recruitId;
+    private String recruitId;
 
     @Column(name = "title", nullable = false)
-    String title;
+    private String title;
 
     @Column(name = "company_name", nullable = false)
-    String companyName;
+    private String companyName;
 
     @Column(name = "expiration_date", nullable = false)
-    String expirationDate;
+    private String expirationDate;
 
     @Column(name = "location_name", nullable = false)
-    String locationName;
+    private String locationName;
 
     @Column(name = "job_type", nullable = false)
-    String jobType;
+    private String jobType;
 
     @Column(name = "experience_level", nullable = false)
-    String experienceLevel;
+    private String experienceLevel;
 
     @Column(name = "education_level", nullable = false)
-    String educationLevel;
+    private String educationLevel;
 
     @Column(name = "close_type", nullable = false)
-    String closeType;
+    private String closeType;
 
     @Column(name = "recruit_url", nullable = false)
-    String recruitUrl;
+    private String recruitUrl;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "member_id", nullable = false)

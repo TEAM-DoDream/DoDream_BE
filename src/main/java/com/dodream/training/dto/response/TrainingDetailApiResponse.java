@@ -10,6 +10,10 @@ public record TrainingDetailApiResponse(
 ) {
     public record InstBaseInfo(
 
+            @JsonProperty("addr1")
+            @Schema(description = "주소지", example = "경기도 안양시 만안구")
+            String addr,
+
             @JsonProperty("trprDegr")
             @Schema(description = "훈련 차수", example = "3")
             int trprDegr,
@@ -22,14 +26,6 @@ public record TrainingDetailApiResponse(
             @Schema(description = "훈련 기관 이름", example = "느티나무요양보호사교육원")
             String inoNm,
 
-            @JsonProperty("ncsCd")
-            @Schema(description = "ncs 직무 코드", example = "06010108")
-            String ncsCd,
-
-            @JsonProperty("ncsNm")
-            @Schema(description = "ncs 직무 이름", example = "요양 지원")
-            String ncsNm,
-
             @JsonProperty("trDcnt")
             @Schema(description = "총 훈련 일수", example = "12")
             int trDcnt,
@@ -38,12 +34,12 @@ public record TrainingDetailApiResponse(
             @Schema(description = "총 훈련 시간", example = "50")
             int trtm,
 
-            @JsonProperty("torgParGrad")
-            @Schema(description = "평가 등급", example = "3")
-            String torgParGrad,
-
             @JsonProperty("instPerTrco")
             @Schema(description = "실제 훈련비", example = "250000")
-            int instPerTrco
+            int instPerTrco,
+
+            @JsonProperty("perTrco")
+            @Schema(description = "정부 지원금", example = "118000")
+            int perTrco
     ){}
 }

@@ -3,6 +3,7 @@ package com.dodream.training.controller;
 import com.dodream.training.application.BootcampService;
 import com.dodream.training.application.DualTrainingService;
 import com.dodream.training.controller.swagger.TrainingSwagger;
+import com.dodream.training.domain.TrainingType;
 import com.dodream.training.dto.response.TrainingDetailApiResponse;
 import com.dodream.training.dto.response.TrainingListApiResponse;
 import com.dodream.core.presentation.RestResponse;
@@ -32,7 +33,7 @@ public class TrainingController implements TrainingSwagger {
         @RequestParam(required = false) LocalDate startDate,
         @RequestParam(required = false) LocalDate endDate
     ){
-        if(type.equals("이론 위주")){
+        if(type.equals(TrainingType.BOOTCAMP.getDescription())){
             return ResponseEntity.ok(new RestResponse<>(
                     bootcampService.getList(pageNum, regionName, jobName, startDate, endDate)
             ));
@@ -50,7 +51,7 @@ public class TrainingController implements TrainingSwagger {
             @RequestParam String srchTrprDegr,
             @RequestParam String srchTorgId
     ){
-        if(type.equals("이론 위주")){
+        if(type.equals(TrainingType.BOOTCAMP.getDescription())){
             return ResponseEntity.ok(new RestResponse<>(
                     bootcampService.getDetail(srchTrprId, srchTrprDegr, srchTorgId)
             ));
