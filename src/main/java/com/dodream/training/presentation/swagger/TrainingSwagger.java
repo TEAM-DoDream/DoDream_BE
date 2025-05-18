@@ -8,11 +8,8 @@ import com.dodream.training.exception.TrainingErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.time.LocalDate;
 
 @Tag(name="Training", description = "배움터 찾기 관련 API")
 public interface TrainingSwagger {
@@ -38,17 +35,7 @@ public interface TrainingSwagger {
 
             @RequestParam(required = false)
             @Parameter(description = "/v1/job/list를 호출하여 나오는 직업의 이름", example = "요양보호사")
-            String jobName,
-
-            @RequestParam(required = false)
-            @DateTimeFormat(pattern = "yyyy/MM/dd")
-            @Parameter(description = "훈련 시작일 (yyyy/mm/dd)", example = "2025/05/07")
-            LocalDate startDate,
-
-            @RequestParam(required = false)
-            @DateTimeFormat(pattern = "yyyy/MM/dd")
-            @Parameter(description = "훈련 종료일 (yyyy/MM/dd)", example = "2025/08/07")
-            LocalDate endDate
+            String jobName
     );
 
     @Operation(

@@ -8,11 +8,8 @@ import com.dodream.training.util.TrainingCodeResolver;
 import com.dodream.training.util.executer.TrainingApiExecuter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Qualifier;
-
-import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -36,32 +33,16 @@ public class DualTrainingService {
     }
 
     public TrainingListApiResponse getList(
-            String pageNum, String regionName, String ncsName, LocalDate startDate, LocalDate endDate
+            String pageNum, String regionName, String ncsName
     ) {
         String regionCode = trainingCodeResolver.resolveRegionCode(regionName);
         String ncsCode = trainingCodeResolver.resolveNcsCode(ncsName);
 
         String result = trainingApiExecuter.callListApi(
-                pageNum, regionCode, ncsCode, startDate, endDate
+                pageNum, regionCode, ncsCode
         );
 
-        TrainingListApiResponse trainingListApiResponse = listMapper.jsonToResponseDto(result);
-
-        List<TrainingListApiResponse.BootcampItem> updatedList = trainingListApiResponse.srchList().stream()
-                .map(item -> {
-                    int trainingTime = getDetail(item.trprId(), item.trprDegr(), item.trainstCstId())
-                            .instBaseInfo().trtm();
-
-                    return TrainingListApiResponse.BootcampItem.from(item, trainingTime);
-                })
-                .toList();
-
-        return new TrainingListApiResponse(
-                trainingListApiResponse.scnCnt(),
-                trainingListApiResponse.pageNum(),
-                trainingListApiResponse.pageSize(),
-                updatedList
-        );
+        return listMapper.jsonToResponseDto(result);
     }
 
 

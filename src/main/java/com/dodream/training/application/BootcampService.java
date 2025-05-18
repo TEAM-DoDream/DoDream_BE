@@ -9,9 +9,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.List;
-
 @Service
 @Log4j2
 public class BootcampService{
@@ -34,32 +31,16 @@ public class BootcampService{
     }
 
     public TrainingListApiResponse getList(
-            String pageNum, String regionName, String jobName, LocalDate startDate, LocalDate endDate
+            String pageNum, String regionName, String jobName
     ) {
         String regionCode = trainingCodeResolver.resolveRegionCode(regionName);
         String ncsCode = trainingCodeResolver.resolveNcsCode(jobName);
 
         String result = trainingApiExecuter.callListApi(
-                pageNum, regionCode, ncsCode, startDate, endDate
+                pageNum, regionCode, ncsCode
         );
 
-        TrainingListApiResponse trainingListApiResponse = listMapper.jsonToResponseDto(result);
-
-        List<TrainingListApiResponse.BootcampItem> updatedList = trainingListApiResponse.srchList().stream()
-                .map(item -> {
-                    int trainingTime = getDetail(item.trprId(), item.trprDegr(), item.trainstCstId())
-                            .instBaseInfo().trtm();
-
-                    return TrainingListApiResponse.BootcampItem.from(item, trainingTime);
-                })
-                .toList();
-
-        return new TrainingListApiResponse(
-                trainingListApiResponse.scnCnt(),
-                trainingListApiResponse.pageNum(),
-                trainingListApiResponse.pageSize(),
-                updatedList
-        );
+        return listMapper.jsonToResponseDto(result);
     }
 
     public TrainingDetailApiResponse getDetail(

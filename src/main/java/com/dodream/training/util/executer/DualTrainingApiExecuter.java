@@ -1,11 +1,9 @@
 package com.dodream.training.util.executer;
 
-import com.dodream.training.infrastructure.TrainingDatePolicy;
 import com.dodream.training.infrastructure.caller.TrainingApiCaller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 
-import java.time.LocalDate;
 
 @RequiredArgsConstructor
 public class DualTrainingApiExecuter implements TrainingApiExecuter {
@@ -13,15 +11,10 @@ public class DualTrainingApiExecuter implements TrainingApiExecuter {
     @Qualifier("dualTrainingApiCaller")
     private final TrainingApiCaller trainingApiCaller;
 
-    private final TrainingDatePolicy trainingDatePolicy;
-
     @Override
-    public String callListApi(String pageNum, String regionCode, String ncsCode, LocalDate startDate, LocalDate endDate) {
-        String start = trainingDatePolicy.calculateStartDate(startDate);
-        String end = trainingDatePolicy.calculateEndDate(endDate);
-
+    public String callListApi(String pageNum, String regionCode, String ncsCode) {
         return trainingApiCaller.getListApi(
-                pageNum, regionCode, ncsCode, start, end
+                pageNum, regionCode, ncsCode
         );
     }
 

@@ -70,10 +70,6 @@ public record TrainingListApiResponse(
             @Schema(description = "훈련차수", example = "3")
             String trprDegr,
 
-            @JsonProperty("tnTm")
-            @Schema(description = "훈련 시간", example = "50")
-            String tnTm,
-
             @JsonProperty("trprId")
             @Schema(description = "훈련 고유 id", example = "AIG20240000469334")
             String trprId,
@@ -82,7 +78,7 @@ public record TrainingListApiResponse(
             @Schema(description = "ncs 직무 코드", example = "06010108")
             String ncsCd
     ) {
-            public static BootcampItem from(BootcampItem item, int tnTm) {
+            public static BootcampItem from(BootcampItem item) {
                     return new BootcampItem(
                             item.address(),
                             item.courseMan(),
@@ -95,7 +91,6 @@ public record TrainingListApiResponse(
                             item.trainstCstId(),
                             item.trngAreaCd(),
                             item.trprDegr(),
-                            String.valueOf(tnTm),
                             item.trprId(),
                             item.ncsCd()
                     );

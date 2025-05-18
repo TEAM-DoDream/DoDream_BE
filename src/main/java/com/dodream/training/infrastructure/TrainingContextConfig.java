@@ -19,17 +19,16 @@ public class TrainingContextConfig {
 
     private final BootCampApiCaller bootCampApiCaller;
     private final DualTrainingApiCaller dualTrainingApiCaller;
-    private final TrainingDatePolicy trainingDatePolicy;
     private final ObjectMapper objectMapper;
 
     @Bean
     public TrainingApiExecuter bootcampApiExecuter() {
-        return new BootcampApiExecuter(bootCampApiCaller, trainingDatePolicy);
+        return new BootcampApiExecuter(bootCampApiCaller);
     }
 
     @Bean
     public TrainingApiExecuter dualTrainingApiExecuter() {
-        return new DualTrainingApiExecuter(dualTrainingApiCaller, trainingDatePolicy);
+        return new DualTrainingApiExecuter(dualTrainingApiCaller);
     }
 
     @Bean
