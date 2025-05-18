@@ -39,7 +39,7 @@ public interface ScrapSwagger {
             @RequestBody TrainingSaveReqeustDto trainingSaveReqeustDto,
 
             @RequestParam
-            @Parameter(description = "훈련 방식", example = "이론 위주")
+            @Parameter(description = "훈련 방식 (가능한 값: '이론 위주', '실습 위주')", example = "이론 위주")
             String type
     );
 }

@@ -13,6 +13,7 @@ import com.dodream.training.exception.TrainingErrorCode;
 import com.dodream.training.infrastructure.mapper.TrainingMapper;
 import com.dodream.scrap.repository.MemberTrainingScrapRepository;
 import com.dodream.training.util.executer.TrainingApiExecuter;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +40,7 @@ public class TrainingScrapService {
         this.memberTrainingScrapRepository = memberTrainingScrapRepository;
     }
 
+    @Transactional
     public TrainingScrapResponseDto saveTraining(TrainingSaveReqeustDto request, TrainingType trainingType) {
         Member member = memberRepository.findById(SecurityUtils.getCurrentMemberId())
                 .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);

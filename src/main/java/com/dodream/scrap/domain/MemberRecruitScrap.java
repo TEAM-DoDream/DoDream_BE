@@ -15,7 +15,12 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @SuperBuilder
-@Table(name = "member_recruit_scrap")
+@Table(
+        name = "member_recruit_scrap",
+        indexes = {
+                @Index(name = "idx_recruit_id_member_id", columnList = "recruit_id, member_id")
+        }
+)
 public class MemberRecruitScrap extends BaseLongIdEntity {
 
     @Column(name = "recruit_id", nullable = false)
