@@ -54,7 +54,7 @@ public class Member extends BaseLongIdEntity {
     private String profileImage;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "region_id")
+    @JoinColumn(name = "region_id", nullable = false)
     private Region region;
 
 

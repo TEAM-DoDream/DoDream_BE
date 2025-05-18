@@ -32,8 +32,4 @@ public class TodoImage extends BaseLongIdEntity {
     @Column(nullable = false)
     private String imageUrl;
 
-    public void updateDeleted() {
-         this.deleted = true;
-     }
-
 }

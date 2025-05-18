@@ -3,20 +3,25 @@ package com.dodream.member.presentation.controller;
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.member.application.MemberService;
 import com.dodream.member.dto.request.ChangeMemberBirthDateRequestDto;
+import com.dodream.member.dto.request.ChangeMemberJobsRequestDto;
 import com.dodream.member.dto.request.ChangeMemberNickNameRequestDto;
 import com.dodream.member.dto.request.ChangeMemberPasswordRequestDto;
 import com.dodream.member.dto.request.ChangeMemberRegionRequestDto;
 import com.dodream.member.dto.response.ChangeMemberBirthDateResponseDto;
 import com.dodream.member.dto.response.ChangeMemberNickNameResponseDto;
 import com.dodream.member.dto.response.ChangeMemberRegionResponseDto;
+import com.dodream.member.dto.response.GetMemberInfoResponseDto;
 import com.dodream.member.dto.response.UploadMemberProfileImageResponseDto;
 import com.dodream.member.presentation.swagger.MemberSwagger;
+import com.dodream.todo.dto.response.DeleteTodoGroupResponseDto;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -77,5 +82,21 @@ public class MemberController implements MemberSwagger {
             new RestResponse<>(memberService.changeMemberRegion(changeMemberRegionCodeRequestDto)));
     }
 
+    @Override
+    @DeleteMapping("/job")
+    public ResponseEntity<RestResponse<DeleteTodoGroupResponseDto>> changeMemberInterestedJobs(
+        @RequestBody
+        ChangeMemberJobsRequestDto changeMemberJobsRequestDto) {
+        return ResponseEntity.ok(
+            new RestResponse<>(memberService.deleteInterestedJobs(changeMemberJobsRequestDto)));
+    }
+
+
+    @Override
+    @GetMapping("/info")
+    public ResponseEntity<RestResponse<GetMemberInfoResponseDto>> getMemberInfo() {
+        return ResponseEntity.ok(
+            new RestResponse<>(memberService.getMemberInfo()));
+    }
 
 }
