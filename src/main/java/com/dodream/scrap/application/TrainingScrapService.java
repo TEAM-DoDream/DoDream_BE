@@ -1,17 +1,17 @@
-package com.dodream.training.application;
+package com.dodream.scrap.application;
 
 import com.dodream.core.config.security.SecurityUtils;
 import com.dodream.member.domain.Member;
 import com.dodream.member.exception.MemberErrorCode;
 import com.dodream.member.repository.MemberRepository;
-import com.dodream.training.domain.MemberTrainingScrap;
-import com.dodream.training.domain.TrainingType;
-import com.dodream.training.dto.request.TrainingSaveReqeustDto;
+import com.dodream.scrap.domain.MemberTrainingScrap;
+import com.dodream.scrap.domain.TrainingType;
+import com.dodream.scrap.dto.request.TrainingSaveReqeustDto;
 import com.dodream.training.dto.response.TrainingDetailApiResponse;
-import com.dodream.training.dto.response.scrap.TrainingScrapResponseDto;
+import com.dodream.scrap.dto.response.TrainingScrapResponseDto;
 import com.dodream.training.exception.TrainingErrorCode;
 import com.dodream.training.infrastructure.mapper.TrainingMapper;
-import com.dodream.training.repository.MemberTrainingScrapRepository;
+import com.dodream.scrap.repository.MemberTrainingScrapRepository;
 import com.dodream.training.util.executer.TrainingApiExecuter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -39,7 +39,7 @@ public class TrainingScrapService {
         this.memberTrainingScrapRepository = memberTrainingScrapRepository;
     }
 
-    public TrainingScrapResponseDto saveTraining(TrainingSaveReqeustDto request, TrainingType trainingType){
+    public TrainingScrapResponseDto saveTraining(TrainingSaveReqeustDto request, TrainingType trainingType) {
         Member member = memberRepository.findById(SecurityUtils.getCurrentMemberId())
                 .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
 
@@ -48,7 +48,7 @@ public class TrainingScrapService {
         }
 
         TrainingDetailApiResponse response;
-        if(trainingType.name().equals(TrainingType.BOOTCAMP.getDescription())){
+        if(trainingType.equals(TrainingType.BOOTCAMP)){
             response = trainingDetailResponseDtoMapper.jsonToResponseDto(
                     bootcampTrainingApiExecuter.callDetailApi(
                             request.trprId(), request.trprDegr(), request.trainstCstId()
@@ -63,7 +63,7 @@ public class TrainingScrapService {
             );
 
         }
-        memberTrainingScrapRepository.save(create(trainingType, member, request, response));
+        memberTrainingScrapRepository.save(create(member, request, response));
 
 
         return new TrainingScrapResponseDto(
@@ -74,12 +74,10 @@ public class TrainingScrapService {
 
 
     private MemberTrainingScrap create(
-            TrainingType trainingType, Member member,
-            TrainingSaveReqeustDto request, TrainingDetailApiResponse response
+            Member member, TrainingSaveReqeustDto request, TrainingDetailApiResponse response
     ){
         return MemberTrainingScrap.of(
-                trainingType, member,
-                request, response
+                member, request, response
         );
     }
 }

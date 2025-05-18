@@ -1,16 +1,16 @@
-package com.dodream.recruit.application;
+package com.dodream.scrap.application;
 
 import com.dodream.core.config.security.SecurityUtils;
 import com.dodream.member.domain.Member;
 import com.dodream.member.exception.MemberErrorCode;
 import com.dodream.member.repository.MemberRepository;
-import com.dodream.recruit.domain.MemberRecruitScrap;
+import com.dodream.scrap.domain.MemberRecruitScrap;
 import com.dodream.recruit.dto.response.RecruitResponseListApiDto;
-import com.dodream.recruit.dto.response.scrap.RecruitSavedResponseDto;
+import com.dodream.scrap.dto.response.RecruitSavedResponseDto;
 import com.dodream.recruit.exception.RecruitErrorCode;
 import com.dodream.recruit.infrastructure.RecruitApiCaller;
 import com.dodream.recruit.infrastructure.mapper.RecruitMapper;
-import com.dodream.recruit.repository.MemberRecruitScrapRepository;
+import com.dodream.scrap.repository.MemberRecruitScrapRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

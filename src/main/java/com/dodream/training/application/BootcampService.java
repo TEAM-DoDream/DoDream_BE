@@ -3,7 +3,6 @@ package com.dodream.training.application;
 import com.dodream.training.dto.response.TrainingDetailApiResponse;
 import com.dodream.training.dto.response.TrainingListApiResponse;
 import com.dodream.training.infrastructure.mapper.TrainingMapper;
-import com.dodream.training.util.TrainingAddressUtils;
 import com.dodream.training.util.TrainingCodeResolver;
 import com.dodream.training.util.executer.TrainingApiExecuter;
 import lombok.extern.log4j.Log4j2;

@@ -1,6 +1,6 @@
-package com.dodream.training.repository;
+package com.dodream.scrap.repository;
 
-import com.dodream.training.domain.MemberTrainingScrap;
+import com.dodream.scrap.domain.MemberTrainingScrap;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberTrainingScrapRepository extends JpaRepository<MemberTrainingScrap, Long> {

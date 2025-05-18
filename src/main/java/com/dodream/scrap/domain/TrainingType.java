@@ -1,4 +1,4 @@
-package com.dodream.training.domain;
+package com.dodream.scrap.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
