@@ -45,22 +45,6 @@ public interface RecruitSwagger {
             String locationName,
 
             @RequestParam
-            @DateTimeFormat(pattern = "yyyy/MM/dd")
-            @Parameter(
-                    description = "공고 시작일(yyyy/MM/dd)",
-                    example = "2025/05/09"
-            )
-            String startDate,
-
-            @RequestParam
-            @DateTimeFormat(pattern = "yyyy/MM/dd")
-            @Parameter(
-                    description = "공고 마감일(yyyy/MM/dd)",
-                    example = "2026/05/09"
-            )
-            String endDate,
-
-            @RequestParam
             @Parameter(description = "정렬 기준(null인경우 마감일로 정렬)", example = "post")
             String sortBy
     );
