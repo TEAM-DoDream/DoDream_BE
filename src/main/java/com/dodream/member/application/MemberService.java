@@ -132,6 +132,7 @@ public class MemberService {
 
     }
 
+    @Transactional
     public DeleteTodoGroupResponseDto deleteInterestedJobs(ChangeMemberJobsRequestDto requestDto){
 
         Member member = memberAuthService.getCurrentMember();
