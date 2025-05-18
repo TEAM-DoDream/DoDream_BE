@@ -1,4 +1,4 @@
-package com.dodream.recruit.domain;
+package com.dodream.scrap.domain;
 
 import com.dodream.core.infrastructure.jpa.entity.BaseLongIdEntity;
 import com.dodream.member.domain.Member;
@@ -50,7 +50,7 @@ public class MemberRecruitScrap extends BaseLongIdEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "member_id", nullable = false)
-    Member member;
+    private Member member;
 
     public static MemberRecruitScrap of(String recruitId, RecruitResponseListApiDto.Jobs.Job job, Member member) {
         return MemberRecruitScrap.builder()

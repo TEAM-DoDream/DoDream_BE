@@ -1,13 +1,9 @@
-package com.dodream.training.dto.request;
+package com.dodream.scrap.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Pattern;
 
 public record TrainingSaveReqeustDto(
-
-        @Pattern(regexp = "^(이론 위주|실습 위주)$", message = "이론 위주, 실습 위주 값만 입력 가능합니다.")
-        @Schema(description = "훈련 과정 종류", example = "이론 위주")
-        String type,
 
         @Schema(description = "훈련 과정 id", example = "AIG20240000469334")
         String trprId,

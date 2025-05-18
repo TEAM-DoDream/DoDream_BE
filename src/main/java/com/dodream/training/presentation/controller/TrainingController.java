@@ -1,9 +1,9 @@
-package com.dodream.training.controller;
+package com.dodream.training.presentation.controller;
 
 import com.dodream.training.application.BootcampService;
 import com.dodream.training.application.DualTrainingService;
-import com.dodream.training.controller.swagger.TrainingSwagger;
-import com.dodream.training.domain.TrainingType;
+import com.dodream.training.presentation.swagger.TrainingSwagger;
+import com.dodream.scrap.domain.TrainingType;
 import com.dodream.training.dto.response.TrainingDetailApiResponse;
 import com.dodream.training.dto.response.TrainingListApiResponse;
 import com.dodream.core.presentation.RestResponse;

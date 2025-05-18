@@ -1,4 +1,4 @@
-package com.dodream.training.controller.swagger;
+package com.dodream.training.presentation.swagger;
 
 import com.dodream.training.dto.response.TrainingDetailApiResponse;
 import com.dodream.training.dto.response.TrainingListApiResponse;

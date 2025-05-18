@@ -1,4 +1,4 @@
-package com.dodream.recruit.dto.response.scrap;
+package com.dodream.scrap.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

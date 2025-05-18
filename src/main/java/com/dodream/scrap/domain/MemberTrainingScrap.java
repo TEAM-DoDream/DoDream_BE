@@ -1,10 +1,10 @@
-package com.dodream.training.domain;
+package com.dodream.scrap.domain;
 
 import com.dodream.core.infrastructure.jpa.entity.BaseLongIdEntity;
 import com.dodream.member.domain.Member;
-import com.dodream.training.dto.request.TrainingSaveReqeustDto;
+import com.dodream.scrap.dto.request.TrainingSaveReqeustDto;
 import com.dodream.training.dto.response.TrainingDetailApiResponse;
-import com.dodream.training.util.TrainingAddressUtils;
+import com.dodream.scrap.utils.TrainingAddressUtils;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -17,16 +17,16 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @SuperBuilder
-@Table(name = "member_training_scrap")
+@Table(
+        name = "member_training_scrap",
+        indexes = {
+                @Index(name = "idx_training_id_member_id", columnList = "training_id, member_id")
+        }
+)
 public class MemberTrainingScrap extends BaseLongIdEntity {
 
     @Column(name = "training_id", nullable = false)
     private String trainingId;
-
-    // 훈련 종류
-    @Column(name = "training_type", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private TrainingType trainingType;
 
     // 훈련 이름
     @Column(name = "training_name", nullable = false)
@@ -62,12 +62,10 @@ public class MemberTrainingScrap extends BaseLongIdEntity {
     private Member member;
 
     public static MemberTrainingScrap of(
-            TrainingType trainingType, Member member,
-            TrainingSaveReqeustDto request, TrainingDetailApiResponse response
+            Member member, TrainingSaveReqeustDto request, TrainingDetailApiResponse response
     ) {
         return MemberTrainingScrap.builder()
                 .trainingId(request.trprId())
-                .trainingType(trainingType)
                 .trainingName(response.instBaseInfo().trprNm())
                 .trainingOrgName(response.instBaseInfo().inoNm())
                 .trainingOrgAddr(TrainingAddressUtils.extractMainRegion(response.instBaseInfo().addr()))
