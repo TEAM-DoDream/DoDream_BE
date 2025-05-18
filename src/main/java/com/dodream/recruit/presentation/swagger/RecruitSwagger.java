@@ -1,4 +1,4 @@
-package com.dodream.recruit.presentation;
+package com.dodream.recruit.presentation.swagger;
 
 import com.dodream.core.config.swagger.ApiErrorCode;
 import com.dodream.core.infrastructure.security.CustomUserDetails;
