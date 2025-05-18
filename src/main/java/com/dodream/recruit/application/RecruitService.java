@@ -44,29 +44,27 @@ public class RecruitService {
     private final JobRepository jobRepository;
 
     public RecruitResponseListDto getRecruitList(
-            String keyWord, String locationName,
-            String startDate, String endDate, int pageNum, String sortBy
+            String keyWord, String locationName, int pageNum, String sortBy
     ) {
         if (keyWord == null) {
             keyWord = getTopJobNameFromAllUserTodoGroup();
         }
 
         String regionCode = recruitCodeResolver.resolveRecruitLocationName(locationName);
-        String result = callRecruitListApi(keyWord, regionCode, startDate, endDate, pageNum, sortBy);
+        String result = callRecruitListApi(keyWord, regionCode, pageNum, sortBy);
 
         return toRecruitListDto(result, keyWord);
     }
 
     public RecruitResponseListDto getRecruitListByToken(
-            CustomUserDetails customUserDetails, String keyWord,
-            String locationName, String startDate, String endDate, int pageNum, String sortBy
+            CustomUserDetails customUserDetails, String keyWord, int pageNum, String sortBy
     ) {
         if (keyWord == null) {
             keyWord = getTopJobNameFromMemberTodoGroup(customUserDetails);
         }
 
         String regionCode = getRegionCodeFromMember(customUserDetails);
-        String result = callRecruitListApi(keyWord, regionCode, startDate, endDate, pageNum, sortBy);
+        String result = callRecruitListApi(keyWord, regionCode, pageNum, sortBy);
 
         return toRecruitListDto(result, keyWord);
     }
@@ -111,13 +109,11 @@ public class RecruitService {
     // === 헬퍼 메서드 ===
 
     private String callRecruitListApi(
-            String keyWord, String regionCode, String startDate, String endDate, int pageNum, String sortBy
+            String keyWord, String regionCode, int pageNum, String sortBy
     ) {
         return recruitApiCaller.recruitListApiListCaller(
                 keyWord,
                 regionCode,
-                RecruitDateUtil.toUnixTime(startDate),
-                RecruitDateUtil.toUnixTime(endDate),
                 pageNum,
                 sortBy
         );
@@ -154,7 +150,7 @@ public class RecruitService {
 
     private int getRecruitCount(String jobName, String regionCode) {
         String result = recruitApiCaller.recruitListApiListCaller(
-                jobName, regionCode, null, null, 0, null
+                jobName, regionCode, 0, null
         );
         return Integer.parseInt(recruitMapper.recruitListMapper(result).jobs().total());
     }

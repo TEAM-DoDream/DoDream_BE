@@ -28,7 +28,7 @@ public class RecruitApiCaller {
 
     @CustomCacheableWithLock(cacheName = "recruitList", ttl = 15)
     public String recruitListApiListCaller(
-            String keyWords, String locCd, String startDate, String endDate, int start, String sortBy
+            String keyWords, String locCd, int start, String sortBy
     ){
         try{
             String sort = SORTED_BY_END_DATE;
@@ -40,8 +40,6 @@ public class RecruitApiCaller {
                     accessKey,
                     keyWords,
                     locCd,
-                    startDate,
-                    endDate,
                     FIELDS,
                     start,
                     pageSize,
