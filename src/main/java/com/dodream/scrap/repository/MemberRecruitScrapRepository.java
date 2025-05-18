@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberRecruitScrapRepository  extends JpaRepository<MemberRecruitScrap, Long> {
 
-    boolean existsByRecruitIdAndMemberId(String postId, Long memberId);
+    boolean existsByRecruitIdAndMemberId(String recruitId, Long memberId);
 }
