@@ -1,4 +1,4 @@
-package com.dodream.scrap.domain;
+package com.dodream.scrap.domain.value;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

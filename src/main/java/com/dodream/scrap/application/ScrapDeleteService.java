@@ -2,8 +2,8 @@ package com.dodream.scrap.application;
 
 import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.member.exception.MemberErrorCode;
-import com.dodream.scrap.domain.MemberRecruitScrap;
-import com.dodream.scrap.domain.MemberTrainingScrap;
+import com.dodream.scrap.domain.entity.MemberRecruitScrap;
+import com.dodream.scrap.domain.entity.MemberTrainingScrap;
 import com.dodream.scrap.dto.response.ScrapDeletedResponse;
 import com.dodream.scrap.exception.ScrapErrorCode;
 import com.dodream.scrap.repository.MemberRecruitScrapRepository;

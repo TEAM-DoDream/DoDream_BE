@@ -3,7 +3,7 @@ package com.dodream.training.presentation.controller;
 import com.dodream.training.application.BootcampService;
 import com.dodream.training.application.DualTrainingService;
 import com.dodream.training.presentation.swagger.TrainingSwagger;
-import com.dodream.scrap.domain.TrainingType;
+import com.dodream.scrap.domain.value.TrainingType;
 import com.dodream.training.dto.response.TrainingDetailApiResponse;
 import com.dodream.training.dto.response.TrainingListApiResponse;
 import com.dodream.core.presentation.RestResponse;

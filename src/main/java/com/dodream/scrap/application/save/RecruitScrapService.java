@@ -4,7 +4,7 @@ import com.dodream.core.config.security.SecurityUtils;
 import com.dodream.member.domain.Member;
 import com.dodream.member.exception.MemberErrorCode;
 import com.dodream.member.repository.MemberRepository;
-import com.dodream.scrap.domain.MemberRecruitScrap;
+import com.dodream.scrap.domain.entity.MemberRecruitScrap;
 import com.dodream.recruit.dto.response.RecruitResponseListApiDto;
 import com.dodream.scrap.dto.response.RecruitSavedResponseDto;
 import com.dodream.recruit.infrastructure.RecruitApiCaller;

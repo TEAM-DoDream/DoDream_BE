@@ -1,6 +1,6 @@
 package com.dodream.scrap.repository;
 
-import com.dodream.scrap.domain.MemberTrainingScrap;
+import com.dodream.scrap.domain.entity.MemberTrainingScrap;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

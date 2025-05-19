@@ -1,4 +1,4 @@
-package com.dodream.scrap.domain;
+package com.dodream.scrap.domain.entity;
 
 import com.dodream.core.infrastructure.jpa.entity.BaseLongIdEntity;
 import com.dodream.member.domain.Member;

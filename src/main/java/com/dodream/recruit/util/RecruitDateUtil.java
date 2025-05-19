@@ -72,12 +72,6 @@ public class RecruitDateUtil {
         return "방금 전";
     }
 
-    public static String toUnixTime(String date) {
-        if (date == null || date.isEmpty()) return null;
-        LocalDate localDate = LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-        return String.valueOf(localDate.atStartOfDay(ZoneId.of("Asia/Seoul")).toEpochSecond());
-    }
-
     private static String getCloseTypeMessage(String closeType) {
         return switch (closeType) {
             case "2" -> "채용시 마감";
