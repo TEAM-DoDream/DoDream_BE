@@ -7,9 +7,9 @@ import com.dodream.member.repository.MemberRepository;
 import com.dodream.scrap.domain.MemberRecruitScrap;
 import com.dodream.recruit.dto.response.RecruitResponseListApiDto;
 import com.dodream.scrap.dto.response.RecruitSavedResponseDto;
-import com.dodream.recruit.exception.RecruitErrorCode;
 import com.dodream.recruit.infrastructure.RecruitApiCaller;
 import com.dodream.recruit.infrastructure.mapper.RecruitMapper;
+import com.dodream.scrap.exception.ScrapErrorCode;
 import com.dodream.scrap.repository.MemberRecruitScrapRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +29,12 @@ public class RecruitScrapService {
         Member member = memberRepository.findById(SecurityUtils.getCurrentMemberId())
                 .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
 
+        if(memberRecruitScrapRepository.countByMemberId(member.getId()) >= 50){
+            throw ScrapErrorCode.SCRAP_LIMIT_EXCEEDED.toException();
+        }
+
         if(memberRecruitScrapRepository.existsByRecruitIdAndMemberId(recruitId, member.getId())){
-            throw RecruitErrorCode.POST_IS_SAVED.toException();
+            throw ScrapErrorCode.POST_IS_SAVED.toException();
         }
 
         RecruitResponseListApiDto.Jobs.Job recruitDetail = recruitMapper.parse(

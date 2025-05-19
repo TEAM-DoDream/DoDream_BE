@@ -12,6 +12,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -42,11 +45,11 @@ public class MemberTrainingScrap extends BaseLongIdEntity {
 
     // 시작 날짜
     @Column(name = "training_start_date", nullable = false)
-    private String trainingStartDate;
+    private LocalDate trainingStartDate;
 
     // 종료 날짜
     @Column(name = "training_end_date", nullable = false)
-    private String trainingEndDate;
+    private LocalDate trainingEndDate;
 
     // 회차
     @Column(name = "training_degree", nullable = false)
@@ -64,13 +67,15 @@ public class MemberTrainingScrap extends BaseLongIdEntity {
     public static MemberTrainingScrap of(
             Member member, TrainingSaveReqeustDto request, TrainingDetailApiResponse response
     ) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+
         return MemberTrainingScrap.builder()
                 .trainingId(request.trprId())
                 .trainingName(response.instBaseInfo().trprNm())
                 .trainingOrgName(response.instBaseInfo().inoNm())
                 .trainingOrgAddr(TrainingAddressUtils.extractMainRegion(response.instBaseInfo().addr()))
-                .trainingStartDate(request.traStartDate())
-                .trainingEndDate(request.traEndDate())
+                .trainingStartDate(LocalDate.parse(request.traStartDate(), formatter))
+                .trainingEndDate(LocalDate.parse(request.traEndDate(), formatter))
                 .trainingDegree(String.valueOf(response.instBaseInfo().trprDegr()))
                 .trainingManage(response.instBaseInfo().instPerTrco())
                 .member(member)
