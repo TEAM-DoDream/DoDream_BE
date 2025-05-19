@@ -6,9 +6,9 @@ import lombok.RequiredArgsConstructor;
 @Getter
 @RequiredArgsConstructor
 public enum PhysicalActivity {
-    HIGH("움직임이 많은 활동"),
-    MEDIUM("가벼운 활동"),
-    LOW("정적인 활동");
+    HIGH("높은 활동량"),
+    MEDIUM("중간 활동량"),
+    LOW("낮은 활동량");
 
     private final String description;
 }

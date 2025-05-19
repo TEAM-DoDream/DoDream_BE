@@ -1,4 +1,4 @@
-package com.dodream.scrap.application;
+package com.dodream.scrap.application.save;
 
 import com.dodream.core.config.security.SecurityUtils;
 import com.dodream.member.domain.Member;
