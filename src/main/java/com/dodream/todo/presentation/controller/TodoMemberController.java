@@ -7,6 +7,7 @@ import com.dodream.todo.dto.response.AddJobTodoResponseDto;
 import com.dodream.todo.dto.response.ChangeCompleteStateTodoResponseDto;
 import com.dodream.todo.dto.response.ChangePublicStateTodoResponseDto;
 import com.dodream.todo.dto.response.DeleteTodoResponseDto;
+import com.dodream.todo.dto.response.GetOneTodoGroupAtHomeResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoWithMemoResponseDto;
 import com.dodream.todo.dto.response.GetTodoJobResponseDto;
@@ -35,7 +36,7 @@ public class TodoMemberController implements TodoMemberSwagger {
 
     @Override
     @GetMapping(value = "/todo")
-    public ResponseEntity<RestResponse<GetOneTodoGroupResponseDto>> getOneTodoGroupAtHome() {
+    public ResponseEntity<RestResponse<GetOneTodoGroupAtHomeResponseDto>> getOneTodoGroupAtHome() {
         return ResponseEntity.ok(
             new RestResponse<>(memberTodoService.getOneTodoGroupAtHome()));
     }

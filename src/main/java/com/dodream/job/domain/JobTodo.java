@@ -33,11 +33,6 @@ public class JobTodo extends BaseLongIdEntity {
     private Job job;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    @JdbcTypeCode(SqlTypes.VARCHAR)
-    private TodoCategory todoCategory;
-
-    @Column(nullable = false)
     private String title;
 
 }

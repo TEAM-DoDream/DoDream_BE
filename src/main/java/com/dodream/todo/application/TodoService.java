@@ -10,7 +10,9 @@ import com.dodream.todo.domain.Todo;
 import com.dodream.todo.domain.TodoGroup;
 import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoResponseDto;
+import com.dodream.todo.dto.response.GetOneTodoWithMemoResponseDto;
 import com.dodream.todo.dto.response.GetOthersTodoGroupResponseDto;
+import com.dodream.todo.dto.response.GetOthersTodoResponseDto;
 import com.dodream.todo.dto.response.GetOthersTodoSimpleResponseDto;
 import com.dodream.todo.dto.response.GetTodoGroupByCategoryResponseDto;
 import com.dodream.todo.exception.TodoGroupErrorCode;
@@ -40,6 +42,7 @@ public class TodoService {
     private final TodoGroupRepository todoGroupRepository;
     private final JobRepository jobRepository;
 
+    // 홈화면에서 타유저의 투두 리스트 간편 조회(3개씩)
     @Transactional(readOnly = true)
     public List<GetOthersTodoGroupResponseDto> getOneTodoGroupAtHome() {
 
@@ -65,6 +68,8 @@ public class TodoService {
             .toList();
     }
 
+
+    // 특정 직업 정보 페이지 - 우측 상단에 타유저 리스트
     @Transactional(readOnly = true)
     public List<GetOthersTodoSimpleResponseDto> getOthersTodoSimple(Long jobId) {
 
@@ -107,6 +112,8 @@ public class TodoService {
         return new PageImpl<>(result, pageable, todoGroups.getTotalElements());
     }
 
+
+    // 타유저의 투두 리스트 상세 조회
     @Transactional(readOnly = true)
     public GetOneTodoGroupResponseDto getOneOthersTodoGroup(Long TodoGroupId) {
 
@@ -115,18 +122,9 @@ public class TodoService {
         TodoGroup todoGroup = todoGroupRepository.findByIdAndMemberNot(TodoGroupId, member)
             .orElseThrow(TodoGroupErrorCode.TODO_GROUP_NOT_FOUND::toException);
 
-        Map<TodoCategory, List<GetOneTodoResponseDto>> groupedMap =
-            todoGroup.getTodo().stream()
-                .map(GetOneTodoResponseDto::from)
-                .collect(Collectors.groupingBy(
-                    GetOneTodoResponseDto::todoCategory, LinkedHashMap::new, Collectors.toList()
-                ));
-
-        List<GetTodoGroupByCategoryResponseDto> todos = Arrays.stream(TodoCategory.values())
-            .filter(groupedMap::containsKey)
-            .map(category -> GetTodoGroupByCategoryResponseDto.of(category,
-                groupedMap.get(category)))
-            .collect(Collectors.toList());
+        List<GetOneTodoResponseDto> todos = todoGroup.getTodo().stream()
+            .map(GetOneTodoResponseDto::from)
+            .toList();
 
         return GetOneTodoGroupResponseDto.of(member, todoGroup, todos);
     }
