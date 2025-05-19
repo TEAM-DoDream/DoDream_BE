@@ -63,7 +63,7 @@ public class MemberRecruitScrap extends BaseLongIdEntity {
                 .title(job.position().title())
                 .companyName(job.company().detail().name())
                 .expirationDate(job.expirationTimestamp())
-                .locationName(job.position().location().name())
+                .locationName(locationNameFormatter(job.position().location().name()))
                 .jobType(job.position().jobType().name())
                 .experienceLevel(job.position().experienceLevel().name())
                 .educationLevel(job.position().requiredEducationLevel().name())
@@ -71,5 +71,10 @@ public class MemberRecruitScrap extends BaseLongIdEntity {
                 .recruitUrl(job.url())
                 .member(member)
                 .build();
+    }
+
+    private static String locationNameFormatter(String locName){
+        if(locName == null || locName.isEmpty()) return null;
+        return locName.replace("&gt;","").replaceAll("\\s+", " ");
     }
 }
