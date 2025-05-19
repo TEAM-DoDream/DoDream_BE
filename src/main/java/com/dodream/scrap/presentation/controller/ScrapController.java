@@ -1,8 +1,8 @@
 package com.dodream.scrap.presentation.controller;
 
 import com.dodream.core.presentation.RestResponse;
-import com.dodream.scrap.application.RecruitScrapService;
-import com.dodream.scrap.application.TrainingScrapService;
+import com.dodream.scrap.application.save.RecruitScrapService;
+import com.dodream.scrap.application.save.TrainingScrapService;
 import com.dodream.scrap.domain.TrainingType;
 import com.dodream.scrap.dto.request.TrainingSaveReqeustDto;
 import com.dodream.scrap.dto.response.RecruitSavedResponseDto;
