@@ -1,4 +1,4 @@
-package com.dodream.scrap.presentation;
+package com.dodream.scrap.presentation.controller;
 
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.scrap.application.RecruitScrapService;
@@ -7,6 +7,7 @@ import com.dodream.scrap.domain.TrainingType;
 import com.dodream.scrap.dto.request.TrainingSaveReqeustDto;
 import com.dodream.scrap.dto.response.RecruitSavedResponseDto;
 import com.dodream.scrap.dto.response.TrainingScrapResponseDto;
+import com.dodream.scrap.presentation.swagger.ScrapSwagger;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/v1/scrap")
 @RequiredArgsConstructor
 @Validated
-public class ScrapController implements ScrapSwagger{
+public class ScrapController implements ScrapSwagger {
 
     private final RecruitScrapService recruitScrapService;
     private final TrainingScrapService trainingScrapService;
