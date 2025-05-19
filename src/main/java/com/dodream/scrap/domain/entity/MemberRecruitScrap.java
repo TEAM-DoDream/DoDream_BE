@@ -1,8 +1,9 @@
-package com.dodream.scrap.domain;
+package com.dodream.scrap.domain.entity;
 
 import com.dodream.core.infrastructure.jpa.entity.BaseLongIdEntity;
 import com.dodream.member.domain.Member;
 import com.dodream.recruit.dto.response.RecruitResponseListApiDto;
+import com.dodream.scrap.domain.value.RecruitCloseType;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -48,7 +49,8 @@ public class MemberRecruitScrap extends BaseLongIdEntity {
     private String educationLevel;
 
     @Column(name = "close_type", nullable = false)
-    private String closeType;
+    @Enumerated(EnumType.STRING)
+    private RecruitCloseType closeType;
 
     @Column(name = "recruit_url", nullable = false)
     private String recruitUrl;
@@ -62,12 +64,12 @@ public class MemberRecruitScrap extends BaseLongIdEntity {
                 .recruitId(recruitId)
                 .title(job.position().title())
                 .companyName(job.company().detail().name())
-                .expirationDate(job.expirationTimestamp())
+                .expirationDate(job.expirationDate())
                 .locationName(locationNameFormatter(job.position().location().name()))
                 .jobType(job.position().jobType().name())
                 .experienceLevel(job.position().experienceLevel().name())
                 .educationLevel(job.position().requiredEducationLevel().name())
-                .closeType(job.closeType().name())
+                .closeType(closeTypeFormatter(job.closeType().code()))
                 .recruitUrl(job.url())
                 .member(member)
                 .build();
@@ -76,5 +78,17 @@ public class MemberRecruitScrap extends BaseLongIdEntity {
     private static String locationNameFormatter(String locName){
         if(locName == null || locName.isEmpty()) return null;
         return locName.replace("&gt;","").replaceAll("\\s+", " ");
+    }
+
+    private static RecruitCloseType closeTypeFormatter(String code){
+        if(code == null || code.isEmpty()) return null;
+
+        for (RecruitCloseType type : RecruitCloseType.values()) {
+            if (type.getCode().equals(code)) {
+                return type;
+            }
+        }
+
+        return null;
     }
 }

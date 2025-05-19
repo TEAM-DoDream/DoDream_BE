@@ -1,6 +1,7 @@
 package com.dodream.scrap.dto.response;
 
-import com.dodream.scrap.domain.MemberRecruitScrap;
+import com.dodream.recruit.util.RecruitDateUtil;
+import com.dodream.scrap.domain.entity.MemberRecruitScrap;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public record RecruitScrapResponseDto(
@@ -30,7 +31,10 @@ public record RecruitScrapResponseDto(
         String deadline,
 
         @Schema(description = "마감 d-day", example = "D-6")
-        String dDay
+        String dDay,
+
+        @Schema(description = "사람인 이동 url", example = "https://")
+        String saraminUrl
 ) {
     public static RecruitScrapResponseDto from(MemberRecruitScrap memberRecruitScrap){
         return new RecruitScrapResponseDto(
@@ -41,8 +45,15 @@ public record RecruitScrapResponseDto(
                 memberRecruitScrap.getLocationName(),
                 memberRecruitScrap.getExperienceLevel(),
                 memberRecruitScrap.getJobType(),
-                memberRecruitScrap.getExpirationDate(),
-                memberRecruitScrap.getExpirationDate()
+                RecruitDateUtil.getExpirationDate(
+                        memberRecruitScrap.getExpirationDate(),
+                        memberRecruitScrap.getCloseType().getCode()
+                ),
+                RecruitDateUtil.getRemainingDate(
+                        memberRecruitScrap.getExpirationDate(),
+                        memberRecruitScrap.getCloseType().getCode()
+                ),
+                memberRecruitScrap.getRecruitUrl()
         );
     }
 }
