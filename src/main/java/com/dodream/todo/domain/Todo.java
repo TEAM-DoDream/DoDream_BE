@@ -45,11 +45,6 @@ public class Todo extends BaseLongIdEntity {
     private Member member;
 
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    @JdbcTypeCode(SqlTypes.VARCHAR)
-    private TodoCategory todoCategory;
-
-    @Column(nullable = false)
     private String title;
 
     @Builder.Default
@@ -72,11 +67,10 @@ public class Todo extends BaseLongIdEntity {
     }
 
     @Builder
-    private Todo(TodoGroup todoGroup, Member member, String title, TodoCategory todoCategory) {
+    private Todo(TodoGroup todoGroup, Member member, String title) {
         this.todoGroup = todoGroup;
         this.member = member;
         this.title = title;
-        this.todoCategory = todoCategory;
     }
 
     public static Todo of(TodoGroup todoGroup, Member member, JobTodo jobTodo) {
@@ -84,17 +78,14 @@ public class Todo extends BaseLongIdEntity {
             .todoGroup(todoGroup)
             .member(member)
             .title(jobTodo.getTitle())
-            .todoCategory(jobTodo.getTodoCategory())
             .build();
     }
 
-    public static Todo of(TodoGroup todoGroup, Member member, String title,
-        TodoCategory todoCategory) {
+    public static Todo of(TodoGroup todoGroup, Member member, String title) {
         return Todo.builder()
             .todoGroup(todoGroup)
             .member(member)
             .title(title)
-            .todoCategory(todoCategory)
             .build();
     }
 }

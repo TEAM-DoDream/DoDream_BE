@@ -8,11 +8,7 @@ import jakarta.validation.constraints.NotNull;
 public record PostTodoRequestDto(
     @NotNull
     @Schema(description = "투두 제목", example = "요양보호사 관련 자격증 찾아보기")
-    String todoTitle,
-
-    @NotNull
-    @Schema(description = "투두 카테고리", example = "PREPARE")
-    TodoCategory todoCategory
+    String todoTitle
 
 ) {
 

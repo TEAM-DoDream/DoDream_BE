@@ -2,7 +2,6 @@ package com.dodream.todo.application;
 
 import com.dodream.job.domain.Job;
 import com.dodream.job.domain.JobTodo;
-import com.dodream.job.domain.TodoCategory;
 import com.dodream.job.exception.JobErrorCode;
 import com.dodream.job.repository.JobRepository;
 import com.dodream.job.repository.JobTodoRepository;
@@ -16,20 +15,18 @@ import com.dodream.todo.dto.response.ChangeCompleteStateTodoResponseDto;
 import com.dodream.todo.dto.response.ChangePublicStateTodoResponseDto;
 import com.dodream.todo.dto.response.DeleteTodoGroupResponseDto;
 import com.dodream.todo.dto.response.DeleteTodoResponseDto;
+import com.dodream.todo.dto.response.GetOneTodoAtHomeResponseDto;
+import com.dodream.todo.dto.response.GetOneTodoGroupAtHomeResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoWithMemoResponseDto;
-import com.dodream.todo.dto.response.GetTodoGroupByCategoryResponseDto;
 import com.dodream.todo.dto.response.GetTodoJobResponseDto;
 import com.dodream.todo.dto.response.PostTodoResponseDto;
 import com.dodream.todo.exception.TodoErrorCode;
 import com.dodream.todo.exception.TodoGroupErrorCode;
 import com.dodream.todo.repository.TodoGroupRepository;
 import com.dodream.todo.repository.TodoRepository;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -46,6 +43,8 @@ public class TodoMemberService {
     private final TodoRepository todoRepository;
     private final TodoGroupRepository todoGroupRepository;
 
+
+    // 새로운 투두 아이템 생성
     @Transactional
     public PostTodoResponseDto postNewTodo(Long todoGroupId, PostTodoRequestDto requestDto) {
 
@@ -55,14 +54,14 @@ public class TodoMemberService {
                 member)
             .orElseThrow(TodoGroupErrorCode.TODO_GROUP_NOT_FOUND::toException);
 
-        Todo newTodo = Todo.of(todoGroup, member, requestDto.todoTitle(),
-            requestDto.todoCategory());
+        Todo newTodo = Todo.of(todoGroup, member, requestDto.todoTitle());
         todoRepository.save(newTodo);
 
         return PostTodoResponseDto.of(todoGroup.getId(), newTodo);
     }
 
 
+    // 직업 담기
     @Transactional
     public AddJobTodoResponseDto addJobToMyList(Long jobId) {
 
@@ -94,6 +93,7 @@ public class TodoMemberService {
     }
 
 
+    // 담은 직업 목록 조회
     @Transactional(readOnly = true)
     public List<GetTodoJobResponseDto> getTodoJobList() {
 
@@ -107,36 +107,29 @@ public class TodoMemberService {
     }
 
 
+    // 홈화면 todo 하나 조회
     @Transactional(readOnly = true)
-    public GetOneTodoGroupResponseDto getOneTodoGroupAtHome() {
+    public GetOneTodoGroupAtHomeResponseDto getOneTodoGroupAtHome() {
 
         Member member = memberAuthService.getCurrentMember();
 
         Optional<TodoGroup> todoGroup = todoGroupRepository.findFirstByMemberOrderByIdAsc(member);
 
         if (todoGroup.isEmpty()) {
-            return GetOneTodoGroupResponseDto.empty(member);
+            return GetOneTodoGroupAtHomeResponseDto.empty(member);
         }
 
-        Map<TodoCategory, List<GetOneTodoResponseDto>> groupedMap = todoGroup.get().getTodo()
-            .stream()
-            .map(GetOneTodoResponseDto::from)
-            .collect(Collectors.groupingBy(
-                GetOneTodoResponseDto::todoCategory,
-                LinkedHashMap::new,
-                Collectors.toList()
-            ));
-
-        List<GetTodoGroupByCategoryResponseDto> todos = Arrays.stream(TodoCategory.values())
-            .filter(groupedMap::containsKey)
-            .map(category -> GetTodoGroupByCategoryResponseDto.of(
-                category, groupedMap.get(category)))
+        List<GetOneTodoAtHomeResponseDto> todos = todoGroup.get().getTodo().stream()
+            .limit(4)
+            .map(GetOneTodoAtHomeResponseDto::from)
             .toList();
 
-        return GetOneTodoGroupResponseDto.of(member, todoGroup.get(), todos);
+        return GetOneTodoGroupAtHomeResponseDto.of(member, todoGroup.get(), todos);
+
     }
 
 
+    // 개별 투두 리스트 조회
     @Transactional(readOnly = true)
     public GetOneTodoGroupResponseDto getOneTodoGroup(Long TodoGroupId) {
 
@@ -145,18 +138,9 @@ public class TodoMemberService {
         TodoGroup todoGroup = todoGroupRepository.findByIdAndMember(TodoGroupId, member)
             .orElseThrow(TodoGroupErrorCode.TODO_GROUP_NOT_FOUND::toException);
 
-        Map<TodoCategory, List<GetOneTodoResponseDto>> groupedMap =
-            todoGroup.getTodo().stream()
-                .map(GetOneTodoResponseDto::from)
-                .collect(Collectors.groupingBy(
-                    GetOneTodoResponseDto::todoCategory, LinkedHashMap::new, Collectors.toList()
-                ));
-
-        List<GetTodoGroupByCategoryResponseDto> todos = Arrays.stream(TodoCategory.values())
-            .filter(groupedMap::containsKey)
-            .map(category -> GetTodoGroupByCategoryResponseDto.of(category,
-                groupedMap.get(category)))
-            .collect(Collectors.toList());
+        List<GetOneTodoResponseDto> todos = todoGroup.getTodo().stream()
+            .map(GetOneTodoResponseDto::from)
+            .toList();
 
         return GetOneTodoGroupResponseDto.of(member, todoGroup, todos);
     }

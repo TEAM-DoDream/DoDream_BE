@@ -10,7 +10,8 @@ import java.util.List;
 import lombok.Builder;
 
 @Builder
-public record GetOneTodoGroupResponseDto(
+public record GetOneTodoGroupAtHomeResponseDto(
+
     @Schema(description = "투두 그룹 id", example = "12")
     Long todoGroupId,
     @Schema(description = "멤버 닉네임", example = "두둠칫")
@@ -19,31 +20,27 @@ public record GetOneTodoGroupResponseDto(
     Long daysAgo,
     @Schema(description = "직업 이름", example = "요양보호사")
     String jobName,
-    @Schema(description = "조회수", example = "101")
-    Long totalView,
     @Schema(description = "투두 목록")
-    List<GetOneTodoResponseDto> todos
+    List<GetOneTodoAtHomeResponseDto> todos
 
 ) {
 
-    public static GetOneTodoGroupResponseDto of(Member member, TodoGroup myTodoGroup,
-        List<GetOneTodoResponseDto> todos) {
-        return GetOneTodoGroupResponseDto.builder()
+    public static GetOneTodoGroupAtHomeResponseDto of(Member member, TodoGroup myTodoGroup,
+        List<GetOneTodoAtHomeResponseDto> todos) {
+        return GetOneTodoGroupAtHomeResponseDto.builder()
             .todoGroupId(myTodoGroup.getId())
             .memberNickname(member.getNickName())
             .daysAgo(
                 ChronoUnit.DAYS.between(myTodoGroup.getCreatedAt().toLocalDate(), LocalDate.now())
                     + 1)
             .jobName(myTodoGroup.getJob().getJobName())
-            .totalView(myTodoGroup.getTotalView())
             .todos(todos)
             .build();
     }
 
-    public static GetOneTodoGroupResponseDto empty(Member member) {
-        return new GetOneTodoGroupResponseDto(null, member.getNickName(), null, null, null,
+    public static GetOneTodoGroupAtHomeResponseDto empty(Member member) {
+        return new GetOneTodoGroupAtHomeResponseDto(null, member.getNickName(), null, null,
             Collections.emptyList());
     }
-
 
 }

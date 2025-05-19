@@ -7,6 +7,7 @@ import com.dodream.todo.dto.response.AddJobTodoResponseDto;
 import com.dodream.todo.dto.response.ChangeCompleteStateTodoResponseDto;
 import com.dodream.todo.dto.response.ChangePublicStateTodoResponseDto;
 import com.dodream.todo.dto.response.DeleteTodoResponseDto;
+import com.dodream.todo.dto.response.GetOneTodoGroupAtHomeResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoWithMemoResponseDto;
 import com.dodream.todo.dto.response.GetTodoJobResponseDto;
@@ -29,7 +30,7 @@ public interface TodoMemberSwagger {
         operationId = "/v1/my-dream/todo"
     )
     @ApiErrorCode(TodoErrorCode.class)
-    ResponseEntity<RestResponse<GetOneTodoGroupResponseDto>> getOneTodoGroupAtHome();
+    ResponseEntity<RestResponse<GetOneTodoGroupAtHomeResponseDto>> getOneTodoGroupAtHome();
 
 
     @Operation(
