@@ -7,9 +7,9 @@ import com.dodream.member.repository.MemberRepository;
 import com.dodream.scrap.domain.MemberTrainingScrap;
 import com.dodream.scrap.domain.TrainingType;
 import com.dodream.scrap.dto.request.TrainingSaveReqeustDto;
+import com.dodream.scrap.exception.ScrapErrorCode;
 import com.dodream.training.dto.response.TrainingDetailApiResponse;
 import com.dodream.scrap.dto.response.TrainingScrapResponseDto;
-import com.dodream.training.exception.TrainingErrorCode;
 import com.dodream.training.infrastructure.mapper.TrainingMapper;
 import com.dodream.scrap.repository.MemberTrainingScrapRepository;
 import com.dodream.training.util.executer.TrainingApiExecuter;
@@ -45,8 +45,12 @@ public class TrainingScrapService {
         Member member = memberRepository.findById(SecurityUtils.getCurrentMemberId())
                 .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
 
+        if(memberTrainingScrapRepository.countByMemberId(member.getId()) > 50) {
+            throw ScrapErrorCode.SCRAP_LIMIT_EXCEEDED.toException();
+        }
+
         if(memberTrainingScrapRepository.existsByTrainingIdAndMemberId(request.trprId(), member.getId())){
-            throw TrainingErrorCode.IS_SAVED_TRAINING.toException();
+            throw ScrapErrorCode.POST_IS_SAVED.toException();
         }
 
         TrainingDetailApiResponse response;
