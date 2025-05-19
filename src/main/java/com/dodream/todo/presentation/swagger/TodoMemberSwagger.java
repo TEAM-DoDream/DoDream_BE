@@ -21,16 +21,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@Tag(name = "Todo", description = "마이드림 - 투두 리스트 관련 API")
+@Tag(name = "Todo 마이드림", description = "마이드림 - 투두 리스트 관련 API")
 public interface TodoMemberSwagger {
 
     @Operation(
-        summary = "투두리스트 - 투두리스트 첫화면 조회 API",
+         summary = "홈화면 - 투두 리스트 조회 API",
+         description = "홈화면에서의 투두리스트 조회한다.",
+         operationId = "/v1/my-dream/todo/home"
+     )
+     @ApiErrorCode(TodoErrorCode.class)
+     ResponseEntity<RestResponse<GetOneTodoGroupAtHomeResponseDto>> getOneTodoGroupAtHome();
+
+
+
+    @Operation(
+        summary = "마이드림 - 투두리스트 첫화면 조회 API",
         description = "마이드림 - 투두리스트 첫화면을 조회한다. (마이드림 - 투두리스트)",
         operationId = "/v1/my-dream/todo"
     )
     @ApiErrorCode(TodoErrorCode.class)
-    ResponseEntity<RestResponse<GetOneTodoGroupAtHomeResponseDto>> getOneTodoGroupAtHome();
+    ResponseEntity<RestResponse<GetOneTodoGroupResponseDto>> getOneTodoGroupAtMyDream();
 
 
     @Operation(

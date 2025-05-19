@@ -128,6 +128,26 @@ public class TodoMemberService {
 
     }
 
+    // 마이드림 - 투두 리스트 조회
+    @Transactional(readOnly = true)
+    public GetOneTodoGroupResponseDto getOneTodoGroupAtMyDream() {
+
+        Member member = memberAuthService.getCurrentMember();
+
+        Optional<TodoGroup> todoGroup = todoGroupRepository.findFirstByMemberOrderByIdAsc(member);
+
+        if (todoGroup.isEmpty()) {
+            return GetOneTodoGroupResponseDto.empty(member);
+        }
+
+        List<GetOneTodoResponseDto> todos = todoGroup.get().getTodo().stream()
+            .map(GetOneTodoResponseDto::from)
+            .toList();
+
+        return GetOneTodoGroupResponseDto.of(member, todoGroup.get(), todos);
+
+    }
+
 
     // 개별 투두 리스트 조회
     @Transactional(readOnly = true)
@@ -195,9 +215,9 @@ public class TodoMemberService {
     }
 
     @Transactional
-    public DeleteTodoGroupResponseDto deleteTodoGroups(List<Long> jobIds,Member member) {
+    public DeleteTodoGroupResponseDto deleteTodoGroups(List<Long> jobIds, Member member) {
 
-        todoGroupRepository.deleteByMemberAndJobIdIn(member,jobIds);
+        todoGroupRepository.deleteByMemberAndJobIdIn(member, jobIds);
 
         return DeleteTodoGroupResponseDto.from(jobIds);
     }

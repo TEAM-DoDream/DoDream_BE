@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Tag(name = "Todo - 홈화면", description = "홈화면 - 투두 리스트 관련 API")
+@Tag(name = "Todo", description = "투두 리스트 관련 API")
 public interface TodoSwagger {
 
     @Operation(

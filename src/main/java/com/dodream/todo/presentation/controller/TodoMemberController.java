@@ -35,11 +35,18 @@ public class TodoMemberController implements TodoMemberSwagger {
     private final TodoMemberService memberTodoService;
 
     @Override
-    @GetMapping(value = "/todo")
+    @GetMapping(value = "/todo/home")
     public ResponseEntity<RestResponse<GetOneTodoGroupAtHomeResponseDto>> getOneTodoGroupAtHome() {
         return ResponseEntity.ok(
             new RestResponse<>(memberTodoService.getOneTodoGroupAtHome()));
     }
+
+    @Override
+       @GetMapping(value = "/todo")
+       public ResponseEntity<RestResponse<GetOneTodoGroupResponseDto>> getOneTodoGroupAtMyDream() {
+           return ResponseEntity.ok(
+               new RestResponse<>(memberTodoService.getOneTodoGroupAtMyDream()));
+       }
 
     @Override
     @PostMapping(value = "/todo-group/{todoGroupId}")
