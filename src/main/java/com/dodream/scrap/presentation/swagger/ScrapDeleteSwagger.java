@@ -24,7 +24,7 @@ public interface ScrapDeleteSwagger {
     ResponseEntity<RestResponse<ScrapDeletedResponse>> deleteRecruitScrap(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
 
-            @PathVariable(name = "id")
+            @PathVariable(name = "recruitId")
             @Parameter(description = "채용공고 리스트 api 호출시 나오는 id값")
             String recruitId
     );
@@ -38,7 +38,7 @@ public interface ScrapDeleteSwagger {
     ResponseEntity<RestResponse<ScrapDeletedResponse>> deleteTrainingScrap(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
 
-            @PathVariable(name = "id")
+            @PathVariable(name = "trainingId")
             @Parameter(description = "훈련 과정 공고 검색시 나오는 trprId(훈련과정 고유값)")
             String trainingId
     );
