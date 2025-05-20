@@ -5,7 +5,7 @@ import com.dodream.core.presentation.RestResponse;
 import com.dodream.scrap.dto.request.TrainingSaveReqeustDto;
 import com.dodream.scrap.dto.response.RecruitSavedResponseDto;
 import com.dodream.recruit.exception.RecruitErrorCode;
-import com.dodream.scrap.dto.response.TrainingScrapResponseDto;
+import com.dodream.scrap.dto.response.TrainingSavedResponseDto;
 import com.dodream.training.exception.TrainingErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -34,7 +34,7 @@ public interface ScrapSwagger {
             operationId = "/v1/scrap/training"
     )
     @ApiErrorCode(TrainingErrorCode.class)
-    ResponseEntity<RestResponse<TrainingScrapResponseDto>> saveTrainingPost(
+    ResponseEntity<RestResponse<TrainingSavedResponseDto>> saveTrainingPost(
             @RequestBody TrainingSaveReqeustDto trainingSaveReqeustDto,
 
             @RequestParam

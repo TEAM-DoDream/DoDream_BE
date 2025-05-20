@@ -6,15 +6,15 @@ import jakarta.validation.constraints.Pattern;
 
 public record TrainingSaveReqeustDto(
 
-        @Schema(description = "훈련 과정 id", example = "AIG20240000469334")
+        @Schema(description = "훈련 과정 id", example = "AIG20240000461129")
         @NotNull(message = "훈련 과정 id는 필수 입력 사항입니다.")
         String trprId,
 
-        @Schema(description = "훈련 과정 차수", example = "3")
+        @Schema(description = "훈련 과정 차수", example = "4")
         @NotNull(message = "훈련 과정 차수는 필수 입력 사항입니다.")
         String trprDegr,
 
-        @Schema(description = "훈련 기관 id", example = "500041590848")
+        @Schema(description = "훈련 기관 id", example = "500034772296")
         @NotNull(message = "훈련 기관 id는 필수 입력 사항입니다.")
         String trainstCstId,
 
