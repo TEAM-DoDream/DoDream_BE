@@ -38,7 +38,7 @@ public class ScrapDeleteController implements ScrapDeleteSwagger {
     ) {
         return ResponseEntity.ok(
                 new RestResponse<>(
-                        scrapDeleteService.deletedTrainingScrap(trainingId, customUserDetails)
+                        scrapDeleteService.deleteTrainingScrap(trainingId, customUserDetails)
                 )
         );
     }

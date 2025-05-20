@@ -54,7 +54,11 @@ public class ScrapSearchController implements ScrapSearchSwagger {
 
     @Override
     @GetMapping("/checked")
-    public ResponseEntity<RestResponse<List<IsScrapCheckedResponse>>> checkScrapList(CustomUserDetails customUserDetails, Category category, List<String> idList) {
+    public ResponseEntity<RestResponse<List<IsScrapCheckedResponse>>> checkScrapList(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @RequestParam Category category,
+            @RequestParam List<String> idList
+    ) {
         return ResponseEntity.ok(
                 new RestResponse<>(scrapSearchService.isScrapCheck(customUserDetails, category, idList))
         );

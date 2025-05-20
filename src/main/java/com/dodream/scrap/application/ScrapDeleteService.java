@@ -34,7 +34,7 @@ public class ScrapDeleteService {
     }
 
     @Transactional
-    public ScrapDeletedResponse deletedTrainingScrap(
+    public ScrapDeletedResponse deleteTrainingScrap(
             String trainingId, CustomUserDetails customUserDetails
     ){
         Long memberId = getMemberId(customUserDetails);
