@@ -3,6 +3,8 @@ package com.dodream.scrap.presentation.controller;
 import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.scrap.application.ScrapSearchService;
+import com.dodream.scrap.domain.value.Category;
+import com.dodream.scrap.dto.response.IsScrapCheckedResponse;
 import com.dodream.scrap.dto.response.RecruitScrapResponseDto;
 import com.dodream.scrap.dto.response.TrainingScrapResponseDto;
 import com.dodream.scrap.presentation.swagger.ScrapSearchSwagger;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/v1/scrap")
@@ -45,6 +49,14 @@ public class ScrapSearchController implements ScrapSearchSwagger {
     ) {
         return ResponseEntity.ok(
                 new RestResponse<>(scrapSearchService.getTrainingScrapList(customUserDetails, pageNum, locName, sortBy))
+        );
+    }
+
+    @Override
+    @GetMapping("/checked")
+    public ResponseEntity<RestResponse<List<IsScrapCheckedResponse>>> checkScrapList(CustomUserDetails customUserDetails, Category category, List<String> idList) {
+        return ResponseEntity.ok(
+                new RestResponse<>(scrapSearchService.isScrapCheck(customUserDetails, category, idList))
         );
     }
 }
