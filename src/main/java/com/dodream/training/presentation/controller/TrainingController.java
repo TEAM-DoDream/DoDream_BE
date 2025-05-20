@@ -30,13 +30,13 @@ public class TrainingController implements TrainingSwagger {
         @RequestParam(required = false) String regionName,
         @RequestParam(required = false) String jobName
     ){
-        if(type.equals(TrainingType.BOOTCAMP.getDescription())){
+        if(TrainingType.DUAL.getDescription().equals(type)){
             return ResponseEntity.ok(new RestResponse<>(
-                    bootcampService.getList(pageNum, regionName, jobName)
+                    dualTrainingService.getList(pageNum, regionName, jobName)
             ));
         }else{
             return ResponseEntity.ok(new RestResponse<>(
-                    dualTrainingService.getList(pageNum, regionName, jobName))
+                    bootcampService.getList(pageNum, regionName, jobName))
             );
         }
     }
@@ -48,13 +48,13 @@ public class TrainingController implements TrainingSwagger {
             @RequestParam String srchTrprDegr,
             @RequestParam String srchTorgId
     ){
-        if(type.equals(TrainingType.BOOTCAMP.getDescription())){
+        if(TrainingType.DUAL.getDescription().equals(type)){
             return ResponseEntity.ok(new RestResponse<>(
-                    bootcampService.getDetail(srchTrprId, srchTrprDegr, srchTorgId)
+                    dualTrainingService.getDetail(srchTrprId, srchTrprDegr, srchTorgId)
             ));
         }else{
             return ResponseEntity.ok(new RestResponse<>(
-                    dualTrainingService.getDetail(srchTrprId, srchTrprDegr, srchTorgId)
+                    bootcampService.getDetail(srchTrprId, srchTrprDegr, srchTorgId)
             ));
         }
     }
