@@ -2,6 +2,7 @@ package com.dodream.scrap.dto.response;
 
 import com.dodream.scrap.domain.entity.MemberTrainingScrap;
 import com.dodream.training.util.TrainingDateUtils;
+import com.dodream.training.util.TrainingPriceUtils;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 public record TrainingScrapResponseDto(
@@ -28,7 +29,7 @@ public record TrainingScrapResponseDto(
         String trainingDuration,
 
         @Schema(description = "훈련 과정 가격", example = "1000000")
-        int trainingPrice
+        String trainingPrice
 ) {
 
     public static TrainingScrapResponseDto from(MemberTrainingScrap memberTrainingScrap) {
@@ -43,7 +44,7 @@ public record TrainingScrapResponseDto(
                             memberTrainingScrap.getTrainingStartDate(),
                             memberTrainingScrap.getTrainingEndDate()
                     ),
-                    memberTrainingScrap.getTrainingManage()
+                    TrainingPriceUtils.convertDecimalFormatForPrice(memberTrainingScrap.getTrainingManage())
             );
     }
 }
