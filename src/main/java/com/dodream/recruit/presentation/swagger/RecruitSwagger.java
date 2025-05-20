@@ -45,7 +45,7 @@ public interface RecruitSwagger {
             String locationName,
 
             @RequestParam
-            @Parameter(description = "정렬 기준(null인경우 마감일로 정렬)", example = "post")
+            @Parameter(description = "정렬 기준(마감 임박순, 마감 여유순)", example = "마감 임박순")
             String sortBy
     );
 

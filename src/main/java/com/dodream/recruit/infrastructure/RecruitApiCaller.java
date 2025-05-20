@@ -2,6 +2,7 @@ package com.dodream.recruit.infrastructure;
 
 import com.dodream.core.infrastructure.cache.annotation.CustomCacheableWithLock;
 import com.dodream.recruit.exception.RecruitErrorCode;
+import com.dodream.recruit.presentation.value.SortBy;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,11 +32,8 @@ public class RecruitApiCaller {
             String keyWords, String locCd, int start, String sortBy
     ){
         try{
-            String sort = SORTED_BY_END_DATE;
-            if(sortBy != null){
-                sort = SORTED_BY_POST_DATE;
-            }
-
+            String sort = checkSortBy(sortBy);
+            System.out.println("sort = " + sort);
             return recruitFeignClient.getRecruitList(
                     accessKey,
                     keyWords,
@@ -60,6 +58,17 @@ public class RecruitApiCaller {
             );
         }catch (Exception e){
             throw RecruitErrorCode.API_CONNECTION_ERROR.toException();
+        }
+    }
+
+
+    private String checkSortBy(String sortBy){
+        if(SortBy.POSTED_DATE_DESC.getName().equals(sortBy)){
+            return SortBy.POSTED_DATE_DESC.getCode();
+        }else if(SortBy.DEADLINE_DESC.getName().equals(sortBy)){
+            return SortBy.DEADLINE_DESC.getCode();
+        }else{
+            return SortBy.DEADLINE_ASC.getCode();
         }
     }
 }
