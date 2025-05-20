@@ -6,7 +6,7 @@ import com.dodream.scrap.application.save.TrainingScrapService;
 import com.dodream.scrap.domain.value.TrainingType;
 import com.dodream.scrap.dto.request.TrainingSaveReqeustDto;
 import com.dodream.scrap.dto.response.RecruitSavedResponseDto;
-import com.dodream.scrap.dto.response.TrainingScrapResponseDto;
+import com.dodream.scrap.dto.response.TrainingSavedResponseDto;
 import com.dodream.scrap.presentation.swagger.ScrapSwagger;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,7 @@ public class ScrapController implements ScrapSwagger {
 
     @Override
     @PostMapping("/training")
-    public ResponseEntity<RestResponse<TrainingScrapResponseDto>> saveTrainingPost(
+    public ResponseEntity<RestResponse<TrainingSavedResponseDto>> saveTrainingPost(
             @RequestBody TrainingSaveReqeustDto request,
 
             @RequestParam

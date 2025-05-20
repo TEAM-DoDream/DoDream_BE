@@ -9,7 +9,7 @@ import com.dodream.scrap.domain.value.TrainingType;
 import com.dodream.scrap.dto.request.TrainingSaveReqeustDto;
 import com.dodream.scrap.exception.ScrapErrorCode;
 import com.dodream.training.dto.response.TrainingDetailApiResponse;
-import com.dodream.scrap.dto.response.TrainingScrapResponseDto;
+import com.dodream.scrap.dto.response.TrainingSavedResponseDto;
 import com.dodream.training.infrastructure.mapper.TrainingMapper;
 import com.dodream.scrap.repository.MemberTrainingScrapRepository;
 import com.dodream.training.util.executer.TrainingApiExecuter;
@@ -41,7 +41,7 @@ public class TrainingScrapService {
     }
 
     @Transactional
-    public TrainingScrapResponseDto saveTraining(TrainingSaveReqeustDto request, TrainingType trainingType) {
+    public TrainingSavedResponseDto saveTraining(TrainingSaveReqeustDto request, TrainingType trainingType) {
         Member member = memberRepository.findById(SecurityUtils.getCurrentMemberId())
                 .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
 
@@ -72,7 +72,7 @@ public class TrainingScrapService {
         memberTrainingScrapRepository.save(create(member, request, response));
 
 
-        return new TrainingScrapResponseDto(
+        return new TrainingSavedResponseDto(
                 member.getId(),
                 true
         );

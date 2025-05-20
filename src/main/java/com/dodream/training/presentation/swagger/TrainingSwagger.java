@@ -52,19 +52,19 @@ public interface TrainingSwagger {
             @RequestParam
             @Parameter(
                     description = "훈련과정 ID /v1/training/bootcamp/list 실행시 나오는 trgrId",
-                    example = "AIG20240000469334"
+                    example = "AIG20240000461129"
             )
             String srchTrprId,
             @RequestParam
             @Parameter(
                     description = "훈련과정 ID /v1/training/bootcamp/list 실행시 나오는 trprDegr(차수 번호(String))",
-                    example = "3"
+                    example = "4"
             )
             String srchTrprDegr,
             @RequestParam
             @Parameter(
                     description = "훈련과정 ID /v1/training/bootcamp/list 실행시 나오는 trainstCstId",
-                    example = "500041590848"
+                    example = "500034772296"
             )
             String srchTorgId
     );

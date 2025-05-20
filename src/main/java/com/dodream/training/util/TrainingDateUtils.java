@@ -13,7 +13,11 @@ public class TrainingDateUtils {
         LocalDate startDate = LocalDate.parse(start, INPUT_DATE_FORMATTER);
         LocalDate endDate = LocalDate.parse(end, INPUT_DATE_FORMATTER);
 
-        Period period = Period.between(startDate, endDate);
+        return calculateDurationByLocalDate(startDate, endDate);
+    }
+
+    public static String calculateDurationByLocalDate(LocalDate start, LocalDate end){
+        Period period = Period.between(start, end);
         int months = period.getMonths();
         int days = period.getDays();
 
