@@ -1,6 +1,7 @@
 package com.dodream.training.dto.response;
 
 import com.dodream.training.util.TrainingDateUtils;
+import com.dodream.training.util.TrainingPriceUtils;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -29,7 +30,7 @@ public record TrainingListApiResponse(
             String address,
 
             @JsonProperty("realMan")
-            @Schema(description = "수강비", example = "189850")
+            @Schema(description = "수강비", example = "189,850원")
             String realMan,
 
             @JsonProperty("subTitle")
@@ -73,7 +74,7 @@ public record TrainingListApiResponse(
             public static BootcampItem from(BootcampItem item) {
                     return new BootcampItem(
                             item.address(),
-                            item.realMan(),
+                            TrainingPriceUtils.convertDecimalFormatForPrice(item.realMan()),
                             item.subTitle(),
                             item.title(),
                             item.titleLink(),
