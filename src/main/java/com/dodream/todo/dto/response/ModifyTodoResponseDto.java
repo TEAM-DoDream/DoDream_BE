@@ -29,7 +29,7 @@ public record ModifyTodoResponseDto(
                .todoId(todo.getId())
                .todoTitle(todo.getTitle())
                .isPublic(todo.getIsPublic())
-               .memoText(builder().memoText)
+               .memoText(todo.getMemoText())
                .message("투두가 수정되었습니다.")
                .build();
        }
