@@ -10,7 +10,8 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum TodoErrorCode implements BaseErrorCode<DomainException> {
 
-    TODO_NOT_FOUND(HttpStatus.NOT_FOUND, "TODO 데이터를 찾을 수 없습니다.");
+    TODO_NOT_FOUND(HttpStatus.NOT_FOUND, "TODO 데이터를 찾을 수 없습니다."),
+    TODO_MEMO_NOT_PUBLIC(HttpStatus.BAD_REQUEST, "공개되지 않은 투두 메모입니다.");
 
     private final HttpStatus httpStatus;
 

@@ -23,5 +23,7 @@ public interface TodoRepository extends JpaRepository<Todo, Long> {
     @Query("SELECT COUNT(t) FROM Todo t WHERE t.todoGroup = :group AND t.deleted = false")
     Long countByTodoGroup(@Param("group") TodoGroup group);
 
+    Optional<Todo> findByIdAndMemberNot(Long id, Member member);
+
 
 }

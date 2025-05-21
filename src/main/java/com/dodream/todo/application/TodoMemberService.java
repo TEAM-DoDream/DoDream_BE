@@ -11,6 +11,7 @@ import com.dodream.member.domain.Member;
 import com.dodream.todo.domain.Todo;
 import com.dodream.todo.domain.TodoGroup;
 import com.dodream.todo.domain.TodoImage;
+import com.dodream.todo.dto.request.ModifyTodoRequestDto;
 import com.dodream.todo.dto.request.PostTodoRequestDto;
 import com.dodream.todo.dto.response.AddJobTodoResponseDto;
 import com.dodream.todo.dto.response.ChangeCompleteStateTodoResponseDto;
@@ -23,6 +24,7 @@ import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoWithMemoResponseDto;
 import com.dodream.todo.dto.response.GetTodoJobResponseDto;
+import com.dodream.todo.dto.response.ModifyTodoResponseDto;
 import com.dodream.todo.dto.response.PostTodoResponseDto;
 import com.dodream.todo.exception.TodoErrorCode;
 import com.dodream.todo.exception.TodoGroupErrorCode;
@@ -222,10 +224,10 @@ public class TodoMemberService {
                 member)
             .orElseThrow(TodoGroupErrorCode.TODO_GROUP_NOT_FOUND::toException);
 
-        Todo newTodo = Todo.of(todoGroup, member, requestDto.todoTitle(), requestDto.memoText(),requestDto.isPublic());
+        Todo newTodo = Todo.of(todoGroup, member, requestDto.todoTitle(), requestDto.memoText(),
+            requestDto.isPublic());
         todoRepository.save(newTodo);
 
-        // 이미지 처리
         List<String> createdImageUrls = new ArrayList<>();
         if (requestDto.images() != null && !requestDto.images().isEmpty()) {
             createdImageUrls = objectStorageService.uploadTodoMemoImages(
@@ -243,6 +245,41 @@ public class TodoMemberService {
     }
 
     // 투두 아이템 수정
+    @Transactional
+    public ModifyTodoResponseDto modifyTodo(Long todoId, ModifyTodoRequestDto requestDto) {
+
+        Member member = memberAuthService.getCurrentMember();
+
+        Todo todo = todoRepository.findByIdAndMember(todoId, member)
+            .orElseThrow(TodoErrorCode.TODO_NOT_FOUND::toException);
+
+        todo.updateTitle(requestDto.todoTitle());
+        todo.updateMemoText(requestDto.memoText());
+        todo.initialIsPublic(requestDto.isPublic());
+
+        List<Long> deleteImageIds = requestDto.deleteImages();
+        if (deleteImageIds != null && !deleteImageIds.isEmpty()) {
+            List<TodoImage> imagesToDelete = todoImageRepository.findAllById(deleteImageIds);
+            todoImageRepository.deleteAll(imagesToDelete);
+        }
+
+        List<String> newImageUrls = new ArrayList<>();
+        if (requestDto.newImages() != null && !requestDto.newImages().isEmpty()) {
+            newImageUrls = objectStorageService.uploadTodoMemoImages(
+                requestDto.newImages(),
+                todo.getId());
+
+            List<TodoImage> newImages = newImageUrls.stream()
+                .map(image -> TodoImage.of(todo, image))
+                .toList();
+
+            todoImageRepository.saveAll(newImages);
+        }
+
+        todoRepository.save(todo);
+
+        return ModifyTodoResponseDto.of(todo.getTodoGroup().getId(), todo);
+    }
 
 
 }
