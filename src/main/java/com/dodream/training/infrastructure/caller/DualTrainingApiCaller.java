@@ -4,6 +4,7 @@ import com.dodream.core.infrastructure.cache.annotation.CustomCacheable;
 import com.dodream.core.infrastructure.cache.annotation.CustomCacheableWithLock;
 import com.dodream.training.exception.TrainingErrorCode;
 import com.dodream.training.infrastructure.feign.DualTrainingFeignClient;
+import com.dodream.training.presentation.value.SortBy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -28,7 +29,7 @@ public class DualTrainingApiCaller implements TrainingApiCaller{
 
     @Override
     @CustomCacheableWithLock(cacheName = "dualList", ttl = 15)
-    public String getListApi(String pageNum, String regionCode, String ncsCode) {
+    public String getListApi(String pageNum, String regionCode, String ncsCode, SortBy sortBy) {
         try {
             return dualTrainingFeignClient.getDualTrainingList(
                     apiKey,
@@ -38,8 +39,8 @@ public class DualTrainingApiCaller implements TrainingApiCaller{
                     String.valueOf(pageSize),
                     regionCode,
                     ncsCode,
-                    SORT,
-                    SORT_COLUMN
+                    sortBy.getSort(),
+                    sortBy.getSortCol()
             );
         } catch (Exception e) {
             throw TrainingErrorCode.NOT_CONNECT_EXTERNAL_API.toException();

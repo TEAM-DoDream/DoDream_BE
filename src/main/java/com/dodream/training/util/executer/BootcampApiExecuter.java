@@ -1,6 +1,7 @@
 package com.dodream.training.util.executer;
 
 import com.dodream.training.infrastructure.caller.TrainingApiCaller;
+import com.dodream.training.presentation.value.SortBy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -12,10 +13,10 @@ public class BootcampApiExecuter implements TrainingApiExecuter {
 
     @Override
     public String callListApi(
-            String pageNum, String regionCode, String ncsCode
+            String pageNum, String regionCode, String ncsCode, SortBy sortBy
     ) {
         return trainingApiCaller.getListApi(
-                pageNum, regionCode, ncsCode
+                pageNum, regionCode, ncsCode, sortBy
         );
     }
 
