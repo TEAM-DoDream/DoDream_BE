@@ -15,6 +15,8 @@ public record GetOthersTodoGroupResponseDto(
     Long todoGroupId,
     @Schema(description = "멤버 닉네임", example = "두둠칫")
     String memberNickname,
+    @Schema(description = "멤버 프로필 사진", example = "www.~")
+    String profileImage,
     @Schema(description = "거주지", example = "대전 광역시 서구")
     String regionName,
     @Schema(description = "투두 경과 일자(X일)", example = "38")
@@ -33,6 +35,7 @@ public record GetOthersTodoGroupResponseDto(
         return GetOthersTodoGroupResponseDto.builder()
             .todoGroupId(todoGroup.getId())
             .memberNickname(todoGroup.getMember().getNickName())
+            .profileImage(todoGroup.getMember().getProfileImage())
             .regionName(todoGroup.getMember().getRegion().getRegionName())
             .daysAgo(
                 ChronoUnit.DAYS.between(todoGroup.getCreatedAt().toLocalDate(), LocalDate.now())

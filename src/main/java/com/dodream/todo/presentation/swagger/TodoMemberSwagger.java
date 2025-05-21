@@ -2,6 +2,7 @@ package com.dodream.todo.presentation.swagger;
 
 import com.dodream.core.config.swagger.ApiErrorCode;
 import com.dodream.core.presentation.RestResponse;
+import com.dodream.todo.dto.request.ModifyTodoRequestDto;
 import com.dodream.todo.dto.request.PostTodoRequestDto;
 import com.dodream.todo.dto.response.AddJobTodoResponseDto;
 import com.dodream.todo.dto.response.ChangeCompleteStateTodoResponseDto;
@@ -11,6 +12,7 @@ import com.dodream.todo.dto.response.GetOneTodoGroupAtHomeResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoWithMemoResponseDto;
 import com.dodream.todo.dto.response.GetTodoJobResponseDto;
+import com.dodream.todo.dto.response.ModifyTodoResponseDto;
 import com.dodream.todo.dto.response.PostTodoResponseDto;
 import com.dodream.todo.exception.TodoErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
@@ -26,17 +28,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface TodoMemberSwagger {
 
     @Operation(
-         summary = "홈화면 - 투두 리스트 조회 API",
-         description = "홈화면에서의 투두리스트 조회한다.",
-         operationId = "/v1/my-dream/todo/home"
-     )
-     @ApiErrorCode(TodoErrorCode.class)
-     ResponseEntity<RestResponse<GetOneTodoGroupAtHomeResponseDto>> getOneTodoGroupAtHome();
-
+        summary = "🏠 홈화면 - 투두 리스트 조회 API",
+        description = "홈화면에서의 투두리스트 조회한다.",
+        operationId = "/v1/my-dream/todo/home"
+    )
+    @ApiErrorCode(TodoErrorCode.class)
+    ResponseEntity<RestResponse<GetOneTodoGroupAtHomeResponseDto>> getOneTodoGroupAtHome();
 
 
     @Operation(
-        summary = "마이드림 - 투두리스트 첫화면 조회 API",
+        summary = "투두리스트 첫화면 조회 API",
         description = "마이드림 - 투두리스트 첫화면을 조회한다. (마이드림 - 투두리스트)",
         operationId = "/v1/my-dream/todo"
     )
@@ -45,13 +46,24 @@ public interface TodoMemberSwagger {
 
 
     @Operation(
-        summary = "투두리스트 - 새로운 투두 추가",
+        summary = "투두리스트 - 새로운 투두 추가 (메모 있을시 메모도 함께 추가)",
         description = "마이드림 - 투두리스트에 새로운 투두를 추가한다. (마이드림 - 투두리스트 - 개별 투두 추가)",
         operationId = "/v1/my-dream/todo-group/{todoGroupId}"
     )
     @ApiErrorCode(TodoErrorCode.class)
     ResponseEntity<RestResponse<PostTodoResponseDto>> postNewTodo(
-        @PathVariable Long todoGroupId, @ModelAttribute @Valid PostTodoRequestDto postTodoRequestDto);
+        @PathVariable Long todoGroupId,
+        @ModelAttribute @Valid PostTodoRequestDto postTodoRequestDto);
+
+    @Operation(
+        summary = "투두리스트 - 기존 투두 수정 (메모 있을시 메모도 함께 수정)",
+        description = "마이드림 - 투두를 수정한다. (마이드림 - 투두리스트 - 개별 투두 수정 API)",
+        operationId = "/v1/my-dream/todo/{todoId}"
+    )
+    @ApiErrorCode(TodoErrorCode.class)
+    ResponseEntity<RestResponse<ModifyTodoResponseDto>> modifyTodo(
+        @PathVariable Long todoId,
+        @ModelAttribute @Valid ModifyTodoRequestDto modifyTodoRequestDto);
 
 
     @Operation(

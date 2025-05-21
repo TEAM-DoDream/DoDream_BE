@@ -59,6 +59,14 @@ public class Todo extends BaseLongIdEntity {
     @OneToMany(mappedBy = "todo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<TodoImage> images = new ArrayList<>();
 
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateMemoText(String memoText) {
+        this.memoText = memoText;
+    }
+
     public void updateCompleted() {
         this.completed = !this.completed;
     }
@@ -67,8 +75,14 @@ public class Todo extends BaseLongIdEntity {
         this.isPublic = !this.isPublic;
     }
 
+    public void initialIsPublic(Boolean isPublic) {
+        this.isPublic = isPublic;
+    }
+
+
     @Builder
-    private Todo(TodoGroup todoGroup, Member member, String title, String memoText, Boolean isPublic) {
+    private Todo(TodoGroup todoGroup, Member member, String title, String memoText,
+        Boolean isPublic) {
         this.todoGroup = todoGroup;
         this.member = member;
         this.title = title;
@@ -76,15 +90,16 @@ public class Todo extends BaseLongIdEntity {
         this.isPublic = isPublic;
     }
 
-    public static Todo of(TodoGroup todoGroup, Member member, String title, String memoText, Boolean isPublic) {
-          return Todo.builder()
-              .todoGroup(todoGroup)
-              .member(member)
-              .title(title)
-              .memoText(memoText)
-              .isPublic(isPublic)
-              .build();
-      }
+    public static Todo of(TodoGroup todoGroup, Member member, String title, String memoText,
+        Boolean isPublic) {
+        return Todo.builder()
+            .todoGroup(todoGroup)
+            .member(member)
+            .title(title)
+            .memoText(memoText)
+            .isPublic(isPublic)
+            .build();
+    }
 
     public static Todo of(TodoGroup todoGroup, Member member, JobTodo jobTodo) {
         return Todo.builder()

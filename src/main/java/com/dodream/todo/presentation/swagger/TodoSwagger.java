@@ -4,6 +4,7 @@ import com.dodream.core.config.swagger.ApiErrorCode;
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoResponseDto;
+import com.dodream.todo.dto.response.GetOneTodoWithMemoResponseDto;
 import com.dodream.todo.dto.response.GetOthersTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOthersTodoSimpleResponseDto;
 import com.dodream.todo.exception.TodoErrorCode;
@@ -32,7 +33,7 @@ public interface TodoSwagger {
         operationId = "/v1/todo/other/simple/{jobId}"
     )
     @ApiErrorCode(TodoErrorCode.class)
-    ResponseEntity<RestResponse<List<GetOthersTodoSimpleResponseDto>>> getOthersTodoSimpleByJob(
+    ResponseEntity<RestResponse<List<GetOthersTodoGroupResponseDto>>> getOthersTodoSimpleByJob(
         @PathVariable Long jobId);
 
     @Operation(
@@ -52,6 +53,15 @@ public interface TodoSwagger {
     @ApiErrorCode(TodoErrorCode.class)
     ResponseEntity<RestResponse<GetOneTodoGroupResponseDto>> getOneOthersTodoGroup(
         @PathVariable Long todoGroupId);
+
+    @Operation(
+         summary = "타유저 투두 리스트 메모 조회 API",
+         description = "타유저 투두 리스트의 메모 조회",
+         operationId = "/v1/todo/{todoId}/memo}"
+     )
+     @ApiErrorCode(TodoErrorCode.class)
+     ResponseEntity<RestResponse<GetOneTodoWithMemoResponseDto>> getOneOthersTodoMemo(
+         @PathVariable Long todoId);
 
 
 }

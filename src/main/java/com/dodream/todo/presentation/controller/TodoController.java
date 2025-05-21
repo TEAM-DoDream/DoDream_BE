@@ -3,8 +3,8 @@ package com.dodream.todo.presentation.controller;
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.todo.application.TodoService;
 import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
+import com.dodream.todo.dto.response.GetOneTodoWithMemoResponseDto;
 import com.dodream.todo.dto.response.GetOthersTodoGroupResponseDto;
-import com.dodream.todo.dto.response.GetOthersTodoSimpleResponseDto;
 import com.dodream.todo.presentation.swagger.TodoSwagger;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +34,7 @@ public class TodoController implements TodoSwagger {
 
     @Override
     @GetMapping(value = "/other/simple/{jobId}")
-    public ResponseEntity<RestResponse<List<GetOthersTodoSimpleResponseDto>>> getOthersTodoSimpleByJob(
+    public ResponseEntity<RestResponse<List<GetOthersTodoGroupResponseDto>>> getOthersTodoSimpleByJob(
         @PathVariable Long jobId) {
         return ResponseEntity.ok(
             new RestResponse<>(todoService.getOthersTodoSimple(jobId)));
@@ -46,7 +46,7 @@ public class TodoController implements TodoSwagger {
     public ResponseEntity<RestResponse<Page<GetOthersTodoGroupResponseDto>>> getOthersTodoByJob(
         @PathVariable Long jobId, @RequestParam(defaultValue = "0") int page) {
         return ResponseEntity.ok(
-            new RestResponse<>(todoService.getOthersTodoByJob(jobId,page)));
+            new RestResponse<>(todoService.getOthersTodoByJob(jobId, page)));
     }
 
     @Override
@@ -55,6 +55,14 @@ public class TodoController implements TodoSwagger {
         @PathVariable Long todoGroupId) {
         return ResponseEntity.ok(
             new RestResponse<>(todoService.getOneOthersTodoGroup(todoGroupId)));
+    }
+
+    @Override
+    @GetMapping(value = "/{todoId}/memo")
+    public ResponseEntity<RestResponse<GetOneTodoWithMemoResponseDto>> getOneOthersTodoMemo(
+        @PathVariable Long todoId) {
+        return ResponseEntity.ok(
+            new RestResponse<>(todoService.getOneOthersTodoMemo(todoId)));
     }
 
 

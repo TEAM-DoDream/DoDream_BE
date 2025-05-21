@@ -1,7 +1,6 @@
 package com.dodream.todo.application;
 
 import com.dodream.job.domain.Job;
-import com.dodream.job.domain.TodoCategory;
 import com.dodream.job.exception.JobErrorCode;
 import com.dodream.job.repository.JobRepository;
 import com.dodream.member.application.MemberAuthService;
@@ -12,19 +11,13 @@ import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoWithMemoResponseDto;
 import com.dodream.todo.dto.response.GetOthersTodoGroupResponseDto;
-import com.dodream.todo.dto.response.GetOthersTodoResponseDto;
-import com.dodream.todo.dto.response.GetOthersTodoSimpleResponseDto;
-import com.dodream.todo.dto.response.GetTodoGroupByCategoryResponseDto;
+import com.dodream.todo.exception.TodoErrorCode;
 import com.dodream.todo.exception.TodoGroupErrorCode;
 import com.dodream.todo.repository.TodoGroupRepository;
 import com.dodream.todo.repository.TodoRepository;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -71,21 +64,26 @@ public class TodoService {
 
     // 특정 직업 정보 페이지 - 우측 상단에 타유저 리스트
     @Transactional(readOnly = true)
-    public List<GetOthersTodoSimpleResponseDto> getOthersTodoSimple(Long jobId) {
+    public List<GetOthersTodoGroupResponseDto> getOthersTodoSimple(Long jobId) {
 
         Member member = memberAuthService.getCurrentMember();
 
         Job job = jobRepository.findById(jobId)
             .orElseThrow(JobErrorCode.CANNOT_GET_JOB_DATA::toException);
 
-        List<TodoGroup> todoGroups = todoGroupRepository.findTop5ByJobAndMemberNot(job, member);
+        Pageable limit3 = PageRequest.of(0, 2);
+        List<TodoGroup> todoGroups = todoGroupRepository.findTop3ByJobAndNotMember(
+            job, member, limit3);
 
+        Pageable top2 = PageRequest.of(0, 2);
         return todoGroups.stream()
             .map(group -> {
+                List<Todo> todos = todoRepository.findTop2ByTodoGroup(group, top2);
                 Long todoCount = todoRepository.countByTodoGroup(group);
-                return GetOthersTodoSimpleResponseDto.of(group, todoCount);
+                return GetOthersTodoGroupResponseDto.of(group, todos, todoCount);
             })
-            .collect(Collectors.toList());
+            .toList();
+
     }
 
     @Transactional(readOnly = true)
@@ -127,5 +125,21 @@ public class TodoService {
             .toList();
 
         return GetOneTodoGroupResponseDto.of(member, todoGroup, todos);
+    }
+
+    // 타유저 투두 리스트 메모 조회
+    @Transactional(readOnly = true)
+    public GetOneTodoWithMemoResponseDto getOneOthersTodoMemo(Long TodoId) {
+
+        Member member = memberAuthService.getCurrentMember();
+
+        Todo todo = todoRepository.findByIdAndMemberNot(TodoId, member)
+            .orElseThrow(TodoErrorCode.TODO_NOT_FOUND::toException);
+
+        if (!todo.getIsPublic()){
+            throw TodoErrorCode.TODO_MEMO_NOT_PUBLIC.toException();
+        }
+
+        return GetOneTodoWithMemoResponseDto.from(todo);
     }
 }
