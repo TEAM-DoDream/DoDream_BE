@@ -15,10 +15,12 @@ import com.dodream.todo.dto.response.PostTodoResponseDto;
 import com.dodream.todo.presentation.swagger.TodoMemberSwagger;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,9 +51,9 @@ public class TodoMemberController implements TodoMemberSwagger {
        }
 
     @Override
-    @PostMapping(value = "/todo-group/{todoGroupId}")
+    @PostMapping(value = "/todo-group/{todoGroupId}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<RestResponse<PostTodoResponseDto>> postNewTodo(
-        @PathVariable Long todoGroupId, @RequestBody PostTodoRequestDto postTodoRequestDto) {
+        @PathVariable Long todoGroupId, @ModelAttribute PostTodoRequestDto postTodoRequestDto) {
         return ResponseEntity.ok(
             new RestResponse<>(memberTodoService.postNewTodo(todoGroupId, postTodoRequestDto)));
     }

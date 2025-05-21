@@ -3,7 +3,6 @@ package com.dodream.todo.presentation.controller;
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.todo.application.TodoService;
 import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
-import com.dodream.todo.dto.response.GetOneTodoResponseDto;
 import com.dodream.todo.dto.response.GetOthersTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOthersTodoSimpleResponseDto;
 import com.dodream.todo.presentation.swagger.TodoSwagger;
