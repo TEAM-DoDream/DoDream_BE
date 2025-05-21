@@ -3,6 +3,7 @@ package com.dodream.training.application;
 import com.dodream.training.dto.response.TrainingDetailApiResponse;
 import com.dodream.training.dto.response.TrainingListApiResponse;
 import com.dodream.training.infrastructure.mapper.TrainingMapper;
+import com.dodream.training.presentation.value.SortBy;
 import com.dodream.training.util.TrainingCodeResolver;
 import com.dodream.training.util.executer.TrainingApiExecuter;
 import lombok.extern.log4j.Log4j2;
@@ -33,13 +34,13 @@ public class BootcampService{
     }
 
     public TrainingListApiResponse getList(
-            String pageNum, String regionName, String jobName
+            String pageNum, String regionName, String jobName, SortBy sortBy
     ) {
         String regionCode = trainingCodeResolver.resolveRegionCode(regionName);
         String ncsCode = trainingCodeResolver.resolveNcsCode(jobName);
 
         String result = trainingApiExecuter.callListApi(
-                pageNum, regionCode, ncsCode
+                pageNum, regionCode, ncsCode, sortBy
         );
 
         TrainingListApiResponse response = listMapper.jsonToResponseDto(result);

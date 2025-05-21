@@ -35,7 +35,11 @@ public interface TrainingSwagger {
 
             @RequestParam(required = false)
             @Parameter(description = "/v1/job/list를 호출하여 나오는 직업의 이름", example = "요양보호사")
-            String jobName
+            String jobName,
+            
+            @RequestParam(required = false)
+            @Parameter(description = "정렬 관련 필터(마감순 정렬, 채용정보와 일치함)", example = "마감 임박순")
+            String sortBy
     );
 
     @Operation(

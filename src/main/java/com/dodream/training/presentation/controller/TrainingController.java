@@ -7,6 +7,7 @@ import com.dodream.scrap.domain.value.TrainingType;
 import com.dodream.training.dto.response.TrainingDetailApiResponse;
 import com.dodream.training.dto.response.TrainingListApiResponse;
 import com.dodream.core.presentation.RestResponse;
+import com.dodream.training.presentation.value.SortBy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,17 +29,20 @@ public class TrainingController implements TrainingSwagger {
         @RequestParam String pageNum,
         @RequestParam(required = false) String type,
         @RequestParam(required = false) String regionName,
-        @RequestParam(required = false) String jobName
+        @RequestParam(required = false) String jobName,
+        @RequestParam(required = false) String sortBy
     ){
-        if(TrainingType.DUAL.getDescription().equals(type)){
-            return ResponseEntity.ok(new RestResponse<>(
-                    dualTrainingService.getList(pageNum, regionName, jobName)
-            ));
-        }else{
-            return ResponseEntity.ok(new RestResponse<>(
-                    bootcampService.getList(pageNum, regionName, jobName))
-            );
+
+        SortBy sort = SortBy.DEADLINE_ASC;
+        if (SortBy.DEADLINE_DESC.getName().equals(sortBy)) {
+            sort = SortBy.DEADLINE_DESC;
         }
+
+        TrainingListApiResponse response = TrainingType.DUAL.getDescription().equals(type)
+                ? dualTrainingService.getList(pageNum, regionName, jobName, sort)
+                : bootcampService.getList(pageNum, regionName, jobName, sort);
+
+        return ResponseEntity.ok(new RestResponse<>(response));
     }
 
     @GetMapping("/detail")
