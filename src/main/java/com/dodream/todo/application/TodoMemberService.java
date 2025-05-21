@@ -1,5 +1,6 @@
 package com.dodream.todo.application;
 
+import com.dodream.core.application.ObjectStorageService;
 import com.dodream.job.domain.Job;
 import com.dodream.job.domain.JobTodo;
 import com.dodream.job.exception.JobErrorCode;
@@ -9,6 +10,7 @@ import com.dodream.member.application.MemberAuthService;
 import com.dodream.member.domain.Member;
 import com.dodream.todo.domain.Todo;
 import com.dodream.todo.domain.TodoGroup;
+import com.dodream.todo.domain.TodoImage;
 import com.dodream.todo.dto.request.PostTodoRequestDto;
 import com.dodream.todo.dto.response.AddJobTodoResponseDto;
 import com.dodream.todo.dto.response.ChangeCompleteStateTodoResponseDto;
@@ -25,7 +27,9 @@ import com.dodream.todo.dto.response.PostTodoResponseDto;
 import com.dodream.todo.exception.TodoErrorCode;
 import com.dodream.todo.exception.TodoGroupErrorCode;
 import com.dodream.todo.repository.TodoGroupRepository;
+import com.dodream.todo.repository.TodoImageRepository;
 import com.dodream.todo.repository.TodoRepository;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -42,24 +46,8 @@ public class TodoMemberService {
     private final JobRepository jobRepository;
     private final TodoRepository todoRepository;
     private final TodoGroupRepository todoGroupRepository;
-
-
-    // 새로운 투두 아이템 생성
-    @Transactional
-    public PostTodoResponseDto postNewTodo(Long todoGroupId, PostTodoRequestDto requestDto) {
-
-        Member member = memberAuthService.getCurrentMember();
-
-        TodoGroup todoGroup = todoGroupRepository.findByIdAndMember(todoGroupId,
-                member)
-            .orElseThrow(TodoGroupErrorCode.TODO_GROUP_NOT_FOUND::toException);
-
-        Todo newTodo = Todo.of(todoGroup, member, requestDto.todoTitle());
-        todoRepository.save(newTodo);
-
-        return PostTodoResponseDto.of(todoGroup.getId(), newTodo);
-    }
-
+    private final TodoImageRepository todoImageRepository;
+    private final ObjectStorageService objectStorageService;
 
     // 직업 담기
     @Transactional
@@ -221,4 +209,40 @@ public class TodoMemberService {
 
         return DeleteTodoGroupResponseDto.from(jobIds);
     }
+
+    // 투두 메모 생성
+
+    // 새로운 투두 아이템 생성
+    @Transactional
+    public PostTodoResponseDto postNewTodo(Long todoGroupId, PostTodoRequestDto requestDto) {
+
+        Member member = memberAuthService.getCurrentMember();
+
+        TodoGroup todoGroup = todoGroupRepository.findByIdAndMember(todoGroupId,
+                member)
+            .orElseThrow(TodoGroupErrorCode.TODO_GROUP_NOT_FOUND::toException);
+
+        Todo newTodo = Todo.of(todoGroup, member, requestDto.todoTitle(), requestDto.memoText(),requestDto.isPublic());
+        todoRepository.save(newTodo);
+
+        // 이미지 처리
+        List<String> createdImageUrls = new ArrayList<>();
+        if (requestDto.images() != null && !requestDto.images().isEmpty()) {
+            createdImageUrls = objectStorageService.uploadTodoMemoImages(
+                requestDto.images(),
+                newTodo.getId());
+
+            List<TodoImage> newImages = createdImageUrls.stream()
+                .map(image -> TodoImage.of(newTodo, image))
+                .toList();
+
+            todoImageRepository.saveAll(newImages);
+        }
+
+        return PostTodoResponseDto.of(todoGroup.getId(), newTodo, createdImageUrls);
+    }
+
+    // 투두 아이템 수정
+
+
 }

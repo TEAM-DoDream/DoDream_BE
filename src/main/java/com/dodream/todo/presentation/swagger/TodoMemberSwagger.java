@@ -18,6 +18,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -50,7 +51,7 @@ public interface TodoMemberSwagger {
     )
     @ApiErrorCode(TodoErrorCode.class)
     ResponseEntity<RestResponse<PostTodoResponseDto>> postNewTodo(
-        @PathVariable Long todoGroupId, @RequestBody @Valid PostTodoRequestDto postTodoRequestDto);
+        @PathVariable Long todoGroupId, @ModelAttribute @Valid PostTodoRequestDto postTodoRequestDto);
 
 
     @Operation(

@@ -53,6 +53,7 @@ public class Todo extends BaseLongIdEntity {
     @Builder.Default
     private Boolean isPublic = false;
 
+    @Column(length = 5000)
     private String memoText;
 
     @OneToMany(mappedBy = "todo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -67,25 +68,31 @@ public class Todo extends BaseLongIdEntity {
     }
 
     @Builder
-    private Todo(TodoGroup todoGroup, Member member, String title) {
+    private Todo(TodoGroup todoGroup, Member member, String title, String memoText, Boolean isPublic) {
         this.todoGroup = todoGroup;
         this.member = member;
         this.title = title;
+        this.memoText = memoText;
+        this.isPublic = isPublic;
     }
+
+    public static Todo of(TodoGroup todoGroup, Member member, String title, String memoText, Boolean isPublic) {
+          return Todo.builder()
+              .todoGroup(todoGroup)
+              .member(member)
+              .title(title)
+              .memoText(memoText)
+              .isPublic(isPublic)
+              .build();
+      }
 
     public static Todo of(TodoGroup todoGroup, Member member, JobTodo jobTodo) {
         return Todo.builder()
             .todoGroup(todoGroup)
             .member(member)
             .title(jobTodo.getTitle())
-            .build();
-    }
-
-    public static Todo of(TodoGroup todoGroup, Member member, String title) {
-        return Todo.builder()
-            .todoGroup(todoGroup)
-            .member(member)
-            .title(title)
+            .memoText(null)
+            .isPublic(true)
             .build();
     }
 }
