@@ -1,5 +1,7 @@
 package com.dodream.training.util;
 
+import com.dodream.training.exception.TrainingErrorCode;
+
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -35,7 +37,11 @@ public class TrainingDateUtils {
     }
 
     public static String convertDateFormat(String inputDate){
-        LocalDate date = LocalDate.parse(inputDate, INPUT_DATE_FORMATTER);
-        return date.format(OUTPUT_DATE_FORMATTER);
+        try{
+            LocalDate date = LocalDate.parse(inputDate, INPUT_DATE_FORMATTER);
+            return date.format(OUTPUT_DATE_FORMATTER);
+        }catch (Exception e){
+            throw TrainingErrorCode.CANNOT_CONVERT_DATE.toException();
+        }
     }
 }
