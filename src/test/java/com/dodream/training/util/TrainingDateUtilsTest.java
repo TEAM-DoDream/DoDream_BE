@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class TrainingDateUtilsTest {
 
     @Nested
-    @DisplayName("calculateDuration - 기간 계산 테스트")
+    @DisplayName("[calculateDuration] - 기간 계산 테스트")
     class CalculateDurationTest {
 
         @Test
@@ -44,7 +44,7 @@ public class TrainingDateUtilsTest {
     }
 
     @Nested
-    @DisplayName("convertDateFormat - 날짜 포맷 변환 테스트")
+    @DisplayName("[convertDateFormat] - 날짜 포맷 변환 테스트")
     class ConvertDateFormatTest {
 
         @Test
