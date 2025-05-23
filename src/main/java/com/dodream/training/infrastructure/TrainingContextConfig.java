@@ -3,7 +3,7 @@ package com.dodream.training.infrastructure;
 import com.dodream.training.infrastructure.caller.BootCampApiCaller;
 import com.dodream.training.infrastructure.caller.DualTrainingApiCaller;
 import com.dodream.training.infrastructure.mapper.TrainingDetailResponseDtoMapper;
-import com.dodream.training.infrastructure.mapper.TrainingListApiReseponseMapper;
+import com.dodream.training.infrastructure.mapper.TrainingListApiResponseMapper;
 import com.dodream.training.infrastructure.mapper.TrainingMapper;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class TrainingContextConfig {
 
     @Bean
     public TrainingMapper trainingListApiReseponseMapper(){
-        return new TrainingListApiReseponseMapper(objectMapper);
+        return new TrainingListApiResponseMapper(objectMapper);
     }
 
     @Bean
