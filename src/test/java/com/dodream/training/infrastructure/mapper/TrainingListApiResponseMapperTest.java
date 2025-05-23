@@ -13,12 +13,12 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 
-@DisplayName("[TrainingListApiReseponseMapper] - 매퍼 단위 테스트")
+@DisplayName("[TrainingListApiResponseMapper] - 매퍼 단위 테스트")
 public class TrainingListApiResponseMapperTest {
 
-    ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    TrainingListApiReseponseMapper mapper;
+    private TrainingListApiResponseMapper mapper;
 
     private String SUCCESS_RESULT;
 
@@ -26,7 +26,7 @@ public class TrainingListApiResponseMapperTest {
 
     @BeforeEach
     void setUp() throws JsonProcessingException {
-        mapper = new TrainingListApiReseponseMapper(objectMapper);
+        mapper = new TrainingListApiResponseMapper(objectMapper);
         SUCCESS_RESULT = objectMapper.writeValueAsString(
                 Map.of(
                         "scn_cnt", 1,
