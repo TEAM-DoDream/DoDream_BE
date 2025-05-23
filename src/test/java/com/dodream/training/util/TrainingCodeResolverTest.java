@@ -76,10 +76,7 @@ public class TrainingCodeResolverTest {
             when(regionRepository.findByRegionName(REGION_NAME_FAIL))
                     .thenReturn(Optional.empty());
 
-            // when
-            String regionCode = trainingCodeResolver.resolveRegionCode(REGION_NAME_SUCCESS);
-
-            // then
+            // when & then
             assertThatThrownBy(() -> trainingCodeResolver.resolveRegionCode(REGION_NAME_FAIL))
                     .isInstanceOf(DomainException.class)
                     .hasMessageContaining("지역 정보를 찾을 수 없습니다.");

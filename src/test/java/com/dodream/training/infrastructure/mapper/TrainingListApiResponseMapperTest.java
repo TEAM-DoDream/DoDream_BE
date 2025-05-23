@@ -13,17 +13,20 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class TrainingListApiReseponseMapperTest {
+@DisplayName("[TrainingListApiReseponseMapper] - 매퍼 단위 테스트")
+public class TrainingListApiResponseMapperTest {
 
     ObjectMapper objectMapper = new ObjectMapper();
 
     TrainingListApiReseponseMapper mapper;
 
-    private final String SUCCESS_RESULT;
+    private String SUCCESS_RESULT;
 
     private final String FAIL_RESULT = "{ invalid json }";
 
-    public TrainingListApiReseponseMapperTest() throws JsonProcessingException {
+    @BeforeEach
+    void setUp() throws JsonProcessingException {
+        mapper = new TrainingListApiReseponseMapper(objectMapper);
         SUCCESS_RESULT = objectMapper.writeValueAsString(
                 Map.of(
                         "scn_cnt", 1,
@@ -34,19 +37,13 @@ public class TrainingListApiReseponseMapperTest {
         );
     }
 
-    @BeforeEach
-    void setUp() {
-        mapper = new TrainingListApiReseponseMapper(objectMapper);
-    }
-
     @Nested
-    @DisplayName("[TrainingListApiReseponseMapper] - 매퍼 단위 테스트")
-    class TrainingListApiResponseMapperTest {
+    @DisplayName("[listMapper] - 리스트 매퍼 단위 테스트")
+    class ListMapperTest {
 
         @Test
         @DisplayName("매퍼 응답 성공 테스트")
         void mapper_success(){
-
             // given & when
             TrainingListApiResponse result = mapper.jsonToResponseDto(SUCCESS_RESULT);
 
@@ -60,7 +57,6 @@ public class TrainingListApiReseponseMapperTest {
         @Test
         @DisplayName("매퍼 응답 실패 테스트")
         void mapper_fail(){
-
             // then
             assertThatThrownBy(() -> mapper.jsonToResponseDto(FAIL_RESULT))
                     .isInstanceOf(RuntimeException.class)

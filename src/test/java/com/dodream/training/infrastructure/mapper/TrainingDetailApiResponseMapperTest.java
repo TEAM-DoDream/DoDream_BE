@@ -9,6 +9,7 @@ import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 
+@DisplayName("[TrainingDetailApiResponseMapperTest] - 상세 정보 매퍼 테스트")
 public class TrainingDetailApiResponseMapperTest {
 
     ObjectMapper objectMapper = new ObjectMapper();
@@ -39,8 +40,8 @@ public class TrainingDetailApiResponseMapperTest {
     }
 
     @Nested
-    @DisplayName("[TrainingDetailApiResponseMapperTest] - 상세정보 매퍼 테스트")
-    class TrainingDetailApiResponseMapper{
+    @DisplayName("[detailMapper] - 상세 정보 변환 매퍼 테스트")
+    class DetailMapperTest {
 
         @Test
         @DisplayName("상세 정보 매퍼 성공 반환")
@@ -58,7 +59,6 @@ public class TrainingDetailApiResponseMapperTest {
         @Test
         @DisplayName("상세 정보 매퍼 오류 반환")
         void detailMapper_fail(){
-
             // given & when & then
             assertThatThrownBy(() -> mapper.jsonToResponseDto(FAIL_RESULT))
                     .isInstanceOf(RuntimeException.class)

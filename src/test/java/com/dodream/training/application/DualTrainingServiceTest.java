@@ -1,13 +1,16 @@
 package com.dodream.training.application;
 
 import com.dodream.training.infrastructure.caller.TrainingApiCaller;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+@ExtendWith(MockitoExtension.class)
+@DisplayName("[DualTrainingSerivce] 테스트")
 public class DualTrainingServiceTest extends AbstractTrainingServiceTest<DualTrainingService> {
 
     @Mock
-    @Qualifier("dualTrainingApiCaller")
     TrainingApiCaller dualTrainingApiCaller;
 
     @Override

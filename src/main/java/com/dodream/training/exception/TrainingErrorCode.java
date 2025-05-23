@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum TrainingErrorCode implements BaseErrorCode<DomainException> {
     NOT_CONNECT_EXTERNAL_API(HttpStatus.INTERNAL_SERVER_ERROR, "외부 API 서버에서 값을 불러오는데 실패하였습니다."),
-    NOT_CONVERT_JSON_TO_OBJECT(HttpStatus.INTERNAL_SERVER_ERROR, "Json -> Object 변환에 실패했습니다"),
     CANNOT_CONVERT_DATE(HttpStatus.INTERNAL_SERVER_ERROR, "날짜 형식 변환에 실패했습니다.");
 
     private final HttpStatus httpStatus;
