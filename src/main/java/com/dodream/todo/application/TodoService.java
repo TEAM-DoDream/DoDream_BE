@@ -124,7 +124,7 @@ public class TodoService {
             .map(GetOneTodoResponseDto::from)
             .toList();
 
-        return GetOneTodoGroupResponseDto.of(todoGroup, todos);
+        return GetOneTodoGroupResponseDto.of(todoGroup.getMember(),todoGroup, todos);
     }
 
     // 타유저 투두 리스트 메모 조회
