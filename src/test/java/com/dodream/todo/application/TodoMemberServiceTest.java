@@ -1,0 +1,193 @@
+package com.dodream.todo.application;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+import com.dodream.core.infrastructure.security.CustomUserDetails;
+import com.dodream.job.domain.Job;
+import com.dodream.job.domain.JobTodo;
+import com.dodream.job.domain.Level;
+import com.dodream.job.domain.PhysicalActivity;
+import com.dodream.job.domain.Require;
+import com.dodream.job.domain.SalaryType;
+import com.dodream.job.domain.WorkTime;
+import com.dodream.job.repository.JobRepository;
+import com.dodream.job.repository.JobTodoRepository;
+import com.dodream.member.application.MemberAuthService;
+import com.dodream.member.application.MemberService;
+import com.dodream.member.domain.Gender;
+import com.dodream.member.domain.Member;
+import com.dodream.member.domain.State;
+import com.dodream.member.repository.MemberRepository;
+import com.dodream.region.domain.Region;
+import com.dodream.todo.domain.TodoGroup;
+import com.dodream.todo.dto.response.AddJobTodoResponseDto;
+import com.dodream.todo.repository.TodoGroupRepository;
+import com.dodream.todo.repository.TodoRepository;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Optional;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+@ExtendWith(MockitoExtension.class)
+public class TodoMemberServiceTest {
+
+    @Mock
+    private MemberRepository memberRepository;
+    @Mock
+    private JobRepository jobRepository;
+    @Mock
+    private JobTodoRepository jobTodoRepository;
+    @Mock
+    private TodoGroupRepository todoGroupRepository;
+    @Mock
+    private TodoRepository todoRepository;
+    @Mock
+    private BCryptPasswordEncoder passwordEncoder;
+    @Mock
+    private MemberService memberService;
+    @Mock
+    private MemberAuthService memberAuthService;
+    @InjectMocks
+    private TodoMemberService todoMemberService;
+
+    private static final Long TEST_ID = 1L;
+    private static final String TEST_LOGIN_ID = "dodream";
+    private static final String TEST_PASSWORD = "password";
+    private static final String TEST_NICKNAME = "nickname";
+    private static final LocalDate TEST_BIRTHDATE = LocalDate.of(2000, 1, 1);
+    private static final Gender TEST_GENDER = Gender.FEMALE;
+    private static final State TEST_STATE = State.ACTIVE;
+    private static final String TEST_REGION_CODE1 = "11110";
+    private static final String TEST_REGION_NAME1 = "서울 종로구";
+    private Member mockMember;
+    private Job job;
+    private JobTodo jobTodo;
+    private TodoGroup todoGroup;
+    private Region region1;
+
+
+    @Nested
+    @DisplayName("홈화면")
+    class HomeTodoTest {
+
+        @BeforeEach
+        void setupSecurityContext() {
+
+            //given
+            region1 = Region.builder()
+                .id(1L)
+                .regionCode(TEST_REGION_CODE1)
+                .regionName(TEST_REGION_NAME1)
+                .build();
+
+            mockMember = Member.builder()
+                .id(TEST_ID)
+                .loginId(TEST_LOGIN_ID)
+                .password(passwordEncoder.encode(TEST_PASSWORD))
+                .nickName(TEST_NICKNAME)
+                .birthDate(TEST_BIRTHDATE)
+                .gender(TEST_GENDER)
+                .state(TEST_STATE)
+                .region(region1)
+                .build();
+
+            job = Job.builder()
+                .id(1L)
+                .jobName("요양 보호사")
+                .requiresCertification(Require.REQUIRED)
+                .workTimeSlot(WorkTime.FLEXIBLE)
+                .salaryType(SalaryType.MONTHLY)
+                .salaryCost(2500000)
+                .interpersonalContactLevel(Level.MEDIUM)
+                .physicalActivityLevel(PhysicalActivity.HIGH)
+                .emotionalLaborLevel(Level.HIGH)
+                .jobImageUrl("https://example.com/image.jpg")
+                .ncsName("노인복지서비스")
+                .certifications(new ArrayList<>())
+                .build();
+
+            jobTodo = JobTodo.builder()
+                .id(1L)
+                .job(job)
+                .title("test title")
+                .build();
+
+            todoGroup = TodoGroup.builder()
+                .job(job)
+                .member(mockMember)
+                .todo(new ArrayList<>())
+                .totalView((0L))
+                .build();
+
+            CustomUserDetails userDetails = new CustomUserDetails(mockMember);
+
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                userDetails, "", userDetails.getAuthorities());
+
+            SecurityContext context = SecurityContextHolder.createEmptyContext();
+            context.setAuthentication(authentication);
+            SecurityContextHolder.setContext(context);
+        }
+
+        @AfterEach
+        void clearSecurityContext() {
+            SecurityContextHolder.clearContext();
+        }
+
+        @Test
+        @DisplayName("직업 담기")
+        void addNewJob() {
+
+            when(memberRepository.findByIdAndState(1L, TEST_STATE))
+                .thenReturn(Optional.of(mockMember));
+
+            when(jobRepository.findById(1L))
+                .thenReturn(Optional.of(job));
+
+            when(todoGroupRepository.save(any(TodoGroup.class))).thenReturn(todoGroup);
+
+            AddJobTodoResponseDto responseDto = todoMemberService.addJobToMyList(1L);
+
+            assertAll(
+                () -> assertThat(todoGroup).isNotNull(),
+                () -> assertThat(todoGroup.getId()).isEqualTo(responseDto.todoGroupId()),
+                () -> assertThat(todoGroup.getMember().getId()).isEqualTo(responseDto.memberId()),
+                () -> assertThat("직업 담기 완료").isEqualTo(responseDto.message())
+            );
+        }
+    }
+
+    @Nested
+    @DisplayName("마이드림")
+    class MyDreamTodoTest {
+        // 직업 목록 조회
+        // 기본 투두 목록 조회
+        // 메모 작성
+        // 메모 삭제
+        // 메모 수정
+        // 상태 변경 (완료 여부,공개 여부)
+    }
+
+    @Nested
+    @DisplayName("직업 소개")
+    class JobTodoTest {
+        //  직업 담기
+        //  특정 직업 타유저 심플 투두 조회 (2개)
+    }
+}
