@@ -28,12 +28,12 @@ public record GetOneTodoGroupResponseDto(
 
 ) {
 
-    public static GetOneTodoGroupResponseDto of(TodoGroup myTodoGroup,
+    public static GetOneTodoGroupResponseDto of(Member member, TodoGroup myTodoGroup,
         List<GetOneTodoResponseDto> todos) {
         return GetOneTodoGroupResponseDto.builder()
             .todoGroupId(myTodoGroup.getId())
-            .memberNickname(myTodoGroup.getMember().getNickName())
-            .profileImage(myTodoGroup.getMember().getProfileImage())
+            .memberNickname(member.getNickName())
+            .profileImage(member.getProfileImage())
             .daysAgo(
                 ChronoUnit.DAYS.between(myTodoGroup.getCreatedAt().toLocalDate(), LocalDate.now())
                     + 1)
@@ -44,7 +44,7 @@ public record GetOneTodoGroupResponseDto(
     }
 
     public static GetOneTodoGroupResponseDto empty(Member member) {
-        return new GetOneTodoGroupResponseDto(null, member.getNickName(), null, null, null,
+        return new GetOneTodoGroupResponseDto(null, member.getNickName(), null,null, null, null,
             Collections.emptyList());
     }
 
