@@ -15,6 +15,8 @@ public record GetOneTodoGroupResponseDto(
     Long todoGroupId,
     @Schema(description = "멤버 닉네임", example = "두둠칫")
     String memberNickname,
+    @Schema(description = "멤버 프로필 사진", example = "www.~")
+    String profileImage,
     @Schema(description = "투두 경과 일자(X일)", example = "38")
     Long daysAgo,
     @Schema(description = "직업 이름", example = "요양보호사")
@@ -26,11 +28,12 @@ public record GetOneTodoGroupResponseDto(
 
 ) {
 
-    public static GetOneTodoGroupResponseDto of(Member member, TodoGroup myTodoGroup,
+    public static GetOneTodoGroupResponseDto of(TodoGroup myTodoGroup,
         List<GetOneTodoResponseDto> todos) {
         return GetOneTodoGroupResponseDto.builder()
             .todoGroupId(myTodoGroup.getId())
-            .memberNickname(member.getNickName())
+            .memberNickname(myTodoGroup.getMember().getNickName())
+            .profileImage(myTodoGroup.getMember().getProfileImage())
             .daysAgo(
                 ChronoUnit.DAYS.between(myTodoGroup.getCreatedAt().toLocalDate(), LocalDate.now())
                     + 1)
