@@ -1,0 +1,53 @@
+spring:
+  application:
+    name: DoDream_BE
+
+  config:
+    activate:
+      on-profile: test
+
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    show-sql: true
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+  sql:
+    init:
+      mode: never
+
+springdoc:
+  server-url: http://localhost:8080
+
+jwt:
+  secret-key: "your-256-bit-secret-keyyour-256-bit-secret-keyyour-256-bit-secret-keyyour-256-bit-secret-keyyour-256-bit-secret-keyyour-256-bit-secret-keyyour-256-bit-secret-keyyour-256-bit-secret-keyyour-256-bit-secret-key"
+  issuer: "DoDream"
+  access-expiration: 86400000  # 1시간
+  refresh-expiration: 7  # 7일
+
+feign:
+  client:
+    enabled: false
+
+work24:
+  url: dummy
+
+saramin:
+  url: dummy
+
+ncp:
+  clova:
+    url: dummy

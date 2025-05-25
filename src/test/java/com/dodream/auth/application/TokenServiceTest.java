@@ -37,7 +37,7 @@ public class TokenServiceTest {
         Optional<Member> member = Optional.of(mock(Member.class));
 
         TokenRequest tokenRequest = new TokenRequest(1L);
-        when(memberRepository.findByIdAndState(1L, State.ACTIVE)).thenReturn(member);
+        when(memberRepository.findById(1L)).thenReturn(member);
 
         // when
         tokenService.provideAccessToken(tokenRequest);
@@ -51,7 +51,7 @@ public class TokenServiceTest {
     void 토큰_발급_실패_회원_x(){
         // given
         TokenRequest tokenRequest = new TokenRequest(1L);
-        when(memberRepository.findByIdAndState(1L,State.ACTIVE)).thenReturn(Optional.empty());
+        when(memberRepository.findById(1L)).thenReturn(Optional.empty());
 
         // when & then
         Assertions.assertThatThrownBy(() -> tokenService.provideAccessToken(tokenRequest))
