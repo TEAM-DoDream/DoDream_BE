@@ -14,6 +14,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
@@ -44,5 +45,9 @@ public class TodoGroup extends BaseLongIdEntity {
 
     @Builder.Default
     private Long totalView = 0L;
+
+    public void updateTotalView() {
+         this.totalView++;
+     }
 
 }

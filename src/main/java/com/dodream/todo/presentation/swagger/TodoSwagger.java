@@ -27,6 +27,16 @@ public interface TodoSwagger {
     @ApiErrorCode(TodoErrorCode.class)
     ResponseEntity<RestResponse<List<GetOthersTodoGroupResponseDto>>> getOneTodoGroupAtHome();
 
+
+    @Operation(
+        summary = "[비로그인 상태] 홈화면 - 드리머 투두 리스트 목록 조회 API",
+        description = "[비로그인 상태] 홈화면에서 드리머 투두 리스트 목록 조회",
+        operationId = "/v1/todo/other/public"
+    )
+    @ApiErrorCode(TodoErrorCode.class)
+    ResponseEntity<RestResponse<List<GetOthersTodoGroupResponseDto>>> getOneTodoGroupPublicAtHome();
+
+
     @Operation(
         summary = "직업 정보 페이지 - 타유저 투두 리스트 목록 조회 API",
         description = "직업 정보 페이지 우측 상단 - 타유저 투두 리스트 목록 조회",
@@ -55,13 +65,13 @@ public interface TodoSwagger {
         @PathVariable Long todoGroupId);
 
     @Operation(
-         summary = "타유저 투두 리스트 메모 조회 API",
-         description = "타유저 투두 리스트의 메모 조회",
-         operationId = "/v1/todo/{todoId}/memo}"
-     )
-     @ApiErrorCode(TodoErrorCode.class)
-     ResponseEntity<RestResponse<GetOneTodoWithMemoResponseDto>> getOneOthersTodoMemo(
-         @PathVariable Long todoId);
+        summary = "타유저 투두 리스트 메모 조회 API",
+        description = "타유저 투두 리스트의 메모 조회",
+        operationId = "/v1/todo/{todoId}/memo}"
+    )
+    @ApiErrorCode(TodoErrorCode.class)
+    ResponseEntity<RestResponse<GetOneTodoWithMemoResponseDto>> getOneOthersTodoMemo(
+        @PathVariable Long todoId);
 
 
 }

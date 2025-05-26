@@ -33,13 +33,19 @@ public class TodoController implements TodoSwagger {
     }
 
     @Override
+    @GetMapping(value = "/other/public")
+    public ResponseEntity<RestResponse<List<GetOthersTodoGroupResponseDto>>> getOneTodoGroupPublicAtHome() {
+        return ResponseEntity.ok(
+            new RestResponse<>(todoService.getOneTodoGroupPublicAtHome()));
+    }
+
+    @Override
     @GetMapping(value = "/other/simple/{jobId}")
     public ResponseEntity<RestResponse<List<GetOthersTodoGroupResponseDto>>> getOthersTodoSimpleByJob(
         @PathVariable Long jobId) {
         return ResponseEntity.ok(
             new RestResponse<>(todoService.getOthersTodoSimple(jobId)));
     }
-
 
     @Override
     @GetMapping(value = "/other/{jobId}")
