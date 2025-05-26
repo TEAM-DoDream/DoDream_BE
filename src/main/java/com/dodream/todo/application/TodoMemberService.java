@@ -209,13 +209,15 @@ public class TodoMemberService {
     @Transactional
     public DeleteTodoGroupResponseDto deleteTodoGroups(List<Long> jobIds, Member member) {
 
+        List<TodoGroup> todoGroupsToDelete = todoGroupRepository.findByMemberAndJobIdIn(member, jobIds);
+
+        todoGroupRepository.deleteAll(todoGroupsToDelete);
+
         for (Long jobId : jobIds) {
             Job job = jobRepository.findById(jobId)
                 .orElseThrow(JobErrorCode.CANNOT_GET_JOB_DATA::toException);
             job.minusTodoGroupNum();
         }
-
-        todoGroupRepository.deleteByMemberAndJobIdIn(member, jobIds);
 
         return DeleteTodoGroupResponseDto.from(jobIds);
     }
