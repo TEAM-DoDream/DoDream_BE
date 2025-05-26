@@ -4,6 +4,8 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.dodream.member.exception.MemberErrorCode;
+import com.dodream.todo.exception.TodoErrorCode;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +25,14 @@ public class ObjectStorageService {
     private String bucketName;
 
     public String uploadMemberProfileImage(MultipartFile file, Long memberId) {
+
+        String originalFilename = file.getOriginalFilename();
+        if (isAllowedImageExtension(originalFilename)) {
+            throw MemberErrorCode.UNSUPPORTED_FILE_EXTENSION.toException();
+        }
+
         String dirName = "profile/" + memberId;
-        String fileName = dirName + "/" + UUID.randomUUID() + "_" + file.getOriginalFilename();
+        String fileName = dirName + "/" + UUID.randomUUID() + "_" + originalFilename;
 
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(file.getSize());
@@ -33,7 +41,7 @@ public class ObjectStorageService {
         try {
             amazonS3Client.putObject(bucketName, fileName, file.getInputStream(), metadata);
         } catch (IOException e) {
-            throw new RuntimeException("프로필 이미지를 업로드하는 중 오류가 발생했습니다.", e);
+            throw MemberErrorCode.FILE_UPLOAD_FAILED.toException();
         }
 
         return amazonS3Client.getUrl(bucketName, fileName).toString();
@@ -48,7 +56,7 @@ public class ObjectStorageService {
                 amazonS3Client.deleteObject(bucketName, fileKey);
             }
         } catch (SdkClientException e) {
-            throw new RuntimeException("프로필 이미지를 삭제하는 중 오류가 발생했습니다.", e);
+            throw MemberErrorCode.FILE_DELETE_FAILED.toException();
         }
     }
 
@@ -58,8 +66,13 @@ public class ObjectStorageService {
 
         for (MultipartFile file : files) {
             try {
+                String originalFilename = file.getOriginalFilename();
+                if (isAllowedImageExtension(originalFilename)) {
+                    throw TodoErrorCode.UNSUPPORTED_FILE_EXTENSION.toException();
+                }
+
                 String fileName =
-                    dirName + "/" + UUID.randomUUID() + "_" + file.getOriginalFilename();
+                    dirName + "/" + UUID.randomUUID() + "_" + originalFilename;
 
                 ObjectMetadata metadata = new ObjectMetadata();
                 metadata.setContentLength(file.getSize());
@@ -70,11 +83,9 @@ public class ObjectStorageService {
                 uploadedUrls.add(fileUrl);
 
             } catch (IOException e) {
-                throw new RuntimeException("이미지 업로드 중 오류가 발생했습니다: " + file.getOriginalFilename(),
-                    e);
+                throw TodoErrorCode.FILE_UPLOAD_FAILED.toException();
             }
         }
-
         return uploadedUrls;
     }
 
@@ -85,6 +96,12 @@ public class ObjectStorageService {
             throw new IllegalArgumentException("잘못된 URL 형식입니다: " + url);
         }
         return url.substring(idx + 5);
+    }
+
+    private boolean isAllowedImageExtension(String filename) {
+        String lowerName = filename.toLowerCase();
+        return lowerName.endsWith(".jpg") || lowerName.endsWith(".jpeg") || lowerName.endsWith(
+            ".png");
     }
 
 }
