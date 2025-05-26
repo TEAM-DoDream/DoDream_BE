@@ -39,10 +39,11 @@ public interface TodoGroupRepository extends JpaRepository<TodoGroup, Long> {
     Page<TodoGroup> findTop10ByJobAndNotMember(@Param("job") Job job,
         @Param("currentMember") Member currentMember, Pageable pageable);
 
-    List<TodoGroup> findTop3ByMemberOrderByTotalViewDesc(Member member);
 
     @Query("SELECT tg FROM TodoGroup tg ORDER BY tg.totalView DESC")
     List<TodoGroup> findTop3ByTotalView(Pageable pageable);
+
+    List<TodoGroup> findTop3ByMemberOrderByTotalViewDesc(Member member);
 
     List<TodoGroup> deleteByMemberAndJobIdIn(Member member,List<Long> jobId);
 

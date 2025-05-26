@@ -5,6 +5,7 @@ import com.dodream.auth.application.TokenService;
 import com.dodream.auth.dto.TokenRequest;
 import com.dodream.auth.exception.AuthenticationErrorCode;
 import com.dodream.core.config.security.SecurityUtils;
+import com.dodream.job.domain.Job;
 import com.dodream.member.domain.Member;
 import com.dodream.member.domain.State;
 import com.dodream.member.dto.request.MemberLoginRequestDto;
@@ -148,6 +149,13 @@ public class MemberAuthService {
     public void withdrawMember() {
 
         Member member = getCurrentMember();
+
+        List<TodoGroup> todoGroups = todoGroupRepository.findAllByMember(member);
+
+        for(TodoGroup todoGroup : todoGroups){
+            Job job = todoGroup.getJob();
+            job.minusTodoGroupNum();
+        }
 
         todoGroupRepository.deleteAllByMember(member);
         memberRecruitScrapRepository.deleteAllByMember(member);
