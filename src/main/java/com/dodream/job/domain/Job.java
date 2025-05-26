@@ -4,6 +4,7 @@ import com.dodream.core.infrastructure.jpa.entity.BaseLongIdEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -62,15 +63,26 @@ public class Job extends BaseLongIdEntity {
     @OneToMany(mappedBy = "job", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Certification> certifications = new ArrayList<>();
 
+    @Builder.Default
+    private Long todoGroupNum = 0L;
+
+    public void plusTodoGroupNum() {
+        this.todoGroupNum++;
+    }
+    public void minusTodoGroupNum() {
+        this.todoGroupNum--;
+    }
+
+
     public List<String> getCertificationNames(List<Certification> certificationList) {
         return certificationList.stream()
-                .map(Certification::getCertificationName)
-                .toList();
+            .map(Certification::getCertificationName)
+            .toList();
     }
 
     public List<String> getCertificationPeriods(List<Certification> certificationList) {
         return certificationList.stream()
-                .map(Certification::getCertificationPreparationPeriod)
-                .toList();
+            .map(Certification::getCertificationPreparationPeriod)
+            .toList();
     }
 }

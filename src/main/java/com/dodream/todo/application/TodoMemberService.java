@@ -77,6 +77,8 @@ public class TodoMemberService {
             .map(todo -> Todo.of(savedGroup, member, todo))
             .toList();
 
+        job.plusTodoGroupNum();
+
         todoRepository.saveAll(myTodos);
 
         return AddJobTodoResponseDto.of(member, todoGroup);
@@ -207,12 +209,17 @@ public class TodoMemberService {
     @Transactional
     public DeleteTodoGroupResponseDto deleteTodoGroups(List<Long> jobIds, Member member) {
 
+        for (Long jobId : jobIds) {
+            Job job = jobRepository.findById(jobId)
+                .orElseThrow(JobErrorCode.CANNOT_GET_JOB_DATA::toException);
+            job.minusTodoGroupNum();
+        }
+
         todoGroupRepository.deleteByMemberAndJobIdIn(member, jobIds);
 
         return DeleteTodoGroupResponseDto.from(jobIds);
     }
 
-    // 투두 메모 생성
 
     // 새로운 투두 아이템 생성
     @Transactional

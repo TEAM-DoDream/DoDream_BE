@@ -25,7 +25,12 @@ public record JobListDto(
         String physicalInfo,
         
         @Schema(name = "직업 이미지 url", example = "직업 이미지 url")
-        String imageUrl
+        String imageUrl,
+
+        @Schema(name = "담은 인원수", example = "12")
+        Long todoGroupNum
+
+
 ) {
 
         public static JobListDto from(Job job, JobImageUrlGenerator jobImageUrlGenerator){
@@ -36,7 +41,8 @@ public record JobListDto(
                         job.getRequiresCertification().getDescription(),
                         job.getWorkTimeSlot().getDescription(),
                         job.getPhysicalActivityLevel().getDescription(),
-                        jobImageUrlGenerator.getImageUrl(job.getId())
+                        jobImageUrlGenerator.getImageUrl(job.getId()),
+                        job.getTodoGroupNum()
                 );
         }
 }
