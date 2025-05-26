@@ -77,9 +77,8 @@ public class TodoMemberService {
             .map(todo -> Todo.of(savedGroup, member, todo))
             .toList();
 
-        job.plusTodoGroupNum();
-
         todoRepository.saveAll(myTodos);
+        job.plusTodoGroupNum();
 
         return AddJobTodoResponseDto.of(member, todoGroup);
     }
