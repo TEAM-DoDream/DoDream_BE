@@ -41,7 +41,8 @@ public interface TodoGroupRepository extends JpaRepository<TodoGroup, Long> {
 
     List<TodoGroup> findTop3ByMemberOrderByTotalViewDesc(Member member);
 
-    List<TodoGroup> findTop5ByJobAndMemberNot(Job job, Member member);
+    @Query("SELECT tg FROM TodoGroup tg ORDER BY tg.totalView DESC")
+    List<TodoGroup> findTop3ByTotalView(Pageable pageable);
 
     List<TodoGroup> deleteByMemberAndJobIdIn(Member member,List<Long> jobId);
 

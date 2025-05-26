@@ -61,6 +61,23 @@ public class TodoService {
             .toList();
     }
 
+    // [비로그인 상태] 홈화면에서 드리머 투두 리스트 간편 조회(3개씩)
+     @Transactional(readOnly = true)
+     public List<GetOthersTodoGroupResponseDto> getOneTodoGroupPublicAtHome() {
+
+         Pageable limit3 = PageRequest.of(0, 3);
+         List<TodoGroup> todoGroups = todoGroupRepository.findTop3ByTotalView(limit3);
+
+         Pageable top2 = PageRequest.of(0, 2);
+         return todoGroups.stream()
+             .map(group -> {
+                 List<Todo> todos = todoRepository.findTop2ByTodoGroup(group, top2);
+                 Long todoCount = todoRepository.countByTodoGroup(group);
+                 return GetOthersTodoGroupResponseDto.of(group, todos, todoCount);
+             })
+             .toList();
+     }
+
 
     // 특정 직업 정보 페이지 - 우측 상단에 타유저 리스트
     @Transactional(readOnly = true)
@@ -112,13 +129,15 @@ public class TodoService {
 
 
     // 타유저의 투두 리스트 상세 조회
-    @Transactional(readOnly = true)
+    @Transactional
     public GetOneTodoGroupResponseDto getOneOthersTodoGroup(Long TodoGroupId) {
 
         Member member = memberAuthService.getCurrentMember();
 
         TodoGroup todoGroup = todoGroupRepository.findByIdAndMemberNot(TodoGroupId, member)
             .orElseThrow(TodoGroupErrorCode.TODO_GROUP_NOT_FOUND::toException);
+
+        todoGroup.updateTotalView();
 
         List<GetOneTodoResponseDto> todos = todoGroup.getTodo().stream()
             .map(GetOneTodoResponseDto::from)
