@@ -27,7 +27,7 @@ public class ObjectStorageService {
     public String uploadMemberProfileImage(MultipartFile file, Long memberId) {
 
         String originalFilename = file.getOriginalFilename();
-        if (isAllowedImageExtension(originalFilename)) {
+        if (!isAllowedImageExtension(originalFilename)) {
             throw MemberErrorCode.UNSUPPORTED_FILE_EXTENSION.toException();
         }
 
@@ -67,7 +67,7 @@ public class ObjectStorageService {
         for (MultipartFile file : files) {
             try {
                 String originalFilename = file.getOriginalFilename();
-                if (isAllowedImageExtension(originalFilename)) {
+                if (!isAllowedImageExtension(originalFilename)) {
                     throw TodoErrorCode.UNSUPPORTED_FILE_EXTENSION.toException();
                 }
 
