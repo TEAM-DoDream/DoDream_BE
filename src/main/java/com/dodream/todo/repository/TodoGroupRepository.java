@@ -47,6 +47,8 @@ public interface TodoGroupRepository extends JpaRepository<TodoGroup, Long> {
 
     List<TodoGroup> deleteByMemberAndJobIdIn(Member member,List<Long> jobId);
 
+    List<TodoGroup> findByMemberAndJobIdIn(Member member,List<Long> jobIds);
+
     void deleteAllByMember(Member member);
 
 

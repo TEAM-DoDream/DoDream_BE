@@ -1,5 +1,6 @@
 package com.dodream.job.domain;
 
+import com.dodream.core.infrastructure.cache.annotation.DistributedLock;
 import com.dodream.core.infrastructure.jpa.entity.BaseLongIdEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -66,9 +67,13 @@ public class Job extends BaseLongIdEntity {
     @Builder.Default
     private Long todoGroupNum = 0L;
 
+
+    @DistributedLock(lockName = "todoGroupNum")
     public void plusTodoGroupNum() {
         this.todoGroupNum++;
     }
+
+    @DistributedLock(lockName = "todoGroupNum")
     public void minusTodoGroupNum() {
         this.todoGroupNum--;
     }
