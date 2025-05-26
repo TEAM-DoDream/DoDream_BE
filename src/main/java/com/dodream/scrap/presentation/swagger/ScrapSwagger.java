@@ -10,6 +10,7 @@ import com.dodream.training.exception.TrainingErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,6 +40,7 @@ public interface ScrapSwagger {
 
             @RequestParam
             @Parameter(description = "훈련 방식 (가능한 값: '이론 위주', '실습 위주')", example = "이론 위주")
+            @Pattern(regexp = "^(이론 위주|실습 위주)$", message = "이론 위주, 실습 위주 값만 입력 가능합니다.")
             String type
     );
 }

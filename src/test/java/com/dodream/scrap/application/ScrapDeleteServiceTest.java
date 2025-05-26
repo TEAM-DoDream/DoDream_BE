@@ -44,9 +44,6 @@ public class ScrapDeleteServiceTest {
     private MemberTrainingScrapRepository memberTrainingScrapRepository;
 
     @Mock
-    private MemberRepository memberRepository;
-
-    @Mock
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @InjectMocks
