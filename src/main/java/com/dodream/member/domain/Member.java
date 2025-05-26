@@ -84,11 +84,4 @@ public class Member extends BaseLongIdEntity {
         this.birthDate = birthDate;
     }
 
-    public void withdraw() {
-        if (this.state == State.INACTIVE) {
-            throw MemberErrorCode.MEMBER_INACTIVE.toException();
-        }
-        this.state = State.INACTIVE;
-    }
-
 }

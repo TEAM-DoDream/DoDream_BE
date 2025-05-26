@@ -19,6 +19,11 @@ import com.dodream.member.repository.MemberRepository;
 import com.dodream.region.domain.Region;
 import com.dodream.region.exception.RegionErrorCode;
 import com.dodream.region.repository.RegionRepository;
+import com.dodream.scrap.repository.MemberRecruitScrapRepository;
+import com.dodream.scrap.repository.MemberTrainingScrapRepository;
+import com.dodream.todo.domain.TodoGroup;
+import com.dodream.todo.repository.TodoGroupRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,6 +35,9 @@ public class MemberAuthService {
 
     private final MemberRepository memberRepository;
     private final RegionRepository regionRepository;
+    private final TodoGroupRepository todoGroupRepository;
+    private final MemberTrainingScrapRepository memberTrainingScrapRepository;
+    private final MemberRecruitScrapRepository memberRecruitScrapRepository;
     private final TokenService tokenService;
     private final RefreshTokenService refreshTokenService;
     private final BCryptPasswordEncoder passwordEncoder;
@@ -140,7 +148,12 @@ public class MemberAuthService {
     public void withdrawMember() {
 
         Member member = getCurrentMember();
-        member.withdraw();
+
+        todoGroupRepository.deleteAllByMember(member);
+        memberRecruitScrapRepository.deleteAllByMember(member);
+        memberTrainingScrapRepository.deleteAllByMember(member);
+
+        memberRepository.delete(member);
     }
 
     public Member getCurrentMember() {

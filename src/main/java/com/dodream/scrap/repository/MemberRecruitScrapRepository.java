@@ -1,5 +1,6 @@
 package com.dodream.scrap.repository;
 
+import com.dodream.member.domain.Member;
 import com.dodream.scrap.domain.entity.MemberRecruitScrap;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -15,4 +16,7 @@ public interface MemberRecruitScrapRepository extends JpaRepository<MemberRecrui
     int countByMemberId(Long memberId);
 
     void deleteByRecruitIdAndMemberId(String recruitId, Long memberId);
+
+    void deleteAllByMember(Member member);
+
 }
