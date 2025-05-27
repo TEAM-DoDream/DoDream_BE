@@ -53,12 +53,13 @@ public abstract class AbstractTrainingServiceTest<T extends AbstractTrainingServ
     protected final TrainingDetailApiResponse DUMMY_DETAIL =
             new TrainingDetailApiResponse(
                     new TrainingDetailApiResponse.InstBaseInfo(
+                            "https://~",
                             "경기도 안양시 만안구",
                             3,
                             "요양보호사 자격증 과정",
                             "요양보호사 교육기관",
                             123456
-                    )
+                    ), new TrainingDetailApiResponse.InstDetailInfo("350000")
             );
     protected final SortBy DEFAULT_SORT = SortBy.DEADLINE_DESC;
 

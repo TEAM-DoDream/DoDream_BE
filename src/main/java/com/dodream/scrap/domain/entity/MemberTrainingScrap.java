@@ -80,9 +80,17 @@ public class MemberTrainingScrap extends BaseLongIdEntity {
                 .trainingStartDate(LocalDate.parse(request.traStartDate(), formatter))
                 .trainingEndDate(LocalDate.parse(request.traEndDate(), formatter))
                 .trainingDegree(String.valueOf(response.instBaseInfo().trprDegr()))
-                .trainingManage(response.instBaseInfo().instPerTrco())
+                .trainingManage(getIntegerPrice(response.instDetailInfo().totalCrsAt()))
                 .trainingUrl(response.instBaseInfo().hpAddr())
                 .member(member)
                 .build();
+    }
+
+    private static int getIntegerPrice(String price){
+        try{
+            return Integer.parseInt(price);
+        }catch (NumberFormatException e){
+            return 0;
+        }
     }
 }

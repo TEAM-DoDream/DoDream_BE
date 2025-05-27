@@ -86,6 +86,7 @@ public class TrainingScrapServiceTest {
     private Member mockMember;
     private Region mockRegion;
     private TrainingDetailApiResponse.InstBaseInfo instBaseInfo;
+    private TrainingDetailApiResponse.InstDetailInfo instDetailInfo;
     private static TrainingDetailApiResponse TEST_DETAIL_RESPONSE;
     private static TrainingSaveReqeustDto TEST_SAVE_REQEUST;
 
@@ -108,6 +109,7 @@ public class TrainingScrapServiceTest {
                 .build();
 
         instBaseInfo = new TrainingDetailApiResponse.InstBaseInfo(
+                "https://~",
                 "경기도 안양시 만안구",
                 3,
                 "요양보호사 자격증 취득 과정 (사회복지사)",
@@ -115,7 +117,9 @@ public class TrainingScrapServiceTest {
                 250000
         );
 
-        TEST_DETAIL_RESPONSE = new TrainingDetailApiResponse(instBaseInfo);
+        instDetailInfo = new TrainingDetailApiResponse.InstDetailInfo("350000");
+
+        TEST_DETAIL_RESPONSE = new TrainingDetailApiResponse(instBaseInfo, instDetailInfo);
         TEST_SAVE_REQEUST = new TrainingSaveReqeustDto(
                 TEST_TRPR_ID, TEST_TRPR_DEG, TEST_TORG_ID, TEST_START_DATE, TEST_END_DATE
         );
@@ -146,10 +150,10 @@ public class TrainingScrapServiceTest {
             given(memberTrainingScrapRepository.existsByTrainingIdAndMemberId(TEST_TRPR_ID, TEST_ID))
                     .willReturn(false);
 
-            given(bootcampApiCaller.getDetailApi(anyString(), anyString(), anyString()))
+            given(bootcampApiCaller.getDetailApi(any(), any(), any()))
                     .willReturn(API_CALLER_RESULT);
 
-            given(trainingDetailResponseDtoMapper.jsonToResponseDto(anyString()))
+            given(trainingDetailResponseDtoMapper.jsonToResponseDto(any()))
                     .willReturn(TEST_DETAIL_RESPONSE);
 
             ArgumentCaptor<MemberTrainingScrap> captor = ArgumentCaptor.forClass(MemberTrainingScrap.class);
@@ -175,10 +179,10 @@ public class TrainingScrapServiceTest {
             given(memberTrainingScrapRepository.existsByTrainingIdAndMemberId(TEST_TRPR_ID, TEST_ID))
                     .willReturn(false);
 
-            given(dualTrainingApiCaller.getDetailApi(anyString(), anyString(), anyString()))
+            given(dualTrainingApiCaller.getDetailApi(any(), any(), any()))
                     .willReturn(API_CALLER_RESULT);
 
-            given(trainingDetailResponseDtoMapper.jsonToResponseDto(anyString()))
+            given(trainingDetailResponseDtoMapper.jsonToResponseDto(any()))
                     .willReturn(TEST_DETAIL_RESPONSE);
 
             ArgumentCaptor<MemberTrainingScrap> captor = ArgumentCaptor.forClass(MemberTrainingScrap.class);
