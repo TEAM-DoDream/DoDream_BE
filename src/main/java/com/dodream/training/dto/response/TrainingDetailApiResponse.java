@@ -6,7 +6,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public record TrainingDetailApiResponse(
 
         @JsonProperty("inst_base_info")
-        InstBaseInfo instBaseInfo
+        InstBaseInfo instBaseInfo,
+
+        @JsonProperty("inst_detail_info")
+        InstDetailInfo instDetailInfo
 ) {
     public record InstBaseInfo(
             @JsonProperty("hpAddr")
@@ -32,5 +35,10 @@ public record TrainingDetailApiResponse(
             @JsonProperty("instPerTrco")
             @Schema(description = "실제 훈련비", example = "250000")
             int instPerTrco
+    ){}
+
+    public record InstDetailInfo(
+            @JsonProperty("totalCrsAt")
+            String totalCrsAt
     ){}
 }
