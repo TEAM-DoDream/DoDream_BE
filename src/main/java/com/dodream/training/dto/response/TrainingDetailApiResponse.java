@@ -9,6 +9,9 @@ public record TrainingDetailApiResponse(
         InstBaseInfo instBaseInfo
 ) {
     public record InstBaseInfo(
+            @JsonProperty("hpAddr")
+            @Schema(description = "홈페이지 주소", example = "http://~")
+            String hpAddr,
 
             @JsonProperty("addr1")
             @Schema(description = "주소지", example = "경기도 안양시 만안구")

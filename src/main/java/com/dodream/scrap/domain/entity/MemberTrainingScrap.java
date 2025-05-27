@@ -59,6 +59,9 @@ public class MemberTrainingScrap extends BaseLongIdEntity {
     @Column(name = "training_manage", nullable = false)
     private int trainingManage;
 
+    @Column(name = "training_url", nullable = false)
+    private String trainingUrl;
+
     // 멤버 연관
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "member_id", nullable = false)
@@ -78,6 +81,7 @@ public class MemberTrainingScrap extends BaseLongIdEntity {
                 .trainingEndDate(LocalDate.parse(request.traEndDate(), formatter))
                 .trainingDegree(String.valueOf(response.instBaseInfo().trprDegr()))
                 .trainingManage(response.instBaseInfo().instPerTrco())
+                .trainingUrl(response.instBaseInfo().hpAddr())
                 .member(member)
                 .build();
     }
