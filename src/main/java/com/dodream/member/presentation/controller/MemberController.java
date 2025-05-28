@@ -10,6 +10,7 @@ import com.dodream.member.dto.request.ChangeMemberRegionRequestDto;
 import com.dodream.member.dto.response.ChangeMemberBirthDateResponseDto;
 import com.dodream.member.dto.response.ChangeMemberNickNameResponseDto;
 import com.dodream.member.dto.response.ChangeMemberRegionResponseDto;
+import com.dodream.member.dto.response.DeleteMemberProfileImageResponseDto;
 import com.dodream.member.dto.response.GetMemberInfoResponseDto;
 import com.dodream.member.dto.response.UploadMemberProfileImageResponseDto;
 import com.dodream.member.presentation.swagger.MemberSwagger;
@@ -45,6 +46,13 @@ public class MemberController implements MemberSwagger {
         @RequestParam("file") MultipartFile file) {
         return ResponseEntity.ok(
             new RestResponse<>(memberService.uploadMemberProfileImage(file)));
+    }
+
+    @Override
+    @DeleteMapping(value = "/profile")
+    public ResponseEntity<RestResponse<DeleteMemberProfileImageResponseDto>> deleteMemberProfileImage() {
+        return ResponseEntity.ok(
+            new RestResponse<>(memberService.deleteMemberProfileImage()));
     }
 
     @Override
