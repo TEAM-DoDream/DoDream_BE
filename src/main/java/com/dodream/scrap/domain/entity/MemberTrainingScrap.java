@@ -5,6 +5,7 @@ import com.dodream.member.domain.Member;
 import com.dodream.scrap.dto.request.TrainingSaveReqeustDto;
 import com.dodream.training.dto.response.TrainingDetailApiResponse;
 import com.dodream.scrap.utils.TrainingAddressUtils;
+import com.dodream.training.util.TrainingUrlUtils;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -81,7 +82,7 @@ public class MemberTrainingScrap extends BaseLongIdEntity {
                 .trainingEndDate(LocalDate.parse(request.traEndDate(), formatter))
                 .trainingDegree(String.valueOf(response.instBaseInfo().trprDegr()))
                 .trainingManage(getIntegerPrice(response.instDetailInfo().totalCrsAt()))
-                .trainingUrl(response.instBaseInfo().hpAddr())
+                .trainingUrl(getTrainingUrl(request, response.instBaseInfo().hpAddr()))
                 .member(member)
                 .build();
     }
@@ -92,5 +93,13 @@ public class MemberTrainingScrap extends BaseLongIdEntity {
         }catch (NumberFormatException e){
             return 0;
         }
+    }
+
+    private static String getTrainingUrl(TrainingSaveReqeustDto request, String hpAddr){
+        if(hpAddr == null || hpAddr.isEmpty()){
+            return TrainingUrlUtils.generateTrainingUrl(request.trprId(), request.trprDegr(), request.trainstCstId());
+        }
+
+        return hpAddr;
     }
 }

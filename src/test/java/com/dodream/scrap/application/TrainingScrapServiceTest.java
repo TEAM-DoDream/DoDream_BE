@@ -150,9 +150,6 @@ public class TrainingScrapServiceTest {
             given(memberTrainingScrapRepository.existsByTrainingIdAndMemberId(TEST_TRPR_ID, TEST_ID))
                     .willReturn(false);
 
-            given(bootcampApiCaller.getDetailApi(any(), any(), any()))
-                    .willReturn(API_CALLER_RESULT);
-
             given(trainingDetailResponseDtoMapper.jsonToResponseDto(any()))
                     .willReturn(TEST_DETAIL_RESPONSE);
 
@@ -178,9 +175,6 @@ public class TrainingScrapServiceTest {
             given(memberTrainingScrapRepository.countByMemberId(customUserDetails.getId())).willReturn(1);
             given(memberTrainingScrapRepository.existsByTrainingIdAndMemberId(TEST_TRPR_ID, TEST_ID))
                     .willReturn(false);
-
-            given(dualTrainingApiCaller.getDetailApi(any(), any(), any()))
-                    .willReturn(API_CALLER_RESULT);
 
             given(trainingDetailResponseDtoMapper.jsonToResponseDto(any()))
                     .willReturn(TEST_DETAIL_RESPONSE);
