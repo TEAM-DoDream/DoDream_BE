@@ -48,6 +48,8 @@ public class MemberServiceTest {
     private RegionRepository regionRepository;
     @Mock
     private BCryptPasswordEncoder passwordEncoder;
+    @Mock
+    private MemberAuthService memberAuthService;
     @InjectMocks
     private MemberService memberService;
 
@@ -120,8 +122,7 @@ public class MemberServiceTest {
         @DisplayName("닉네임 변경 성공 테스트")
         void changeMemberNickNameSuccess() {
 
-            when(memberRepository.findByIdAndState(1L, TEST_STATE))
-                .thenReturn(Optional.of(mockMember));
+            when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
 
             ChangeMemberNickNameRequestDto requestDto = new ChangeMemberNickNameRequestDto(
                 TEST_NEW_NICKNAME);
@@ -141,8 +142,9 @@ public class MemberServiceTest {
         @DisplayName("닉네임 변경 실패 테스트 - 이미 존재하는 닉네임인 경우")
         void changeMemberNickNameFail() {
 
-            when(memberRepository.findByIdAndState(1L, State.ACTIVE))
-                .thenReturn(Optional.of(mockMember));
+//            when(memberRepository.findByIdAndState(1L, State.ACTIVE))
+//                .thenReturn(Optional.of(mockMember));
+            when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
 
             when(memberRepository.existsByNickNameAndState(TEST_NEW_NICKNAME, TEST_STATE))
                 .thenReturn(true);
@@ -160,8 +162,9 @@ public class MemberServiceTest {
         @DisplayName("비밀번호 변경 성공 테스트")
         void changeMemberPasswordSuccess() {
 
-            when(memberRepository.findByIdAndState(1L, State.ACTIVE))
-                .thenReturn(Optional.of(mockMember));
+//            when(memberRepository.findByIdAndState(1L, State.ACTIVE))
+//                .thenReturn(Optional.of(mockMember));
+            when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
 
             ChangeMemberPasswordRequestDto requestDto = new ChangeMemberPasswordRequestDto(
                 TEST_PASSWORD, TEST_PASSWORD);
@@ -181,8 +184,9 @@ public class MemberServiceTest {
         @Test
         @DisplayName("비밀번호 변경 실패 테스트 - 비밀번호 & 비밀번호 확인일 일치하지 않는 경우")
         void changeMemberPasswordFail() {
-            when(memberRepository.findByIdAndState(1L, State.ACTIVE))
-                .thenReturn(Optional.of(mockMember));
+//            when(memberRepository.findByIdAndState(1L, State.ACTIVE))
+//                .thenReturn(Optional.of(mockMember));
+            when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
 
             ChangeMemberPasswordRequestDto requestDto = new ChangeMemberPasswordRequestDto(
                 TEST_PASSWORD, TEST_WRONG_CHECK_PASSWORD);
@@ -197,8 +201,9 @@ public class MemberServiceTest {
         @DisplayName("생년월일 변경 성공 테스트")
         void changeMemberBirthSuccess() {
 
-            when(memberRepository.findByIdAndState(1L, State.ACTIVE))
-                .thenReturn(Optional.of(mockMember));
+//            when(memberRepository.findByIdAndState(1L, State.ACTIVE))
+//                .thenReturn(Optional.of(mockMember));
+            when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
 
             ChangeMemberBirthDateRequestDto requestDto = new ChangeMemberBirthDateRequestDto(
                 TEST_NEW_BIRTHDATE);
@@ -218,8 +223,9 @@ public class MemberServiceTest {
         @DisplayName("거주지 변경 성공 테스트")
         void changeMemberRegionSuccess() {
 
-            when(memberRepository.findByIdAndState(1L, State.ACTIVE))
-                .thenReturn(Optional.of(mockMember));
+//            when(memberRepository.findByIdAndState(1L, State.ACTIVE))
+//                .thenReturn(Optional.of(mockMember));
+            when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
 
             when(regionRepository.findByRegionCode(TEST_REGION_CODE2))
                 .thenReturn(Optional.of(region2));
@@ -227,7 +233,8 @@ public class MemberServiceTest {
             ChangeMemberRegionRequestDto requestDto = new ChangeMemberRegionRequestDto(
                 TEST_REGION_CODE2);
 
-            ChangeMemberRegionResponseDto responseDto = memberService.changeMemberRegion(requestDto);
+            ChangeMemberRegionResponseDto responseDto = memberService.changeMemberRegion(
+                requestDto);
 
             assertAll(
                 () -> assertThat(mockMember).isNotNull(),
