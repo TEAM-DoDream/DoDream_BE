@@ -10,6 +10,7 @@ import com.dodream.member.dto.request.ChangeMemberRegionRequestDto;
 import com.dodream.member.dto.response.ChangeMemberBirthDateResponseDto;
 import com.dodream.member.dto.response.ChangeMemberNickNameResponseDto;
 import com.dodream.member.dto.response.ChangeMemberRegionResponseDto;
+import com.dodream.member.dto.response.DeleteMemberProfileImageResponseDto;
 import com.dodream.member.dto.response.GetMemberInfoResponseDto;
 import com.dodream.member.dto.response.UploadMemberProfileImageResponseDto;
 import com.dodream.member.exception.MemberErrorCode;
@@ -33,6 +34,15 @@ public interface MemberSwagger {
     @ApiErrorCode(MemberErrorCode.class)
     ResponseEntity<RestResponse<UploadMemberProfileImageResponseDto>> uploadMemberProfileImage(
         @RequestParam("file") MultipartFile file);
+
+    @Operation(
+        summary = "회원 프로필 사진 삭제 API",
+        description = "기존 프로필 사진을 삭제한다.",
+        operationId = "/v1/member/profile"
+    )
+    @ApiErrorCode(MemberErrorCode.class)
+    ResponseEntity<RestResponse<DeleteMemberProfileImageResponseDto>> deleteMemberProfileImage();
+
 
     @Operation(
         summary = "비밀번호 변경 API",

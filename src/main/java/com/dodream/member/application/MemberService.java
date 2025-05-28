@@ -1,7 +1,6 @@
 package com.dodream.member.application;
 
 import com.dodream.core.application.ObjectStorageService;
-import com.dodream.core.config.security.SecurityUtils;
 import com.dodream.member.domain.Member;
 import com.dodream.member.domain.State;
 import com.dodream.member.dto.request.ChangeMemberBirthDateRequestDto;
@@ -12,6 +11,7 @@ import com.dodream.member.dto.request.ChangeMemberRegionRequestDto;
 import com.dodream.member.dto.response.ChangeMemberBirthDateResponseDto;
 import com.dodream.member.dto.response.ChangeMemberNickNameResponseDto;
 import com.dodream.member.dto.response.ChangeMemberRegionResponseDto;
+import com.dodream.member.dto.response.DeleteMemberProfileImageResponseDto;
 import com.dodream.member.dto.response.GetMemberInfoResponseDto;
 import com.dodream.member.dto.response.GetMemberInterestedJobResponseDto;
 import com.dodream.member.dto.response.UploadMemberProfileImageResponseDto;
@@ -21,11 +21,9 @@ import com.dodream.region.domain.Region;
 import com.dodream.region.exception.RegionErrorCode;
 import com.dodream.region.repository.RegionRepository;
 import com.dodream.todo.application.TodoMemberService;
-import com.dodream.todo.domain.TodoGroup;
 import com.dodream.todo.dto.response.DeleteTodoGroupResponseDto;
 import com.dodream.todo.repository.TodoGroupRepository;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -61,6 +59,23 @@ public class MemberService {
         memberRepository.save(member);
 
         return UploadMemberProfileImageResponseDto.from(createdImageUrl);
+    }
+
+
+    @Transactional
+    public DeleteMemberProfileImageResponseDto deleteMemberProfileImage() {
+
+        Member member = memberAuthService.getCurrentMember();
+
+        if (member.getProfileImage() == null) {
+            throw MemberErrorCode.MEMBER_PROFILE_NOT_FOUND.toException();
+        }
+
+        objectStorageService.deleteMemberProfileImage(member.getProfileImage());
+        member.updateProfile(null);
+        memberRepository.save(member);
+
+        return DeleteMemberProfileImageResponseDto.from(member);
     }
 
     @Transactional
@@ -128,16 +143,16 @@ public class MemberService {
             .map(todoGroup -> GetMemberInterestedJobResponseDto.from(todoGroup.getJob()))
             .toList();
 
-        return GetMemberInfoResponseDto.of(member,jobs);
+        return GetMemberInfoResponseDto.of(member, jobs);
 
     }
 
     @Transactional
-    public DeleteTodoGroupResponseDto deleteInterestedJobs(ChangeMemberJobsRequestDto requestDto){
+    public DeleteTodoGroupResponseDto deleteInterestedJobs(ChangeMemberJobsRequestDto requestDto) {
 
         Member member = memberAuthService.getCurrentMember();
 
-        return todoMemberService.deleteTodoGroups(requestDto.jobIds(),member);
+        return todoMemberService.deleteTodoGroups(requestDto.jobIds(), member);
 
     }
 }
