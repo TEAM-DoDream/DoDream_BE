@@ -79,9 +79,11 @@ public class TodoMemberServiceTest {
     private static final String TEST_REGION_CODE1 = "11110";
     private static final String TEST_REGION_NAME1 = "서울 종로구";
     private Member mockMember;
-    private Job job;
+    private Job job1;
+    private Job job2;
     private JobTodo jobTodo;
-    private TodoGroup todoGroup;
+    private TodoGroup todoGroup1;
+    private TodoGroup todoGroup2;
     private Todo todo;
     private Region region1;
 
@@ -111,7 +113,7 @@ public class TodoMemberServiceTest {
                 .region(region1)
                 .build();
 
-            job = Job.builder()
+            job1 = Job.builder()
                 .id(1L)
                 .jobName("요양 보호사")
                 .requiresCertification(Require.REQUIRED)
@@ -126,22 +128,45 @@ public class TodoMemberServiceTest {
                 .certifications(new ArrayList<>())
                 .build();
 
+            job2 = Job.builder()
+                .id(2L)
+                .jobName("심리 상담사")
+                .requiresCertification(Require.REQUIRED)
+                .workTimeSlot(WorkTime.FLEXIBLE)
+                .salaryType(SalaryType.MONTHLY)
+                .salaryCost(2500000)
+                .interpersonalContactLevel(Level.MEDIUM)
+                .physicalActivityLevel(PhysicalActivity.HIGH)
+                .emotionalLaborLevel(Level.HIGH)
+                .jobImageUrl("https://example.com/image.jpg")
+                .ncsName("심리상담서비스")
+                .certifications(new ArrayList<>())
+                .build();
+
             jobTodo = JobTodo.builder()
                 .id(1L)
-                .job(job)
+                .job(job1)
                 .title("test title")
                 .build();
 
-            todoGroup = TodoGroup.builder()
+            todoGroup1 = TodoGroup.builder()
                 .id(1L)
-                .job(job)
+                .job(job1)
+                .member(mockMember)
+                .todo(new ArrayList<>())
+                .totalView((0L))
+                .build();
+
+            todoGroup2 = TodoGroup.builder()
+                .id(2L)
+                .job(job2)
                 .member(mockMember)
                 .todo(new ArrayList<>())
                 .totalView((0L))
                 .build();
 
             todo = Todo.builder()
-                .todoGroup(todoGroup)
+                .todoGroup(todoGroup1)
                 .member(mockMember)
                 .title("testTitle")
                 .memoText("testMemo")
@@ -170,16 +195,16 @@ public class TodoMemberServiceTest {
             when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
 
             when(jobRepository.findById(1L))
-                .thenReturn(Optional.of(job));
+                .thenReturn(Optional.of(job1));
 
-            when(todoGroupRepository.save(any(TodoGroup.class))).thenReturn(todoGroup);
+            when(todoGroupRepository.save(any(TodoGroup.class))).thenReturn(todoGroup1);
 
             AddJobTodoResponseDto responseDto = todoMemberService.addJobToMyList(1L);
 
             assertAll(
-                () -> assertThat(todoGroup).isNotNull(),
-                () -> assertThat(todoGroup.getId()).isEqualTo(responseDto.todoGroupId()),
-                () -> assertThat(todoGroup.getMember().getId()).isEqualTo(responseDto.memberId()),
+                () -> assertThat(todoGroup1).isNotNull(),
+                () -> assertThat(responseDto.todoGroupId()).isEqualTo(1L),
+                () -> assertThat(todoGroup1.getMember().getId()).isEqualTo(responseDto.memberId()),
                 () -> assertThat("직업 담기 완료").isEqualTo(responseDto.message())
             );
         }
@@ -192,16 +217,16 @@ public class TodoMemberServiceTest {
             when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
 
             when(todoGroupRepository.findAllByMember(mockMember))
-                .thenReturn(List.of(todoGroup));
+                .thenReturn(List.of(todoGroup1));
 
             List<GetTodoJobResponseDto> jobs = todoMemberService.getTodoJobList();
 
             assertAll(
-                 () -> assertThat(jobs).isNotNull(),
-                 () -> assertThat(jobs).hasSize(1),
-                 () -> assertThat(jobs.get(0).todoGroupId()).isEqualTo(todoGroup.getId()),
-                 () -> assertThat(jobs.get(0).jobName()).isEqualTo(todoGroup.getJob().getJobName())
-             );
+                () -> assertThat(jobs).isNotNull(),
+                () -> assertThat(jobs).hasSize(1),
+                () -> assertThat(jobs.get(0).todoGroupId()).isEqualTo(todoGroup1.getId()),
+                () -> assertThat(jobs.get(0).jobName()).isEqualTo(todoGroup1.getJob().getJobName())
+            );
         }
     }
 
@@ -209,6 +234,11 @@ public class TodoMemberServiceTest {
     @DisplayName("마이드림")
     class MyDreamTodoTest {
         // 직업 목록 조회
+        @Test
+        @DisplayName("하나의 투두 리스트 조회")
+        void getOneTodoGroup(){
+
+        }
         // 기본 투두 목록 조회
         // 메모 작성
         // 메모 삭제
