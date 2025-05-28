@@ -208,7 +208,8 @@ public class TodoMemberService {
     @Transactional
     public DeleteTodoGroupResponseDto deleteTodoGroups(List<Long> jobIds, Member member) {
 
-        List<TodoGroup> todoGroupsToDelete = todoGroupRepository.findByMemberAndJobIdIn(member, jobIds);
+        List<TodoGroup> todoGroupsToDelete = todoGroupRepository.findByMemberAndJobIdIn(member,
+            jobIds);
 
         todoGroupRepository.deleteAll(todoGroupsToDelete);
 
@@ -233,7 +234,7 @@ public class TodoMemberService {
             .orElseThrow(TodoGroupErrorCode.TODO_GROUP_NOT_FOUND::toException);
 
         Todo newTodo = Todo.of(todoGroup, member, requestDto.todoTitle(), requestDto.memoText(),
-            requestDto.isPublic());
+            requestDto.link(), requestDto.isPublic());
         todoRepository.save(newTodo);
 
         List<String> createdImageUrls = new ArrayList<>();
@@ -263,6 +264,7 @@ public class TodoMemberService {
 
         todo.updateTitle(requestDto.todoTitle());
         todo.updateMemoText(requestDto.memoText());
+        todo.updateLink(requestDto.link());
         todo.initialIsPublic(requestDto.isPublic());
 
         List<Long> deleteImageIds = requestDto.deleteImages();
