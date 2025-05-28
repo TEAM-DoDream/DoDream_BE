@@ -3,7 +3,9 @@ package com.dodream.core.application;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.SdkClientException;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.dodream.member.exception.MemberErrorCode;
 import com.dodream.todo.exception.TodoErrorCode;
 import java.io.IOException;
@@ -39,7 +41,11 @@ public class ObjectStorageService {
         metadata.setContentType(file.getContentType());
 
         try {
-            amazonS3Client.putObject(bucketName, fileName, file.getInputStream(), metadata);
+            PutObjectRequest putRequest = new PutObjectRequest(bucketName, fileName,
+                file.getInputStream(), metadata).withCannedAcl(
+                CannedAccessControlList.PublicRead);
+
+            amazonS3Client.putObject(putRequest);
         } catch (IOException e) {
             throw MemberErrorCode.FILE_UPLOAD_FAILED.toException();
         }
@@ -78,7 +84,12 @@ public class ObjectStorageService {
                 metadata.setContentLength(file.getSize());
                 metadata.setContentType(file.getContentType());
 
-                amazonS3Client.putObject(bucketName, fileName, file.getInputStream(), metadata);
+                PutObjectRequest putRequest = new PutObjectRequest(bucketName, fileName,
+                    file.getInputStream(), metadata).withCannedAcl(
+                    CannedAccessControlList.PublicRead);
+
+                amazonS3Client.putObject(putRequest);
+
                 String fileUrl = amazonS3Client.getUrl(bucketName, fileName).toString();
                 uploadedUrls.add(fileUrl);
 
