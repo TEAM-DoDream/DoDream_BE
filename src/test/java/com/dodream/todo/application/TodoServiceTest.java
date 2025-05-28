@@ -45,9 +45,6 @@ public class TodoServiceTest {
     private static final String TEST_REGION_CODE1 = "11110";
     private static final String TEST_REGION_NAME1 = "서울 종로구";
     private Member mockMember;
-    private Member other1;
-    private Member other2;
-    private Member other3;
     private Region region1;
 
 

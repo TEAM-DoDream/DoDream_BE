@@ -22,12 +22,15 @@ import com.dodream.member.domain.Member;
 import com.dodream.member.domain.State;
 import com.dodream.member.repository.MemberRepository;
 import com.dodream.region.domain.Region;
+import com.dodream.todo.domain.Todo;
 import com.dodream.todo.domain.TodoGroup;
 import com.dodream.todo.dto.response.AddJobTodoResponseDto;
+import com.dodream.todo.dto.response.GetTodoJobResponseDto;
 import com.dodream.todo.repository.TodoGroupRepository;
 import com.dodream.todo.repository.TodoRepository;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -79,6 +82,7 @@ public class TodoMemberServiceTest {
     private Job job;
     private JobTodo jobTodo;
     private TodoGroup todoGroup;
+    private Todo todo;
     private Region region1;
 
 
@@ -129,10 +133,19 @@ public class TodoMemberServiceTest {
                 .build();
 
             todoGroup = TodoGroup.builder()
+                .id(1L)
                 .job(job)
                 .member(mockMember)
                 .todo(new ArrayList<>())
                 .totalView((0L))
+                .build();
+
+            todo = Todo.builder()
+                .todoGroup(todoGroup)
+                .member(mockMember)
+                .title("testTitle")
+                .memoText("testMemo")
+                .isPublic(true)
                 .build();
 
             CustomUserDetails userDetails = new CustomUserDetails(mockMember);
@@ -154,8 +167,7 @@ public class TodoMemberServiceTest {
         @DisplayName("직업 담기")
         void addNewJob() {
 
-            when(memberRepository.findByIdAndState(1L, TEST_STATE))
-                .thenReturn(Optional.of(mockMember));
+            when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
 
             when(jobRepository.findById(1L))
                 .thenReturn(Optional.of(job));
@@ -170,6 +182,26 @@ public class TodoMemberServiceTest {
                 () -> assertThat(todoGroup.getMember().getId()).isEqualTo(responseDto.memberId()),
                 () -> assertThat("직업 담기 완료").isEqualTo(responseDto.message())
             );
+        }
+
+
+        @Test
+        @DisplayName("담은 직업 목록 조회")
+        void getMyJobList() {
+
+            when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
+
+            when(todoGroupRepository.findAllByMember(mockMember))
+                .thenReturn(List.of(todoGroup));
+
+            List<GetTodoJobResponseDto> jobs = todoMemberService.getTodoJobList();
+
+            assertAll(
+                 () -> assertThat(jobs).isNotNull(),
+                 () -> assertThat(jobs).hasSize(1),
+                 () -> assertThat(jobs.get(0).todoGroupId()).isEqualTo(todoGroup.getId()),
+                 () -> assertThat(jobs.get(0).jobName()).isEqualTo(todoGroup.getJob().getJobName())
+             );
         }
     }
 
