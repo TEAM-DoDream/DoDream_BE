@@ -15,10 +15,12 @@ public record GetOneTodoWithMemoResponseDto(
     Boolean isPublic,
     @Schema(description = "메모", example = "12/21일 까지 아래 것들 완료해야지")
     String memoText,
+    @Schema(description = "링크 미리보기", example = "www.youtube~")
+    String link,
     @Schema(description = "이미지들")
     List<TodoImageResponseDto> images
 
-    ) {
+) {
 
     public static GetOneTodoWithMemoResponseDto from(Todo todo) {
         return GetOneTodoWithMemoResponseDto.builder()
@@ -26,9 +28,10 @@ public record GetOneTodoWithMemoResponseDto(
             .title(todo.getTitle())
             .isPublic(todo.getIsPublic())
             .memoText(todo.getMemoText())
+            .link(todo.getLink())
             .images(todo.getImages().stream()
-                    .map(TodoImageResponseDto::from)
-                    .toList())
+                .map(TodoImageResponseDto::from)
+                .toList())
             .build();
     }
 }

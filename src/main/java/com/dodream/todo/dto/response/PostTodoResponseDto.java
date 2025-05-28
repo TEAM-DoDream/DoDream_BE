@@ -22,6 +22,8 @@ public record PostTodoResponseDto(
     Boolean isPublic,
     @Schema(description = "메모", example = "세상은 빠르게 변화하고 있고,우리는 그 속에서 다양한~")
     String memoText,
+    @Schema(description = "링크 미리보기", example = "www.youtube~")
+    String link,
     @Schema(description = "이미지들")
     List<String> images,
     @Schema(description = "메세지", example = "투두가 추가되었습니다.")
@@ -35,7 +37,8 @@ public record PostTodoResponseDto(
             .todoId(todo.getId())
             .todoTitle(todo.getTitle())
             .isPublic(todo.getIsPublic())
-            .memoText(builder().memoText)
+            .memoText(todo.getMemoText())
+            .link(todo.getLink())
             .images(images)
             .message("투두가 추가되었습니다.")
             .build();
