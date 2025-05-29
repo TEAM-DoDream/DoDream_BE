@@ -2,9 +2,15 @@ package com.dodream.todo.application;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import com.dodream.core.application.ObjectStorageService;
 import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.job.domain.Job;
 import com.dodream.job.domain.JobTodo;
@@ -24,11 +30,20 @@ import com.dodream.member.repository.MemberRepository;
 import com.dodream.region.domain.Region;
 import com.dodream.todo.domain.Todo;
 import com.dodream.todo.domain.TodoGroup;
+import com.dodream.todo.dto.request.ModifyTodoRequestDto;
+import com.dodream.todo.dto.request.PostTodoRequestDto;
 import com.dodream.todo.dto.response.AddJobTodoResponseDto;
+import com.dodream.todo.dto.response.ChangeCompleteStateTodoResponseDto;
+import com.dodream.todo.dto.response.ChangePublicStateTodoResponseDto;
+import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
+import com.dodream.todo.dto.response.GetOneTodoWithMemoResponseDto;
 import com.dodream.todo.dto.response.GetTodoJobResponseDto;
+import com.dodream.todo.dto.response.ModifyTodoResponseDto;
+import com.dodream.todo.dto.response.PostTodoResponseDto;
 import com.dodream.todo.repository.TodoGroupRepository;
 import com.dodream.todo.repository.TodoRepository;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -46,6 +61,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.multipart.MultipartFile;
 
 @ExtendWith(MockitoExtension.class)
 public class TodoMemberServiceTest {
@@ -63,6 +79,8 @@ public class TodoMemberServiceTest {
     @Mock
     private BCryptPasswordEncoder passwordEncoder;
     @Mock
+    private ObjectStorageService objectStorageService;
+    @Mock
     private MemberService memberService;
     @Mock
     private MemberAuthService memberAuthService;
@@ -79,23 +97,23 @@ public class TodoMemberServiceTest {
     private static final String TEST_REGION_CODE1 = "11110";
     private static final String TEST_REGION_NAME1 = "서울 종로구";
     private Member mockMember;
+    private Region region1;
     private Job job1;
     private Job job2;
     private JobTodo jobTodo;
     private TodoGroup todoGroup1;
     private TodoGroup todoGroup2;
-    private Todo todo;
-    private Region region1;
+    private Todo todo1;
+    private Todo todo2;
 
 
     @Nested
-    @DisplayName("홈화면")
+    @DisplayName("마이드림")
     class HomeTodoTest {
 
         @BeforeEach
         void setupSecurityContext() {
 
-            //given
             region1 = Region.builder()
                 .id(1L)
                 .regionCode(TEST_REGION_CODE1)
@@ -155,6 +173,7 @@ public class TodoMemberServiceTest {
                 .member(mockMember)
                 .todo(new ArrayList<>())
                 .totalView((0L))
+                .createdAt(LocalDateTime.now())
                 .build();
 
             todoGroup2 = TodoGroup.builder()
@@ -162,14 +181,24 @@ public class TodoMemberServiceTest {
                 .job(job2)
                 .member(mockMember)
                 .todo(new ArrayList<>())
-                .totalView((0L))
+                .totalView(0L)
+                .createdAt(LocalDateTime.now())
                 .build();
 
-            todo = Todo.builder()
+            todo1 = Todo.builder()
                 .todoGroup(todoGroup1)
                 .member(mockMember)
-                .title("testTitle")
-                .memoText("testMemo")
+                .title("title")
+                .memoText("text")
+                .isPublic(true)
+                .build();
+
+
+            todo2 = Todo.builder()
+                .todoGroup(todoGroup1)
+                .member(mockMember)
+                .title("title")
+                .memoText("text")
                 .isPublic(true)
                 .build();
 
@@ -193,17 +222,13 @@ public class TodoMemberServiceTest {
         void addNewJob() {
 
             when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
-
-            when(jobRepository.findById(1L))
-                .thenReturn(Optional.of(job1));
-
+            when(jobRepository.findById(1L)).thenReturn(Optional.of(job1));
             when(todoGroupRepository.save(any(TodoGroup.class))).thenReturn(todoGroup1);
 
             AddJobTodoResponseDto responseDto = todoMemberService.addJobToMyList(1L);
 
             assertAll(
                 () -> assertThat(todoGroup1).isNotNull(),
-                () -> assertThat(responseDto.todoGroupId()).isEqualTo(1L),
                 () -> assertThat(todoGroup1.getMember().getId()).isEqualTo(responseDto.memberId()),
                 () -> assertThat("직업 담기 완료").isEqualTo(responseDto.message())
             );
@@ -217,39 +242,106 @@ public class TodoMemberServiceTest {
             when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
 
             when(todoGroupRepository.findAllByMember(mockMember))
-                .thenReturn(List.of(todoGroup1));
+                .thenReturn(List.of(todoGroup1, todoGroup2));
 
             List<GetTodoJobResponseDto> jobs = todoMemberService.getTodoJobList();
 
             assertAll(
                 () -> assertThat(jobs).isNotNull(),
-                () -> assertThat(jobs).hasSize(1),
-                () -> assertThat(jobs.get(0).todoGroupId()).isEqualTo(todoGroup1.getId()),
+                () -> assertThat(jobs).hasSize(2),
                 () -> assertThat(jobs.get(0).jobName()).isEqualTo(todoGroup1.getJob().getJobName())
             );
         }
-    }
 
-    @Nested
-    @DisplayName("마이드림")
-    class MyDreamTodoTest {
-        // 직업 목록 조회
         @Test
-        @DisplayName("하나의 투두 리스트 조회")
-        void getOneTodoGroup(){
+        @DisplayName("개별 투두 리스트 조회")
+        void getOneTodoGroup() {
+            when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
+            when(todoGroupRepository.findByIdAndMember(1L, mockMember))
+                .thenReturn(Optional.of(todoGroup1));
+
+            GetOneTodoGroupResponseDto response = todoMemberService.getOneTodoGroup(1L);
+
+            assertAll(
+                () -> assertThat(response).isNotNull(),
+                () -> assertThat(response.jobName()).isEqualTo(job1.getJobName())
+            );
+        }
+
+        @Test
+        @DisplayName("메모 작성")
+        void postTodoMemo() {
+
+            PostTodoRequestDto requestDto = new PostTodoRequestDto("title", true, "text", null);
+
+            when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
+            when(todoRepository.save(any(Todo.class))).thenReturn(todo1);
+
+            when(todoGroupRepository.findByIdAndMember(1L, mockMember))
+                .thenReturn(Optional.of(todoGroup1));
+
+            PostTodoResponseDto result = todoMemberService.postNewTodo(1L, requestDto);
+
+            assertEquals(todoGroup1.getId(), result.todoGroupId());
+            assertEquals(requestDto.todoTitle(), result.todoTitle());
+        }
+
+        @Test
+        @DisplayName("메모 수정")
+        void modifyTodoMemo() {
+
+            ModifyTodoRequestDto requestDto = new ModifyTodoRequestDto("modifiedTitle", false,
+                "modifiedText", null,
+                null);
+
+            when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
+            when(todoRepository.save(any(Todo.class))).thenReturn(todo1);
+            when(todoRepository.findByIdAndMember(1L, mockMember))
+                .thenReturn(Optional.of(todo1));
+
+            ModifyTodoResponseDto result = todoMemberService.modifyTodo(1L, requestDto);
+
+            assertEquals(todoGroup1.getId(), result.todoGroupId());
+            assertEquals(requestDto.todoTitle(), result.todoTitle());
+            assertEquals(requestDto.isPublic(), result.isPublic());
+            assertEquals(requestDto.memoText(), result.memoText());
+            assertEquals("투두가 수정되었습니다.", result.message());
 
         }
-        // 기본 투두 목록 조회
-        // 메모 작성
-        // 메모 삭제
-        // 메모 수정
-        // 상태 변경 (완료 여부,공개 여부)
-    }
 
-    @Nested
-    @DisplayName("직업 소개")
-    class JobTodoTest {
-        //  직업 담기
-        //  특정 직업 타유저 심플 투두 조회 (2개)
+        @Test
+        @DisplayName("메모 공개 상태 변경")
+        void modifyTodoPublicState() {
+
+            when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
+            when(todoRepository.findByIdAndMember(1L, mockMember))
+                .thenReturn(Optional.of(todo1));
+            ChangePublicStateTodoResponseDto result = todoMemberService.changeOneTodoPublicState(
+                1L);
+
+            assertEquals(false, result.isPublic());
+            assertEquals(todo1.getId(), result.todoId());
+            assertEquals("투두의 공개 상태가 변경되었습니다.", result.message());
+        }
+
+        @Test
+        @DisplayName("메모 완료 상태 변경")
+        void modifyTodoIsCompleteState() {
+
+            when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
+            when(todoRepository.findByIdAndMember(1L, mockMember))
+                .thenReturn(Optional.of(todo1));
+
+            ChangeCompleteStateTodoResponseDto result = todoMemberService.changeOneTodoCompleteState(
+                1L);
+
+            assertEquals(true, result.completed());
+            assertEquals(todo1.getId(), result.todoId());
+            assertEquals("투두의 완료 상태가 변경되었습니다.", result.message());
+
+        }
+
     }
 }
+
+
