@@ -58,6 +58,7 @@ public class Todo extends BaseLongIdEntity {
 
     private String link;
 
+    @Builder.Default
     @OneToMany(mappedBy = "todo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<TodoImage> images = new ArrayList<>();
 
