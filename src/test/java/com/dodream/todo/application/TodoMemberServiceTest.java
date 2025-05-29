@@ -3,11 +3,7 @@ package com.dodream.todo.application;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.dodream.core.application.ObjectStorageService;
@@ -36,7 +32,6 @@ import com.dodream.todo.dto.response.AddJobTodoResponseDto;
 import com.dodream.todo.dto.response.ChangeCompleteStateTodoResponseDto;
 import com.dodream.todo.dto.response.ChangePublicStateTodoResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
-import com.dodream.todo.dto.response.GetOneTodoWithMemoResponseDto;
 import com.dodream.todo.dto.response.GetTodoJobResponseDto;
 import com.dodream.todo.dto.response.ModifyTodoResponseDto;
 import com.dodream.todo.dto.response.PostTodoResponseDto;
@@ -61,7 +56,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.multipart.MultipartFile;
 
 @ExtendWith(MockitoExtension.class)
 public class TodoMemberServiceTest {
@@ -193,7 +187,6 @@ public class TodoMemberServiceTest {
                 .isPublic(true)
                 .build();
 
-
             todo2 = Todo.builder()
                 .todoGroup(todoGroup1)
                 .member(mockMember)
@@ -221,12 +214,15 @@ public class TodoMemberServiceTest {
         @DisplayName("직업 담기")
         void addNewJob() {
 
+            // given
             when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
             when(jobRepository.findById(1L)).thenReturn(Optional.of(job1));
             when(todoGroupRepository.save(any(TodoGroup.class))).thenReturn(todoGroup1);
 
+            // when
             AddJobTodoResponseDto responseDto = todoMemberService.addJobToMyList(1L);
 
+            //then
             assertAll(
                 () -> assertThat(todoGroup1).isNotNull(),
                 () -> assertThat(todoGroup1.getMember().getId()).isEqualTo(responseDto.memberId()),
@@ -239,13 +235,15 @@ public class TodoMemberServiceTest {
         @DisplayName("담은 직업 목록 조회")
         void getMyJobList() {
 
+            // given
             when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
-
             when(todoGroupRepository.findAllByMember(mockMember))
                 .thenReturn(List.of(todoGroup1, todoGroup2));
 
+            // when
             List<GetTodoJobResponseDto> jobs = todoMemberService.getTodoJobList();
 
+            //then
             assertAll(
                 () -> assertThat(jobs).isNotNull(),
                 () -> assertThat(jobs).hasSize(2),
@@ -256,12 +254,16 @@ public class TodoMemberServiceTest {
         @Test
         @DisplayName("개별 투두 리스트 조회")
         void getOneTodoGroup() {
+
+            // given
             when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
             when(todoGroupRepository.findByIdAndMember(1L, mockMember))
                 .thenReturn(Optional.of(todoGroup1));
 
+            // when
             GetOneTodoGroupResponseDto response = todoMemberService.getOneTodoGroup(1L);
 
+            //then
             assertAll(
                 () -> assertThat(response).isNotNull(),
                 () -> assertThat(response.jobName()).isEqualTo(job1.getJobName())
@@ -272,7 +274,9 @@ public class TodoMemberServiceTest {
         @DisplayName("메모 작성")
         void postTodoMemo() {
 
-            PostTodoRequestDto requestDto = new PostTodoRequestDto("title", true, "text", null);
+            // given
+            PostTodoRequestDto requestDto = new PostTodoRequestDto("title", true, "text", "link",
+                null);
 
             when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
             when(todoRepository.save(any(Todo.class))).thenReturn(todo1);
@@ -280,8 +284,10 @@ public class TodoMemberServiceTest {
             when(todoGroupRepository.findByIdAndMember(1L, mockMember))
                 .thenReturn(Optional.of(todoGroup1));
 
+            // when
             PostTodoResponseDto result = todoMemberService.postNewTodo(1L, requestDto);
 
+            //then
             assertEquals(todoGroup1.getId(), result.todoGroupId());
             assertEquals(requestDto.todoTitle(), result.todoTitle());
         }
@@ -290,8 +296,9 @@ public class TodoMemberServiceTest {
         @DisplayName("메모 수정")
         void modifyTodoMemo() {
 
+            // given
             ModifyTodoRequestDto requestDto = new ModifyTodoRequestDto("modifiedTitle", false,
-                "modifiedText", null,
+                "modifiedText", "link", null,
                 null);
 
             when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
@@ -299,8 +306,10 @@ public class TodoMemberServiceTest {
             when(todoRepository.findByIdAndMember(1L, mockMember))
                 .thenReturn(Optional.of(todo1));
 
+            // when
             ModifyTodoResponseDto result = todoMemberService.modifyTodo(1L, requestDto);
 
+            //then
             assertEquals(todoGroup1.getId(), result.todoGroupId());
             assertEquals(requestDto.todoTitle(), result.todoTitle());
             assertEquals(requestDto.isPublic(), result.isPublic());
@@ -313,12 +322,16 @@ public class TodoMemberServiceTest {
         @DisplayName("메모 공개 상태 변경")
         void modifyTodoPublicState() {
 
+            // given
             when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
             when(todoRepository.findByIdAndMember(1L, mockMember))
                 .thenReturn(Optional.of(todo1));
+
+            // when
             ChangePublicStateTodoResponseDto result = todoMemberService.changeOneTodoPublicState(
                 1L);
 
+            //then
             assertEquals(false, result.isPublic());
             assertEquals(todo1.getId(), result.todoId());
             assertEquals("투두의 공개 상태가 변경되었습니다.", result.message());
@@ -328,20 +341,20 @@ public class TodoMemberServiceTest {
         @DisplayName("메모 완료 상태 변경")
         void modifyTodoIsCompleteState() {
 
+            // given
             when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
             when(todoRepository.findByIdAndMember(1L, mockMember))
                 .thenReturn(Optional.of(todo1));
 
+            // when
             ChangeCompleteStateTodoResponseDto result = todoMemberService.changeOneTodoCompleteState(
                 1L);
 
+            //then
             assertEquals(true, result.completed());
             assertEquals(todo1.getId(), result.todoId());
             assertEquals("투두의 완료 상태가 변경되었습니다.", result.message());
 
         }
-
     }
 }
-
-
