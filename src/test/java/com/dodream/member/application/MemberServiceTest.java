@@ -142,8 +142,6 @@ public class MemberServiceTest {
         @DisplayName("닉네임 변경 실패 테스트 - 이미 존재하는 닉네임인 경우")
         void changeMemberNickNameFail() {
 
-//            when(memberRepository.findByIdAndState(1L, State.ACTIVE))
-//                .thenReturn(Optional.of(mockMember));
             when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
 
             when(memberRepository.existsByNickNameAndState(TEST_NEW_NICKNAME, TEST_STATE))
@@ -162,8 +160,6 @@ public class MemberServiceTest {
         @DisplayName("비밀번호 변경 성공 테스트")
         void changeMemberPasswordSuccess() {
 
-//            when(memberRepository.findByIdAndState(1L, State.ACTIVE))
-//                .thenReturn(Optional.of(mockMember));
             when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
 
             ChangeMemberPasswordRequestDto requestDto = new ChangeMemberPasswordRequestDto(
@@ -201,8 +197,6 @@ public class MemberServiceTest {
         @DisplayName("생년월일 변경 성공 테스트")
         void changeMemberBirthSuccess() {
 
-//            when(memberRepository.findByIdAndState(1L, State.ACTIVE))
-//                .thenReturn(Optional.of(mockMember));
             when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
 
             ChangeMemberBirthDateRequestDto requestDto = new ChangeMemberBirthDateRequestDto(
@@ -223,8 +217,6 @@ public class MemberServiceTest {
         @DisplayName("거주지 변경 성공 테스트")
         void changeMemberRegionSuccess() {
 
-//            when(memberRepository.findByIdAndState(1L, State.ACTIVE))
-//                .thenReturn(Optional.of(mockMember));
             when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
 
             when(regionRepository.findByRegionCode(TEST_REGION_CODE2))
