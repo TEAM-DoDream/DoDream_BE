@@ -139,7 +139,7 @@ public class RecruitService {
         return todoGroupRepository.findTopByMemberOrderByTotalViewDesc(member)
                 .map(TodoGroup::getJob)
                 .map(Job::getJobName)
-                .orElseThrow(TodoGroupErrorCode.TODO_GROUP_NOT_FOUND::toException);
+                .orElseGet(this::getTopJobNameFromAllUserTodoGroup);
     }
 
     private String getTopJobNameFromAllUserTodoGroup() {
