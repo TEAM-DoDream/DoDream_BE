@@ -43,6 +43,8 @@ public class RecruitService {
     private final TodoGroupRepository todoGroupRepository;
     private final JobRepository jobRepository;
 
+    private static final String DEFAULT_JOB = "요양보호사";
+
     public RecruitResponseListDto getRecruitList(
             String keyWord, String locationName, int pageNum, String sortBy
     ) {
@@ -145,7 +147,7 @@ public class RecruitService {
     private String getTopJobNameFromAllUserTodoGroup() {
         return jobRepository.findMostPopularJob()
                 .map(Job::getJobName)
-                .orElse(null);
+                .orElse(DEFAULT_JOB);
     }
 
     private int getRecruitCount(String jobName, String regionCode) {
