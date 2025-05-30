@@ -9,7 +9,7 @@ public enum SortBy {
 
     DEADLINE_ASC("da", "마감 임박순"),
     DEADLINE_DESC("dd", "마감 여유순"),
-    POSTED_DATE_DESC("pd", "post");
+    POSTED_DATE_DESC("pd", "postDate");
 
     private final String code;
 
