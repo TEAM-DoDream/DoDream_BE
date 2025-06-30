@@ -43,6 +43,10 @@ jobs:
           docker build -f Dockerfile -t ${{ secrets.DOCKER_REPO }}/dodream-springboot .
           docker push ${{ secrets.DOCKER_REPO }}/dodream-springboot
 
+      - name: check files
+        run: ls -al
+
+
       - name: Copy docker-compose-main.yml to NCP server
         if: contains(github.ref, 'main')
         uses: appleboy/scp-action@master
