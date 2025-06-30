@@ -68,14 +68,18 @@ if (isCI) {
         into('.')
     }
 
-    tasks.named('copyAppYml') {
-           mustRunAfter 'copyDockerCompose'
+    tasks.named('copyDockerCompose') {
+        mustRunAfter 'copyDeployShellScript'
     }
 
-    processResources.dependsOn('copyAppYml', 'copyDockerCompose', 'copyDeployShellScript')
-    bootRun.dependsOn('copyAppYml', 'copyDockerCompose', 'copyDeployShellScript')
+    tasks.named('copyAppYml') {
+        mustRunAfter 'copyDeployShellScript'
+        mustRunAfter 'copyDockerCompose'
+    }
 
+    processResources.dependsOn('copyDeployShellScript', 'copyDockerCompose', 'copyAppYml')
+    bootRun.dependsOn('copyDeployShellScript', 'copyDockerCompose', 'copyAppYml')
     tasks.named('compileJava') {
-        dependsOn 'copyAppYml', 'copyDockerCompose', 'copyDeployShellScript'
+        dependsOn 'copyDeployShellScript', 'copyDockerCompose', 'copyAppYml'
     }
 }
