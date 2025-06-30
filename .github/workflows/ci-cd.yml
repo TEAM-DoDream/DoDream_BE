@@ -54,9 +54,17 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PEM_KEY }}
-          source:
-            - ./docker-compose-main.yml
-            - ./deploy.sh
+          source: ./docker-compose-main.yml
+          target: /root
+
+      - name: Copy deploy.sh to NCP server
+        if: contains(github.ref, 'main')
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PEM_KEY }}
+          source: ./deploy.sh
           target: /root
 
       - name: Deploy to main
