@@ -60,14 +60,22 @@ if (isCI) {
         into('.')
     }
 
+    tasks.register('copyDeployShellScript', Copy) {
+        description = 'Copy Shell Script file from submodule (CI only)'
+        from('src/main/resources/secret') {
+            include 'deploy.sh'
+        }
+        into('.')
+    }
+
     tasks.named('copyAppYml') {
            mustRunAfter 'copyDockerCompose'
     }
 
-    processResources.dependsOn('copyAppYml', 'copyDockerCompose')
-    bootRun.dependsOn('copyAppYml', 'copyDockerCompose')
+    processResources.dependsOn('copyAppYml', 'copyDockerCompose', 'copyDeployShellScript')
+    bootRun.dependsOn('copyAppYml', 'copyDockerCompose', 'copyDeployShellScript')
 
     tasks.named('compileJava') {
-            dependsOn 'copyAppYml', 'copyDockerCompose'
+        dependsOn 'copyAppYml', 'copyDockerCompose', 'copyDeployShellScript'
     }
 }
