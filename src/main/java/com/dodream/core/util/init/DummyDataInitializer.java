@@ -8,10 +8,12 @@ import com.dodream.region.repository.RegionRepository;
 import com.dodream.scrap.domain.entity.MemberRecruitScrap;
 import com.dodream.scrap.domain.value.RecruitCloseType;
 import com.dodream.scrap.repository.MemberRecruitScrapRepository;
+import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
