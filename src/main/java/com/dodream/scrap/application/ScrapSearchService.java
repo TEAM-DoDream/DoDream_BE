@@ -1,5 +1,6 @@
 package com.dodream.scrap.application;
 
+import com.dodream.core.infrastructure.cache.annotation.CustomCacheable;
 import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.scrap.domain.entity.MemberRecruitScrap;
 import com.dodream.scrap.domain.entity.MemberTrainingScrap;
