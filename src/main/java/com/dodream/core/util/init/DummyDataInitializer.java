@@ -39,44 +39,58 @@ public class DummyDataInitializer {
     public void initUserData() {
         Region region = regionRepository.findAll().stream().findAny().get();
 
-        for(int i = 1; i <= 1000; i++){
-            Member member = memberRepository.save(
-                    Member.builder()
-                            .loginId("user" + i)
-                            .password(bCryptPasswordEncoder.encode("password" + i))
-                            .nickName("nickname" + i)
-                            .birthDate(LocalDate.of(1990, 1, 1).plusDays(i))
-                            .gender(i % 2 == 0 ? Gender.MALE : Gender.FEMALE)
-                            .region(region)
-                            .build()
-            );
+        List<Member> members = new ArrayList<>();
 
+        for (int i = 1; i <= 20000; i++) {
+            Member member = Member.builder()
+                    .loginId("user" + i)
+                    .password(bCryptPasswordEncoder.encode("password" + i))
+                    .nickName("nickname" + i)
+                    .birthDate(LocalDate.of(1990, 1, 1).plusDays(i))
+                    .gender(i % 2 == 0 ? Gender.MALE : Gender.FEMALE)
+                    .region(region)
+                    .build();
+            System.out.println(member.toString());
+            members.add(member);
+
+            if (i % 1000 == 0) {
+                memberRepository.saveAll(members);
+                memberRepository.flush();
+                members.clear();
+            }
+        }
+
+        // 남은 데이터 저장
+        if (!members.isEmpty()) {
+            memberRepository.saveAll(members);
+            memberRepository.flush();
+            members.clear();
+        }
+
+        List<Member> allMembers = memberRepository.findAll();
+
+        for (Member member : allMembers) {
             List<MemberRecruitScrap> scraps = new ArrayList<>();
 
-            for(int j = 1; j <= 50; j++){
-                    scraps.add(
+            for (int j = 1; j <= 50; j++) {
+                scraps.add(
                         MemberRecruitScrap.builder()
-                            .recruitId("RecruitId-" + i + "-" + j)
-                            .title("더미 채용 정보 - " + j)
-                            .companyName("회사명" + j)
-                            .expirationDate("2025-01-01T00:00:00+0900")
-                            .locationName("서울 종로구")
-                            .jobType("정규직")
-                            .experienceLevel("신입/경력")
-                            .educationLevel("고등학교 졸업 이상")
-                            .closeType(RecruitCloseType.SPECIFIC_DATE)
-                            .recruitUrl("https://saramin/" + j)
-                            .member(member)
-                            .build()
+                                .recruitId("RecruitId-" + member.getLoginId() + "-" + j)
+                                .title("더미 채용 정보 - " + j)
+                                .companyName("회사명" + j)
+                                .expirationDate("2025-01-01T00:00:00+0900")
+                                .locationName("서울 종로구")
+                                .jobType("정규직")
+                                .experienceLevel("신입/경력")
+                                .educationLevel("고등학교 졸업 이상")
+                                .closeType(RecruitCloseType.SPECIFIC_DATE)
+                                .recruitUrl("https://saramin/" + j)
+                                .member(member)
+                                .build()
                 );
             }
 
-            // Batch-insert => yaml 설정 필요
             memberRecruitScrapRepository.saveAll(scraps);
-
-            if (i % 100 == 0) {
-                memberRepository.flush();
-            }
         }
     }
 }
