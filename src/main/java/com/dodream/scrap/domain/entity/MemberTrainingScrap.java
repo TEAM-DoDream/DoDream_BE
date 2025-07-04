@@ -24,7 +24,8 @@ import java.time.format.DateTimeFormatter;
 @Table(
         name = "member_training_scrap",
         indexes = {
-                @Index(name = "idx_training_id_member_id", columnList = "training_id, member_id")
+                // asc 정렬만 커버되기 때문에 배포 DB에는 desc 정렬에 대해서 sql 입력
+                @Index(name = "idx_member_id_created_at_asc", columnList = "member_id, created_at")
         }
 )
 public class MemberTrainingScrap extends BaseLongIdEntity {
