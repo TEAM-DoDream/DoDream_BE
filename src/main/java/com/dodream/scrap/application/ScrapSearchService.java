@@ -35,7 +35,6 @@ public class ScrapSearchService {
     public Page<RecruitScrapResponseDto> getRecruitScrapList(
             CustomUserDetails customUserDetails, int pageNum, String locName, String sortBy
     ){
-
         Specification<MemberRecruitScrap> spec
                 = MemberRecruitScrapSpecification.matchesFilter(customUserDetails.getId(), locName);
 
@@ -48,7 +47,6 @@ public class ScrapSearchService {
     public Page<TrainingScrapResponseDto> getTrainingScrapList(
             CustomUserDetails customUserDetails, int pageNum, String locName, String sortBy
     ){
-
         Specification<MemberTrainingScrap> spec
                 = MemberTrainingScrapSpecification.matchesFilter(customUserDetails.getId(), locName);
 
