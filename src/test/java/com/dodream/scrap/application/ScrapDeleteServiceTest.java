@@ -2,16 +2,14 @@ package com.dodream.scrap.application;
 
 import com.dodream.core.exception.DomainException;
 import com.dodream.core.infrastructure.security.CustomUserDetails;
-import com.dodream.integration.utils.TestCustomUser;
 import com.dodream.member.domain.Gender;
 import com.dodream.member.domain.Member;
-import com.dodream.member.repository.MemberRepository;
 import com.dodream.region.domain.Region;
 import com.dodream.scrap.domain.entity.MemberRecruitScrap;
 import com.dodream.scrap.domain.entity.MemberTrainingScrap;
 import com.dodream.scrap.domain.value.RecruitCloseType;
 import com.dodream.scrap.dto.response.ScrapDeletedResponse;
-import com.dodream.scrap.repository.MemberRecruitScrapRepository;
+import com.dodream.scrap.repository.recruit.MemberRecruitScrapRepository;
 import com.dodream.scrap.repository.MemberTrainingScrapRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -1,6 +1,5 @@
 package com.dodream.scrap.application;
 
-import com.dodream.core.infrastructure.cache.annotation.CustomCacheable;
 import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.scrap.domain.entity.MemberRecruitScrap;
 import com.dodream.scrap.domain.entity.MemberTrainingScrap;
@@ -9,8 +8,7 @@ import com.dodream.scrap.domain.value.SortBy;
 import com.dodream.scrap.dto.response.IsScrapCheckedResponse;
 import com.dodream.scrap.dto.response.RecruitScrapResponseDto;
 import com.dodream.scrap.dto.response.TrainingScrapResponseDto;
-import com.dodream.scrap.repository.MemberRecruitScrapRepository;
-import com.dodream.scrap.repository.MemberRecruitScrapSpecification;
+import com.dodream.scrap.repository.recruit.MemberRecruitScrapRepository;
 import com.dodream.scrap.repository.MemberTrainingScrapRepository;
 import com.dodream.scrap.repository.MemberTrainingScrapSpecification;
 import lombok.RequiredArgsConstructor;
@@ -36,11 +34,14 @@ public class ScrapSearchService {
     public Page<RecruitScrapResponseDto> getRecruitScrapList(
             CustomUserDetails customUserDetails, int pageNum, String locName, String sortBy
     ){
-        Specification<MemberRecruitScrap> spec
-                = MemberRecruitScrapSpecification.matchesFilter(customUserDetails.getId(), locName);
-
         Page<MemberRecruitScrap> results
-                = memberRecruitScrapRepository.findAll(spec, getPageable(pageNum, sortBy));
+                = memberRecruitScrapRepository.searchWithFilter(
+                customUserDetails.getId(),
+                locName,
+                sortBy,
+                PAGE_SIZE,
+                pageNum
+        );
 
         return results.map(RecruitScrapResponseDto::from);
     }

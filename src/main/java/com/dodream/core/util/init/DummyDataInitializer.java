@@ -1,96 +1,140 @@
 package com.dodream.core.util.init;
 
-import com.dodream.member.domain.Gender;
-import com.dodream.member.domain.Member;
-import com.dodream.member.repository.MemberRepository;
 import com.dodream.region.domain.Region;
-import com.dodream.region.repository.RegionRepository;
-import com.dodream.scrap.domain.entity.MemberRecruitScrap;
-import com.dodream.scrap.domain.value.RecruitCloseType;
-import com.dodream.scrap.repository.MemberRecruitScrapRepository;
 import jakarta.annotation.PostConstruct;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Profile;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/*
-* 부하 테스트 및 성능 테스트를 위한 더미데이터 init 클래스
-* 절대 prod 환경에서 실행 불가능하게 하기
-* */
-
+@Slf4j
 @Profile("local")
-//@Component
+//@Component          // 프로필이 local 일 때만 활성화
 @RequiredArgsConstructor
 public class DummyDataInitializer {
 
-    private final MemberRepository memberRepository;
-    private final MemberRecruitScrapRepository memberRecruitScrapRepository;
-    private final RegionRepository regionRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final JdbcTemplate jdbcTemplate;
+    private final BCryptPasswordEncoder passwordEncoder;
 
+    /** 한 번에 DB로 보내는 레코드 수 */
+    private static final int BATCH_SIZE = 50;
+
+    /** 총 회원 수, 회원 1명당 스크랩 수 */
+    private static final int MEMBER_COUNT = 20000;
+    private static final int SCRAP_PER_MEMBER = 50;
+
+    /** 초기화 진입점 */
 //    @PostConstruct
     @Transactional
-    public void initUserData() {
-        Region region = regionRepository.findAll().stream().findAny().get();
-
-        List<Member> members = new ArrayList<>();
-
-        for (int i = 1; i <= 20000; i++) {
-            Member member = Member.builder()
-                    .loginId("user" + i)
-                    .password(bCryptPasswordEncoder.encode("password" + i))
-                    .nickName("nickname" + i)
-                    .birthDate(LocalDate.of(1990, 1, 1).plusDays(i))
-                    .gender(i % 2 == 0 ? Gender.MALE : Gender.FEMALE)
-                    .region(region)
-                    .build();
-            System.out.println(member.toString());
-            members.add(member);
-
-            if (i % 1000 == 0) {
-                memberRepository.saveAll(members);
-                memberRepository.flush();
-                members.clear();
-            }
-        }
-
-        // 남은 데이터 저장
-        if (!members.isEmpty()) {
-            memberRepository.saveAll(members);
-            memberRepository.flush();
-            members.clear();
-        }
-
-        List<Member> allMembers = memberRepository.findAll();
-
-        for (Member member : allMembers) {
-            List<MemberRecruitScrap> scraps = new ArrayList<>();
-
-            for (int j = 1; j <= 50; j++) {
-                scraps.add(
-                        MemberRecruitScrap.builder()
-                                .recruitId("RecruitId-" + member.getLoginId() + "-" + j)
-                                .title("더미 채용 정보 - " + j)
-                                .companyName("회사명" + j)
-                                .expirationDate("2025-01-01T00:00:00+0900")
-                                .locationName("서울 종로구")
-                                .jobType("정규직")
-                                .experienceLevel("신입/경력")
-                                .educationLevel("고등학교 졸업 이상")
-                                .closeType(RecruitCloseType.SPECIFIC_DATE)
-                                .recruitUrl("https://saramin/" + j)
-                                .member(member)
-                                .build()
-                );
-            }
-
-            memberRecruitScrapRepository.saveAll(scraps);
-        }
+    public void init() {
+        Long regionId = fetchAnyRegionId();
+//        insertMembers(regionId);
+        insertMemberRecruitScraps();
+        log.info("✅ 더미 데이터 삽입 완료");
     }
+
+    private void insertMembers(Long regionId) {
+        final String sql =
+                "INSERT INTO member (" +
+                        "  login_id, password, nick_name, birth_date, gender, " +
+                        "  profile_image, region_id, state, deleted, created_at, updated_at" +
+                        ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        List<Object[]> batchArgs = new ArrayList<>(BATCH_SIZE);
+
+        for (int i = 1; i <= MEMBER_COUNT; i++) {
+            batchArgs.add(new Object[]{
+                    "user" + i,
+                    passwordEncoder.encode("password" + i),
+                    "nickname" + i,
+                    LocalDate.of(1990, 1, 1).plusDays(i),
+                    (i % 2 == 0 ? "MALE" : "FEMALE"),
+                    null,
+                    regionId,
+                    "ACTIVE",
+                    false,
+                    LocalDateTime.now(),
+                    LocalDateTime.now()
+            });
+
+            if (i % BATCH_SIZE == 0) {
+                log.info("▶ MEMBER {}건 삽입 완료", i);
+                jdbcTemplate.batchUpdate(sql, batchArgs);
+                batchArgs.clear();
+            }
+        }
+        if (!batchArgs.isEmpty()) {
+            jdbcTemplate.batchUpdate(sql, batchArgs);
+        }
+        log.info("▶ MEMBER {}건 삽입 완료", MEMBER_COUNT);
+    }
+
+    private void insertMemberRecruitScraps() {
+        final String selectSql = "SELECT id, login_id FROM member";
+        List<MemberMeta> members = jdbcTemplate.query(
+                selectSql,
+                (rs, rowNum) -> new MemberMeta(rs.getLong("id"), rs.getString("login_id"))
+        );
+
+        List<String> regions = jdbcTemplate.query(
+                "SELECT region_name FROM region",
+                (rs, rowNum) -> rs.getString("region_name")
+        );
+
+        final String insertSql =
+                "INSERT INTO member_recruit_scrap (" +
+                        "  recruit_id, title, company_name, expiration_date, location_name, " +
+                        "  job_type, experience_level, education_level, close_type, recruit_url, " +
+                        "  member_id, deleted, created_at, updated_at" +
+                        ") VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        List<Object[]> batchArgs = new ArrayList<>(BATCH_SIZE);
+
+        for (MemberMeta m : members) {
+            for (int idx = 1; idx <= SCRAP_PER_MEMBER; idx++) {
+                int randomNumber = (int) (Math.random() * regions.size());
+                batchArgs.add(new Object[]{
+                        "RecruitId-" + m.loginId + "-" + idx,
+                        "더미 채용 정보 - " + idx,
+                        "회사명" + idx,
+                        "2025-01-01T00:00:00+0900",
+                        regions.get(randomNumber),
+                        "정규직",
+                        "신입/경력",
+                        "고등학교 졸업 이상",
+                        "SPECIFIC_DATE",
+                        "https://saramin/" + idx,
+                        m.id,
+                        false,
+                        LocalDateTime.now(),
+                        LocalDateTime.now()
+                });
+
+                if (batchArgs.size() >= BATCH_SIZE) {
+                    jdbcTemplate.batchUpdate(insertSql, batchArgs);
+                    batchArgs.clear();
+                }
+            }
+        }
+        if (!batchArgs.isEmpty()) {
+            jdbcTemplate.batchUpdate(insertSql, batchArgs);
+        }
+        log.info("▶ MEMBER_RECRUIT_SCRAP {}건 삽입 완료", members.size() * SCRAP_PER_MEMBER);
+    }
+
+    /** region 테이블에서 아무 id 하나 가져오기 (로컬 DB에 최소 1건 존재한다고 가정) */
+    private Long fetchAnyRegionId() {
+        return jdbcTemplate.queryForObject("SELECT id FROM region LIMIT 1", Long.class);
+    }
+
+    /** 회원 PK·loginId 보관용 */
+    private record MemberMeta(Long id, String loginId) {}
 }

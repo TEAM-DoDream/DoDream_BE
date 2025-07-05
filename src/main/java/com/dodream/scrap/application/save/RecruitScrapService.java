@@ -10,7 +10,7 @@ import com.dodream.scrap.dto.response.RecruitSavedResponseDto;
 import com.dodream.recruit.infrastructure.RecruitApiCaller;
 import com.dodream.recruit.infrastructure.mapper.RecruitMapper;
 import com.dodream.scrap.exception.ScrapErrorCode;
-import com.dodream.scrap.repository.MemberRecruitScrapRepository;
+import com.dodream.scrap.repository.recruit.MemberRecruitScrapRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
