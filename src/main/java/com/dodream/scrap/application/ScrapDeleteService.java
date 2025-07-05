@@ -6,7 +6,7 @@ import com.dodream.scrap.domain.entity.MemberRecruitScrap;
 import com.dodream.scrap.domain.entity.MemberTrainingScrap;
 import com.dodream.scrap.dto.response.ScrapDeletedResponse;
 import com.dodream.scrap.exception.ScrapErrorCode;
-import com.dodream.scrap.repository.MemberRecruitScrapRepository;
+import com.dodream.scrap.repository.recruit.MemberRecruitScrapRepository;
 import com.dodream.scrap.repository.MemberTrainingScrapRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
