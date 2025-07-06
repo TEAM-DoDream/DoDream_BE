@@ -12,7 +12,7 @@ import com.dodream.training.dto.response.TrainingDetailApiResponse;
 import com.dodream.scrap.dto.response.TrainingSavedResponseDto;
 import com.dodream.training.infrastructure.caller.TrainingApiCaller;
 import com.dodream.training.infrastructure.mapper.TrainingMapper;
-import com.dodream.scrap.repository.MemberTrainingScrapRepository;
+import com.dodream.scrap.repository.training.MemberTrainingScrapRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

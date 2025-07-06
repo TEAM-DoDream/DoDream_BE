@@ -1,7 +1,9 @@
-package com.dodream.scrap.repository.recruit;
+package com.dodream.scrap.repository.training;
 
 import com.dodream.scrap.domain.entity.MemberRecruitScrap;
+import com.dodream.scrap.domain.entity.MemberTrainingScrap;
 import com.dodream.scrap.domain.entity.QMemberRecruitScrap;
+import com.dodream.scrap.domain.entity.QMemberTrainingScrap;
 import com.dodream.scrap.domain.value.SortBy;
 import com.dodream.scrap.exception.ScrapErrorCode;
 import com.querydsl.core.types.OrderSpecifier;
@@ -17,29 +19,29 @@ import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
-public class MemberRecruitScrapRepositoryImpl implements MemberRecruitScrapRepositoryCustom {
+public class MemberTrainingScrapRepositoryImpl implements MemberTrainingScrapRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<MemberRecruitScrap> searchWithFilter(Long memberId, String locName, String sortBy, int pageSize, int pageNum) {
-        QMemberRecruitScrap qMemberRecruitScrap = QMemberRecruitScrap.memberRecruitScrap;
+    public Page<MemberTrainingScrap> searchWithFilter(Long memberId, String locName, String sortBy, int pageSize, int pageNum){
+        QMemberTrainingScrap qMemberTrainingScrap = QMemberTrainingScrap.memberTrainingScrap;
         Pageable pageable = getPageable(pageNum, pageSize, sortBy);
 
-        List<MemberRecruitScrap> content = queryFactory
-                .selectFrom(qMemberRecruitScrap)
+        List<MemberTrainingScrap> content = queryFactory
+                .selectFrom(qMemberTrainingScrap)
                 .where(
-                    eqId(memberId),
-                    eqLocName(locName)
+                        eqId(memberId),
+                        eqLocName(locName)
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .orderBy(resolveSort(qMemberRecruitScrap, sortBy))
+                .orderBy(resolveSort(qMemberTrainingScrap, sortBy))
                 .fetch();
 
         Long count = queryFactory
-                .select(qMemberRecruitScrap.count())
-                .from(qMemberRecruitScrap)
+                .select(qMemberTrainingScrap.count())
+                .from(qMemberTrainingScrap)
                 .where(
                         eqId(memberId),
                         eqLocName(locName)
@@ -50,11 +52,11 @@ public class MemberRecruitScrapRepositoryImpl implements MemberRecruitScrapRepos
     }
 
     private BooleanExpression eqId(Long memberId) {
-        return memberId != null ? QMemberRecruitScrap.memberRecruitScrap.member.id.eq(memberId) : null;
+        return memberId != null ? QMemberTrainingScrap.memberTrainingScrap.member.id.eq(memberId) : null;
     }
 
     private BooleanExpression eqLocName(String locName) {
-        return StringUtils.hasText(locName) ? QMemberRecruitScrap.memberRecruitScrap.locationName.eq(locName) : null;
+        return StringUtils.hasText(locName) ? QMemberTrainingScrap.memberTrainingScrap.trainingOrgAddr.eq(locName) : null;
     }
 
     private Pageable getPageable(int pageNum, int pageSize, String sortBy){
@@ -65,9 +67,9 @@ public class MemberRecruitScrapRepositoryImpl implements MemberRecruitScrapRepos
         );
     }
 
-    private OrderSpecifier<?>[] resolveSort(QMemberRecruitScrap q, String sortByName) {
+    private OrderSpecifier<?>[] resolveSort(QMemberTrainingScrap q, String sortByName) {
         Sort sort = SortBy.fromName(sortByName).getSort();
-        PathBuilder<MemberRecruitScrap> path = new PathBuilder<>(MemberRecruitScrap.class, q.getMetadata());
+        PathBuilder<MemberTrainingScrap> path = new PathBuilder<>(MemberTrainingScrap.class, q.getMetadata());
 
         return sort.stream()
                 .map(order -> {

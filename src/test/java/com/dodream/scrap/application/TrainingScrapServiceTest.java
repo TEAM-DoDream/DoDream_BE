@@ -11,7 +11,7 @@ import com.dodream.scrap.domain.entity.MemberTrainingScrap;
 import com.dodream.scrap.domain.value.TrainingType;
 import com.dodream.scrap.dto.request.TrainingSaveReqeustDto;
 import com.dodream.scrap.dto.response.TrainingSavedResponseDto;
-import com.dodream.scrap.repository.MemberTrainingScrapRepository;
+import com.dodream.scrap.repository.training.MemberTrainingScrapRepository;
 import com.dodream.training.dto.response.TrainingDetailApiResponse;
 import com.dodream.training.infrastructure.caller.TrainingApiCaller;
 import com.dodream.training.infrastructure.mapper.TrainingMapper;
