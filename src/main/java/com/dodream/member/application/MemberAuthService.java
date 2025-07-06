@@ -21,7 +21,7 @@ import com.dodream.region.domain.Region;
 import com.dodream.region.exception.RegionErrorCode;
 import com.dodream.region.repository.RegionRepository;
 import com.dodream.scrap.repository.recruit.MemberRecruitScrapRepository;
-import com.dodream.scrap.repository.MemberTrainingScrapRepository;
+import com.dodream.scrap.repository.training.MemberTrainingScrapRepository;
 import com.dodream.todo.domain.TodoGroup;
 import com.dodream.todo.repository.TodoGroupRepository;
 import java.util.List;

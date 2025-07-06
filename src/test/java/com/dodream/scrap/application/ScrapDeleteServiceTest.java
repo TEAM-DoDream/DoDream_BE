@@ -10,7 +10,7 @@ import com.dodream.scrap.domain.entity.MemberTrainingScrap;
 import com.dodream.scrap.domain.value.RecruitCloseType;
 import com.dodream.scrap.dto.response.ScrapDeletedResponse;
 import com.dodream.scrap.repository.recruit.MemberRecruitScrapRepository;
-import com.dodream.scrap.repository.MemberTrainingScrapRepository;
+import com.dodream.scrap.repository.training.MemberTrainingScrapRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;

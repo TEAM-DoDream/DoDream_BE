@@ -12,7 +12,7 @@ import com.dodream.scrap.dto.response.IsScrapCheckedResponse;
 import com.dodream.scrap.dto.response.RecruitScrapResponseDto;
 import com.dodream.scrap.dto.response.TrainingScrapResponseDto;
 import com.dodream.scrap.repository.recruit.MemberRecruitScrapRepository;
-import com.dodream.scrap.repository.MemberTrainingScrapRepository;
+import com.dodream.scrap.repository.training.MemberTrainingScrapRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

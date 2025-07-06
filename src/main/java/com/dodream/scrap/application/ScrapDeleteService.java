@@ -7,7 +7,7 @@ import com.dodream.scrap.domain.entity.MemberTrainingScrap;
 import com.dodream.scrap.dto.response.ScrapDeletedResponse;
 import com.dodream.scrap.exception.ScrapErrorCode;
 import com.dodream.scrap.repository.recruit.MemberRecruitScrapRepository;
-import com.dodream.scrap.repository.MemberTrainingScrapRepository;
+import com.dodream.scrap.repository.training.MemberTrainingScrapRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
