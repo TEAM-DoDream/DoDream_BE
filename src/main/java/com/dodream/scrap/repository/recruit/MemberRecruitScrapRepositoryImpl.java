@@ -49,6 +49,19 @@ public class MemberRecruitScrapRepositoryImpl implements MemberRecruitScrapRepos
         return new PageImpl<>(content, pageable, count != null ? count : 0);
     }
 
+    @Override
+    public List<String> findScrapedRecruitId(Long memberId, List<String> recruitId) {
+        QMemberRecruitScrap qMemberRecruitScrap = QMemberRecruitScrap.memberRecruitScrap;
+
+        return queryFactory.select(qMemberRecruitScrap.recruitId)
+                .from(qMemberRecruitScrap)
+                .where(
+                        qMemberRecruitScrap.member.id.eq(memberId)
+                        .and(qMemberRecruitScrap.recruitId.in(recruitId))
+                )
+                .fetch();
+    }
+
     private BooleanExpression eqId(Long memberId) {
         return memberId != null ? QMemberRecruitScrap.memberRecruitScrap.member.id.eq(memberId) : null;
     }
