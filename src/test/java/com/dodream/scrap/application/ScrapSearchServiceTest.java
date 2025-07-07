@@ -68,15 +68,14 @@ public class ScrapSearchServiceTest {
 
     private static final String TEST_LOC_NAME = "서울 종로구";
     private static final int PAGE_NUM = 0;
+    private static final int PAGE_SIZE = 6;
     private static final String SORT_BY = "최신 순";
-    private final String TEST_RECRUIT_ID = "94916151899";
 
     private Member mockMember;
-    private Region mockRegion;
 
     @BeforeEach
     void setUp(){
-        mockRegion = Region.builder()
+        Region mockRegion = Region.builder()
                 .id(1L)
                 .regionCode(TEST_REGION_CODE)
                 .regionName(TEST_REGION_NAME)
@@ -135,10 +134,11 @@ public class ScrapSearchServiceTest {
         List<MemberRecruitScrap> scrapList = List.of(mockMemberRecruitScrap);
         Page<MemberRecruitScrap> mockPage = new PageImpl<>(scrapList);
 
-        when(memberRecruitScrapRepository.findAll(
-                ArgumentMatchers.<Specification<MemberRecruitScrap>>any(),
-                ArgumentMatchers.<Pageable>any()
-        )).thenReturn(mockPage);
+        when(
+                memberRecruitScrapRepository.searchWithFilter(
+                        mockMember.getId(), TEST_LOC_NAME, SORT_BY, PAGE_SIZE, PAGE_NUM
+                )
+        ).thenReturn(mockPage);
 
         // when
         Page<RecruitScrapResponseDto> result = scrapSearchService.getRecruitScrapList(
@@ -155,12 +155,10 @@ public class ScrapSearchServiceTest {
     void getTrainingScrapList_success() {
         // given
         List<MemberTrainingScrap> trainingScrapList = List.of(mockMemberTrainingScrap);
-
         Page<MemberTrainingScrap> mockPage = new PageImpl<>(trainingScrapList);
 
-        when(memberTrainingScrapRepository.findAll(
-                ArgumentMatchers.<Specification<MemberTrainingScrap>>any(),
-                ArgumentMatchers.<Pageable>any()
+        when(memberTrainingScrapRepository.searchWithFilter(
+                mockMember.getId(), TEST_LOC_NAME, SORT_BY, PAGE_SIZE, PAGE_NUM
         )).thenReturn(mockPage);
 
         // when
@@ -177,9 +175,10 @@ public class ScrapSearchServiceTest {
     @DisplayName("[isScrapCheck] - 스크랩 체크 성공 테스트")
     void isScrapCheck_success() {
         // given
-        List<String> idList = List.of(TEST_RECRUIT_ID);
-        when(memberRecruitScrapRepository.existsByRecruitIdAndMemberId(TEST_RECRUIT_ID, TEST_ID))
-                .thenReturn(true);
+        String testRecruitId = "test-recruit-190293";
+        List<String> idList = List.of(testRecruitId);
+        when(memberRecruitScrapRepository.findScrapedRecruitId(mockMember.getId(), idList))
+                .thenReturn(List.of(testRecruitId));
 
         // when
         List<IsScrapCheckedResponse> result = scrapSearchService.isScrapCheck(
