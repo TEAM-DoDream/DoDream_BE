@@ -13,7 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.BiPredicate;
 import java.util.stream.IntStream;
 
@@ -52,12 +54,21 @@ public class ScrapSearchService {
             List<String> idList
     ) {
         Long memberId = customUserDetails.getId();
-        BiPredicate<String, Long> existsPredicate = getExistsPredicate(category);
+
+        List<String> scrapedIdList;
+
+        if (category == Category.RECRUIT) {
+            scrapedIdList =  memberRecruitScrapRepository.findScrapedRecruitId(memberId, idList);
+        } else {
+            scrapedIdList =  memberTrainingScrapRepository.findScrapedRecruitId(memberId, idList);
+        }
+
+        Set<String> scrapSet = new HashSet<>(scrapedIdList);
 
         return IntStream.range(0, idList.size())
                 .mapToObj(i -> new IsScrapCheckedResponse(
                         i,
-                        existsPredicate.test(idList.get(i), memberId)  // ← `.test()` 사용
+                        scrapSet.contains(idList.get(i))
                 ))
                 .toList();
     }
