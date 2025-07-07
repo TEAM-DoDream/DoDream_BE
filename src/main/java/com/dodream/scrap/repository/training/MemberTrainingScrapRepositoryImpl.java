@@ -1,8 +1,6 @@
 package com.dodream.scrap.repository.training;
 
-import com.dodream.scrap.domain.entity.MemberRecruitScrap;
 import com.dodream.scrap.domain.entity.MemberTrainingScrap;
-import com.dodream.scrap.domain.entity.QMemberRecruitScrap;
 import com.dodream.scrap.domain.entity.QMemberTrainingScrap;
 import com.dodream.scrap.domain.value.SortBy;
 import com.dodream.scrap.exception.ScrapErrorCode;
@@ -52,7 +50,7 @@ public class MemberTrainingScrapRepositoryImpl implements MemberTrainingScrapRep
     }
 
     @Override
-    public List<String> findScrapedRecruitId(Long memberId, List<String> trainingIds) {
+    public List<String> findScrapedTrainingId(Long memberId, List<String> trainingIds) {
         QMemberTrainingScrap qMemberTrainingScrap = QMemberTrainingScrap.memberTrainingScrap;
 
         return queryFactory.select(qMemberTrainingScrap.trainingId)
