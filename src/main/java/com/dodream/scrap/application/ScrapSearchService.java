@@ -60,7 +60,7 @@ public class ScrapSearchService {
         if (category == Category.RECRUIT) {
             scrapedIdList =  memberRecruitScrapRepository.findScrapedRecruitId(memberId, idList);
         } else {
-            scrapedIdList =  memberTrainingScrapRepository.findScrapedRecruitId(memberId, idList);
+            scrapedIdList =  memberTrainingScrapRepository.findScrapedTrainingId(memberId, idList);
         }
 
         Set<String> scrapSet = new HashSet<>(scrapedIdList);

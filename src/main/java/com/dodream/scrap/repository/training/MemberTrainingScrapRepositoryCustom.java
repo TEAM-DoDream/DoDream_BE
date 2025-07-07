@@ -8,5 +8,5 @@ import java.util.List;
 public interface MemberTrainingScrapRepositoryCustom {
     Page<MemberTrainingScrap> searchWithFilter(Long memberId, String locName, String sortBy, int pageSize, int pageNum);
 
-    List<String> findScrapedRecruitId(Long memberId, List<String> trainingIds);
+    List<String> findScrapedTrainingId(Long memberId, List<String> trainingIds);
 }
