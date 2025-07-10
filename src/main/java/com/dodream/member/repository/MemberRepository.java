@@ -14,7 +14,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     Optional<Member> findByLoginIdAndState(String loginId, State state);
 
-    boolean existsByEmailAndState(String loginId, State state);
+    boolean existsByEmailAndState(String email, State state);
 
     boolean existsByLoginIdAndState(String loginId, State state);
 
