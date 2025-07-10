@@ -8,6 +8,10 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 public record MemberSignUpRequestDto(
+
+    @NotBlank
+    @Schema(description = "이메일", example = "dodream@gmail.com")
+    String email,
     @NotBlank
     @Schema(description = "아이디", example = "dodream")
     String loginId,

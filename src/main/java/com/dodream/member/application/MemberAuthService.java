@@ -72,6 +72,10 @@ public class MemberAuthService {
     @Transactional
     public MemberSignUpResponseDto getMemberSignUp(MemberSignUpRequestDto requestDto) {
 
+        if (memberRepository.existsByEmailAndState(requestDto.email(), State.ACTIVE)) {
+            throw MemberErrorCode.DUPLICATE_EMAIL.toException();
+        }
+
         if (memberRepository.existsByLoginIdAndState(requestDto.loginId(), State.ACTIVE)) {
             throw MemberErrorCode.DUPLICATE_MEMBER_ID.toException();
         }
@@ -87,6 +91,7 @@ public class MemberAuthService {
         }
 
         Member member = Member.builder()
+            .email(requestDto.email())
             .loginId(requestDto.loginId())
             .password(passwordEncoder.encode(requestDto.password()))
             .nickName(requestDto.nickName())
@@ -152,7 +157,7 @@ public class MemberAuthService {
 
         List<TodoGroup> todoGroups = todoGroupRepository.findAllByMember(member);
 
-        for(TodoGroup todoGroup : todoGroups){
+        for (TodoGroup todoGroup : todoGroups) {
             Job job = todoGroup.getJob();
             job.minusTodoGroupNum();
         }
