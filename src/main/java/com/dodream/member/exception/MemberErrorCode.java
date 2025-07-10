@@ -12,6 +12,7 @@ public enum MemberErrorCode implements BaseErrorCode<DomainException> {
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "회원 정보를 찾을 수 없습니다"),
     MEMBER_PROFILE_NOT_FOUND(HttpStatus.NOT_FOUND, "삭제할 프로필 이미지가 존재하지 않습니다."),
     PASSWORD_NOT_MATCH(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
+    DUPLICATE_EMAIL(HttpStatus.CONFLICT, "이미 사용 중인 이메일입니다."),
     DUPLICATE_MEMBER_ID(HttpStatus.CONFLICT, "이미 사용 중인 아이디입니다."),
     DUPLICATE_NICKNAME(HttpStatus.CONFLICT, "이미 사용 중인 닉네임입니다."),
     MEMBER_INACTIVE(HttpStatus.BAD_REQUEST, "비활성화된 계정입니다."),

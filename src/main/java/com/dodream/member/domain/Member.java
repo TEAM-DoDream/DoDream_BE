@@ -1,7 +1,6 @@
 package com.dodream.member.domain;
 
 import com.dodream.core.infrastructure.jpa.entity.BaseLongIdEntity;
-import com.dodream.member.exception.MemberErrorCode;
 import com.dodream.region.domain.Region;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,10 +14,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDate;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-
-import java.time.LocalDateTime;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -33,6 +34,9 @@ public class Member extends BaseLongIdEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String email;
 
     @Column(nullable = false, unique = true)
     private String loginId;
