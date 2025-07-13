@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>인증 코드 메일</title>
+</head>
+<body>
+<div style="font-family: sans-serif; padding: 20px;">
+    <h2 th:text="${title}">[인증 메일]</h2>
+    <p th:text="${description}">다음 코드를 입력해주세요:</p>
+    <h3 style="color: #2e6da4;" th:text="${code}">123456</h3>
+</div>
+</body>
+</html>
