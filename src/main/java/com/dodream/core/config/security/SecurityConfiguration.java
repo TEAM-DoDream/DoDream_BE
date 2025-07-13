@@ -32,6 +32,7 @@ public class SecurityConfiguration {
         "/v1/member/auth/check-id/**",
         "/v1/member/auth/check-nickname/**",
         "/v1/member/auth/login",
+        "/v1/member/auth/email/**",
         "/v1/clova/**",
         "/v1/job/**",
         "/v1/todo/other/public"
