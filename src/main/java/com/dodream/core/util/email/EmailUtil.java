@@ -23,7 +23,7 @@ public class EmailUtil {
 
     @Async
     public void sendVerificationEmail(String to, VerificationType type, String code) {
-        // html 템플릿 설정
+
         VerificationEmailTemplate template = factory.createTemplate(type, code);
 
         Context context = new Context();
