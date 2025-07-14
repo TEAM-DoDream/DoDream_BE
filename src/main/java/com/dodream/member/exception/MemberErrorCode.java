@@ -22,7 +22,9 @@ public enum MemberErrorCode implements BaseErrorCode<DomainException> {
     FILE_DELETE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "파일 삭제 중 문제가 발생했습니다."),
     DUPLICATED_EMAIL(HttpStatus.CONFLICT, "이미 가입된 이메일입니다."),
     NOT_FOUND_EMAIL(HttpStatus.NOT_FOUND, "가입된 이메일이 존재하지 않습니다."),
-    NOT_FOUND_EMAIL_AND_LOGINID(HttpStatus.NOT_FOUND, "이메일과 아이디가 일치하지 않습니다.");
+    NOT_FOUND_EMAIL_AND_LOGINID(HttpStatus.NOT_FOUND, "이메일과 아이디가 일치하지 않습니다."),
+    NOT_FOUND_VERIFICATION(HttpStatus.NOT_FOUND, "인증 정보가 존재하지 않습니다."),
+    NOT_MATCHES_CODE(HttpStatus.BAD_REQUEST, "인증 번호가 일치하지 않습니다.");
 
 
     private final HttpStatus httpStatus;
