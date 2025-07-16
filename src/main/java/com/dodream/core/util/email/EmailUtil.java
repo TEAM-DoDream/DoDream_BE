@@ -27,8 +27,6 @@ public class EmailUtil {
         VerificationEmailTemplate template = factory.createTemplate(type, code);
 
         Context context = new Context();
-        context.setVariable("title", template.getTitle());
-        context.setVariable("description", template.getDescription());
         context.setVariable("code", template.getCode());
 
         String html = templateEngine.process("email/verification-code", context);

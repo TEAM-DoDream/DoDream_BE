@@ -2,13 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>인증 코드 메일</title>
+    <title>이메일 인증코드</title>
 </head>
-<body>
-<div style="font-family: sans-serif; padding: 20px;">
-    <h2 th:text="${title}">[인증 메일]</h2>
-    <p th:text="${description}">다음 코드를 입력해주세요:</p>
-    <h3 style="color: #2e6da4;" th:text="${code}">123456</h3>
-</div>
+<body style="margin:0; padding:0; font-family: Pretendard, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #ffffff;">
+    <div style="width: 640px; margin: 0 auto; padding: 30px; box-sizing: border-box;">
+        <div style="font-size: 40px; font-weight: 500; line-height: 56px; color: #121212; margin-bottom: 30px;">
+            두드림 이메일 인증코드
+        </div>
+        <div style="font-size: 18px; font-weight: 500; line-height: 23.4px; color: #494F5B; margin-bottom: 20px;">
+            아래의 인증 코드를 입력하시면 가입이 정상적으로 완료됩니다
+        </div>
+        <div style="background-color: #F2F3F6; border-radius: 20px; padding: 20px 30px; width: 100%;">
+            <div style="font-size: 46px; font-weight: 500; line-height: 64.4px; color: #121212;" th:text="${code}">
+                763999
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -23,7 +23,7 @@ public class MemberVerificationEmailController implements MemberVerificationEmai
     private final MemberVerificationEmailService memberVerificationEmailService;
 
     @Override
-    @PostMapping("/send")
+    @PostMapping("/verifications")
     public ResponseEntity<RestResponse<String>> sendVerificationEmail(
             @Valid @RequestBody VerificationEmailRequestDto verificationEmailRequestDto
     ) {
@@ -37,7 +37,7 @@ public class MemberVerificationEmailController implements MemberVerificationEmai
     }
 
     @Override
-    @PostMapping("/verify")
+    @PostMapping("/verifications/verify")
     public ResponseEntity<RestResponse<EmailVerificationResponseDto>> sendVerificationEmail(
             @Valid @RequestBody EmailVerificationRequestDto verificationEmailRequestDto
     ) {
