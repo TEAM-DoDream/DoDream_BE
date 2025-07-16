@@ -19,7 +19,7 @@ public interface MemberVerificationEmailSwagger {
                     "FIND_PASSWORD시에만 loginId 값 입력 필요함",
             operationId = "/v1/member/auth/email/verifications"
     )
-    ResponseEntity<RestResponse<String>> sendVerificationEmail(
+    ResponseEntity<RestResponse<String>> verifyEmailCode(
             @RequestBody VerificationEmailRequestDto verificationEmailRequestDto
     );
 

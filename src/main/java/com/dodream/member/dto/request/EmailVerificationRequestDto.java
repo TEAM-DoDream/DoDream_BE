@@ -1,7 +1,9 @@
 package com.dodream.member.dto.request;
 
+import com.dodream.core.util.email.value.VerificationType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 public record EmailVerificationRequestDto(
@@ -10,8 +12,9 @@ public record EmailVerificationRequestDto(
         @Schema(description = "입력 이메일", example = "teamdodream.dev@gmail.com")
         String email,
 
+        @NotNull
         @Schema(description = "인증 타입(회원 가입, 비밀번호, 아이디 찾기)", example = "SIGN_UP")
-        String type,
+        VerificationType type,
 
         @Pattern(regexp = "\\d{6}", message = "인증 코드는 6자리 정수입니다.")
         @Schema(description = "인증 코드", example = "019283")
