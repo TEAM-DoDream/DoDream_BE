@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.security.SecureRandom;
+
 @Service
 @RequiredArgsConstructor
 public class MemberVerificationEmailService {
@@ -18,6 +20,10 @@ public class MemberVerificationEmailService {
     private final MemberRepository memberRepository;
     private final EmailUtil emailUtil;
     private final RedisTemplate<String, Object> redisTemplate;
+
+    private final SecureRandom secureRandom = new SecureRandom();
+
+    private static final String CACHE_KEY_PREFIX = "email-code::sendVerificationCodeByEmail";
 
     public boolean checkMemberEmail(VerificationEmailRequestDto verificationEmailRequestDto) {
 
@@ -32,12 +38,12 @@ public class MemberVerificationEmailService {
             }
             case FIND_ID -> {
                 if (!checkEmail(email)) {
-                    throw MemberErrorCode.NOT_FOUND_EMAIL.toException();
+                    throw MemberErrorCode.EMAIL_NOT_FOUND.toException();
                 }
             }
             case FIND_PASSWORD -> {
                 if (!checkEmailAndLoginId(email, verificationEmailRequestDto.loginId())) {
-                    throw MemberErrorCode.NOT_FOUND_EMAIL_AND_LOGINID.toException();
+                    throw MemberErrorCode.EMAIL_AND_LOGINID_NOT_FOUND.toException();
                 }
             }
         }
@@ -46,26 +52,24 @@ public class MemberVerificationEmailService {
     }
 
     @CustomCacheable(cacheName = "email-code", ttl = 3)
-    public String sendVerificationCodeByEmail(String email, VerificationType type) {
-
+    public void sendVerificationCodeByEmail(String email, VerificationType type) {
         String code = generateCode();
         emailUtil.sendVerificationEmail(email, type, code);
-        return code;
     }
 
     public EmailVerificationResponseDto authenticationCodeVerification(
             String email, VerificationType type, String code
     ) {
 
-        String cacheKey = "email-code::sendVerificationCodeByEmail(" + email + "," + type.name() + ")";
+        String cacheKey = generateCacheKey(email, type);
 
         String cachedCode = (String) redisTemplate.opsForValue().getAndDelete(cacheKey);
 
         if (cachedCode == null) {
-            throw MemberErrorCode.NOT_FOUND_VERIFICATION.toException();
+            throw MemberErrorCode.VERIFICATION_NOT_FOUND.toException();
         }
         if (!code.equals(cachedCode)) {
-            throw MemberErrorCode.NOT_MATCHES_CODE.toException();
+            throw MemberErrorCode.CODE_NOT_MATCH.toException();
         }
 
         if(type.equals(VerificationType.FIND_ID)) {
@@ -80,7 +84,7 @@ public class MemberVerificationEmailService {
    }
 
     private String generateCode() {
-        return String.valueOf((int)(Math.random() * 900_000) + 100_000);
+        return String.valueOf(secureRandom.nextInt(900_000) + 100_000);
     }
 
     private boolean checkEmail(String email) {
@@ -89,5 +93,9 @@ public class MemberVerificationEmailService {
 
     private boolean checkEmailAndLoginId(String email, String loginId) {
         return memberRepository.existsByEmailAndLoginId(email, loginId);
+    }
+
+    private String generateCacheKey(String email, VerificationType type) {
+        return CACHE_KEY_PREFIX + "(" + email + "::" + type.name() + ")";
     }
 }

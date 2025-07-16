@@ -10,11 +10,13 @@ import com.dodream.member.presentation.swagger.MemberVerificationEmailSwagger;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Validated
 @RestController
 @RequestMapping("/v1/member/auth/email")
 @RequiredArgsConstructor
@@ -24,15 +26,14 @@ public class MemberVerificationEmailController implements MemberVerificationEmai
 
     @Override
     @PostMapping("/verifications")
-    public ResponseEntity<RestResponse<String>> sendVerificationEmail(
+    public ResponseEntity<RestResponse<String>> verifyEmailCode(
             @Valid @RequestBody VerificationEmailRequestDto verificationEmailRequestDto
     ) {
-        if(memberVerificationEmailService.checkMemberEmail(verificationEmailRequestDto)) {
-            memberVerificationEmailService.sendVerificationCodeByEmail(
-                    verificationEmailRequestDto.email(),
-                    verificationEmailRequestDto.type()
-            );
-        }
+        memberVerificationEmailService.checkMemberEmail(verificationEmailRequestDto);
+        memberVerificationEmailService.sendVerificationCodeByEmail(
+                verificationEmailRequestDto.email(),
+                verificationEmailRequestDto.type()
+        );
         return ResponseEntity.ok(new RestResponse<>("이메일 전송에 성공했습니다."));
     }
 
@@ -44,7 +45,7 @@ public class MemberVerificationEmailController implements MemberVerificationEmai
         return ResponseEntity.ok(new RestResponse<>(
                 memberVerificationEmailService.authenticationCodeVerification(
                         verificationEmailRequestDto.email(),
-                        VerificationType.valueOf(verificationEmailRequestDto.type()),
+                        verificationEmailRequestDto.type(),
                         verificationEmailRequestDto.code()
                 )
         ));
