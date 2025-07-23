@@ -6,6 +6,7 @@ import com.dodream.member.dto.request.VerificationEmailRequestDto;
 import com.dodream.member.dto.response.EmailVerificationResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -20,7 +21,7 @@ public interface MemberVerificationEmailSwagger {
             operationId = "/v1/member/auth/email/verifications"
     )
     ResponseEntity<RestResponse<String>> verifyEmailCode(
-            @RequestBody VerificationEmailRequestDto verificationEmailRequestDto
+            @Valid @RequestBody VerificationEmailRequestDto verificationEmailRequestDto
     );
 
     @Operation(
@@ -30,6 +31,6 @@ public interface MemberVerificationEmailSwagger {
             operationId = "/v1/member/auth/email/verifications/verify"
     )
     ResponseEntity<RestResponse<EmailVerificationResponseDto>> sendVerificationEmail(
-            @RequestBody EmailVerificationRequestDto verificationEmailRequestDto
+            @Valid @RequestBody EmailVerificationRequestDto verificationEmailRequestDto
     );
 }
