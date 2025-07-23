@@ -52,9 +52,12 @@ public class MemberVerificationEmailService {
     }
 
     @CustomCacheable(cacheName = "email-code", ttl = 3)
-    public void sendVerificationCodeByEmail(String email, VerificationType type) {
+    public String sendVerificationCodeByEmail(String email, VerificationType type) {
         String code = generateCode();
         emailUtil.sendVerificationEmail(email, type, code);
+
+        // WARN: return 없을시 cache저장 안됨
+        return code;
     }
 
     public EmailVerificationResponseDto authenticationCodeVerification(
@@ -62,9 +65,9 @@ public class MemberVerificationEmailService {
     ) {
 
         String cacheKey = generateCacheKey(email, type);
-
-        String cachedCode = (String) redisTemplate.opsForValue().getAndDelete(cacheKey);
-
+        System.out.println(cacheKey);
+        String cachedCode = (String) redisTemplate.opsForValue().get(cacheKey);
+        System.out.println(cachedCode);
         if (cachedCode == null) {
             throw MemberErrorCode.VERIFICATION_NOT_FOUND.toException();
         }
@@ -96,6 +99,6 @@ public class MemberVerificationEmailService {
     }
 
     private String generateCacheKey(String email, VerificationType type) {
-        return CACHE_KEY_PREFIX + "(" + email + "::" + type.name() + ")";
+        return CACHE_KEY_PREFIX + "(" + email + "," + type.name() + ")";
     }
 }
