@@ -1,8 +1,8 @@
 package com.dodream.member.presentation.controller;
 
 import com.dodream.core.presentation.RestResponse;
-import com.dodream.core.util.email.value.VerificationType;
 import com.dodream.member.application.MemberVerificationEmailService;
+import com.dodream.member.dto.request.ChangeMemberPasswordByEmailRequestDto;
 import com.dodream.member.dto.request.EmailVerificationRequestDto;
 import com.dodream.member.dto.request.VerificationEmailRequestDto;
 import com.dodream.member.dto.response.EmailVerificationResponseDto;
@@ -51,5 +51,17 @@ public class MemberVerificationEmailController implements MemberVerificationEmai
         ));
     }
 
-
+    @Override
+    @PostMapping("/password")
+    public ResponseEntity<RestResponse<Boolean>> changePassword(
+            @Valid @RequestBody ChangeMemberPasswordByEmailRequestDto changeMemberPasswordByEmailRequestDto
+    ){
+        return ResponseEntity.ok(new RestResponse<>(
+                memberVerificationEmailService.updatePassword(
+                        changeMemberPasswordByEmailRequestDto.email(),
+                        changeMemberPasswordByEmailRequestDto.loginId(),
+                        changeMemberPasswordByEmailRequestDto.newPassword()
+                )
+        ));
+    }
 }
