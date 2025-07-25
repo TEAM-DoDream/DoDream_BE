@@ -1,6 +1,7 @@
 package com.dodream.member.presentation.swagger;
 
 import com.dodream.core.presentation.RestResponse;
+import com.dodream.member.dto.request.ChangeMemberPasswordByEmailRequestDto;
 import com.dodream.member.dto.request.EmailVerificationRequestDto;
 import com.dodream.member.dto.request.VerificationEmailRequestDto;
 import com.dodream.member.dto.response.EmailVerificationResponseDto;
@@ -32,5 +33,14 @@ public interface MemberVerificationEmailSwagger {
     )
     ResponseEntity<RestResponse<EmailVerificationResponseDto>> sendVerificationEmail(
             @Valid @RequestBody EmailVerificationRequestDto verificationEmailRequestDto
+    );
+
+    @Operation(
+            summary = "이메일 인증 후 비밀번호 변경 api",
+            description = "이메일 인증 이후 비밀번호를 변경할 때 사용하는 API",
+            operationId = "/v1/member/auth/email/password"
+    )
+    ResponseEntity<RestResponse<Boolean>> changePassword(
+            @Valid @RequestBody ChangeMemberPasswordByEmailRequestDto changeMemberPasswordByEmailRequestDto
     );
 }

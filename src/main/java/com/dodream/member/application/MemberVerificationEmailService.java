@@ -3,12 +3,15 @@ package com.dodream.member.application;
 import com.dodream.core.infrastructure.cache.annotation.CustomCacheable;
 import com.dodream.core.util.email.EmailUtil;
 import com.dodream.core.util.email.value.VerificationType;
+import com.dodream.member.domain.Member;
 import com.dodream.member.dto.request.VerificationEmailRequestDto;
 import com.dodream.member.dto.response.EmailVerificationResponseDto;
 import com.dodream.member.exception.MemberErrorCode;
 import com.dodream.member.repository.MemberRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
@@ -20,6 +23,7 @@ public class MemberVerificationEmailService {
     private final MemberRepository memberRepository;
     private final EmailUtil emailUtil;
     private final RedisTemplate<String, Object> redisTemplate;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private final SecureRandom secureRandom = new SecureRandom();
 
@@ -65,9 +69,9 @@ public class MemberVerificationEmailService {
     ) {
 
         String cacheKey = generateCacheKey(email, type);
-        System.out.println(cacheKey);
+
         String cachedCode = (String) redisTemplate.opsForValue().get(cacheKey);
-        System.out.println(cachedCode);
+
         if (cachedCode == null) {
             throw MemberErrorCode.VERIFICATION_NOT_FOUND.toException();
         }
@@ -100,5 +104,22 @@ public class MemberVerificationEmailService {
 
     private String generateCacheKey(String email, VerificationType type) {
         return CACHE_KEY_PREFIX + "(" + email + "," + type.name() + ")";
+    }
+
+    @Transactional
+    public boolean updatePassword(String email, String loginId, String newPassword) {
+        Member member = memberRepository.findByEmailAndLoginId(email, loginId)
+                .orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
+
+        if(bCryptPasswordEncoder.matches(newPassword, member.getPassword())) {
+            throw MemberErrorCode.DUPLICATED_PASSWORD.toException();
+        }
+
+        String encodedPassword = bCryptPasswordEncoder.encode(newPassword);
+
+        member.updatePassword(encodedPassword);
+        memberRepository.save(member);
+
+        return true;
     }
 }
