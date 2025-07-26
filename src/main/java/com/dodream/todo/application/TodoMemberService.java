@@ -46,14 +46,14 @@ public class TodoMemberService {
 
         Member member = memberAuthService.getCurrentMember();
 
+        Job job = jobRepository.findById(jobId)
+            .orElseThrow(JobErrorCode.CANNOT_GET_JOB_DATA::toException);
+
         TodoGroup todoGroupToDelete = todoGroupRepository.findByMember(member);
         if (todoGroupToDelete != null) {
             todoGroupRepository.delete(todoGroupToDelete);
+            job.minusTodoGroupNum();
         }
-
-        Job job = jobRepository.findById(jobId)
-            .orElseThrow(JobErrorCode.CANNOT_GET_JOB_DATA::toException);
-        job.minusTodoGroupNum();
 
         List<JobTodo> todoList = jobTodoRepository.findAllByJob(job);
 

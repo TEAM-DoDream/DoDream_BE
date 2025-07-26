@@ -39,7 +39,6 @@ public class MemberService {
     private final TodoGroupRepository todoGroupRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final MemberAuthService memberAuthService;
-    private final TodoMemberService todoMemberService;
 
 
     @Transactional
