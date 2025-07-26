@@ -1,5 +1,6 @@
 package com.dodream.todo.application;
 
+import com.dodream.core.exception.DomainException;
 import com.dodream.job.domain.Job;
 import com.dodream.job.domain.JobTodo;
 import com.dodream.job.exception.JobErrorCode;
@@ -144,13 +145,15 @@ public class TodoMemberService {
 
     // 새로운 투두 아이템 생성
     @Transactional
-    public PostTodoResponseDto postNewTodo(Long todoGroupId, PostTodoRequestDto requestDto) {
+    public PostTodoResponseDto postNewTodo(PostTodoRequestDto requestDto) {
 
         Member member = memberAuthService.getCurrentMember();
 
-        TodoGroup todoGroup = todoGroupRepository.findByIdAndMember(todoGroupId,
-                member)
-            .orElseThrow(TodoGroupErrorCode.TODO_GROUP_NOT_FOUND::toException);
+        TodoGroup todoGroup = todoGroupRepository.findByMember(member);
+
+        if (todoGroup == null) {
+            throw TodoGroupErrorCode.TODO_GROUP_NOT_FOUND.toException();
+        }
 
         Todo newTodo = Todo.of(todoGroup, member, requestDto.todoTitle());
         todoRepository.save(newTodo);

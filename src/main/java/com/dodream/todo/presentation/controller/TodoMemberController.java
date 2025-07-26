@@ -48,11 +48,11 @@ public class TodoMemberController implements TodoMemberSwagger {
     }
 
     @Override
-    @PostMapping(value = "/todo-group/{todoGroupId}")
+    @PostMapping(value = "/todo-group")
     public ResponseEntity<RestResponse<PostTodoResponseDto>> postNewTodo(
-        @PathVariable Long todoGroupId, @RequestBody PostTodoRequestDto postTodoRequestDto) {
+       @RequestBody PostTodoRequestDto postTodoRequestDto) {
         return ResponseEntity.ok(
-            new RestResponse<>(memberTodoService.postNewTodo(todoGroupId, postTodoRequestDto)));
+            new RestResponse<>(memberTodoService.postNewTodo(postTodoRequestDto)));
     }
 
     @Override
