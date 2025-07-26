@@ -50,6 +50,7 @@ public class MemberAuthServiceTest {
     private MemberAuthService memberAuthService;
 
     private static final Long TEST_ID = 1L;
+    private static final String TEST_LOGIN_EMAIL = "dodream@gmail.com";
     private static final String TEST_LOGIN_ID = "dodream";
     private static final String TEST_PASSWORD = "hello2025";
     private static final String TEST_WRONG_PASSWORD = "wrongPW";
@@ -96,7 +97,8 @@ public class MemberAuthServiceTest {
             when(regionRepository.findByRegionCode(TEST_REGION_CODE))
                 .thenReturn(Optional.of(region));
 
-            MemberSignUpRequestDto requestDto = new MemberSignUpRequestDto(TEST_LOGIN_ID,
+            MemberSignUpRequestDto requestDto = new MemberSignUpRequestDto(TEST_LOGIN_EMAIL,
+                TEST_LOGIN_ID,
                 TEST_PASSWORD, TEST_NICKNAME, TEST_BIRTHDATE, TEST_GENDER, TEST_REGION_CODE);
 
             // when
@@ -147,7 +149,7 @@ public class MemberAuthServiceTest {
                 Optional.of(member));
             when(passwordEncoder.matches(TEST_PASSWORD, encodedPassword)).thenReturn(true);
             when(regionRepository.findByRegionCode(TEST_REGION_CODE))
-                         .thenReturn(Optional.of(region));
+                .thenReturn(Optional.of(region));
 
             // when
             MemberLoginResponseDto response = memberAuthService.getMemberLogin(requestDto);

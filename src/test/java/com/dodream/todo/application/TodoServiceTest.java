@@ -196,24 +196,18 @@ public class TodoServiceTest {
                 .todoGroup(todoGroup1)
                 .member(mockMember)
                 .title("title")
-                .memoText("text")
-                .isPublic(true)
                 .build();
 
             todo2 = Todo.builder()
                 .todoGroup(todoGroup1)
                 .member(mockMember)
                 .title("title")
-                .memoText("text")
-                .isPublic(true)
                 .build();
 
             other_todo = Todo.builder()
                 .todoGroup(todoGroup1)
                 .member(mockMember)
                 .title("other_title")
-                .memoText("other_text")
-                .isPublic(true)
                 .build();
 
             CustomUserDetails userDetails = new CustomUserDetails(mockMember);
@@ -330,23 +324,5 @@ public class TodoServiceTest {
 
         }
 
-        @Test
-        @DisplayName("타유저 투두 메모 상세 조회")
-        void getOtherOneTodoMemo() {
-
-            // given
-            when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
-            when(todoRepository.findByIdAndMemberNot(2L, mockMember))
-                .thenReturn(Optional.of(other_todo));
-
-            // when
-            GetOneTodoWithMemoResponseDto result = todoService.getOneOthersTodoMemo(2L);
-
-            //then
-            assertEquals(other_todo.getTitle(), result.title());
-            assertEquals(other_todo.getIsPublic(), result.isPublic());
-            assertEquals(other_todo.getMemoText(), result.memoText());
-
-        }
     }
 }
