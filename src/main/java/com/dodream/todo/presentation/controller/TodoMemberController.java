@@ -48,7 +48,7 @@ public class TodoMemberController implements TodoMemberSwagger {
     }
 
     @Override
-    @PostMapping(value = "/todo-group")
+    @PostMapping(value = "/todo")
     public ResponseEntity<RestResponse<PostTodoResponseDto>> postNewTodo(
        @RequestBody PostTodoRequestDto postTodoRequestDto) {
         return ResponseEntity.ok(

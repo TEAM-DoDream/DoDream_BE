@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 public enum TodoGroupErrorCode implements BaseErrorCode<DomainException> {
 
     TODO_GROUP_NOT_FOUND(HttpStatus.NOT_FOUND, "TODO GROUP 데이터를 찾을 수 없습니다."),
+    JOB_NOT_ADDED(HttpStatus.BAD_REQUEST, "담은 직업이 없습니다."),
     JOB_EXISTS(HttpStatus.BAD_REQUEST, "이미 담은 직업입니다.");
 
 

@@ -44,7 +44,7 @@ public interface TodoMemberSwagger {
     @Operation(
         summary = "새로운 투두 생성 API",
         description = "투두리스트에 새로운 투두를 생성한다. (나의 할일, 플로팅 버튼)",
-        operationId = "/v1/my-dream/todo-group"
+        operationId = "/v1/my-dream/todo"
     )
     @ApiErrorCode(TodoErrorCode.class)
     ResponseEntity<RestResponse<PostTodoResponseDto>> postNewTodo(
