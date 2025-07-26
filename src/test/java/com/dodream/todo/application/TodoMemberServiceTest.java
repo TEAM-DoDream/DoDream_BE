@@ -101,7 +101,7 @@ public class TodoMemberServiceTest {
 
 
     @Nested
-    @DisplayName("마이드림")
+    @DisplayName("나의 할일 목록")
     class HomeTodoTest {
 
         @BeforeEach
@@ -228,7 +228,7 @@ public class TodoMemberServiceTest {
 
 
         @Test
-        @DisplayName("메모 작성")
+        @DisplayName("투두 생성")
         void postTodoMemo() {
 
             // given
