@@ -24,11 +24,11 @@ public record GetMemberInfoResponseDto(
     @Schema(description = "거주지", example = "서울시 강동구")
     String regionName,
     @Schema(description = "관심 직업")
-    List<GetMemberInterestedJobResponseDto> jobs
+    GetMemberInterestedJobResponseDto job
 ) {
 
     public static GetMemberInfoResponseDto of(Member member,
-        List<GetMemberInterestedJobResponseDto> jobs) {
+        GetMemberInterestedJobResponseDto job) {
         return GetMemberInfoResponseDto.builder()
             .memberId(member.getId())
             .profileImage(member.getProfileImage())
@@ -36,7 +36,7 @@ public record GetMemberInfoResponseDto(
             .loginId(member.getLoginId())
             .birthDate(member.getBirthDate())
             .regionName(member.getRegion().getRegionName())
-            .jobs(jobs)
+            .job(job)
             .build();
 
     }

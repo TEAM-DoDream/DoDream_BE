@@ -147,18 +147,18 @@ public class TodoService {
     }
 
     // 타유저 투두 리스트 메모 조회
-    @Transactional(readOnly = true)
-    public GetOneTodoWithMemoResponseDto getOneOthersTodoMemo(Long TodoId) {
-
-        Member member = memberAuthService.getCurrentMember();
-
-        Todo todo = todoRepository.findByIdAndMemberNot(TodoId, member)
-            .orElseThrow(TodoErrorCode.TODO_NOT_FOUND::toException);
-
-        if (!todo.getIsPublic()){
-            throw TodoErrorCode.TODO_MEMO_NOT_PUBLIC.toException();
-        }
-
-        return GetOneTodoWithMemoResponseDto.from(todo);
-    }
+//    @Transactional(readOnly = true)
+//    public GetOneTodoWithMemoResponseDto getOneOthersTodoMemo(Long TodoId) {
+//
+//        Member member = memberAuthService.getCurrentMember();
+//
+//        Todo todo = todoRepository.findByIdAndMemberNot(TodoId, member)
+//            .orElseThrow(TodoErrorCode.TODO_NOT_FOUND::toException);
+//
+//        if (!todo.getIsPublic()){
+//            throw TodoErrorCode.TODO_MEMO_NOT_PUBLIC.toException();
+//        }
+//
+//        return GetOneTodoWithMemoResponseDto.from(todo);
+//    }
 }

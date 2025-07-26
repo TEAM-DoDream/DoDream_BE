@@ -3,7 +3,6 @@ package com.dodream.member.presentation.controller;
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.member.application.MemberService;
 import com.dodream.member.dto.request.ChangeMemberBirthDateRequestDto;
-import com.dodream.member.dto.request.ChangeMemberJobsRequestDto;
 import com.dodream.member.dto.request.ChangeMemberNickNameRequestDto;
 import com.dodream.member.dto.request.ChangeMemberPasswordRequestDto;
 import com.dodream.member.dto.request.ChangeMemberRegionRequestDto;
@@ -12,9 +11,9 @@ import com.dodream.member.dto.response.ChangeMemberNickNameResponseDto;
 import com.dodream.member.dto.response.ChangeMemberRegionResponseDto;
 import com.dodream.member.dto.response.DeleteMemberProfileImageResponseDto;
 import com.dodream.member.dto.response.GetMemberInfoResponseDto;
+import com.dodream.member.dto.response.GetMemberInterestedJobResponseDto;
 import com.dodream.member.dto.response.UploadMemberProfileImageResponseDto;
 import com.dodream.member.presentation.swagger.MemberSwagger;
-import com.dodream.todo.dto.response.DeleteTodoGroupResponseDto;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
@@ -91,20 +90,18 @@ public class MemberController implements MemberSwagger {
     }
 
     @Override
-    @DeleteMapping("/job")
-    public ResponseEntity<RestResponse<DeleteTodoGroupResponseDto>> changeMemberInterestedJobs(
-        @RequestBody
-        ChangeMemberJobsRequestDto changeMemberJobsRequestDto) {
-        return ResponseEntity.ok(
-            new RestResponse<>(memberService.deleteInterestedJobs(changeMemberJobsRequestDto)));
-    }
-
-
-    @Override
     @GetMapping("/info")
     public ResponseEntity<RestResponse<GetMemberInfoResponseDto>> getMemberInfo() {
         return ResponseEntity.ok(
             new RestResponse<>(memberService.getMemberInfo()));
     }
+
+    @Override
+    @GetMapping("/job")
+    public ResponseEntity<RestResponse<GetMemberInterestedJobResponseDto>> getMemberJob() {
+        return ResponseEntity.ok(
+            new RestResponse<>(memberService.getMemberJob()));
+    }
+
 
 }

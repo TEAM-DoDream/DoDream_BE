@@ -4,7 +4,6 @@ import com.dodream.core.application.ObjectStorageService;
 import com.dodream.member.domain.Member;
 import com.dodream.member.domain.State;
 import com.dodream.member.dto.request.ChangeMemberBirthDateRequestDto;
-import com.dodream.member.dto.request.ChangeMemberJobsRequestDto;
 import com.dodream.member.dto.request.ChangeMemberNickNameRequestDto;
 import com.dodream.member.dto.request.ChangeMemberPasswordRequestDto;
 import com.dodream.member.dto.request.ChangeMemberRegionRequestDto;
@@ -21,9 +20,9 @@ import com.dodream.region.domain.Region;
 import com.dodream.region.exception.RegionErrorCode;
 import com.dodream.region.repository.RegionRepository;
 import com.dodream.todo.application.TodoMemberService;
-import com.dodream.todo.dto.response.DeleteTodoGroupResponseDto;
+import com.dodream.todo.domain.TodoGroup;
 import com.dodream.todo.repository.TodoGroupRepository;
-import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -133,26 +132,34 @@ public class MemberService {
         return ChangeMemberRegionResponseDto.of(member.getId(), newRegion);
     }
 
+
     @Transactional(readOnly = true)
     public GetMemberInfoResponseDto getMemberInfo() {
 
         Member member = memberAuthService.getCurrentMember();
 
-        List<GetMemberInterestedJobResponseDto> jobs = todoGroupRepository.findAllByMember(member)
-            .stream()
-            .map(todoGroup -> GetMemberInterestedJobResponseDto.from(todoGroup.getJob()))
-            .toList();
+        TodoGroup todoGroup = todoGroupRepository.findByMember(member);
+        GetMemberInterestedJobResponseDto jobResponseDto = null;
 
-        return GetMemberInfoResponseDto.of(member, jobs);
+        if (todoGroup != null) {
+            jobResponseDto = GetMemberInterestedJobResponseDto.from(todoGroup.getJob());
+        }
 
+        return GetMemberInfoResponseDto.of(member, jobResponseDto);
     }
 
-    @Transactional
-    public DeleteTodoGroupResponseDto deleteInterestedJobs(ChangeMemberJobsRequestDto requestDto) {
+    @Transactional(readOnly = true)
+    public GetMemberInterestedJobResponseDto getMemberJob() {
 
         Member member = memberAuthService.getCurrentMember();
 
-        return todoMemberService.deleteTodoGroups(requestDto.jobIds(), member);
+        TodoGroup todoGroup = todoGroupRepository.findByMember(member);
+        GetMemberInterestedJobResponseDto jobResponseDto = null;
 
+        if (todoGroup != null) {
+            jobResponseDto = GetMemberInterestedJobResponseDto.from(todoGroup.getJob());
+        }
+
+        return jobResponseDto;
     }
 }

@@ -63,13 +63,5 @@ public class TodoController implements TodoSwagger {
             new RestResponse<>(todoService.getOneOthersTodoGroup(todoGroupId)));
     }
 
-    @Override
-    @GetMapping(value = "/{todoId}/memo")
-    public ResponseEntity<RestResponse<GetOneTodoWithMemoResponseDto>> getOneOthersTodoMemo(
-        @PathVariable Long todoId) {
-        return ResponseEntity.ok(
-            new RestResponse<>(todoService.getOneOthersTodoMemo(todoId)));
-    }
-
 
 }

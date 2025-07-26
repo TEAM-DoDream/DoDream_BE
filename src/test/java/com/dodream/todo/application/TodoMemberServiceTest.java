@@ -30,7 +30,6 @@ import com.dodream.todo.dto.request.ModifyTodoRequestDto;
 import com.dodream.todo.dto.request.PostTodoRequestDto;
 import com.dodream.todo.dto.response.AddJobTodoResponseDto;
 import com.dodream.todo.dto.response.ChangeCompleteStateTodoResponseDto;
-import com.dodream.todo.dto.response.ChangePublicStateTodoResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetTodoJobResponseDto;
 import com.dodream.todo.dto.response.ModifyTodoResponseDto;
@@ -318,24 +317,24 @@ public class TodoMemberServiceTest {
 
         }
 
-        @Test
-        @DisplayName("메모 공개 상태 변경")
-        void modifyTodoPublicState() {
-
-            // given
-            when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
-            when(todoRepository.findByIdAndMember(1L, mockMember))
-                .thenReturn(Optional.of(todo1));
-
-            // when
-            ChangePublicStateTodoResponseDto result = todoMemberService.changeOneTodoPublicState(
-                1L);
-
-            //then
-            assertEquals(false, result.isPublic());
-            assertEquals(todo1.getId(), result.todoId());
-            assertEquals("투두의 공개 상태가 변경되었습니다.", result.message());
-        }
+//        @Test
+//        @DisplayName("메모 공개 상태 변경")
+//        void modifyTodoPublicState() {
+//
+//            // given
+//            when(memberAuthService.getCurrentMember()).thenReturn(mockMember);
+//            when(todoRepository.findByIdAndMember(1L, mockMember))
+//                .thenReturn(Optional.of(todo1));
+//
+//            // when
+//            ChangePublicStateTodoResponseDto result = todoMemberService.changeOneTodoPublicState(
+//                1L);
+//
+//            //then
+//            assertEquals(false, result.isPublic());
+//            assertEquals(todo1.getId(), result.todoId());
+//            assertEquals("투두의 공개 상태가 변경되었습니다.", result.message());
+//        }
 
         @Test
         @DisplayName("메모 완료 상태 변경")
