@@ -42,18 +42,17 @@ public interface TodoMemberSwagger {
 
 
     @Operation(
-        summary = "투두리스트 - 새로운 투두 추가",
-        description = "마이드림 - 투두리스트에 새로운 투두를 추가한다. (마이드림 - 투두리스트 - 개별 투두 추가)",
-        operationId = "/v1/my-dream/todo-group/{todoGroupId}"
+        summary = "새로운 투두 생성 API",
+        description = "투두리스트에 새로운 투두를 생성한다. (나의 할일, 플로팅 버튼)",
+        operationId = "/v1/my-dream/todo-group"
     )
     @ApiErrorCode(TodoErrorCode.class)
     ResponseEntity<RestResponse<PostTodoResponseDto>> postNewTodo(
-        @PathVariable Long todoGroupId,
         @RequestBody @Valid PostTodoRequestDto postTodoRequestDto);
 
     @Operation(
-        summary = "투두리스트 - 기존 투두 수정",
-        description = "마이드림 - 투두를 수정한다. (마이드림 - 투두리스트 - 개별 투두 수정 API)",
+        summary = "기존 투두 수정 API",
+        description = "기존 투두를 수정한다.",
         operationId = "/v1/my-dream/todo/{todoId}"
     )
     @ApiErrorCode(TodoErrorCode.class)
@@ -74,8 +73,8 @@ public interface TodoMemberSwagger {
 
 
     @Operation(
-        summary = "투두리스트 - 개별 투두 삭제 API",
-        description = "개별 투두 아이템 메모를 조회한다 (마이드림 - 투두리스트 - 개별 투두 조회 - 삭제)",
+        summary = "개별 투두 삭제 API",
+        description = "개별 투두 항목을 삭제한다.",
         operationId = "/v1/my-dream/todo/{todoId}"
     )
     @ApiErrorCode(TodoErrorCode.class)
@@ -84,8 +83,8 @@ public interface TodoMemberSwagger {
 
 
     @Operation(
-        summary = "투두리스트 - 개별 투두 완료 상태 변경 API",
-        description = "개별 투두 아이템의 완료 상태를 변경한다 (마이드림 - 투두리스트 - 개별 투두 조회 - 완료상태 변경)",
+        summary = "개별 투두 완료 상태 변경 API",
+        description = "개별 투두 아이템의 완료 상태를 변경한다.",
         operationId = "/v1/my-dream/todo/{todoId}/complete-state"
     )
     @ApiErrorCode(TodoErrorCode.class)

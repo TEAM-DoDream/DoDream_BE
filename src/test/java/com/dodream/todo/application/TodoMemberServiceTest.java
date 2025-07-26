@@ -241,7 +241,7 @@ public class TodoMemberServiceTest {
                 .thenReturn(Optional.of(todoGroup1));
 
             // when
-            PostTodoResponseDto result = todoMemberService.postNewTodo(1L, requestDto);
+            PostTodoResponseDto result = todoMemberService.postNewTodo(requestDto);
 
             //then
             assertEquals(todoGroup1.getId(), result.todoGroupId());
