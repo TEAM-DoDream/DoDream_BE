@@ -19,6 +19,8 @@ public interface TodoGroupRepository extends JpaRepository<TodoGroup, Long> {
 
     List<TodoGroup> findAllByMember(Member member);
 
+    TodoGroup findByMember(Member member);
+
     Optional<TodoGroup> findFirstByMemberOrderByIdAsc(Member member);
 
     Optional<TodoGroup> findTopByMemberOrderByTotalViewDesc(Member member);

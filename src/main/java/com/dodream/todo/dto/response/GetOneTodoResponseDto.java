@@ -14,13 +14,7 @@ public record GetOneTodoResponseDto(
     String title,
 
     @Schema(description = "완료 여부", example = "false")
-    Boolean completed,
-
-    @Schema(description = "메모 포함 여부", example = "false")
-    Boolean isMemoExist,
-
-    @Schema(description = "공개 여부", example = "false")
-    Boolean isPublic
+    Boolean completed
 
 ) {
 
@@ -29,8 +23,6 @@ public record GetOneTodoResponseDto(
             .todoId(todo.getId())
             .title(todo.getTitle())
             .completed(todo.getCompleted())
-            .isMemoExist(todo.getMemoText() != null)
-            .isPublic(todo.getIsPublic())
             .build();
     }
 }

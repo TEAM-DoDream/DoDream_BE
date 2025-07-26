@@ -50,13 +50,6 @@ public class Todo extends BaseLongIdEntity {
     @Builder.Default
     private Boolean completed = false;
 
-    @Builder.Default
-    private Boolean isPublic = false;
-
-    @Column(length = 5000)
-    private String memoText;
-
-    private String link;
 
     @Builder.Default
     @OneToMany(mappedBy = "todo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -65,43 +58,23 @@ public class Todo extends BaseLongIdEntity {
     public void updateTitle(String title) {
         this.title = title;
     }
-    public void updateMemoText(String memoText) {
-        this.memoText = memoText;
-    }
-    public void updateLink(String link) {
-        this.link= link;
-    }
     public void updateCompleted() {
         this.completed = !this.completed;
-    }
-    public void updateIsPublic() {
-        this.isPublic = !this.isPublic;
-    }
-    public void initialIsPublic(Boolean isPublic) {
-        this.isPublic = isPublic;
     }
 
 
     @Builder
-    private Todo(TodoGroup todoGroup, Member member, String title, String memoText, String link,
-        Boolean isPublic) {
+    private Todo(TodoGroup todoGroup, Member member, String title) {
         this.todoGroup = todoGroup;
         this.member = member;
         this.title = title;
-        this.memoText = memoText;
-        this.link = link;
-        this.isPublic = isPublic;
     }
 
-    public static Todo of(TodoGroup todoGroup, Member member, String title, String memoText,
-        String link, Boolean isPublic) {
+    public static Todo of(TodoGroup todoGroup, Member member, String title) {
         return Todo.builder()
             .todoGroup(todoGroup)
             .member(member)
             .title(title)
-            .memoText(memoText)
-            .link(link)
-            .isPublic(isPublic)
             .build();
     }
 
@@ -110,9 +83,6 @@ public class Todo extends BaseLongIdEntity {
             .todoGroup(todoGroup)
             .member(member)
             .title(jobTodo.getTitle())
-            .memoText(null)
-            .link(null)
-            .isPublic(true)
             .build();
     }
 }

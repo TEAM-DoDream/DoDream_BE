@@ -64,14 +64,5 @@ public interface TodoSwagger {
     ResponseEntity<RestResponse<GetOneTodoGroupResponseDto>> getOneOthersTodoGroup(
         @PathVariable Long todoGroupId);
 
-    @Operation(
-        summary = "타유저 투두 리스트 메모 조회 API",
-        description = "타유저 투두 리스트의 메모 조회",
-        operationId = "/v1/todo/{todoId}/memo}"
-    )
-    @ApiErrorCode(TodoErrorCode.class)
-    ResponseEntity<RestResponse<GetOneTodoWithMemoResponseDto>> getOneOthersTodoMemo(
-        @PathVariable Long todoId);
-
 
 }
