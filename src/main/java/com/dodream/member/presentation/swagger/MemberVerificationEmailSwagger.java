@@ -1,11 +1,13 @@
 package com.dodream.member.presentation.swagger;
 
 import com.dodream.core.presentation.RestResponse;
+import com.dodream.member.dto.request.ChangeMemberPasswordByEmailRequestDto;
 import com.dodream.member.dto.request.EmailVerificationRequestDto;
 import com.dodream.member.dto.request.VerificationEmailRequestDto;
 import com.dodream.member.dto.response.EmailVerificationResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -20,7 +22,7 @@ public interface MemberVerificationEmailSwagger {
             operationId = "/v1/member/auth/email/verifications"
     )
     ResponseEntity<RestResponse<String>> verifyEmailCode(
-            @RequestBody VerificationEmailRequestDto verificationEmailRequestDto
+            @Valid @RequestBody VerificationEmailRequestDto verificationEmailRequestDto
     );
 
     @Operation(
@@ -30,6 +32,15 @@ public interface MemberVerificationEmailSwagger {
             operationId = "/v1/member/auth/email/verifications/verify"
     )
     ResponseEntity<RestResponse<EmailVerificationResponseDto>> sendVerificationEmail(
-            @RequestBody EmailVerificationRequestDto verificationEmailRequestDto
+            @Valid @RequestBody EmailVerificationRequestDto verificationEmailRequestDto
+    );
+
+    @Operation(
+            summary = "이메일 인증 후 비밀번호 변경 api",
+            description = "이메일 인증 이후 비밀번호를 변경할 때 사용하는 API",
+            operationId = "/v1/member/auth/email/password"
+    )
+    ResponseEntity<RestResponse<Boolean>> changePassword(
+            @Valid @RequestBody ChangeMemberPasswordByEmailRequestDto changeMemberPasswordByEmailRequestDto
     );
 }
