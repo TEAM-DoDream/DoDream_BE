@@ -1,7 +1,7 @@
 ---
-name: Bugfix
-about: Bugfix issue
-title: "[Bugfix] "
+name: 'Feature '
+about: Feature issue
+title: "[Feat] "
 labels: ''
 assignees: ''
 

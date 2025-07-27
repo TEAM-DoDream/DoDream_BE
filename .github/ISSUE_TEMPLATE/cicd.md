@@ -1,7 +1,7 @@
 ---
-name: Bugfix
-about: Bugfix issue
-title: "[Bugfix] "
+name: CICD
+about: CICD issue
+title: "[CICD] "
 labels: ''
 assignees: ''
 
