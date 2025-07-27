@@ -51,10 +51,6 @@ public class Todo extends BaseLongIdEntity {
     private Boolean completed = false;
 
 
-    @Builder.Default
-    @OneToMany(mappedBy = "todo", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<TodoImage> images = new ArrayList<>();
-
     public void updateTitle(String title) {
         this.title = title;
     }
