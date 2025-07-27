@@ -1,4 +1,4 @@
-package com.dodream.job.controller.swagger;
+package com.dodream.job.presentation.swagger;
 
 import com.dodream.core.config.swagger.ApiErrorCode;
 import com.dodream.core.presentation.RestResponse;

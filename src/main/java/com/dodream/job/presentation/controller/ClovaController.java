@@ -1,8 +1,8 @@
-package com.dodream.job.controller;
+package com.dodream.job.presentation.controller;
 
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.job.application.ClovaStudioService;
-import com.dodream.job.controller.swagger.ClovaSwagger;
+import com.dodream.job.presentation.swagger.ClovaSwagger;
 import com.dodream.job.dto.request.clova.ChatRequest;
 import com.dodream.job.dto.response.ChatResponse;
 import lombok.RequiredArgsConstructor;
