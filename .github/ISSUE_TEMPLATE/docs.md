@@ -1,7 +1,7 @@
 ---
-name: 'Feature '
-about: Feature issue
-title: "[Feat] #"
+name: Docs
+about: Docs issue
+title: "[Docs] "
 labels: ''
 assignees: ''
 

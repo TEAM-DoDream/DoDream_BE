@@ -1,7 +1,7 @@
 ---
 name: Refactor
 about: Refactor issue
-title: "[Refactor] #"
+title: "[Refactor] "
 labels: ''
 assignees: ''
 
