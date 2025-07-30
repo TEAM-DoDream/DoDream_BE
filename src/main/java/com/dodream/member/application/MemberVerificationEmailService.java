@@ -70,7 +70,7 @@ public class MemberVerificationEmailService {
 
         String cacheKey = generateCacheKey(email, type);
 
-        String cachedCode = (String) redisTemplate.opsForValue().get(cacheKey);
+        String cachedCode = (String) redisTemplate.opsForValue().getAndDelete(cacheKey);
 
         if (cachedCode == null) {
             throw MemberErrorCode.VERIFICATION_NOT_FOUND.toException();

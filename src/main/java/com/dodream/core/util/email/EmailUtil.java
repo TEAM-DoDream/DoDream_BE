@@ -6,6 +6,7 @@ import com.dodream.core.util.email.factory.VerificationEmailFactory;
 import com.dodream.core.util.email.value.VerificationType;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -15,6 +16,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 @Component
 @RequiredArgsConstructor
+@Log4j2
 public class EmailUtil {
 
     private final JavaMailSender mailSender;
