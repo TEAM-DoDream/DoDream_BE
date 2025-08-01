@@ -66,7 +66,7 @@ public class MemberRecruitScrap extends BaseLongIdEntity {
                 .title(job.position().title())
                 .companyName(job.company().detail().name())
                 .expirationDate(job.expirationDate())
-                .locationName(locationNameFormatter(job.position().location().name()))
+                .locationName(locationNameFormat(job.position().location().name()))
                 .jobType(job.position().jobType().name())
                 .experienceLevel(job.position().experienceLevel().name())
                 .educationLevel(job.position().requiredEducationLevel().name())
@@ -91,5 +91,10 @@ public class MemberRecruitScrap extends BaseLongIdEntity {
         }
 
         return null;
+    }
+
+    private static String locationNameFormat(String locationName) {
+        if(locationName == null || locationName.isEmpty()) return "지역 정보 없음";
+        return locationNameFormatter(locationName);
     }
 }
