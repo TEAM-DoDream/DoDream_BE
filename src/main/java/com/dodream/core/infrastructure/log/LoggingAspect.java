@@ -11,8 +11,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.net.URLDecoder;
-import java.util.HashMap;
-import java.util.Map;
 
 @Aspect
 @Log4j2
@@ -23,7 +21,7 @@ public class LoggingAspect {
     public void controller() {}
 
     @Around("controller()")
-    public Object logCOntroller(ProceedingJoinPoint joinPoint) throws Throwable {
+    public Object logController(ProceedingJoinPoint joinPoint) throws Throwable {
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         long startTime = System.currentTimeMillis();
