@@ -13,6 +13,7 @@ import com.dodream.todo.dto.request.ModifyTodoRequestDto;
 import com.dodream.todo.dto.request.PostTodoRequestDto;
 import com.dodream.todo.dto.response.AddJobTodoResponseDto;
 import com.dodream.todo.dto.response.ChangeCompleteStateTodoResponseDto;
+import com.dodream.todo.dto.response.DeleteMemberJobResponseDto;
 import com.dodream.todo.dto.response.DeleteTodoResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoAtHomeResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoGroupAtHomeResponseDto;
@@ -174,5 +175,22 @@ public class TodoMemberService {
         return ModifyTodoResponseDto.of(todo.getTodoGroup().getId(), todo);
     }
 
+    @Transactional
+    public DeleteMemberJobResponseDto deleteMemberJob() {
+
+        Member member = memberAuthService.getCurrentMember();
+
+        TodoGroup todoGroupToDelete = todoGroupRepository.findByMember(member);
+
+        if (todoGroupToDelete == null) {
+            throw TodoGroupErrorCode.JOB_NOT_ADDED.toException();
+        }
+
+        Job job = todoGroupToDelete.getJob();
+        todoGroupRepository.delete(todoGroupToDelete);
+        job.minusTodoGroupNum();
+
+        return DeleteMemberJobResponseDto.from(member);
+    }
 
 }
