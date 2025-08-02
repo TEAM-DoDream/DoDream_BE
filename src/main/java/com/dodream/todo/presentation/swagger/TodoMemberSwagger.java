@@ -6,17 +6,18 @@ import com.dodream.todo.dto.request.ModifyTodoRequestDto;
 import com.dodream.todo.dto.request.PostTodoRequestDto;
 import com.dodream.todo.dto.response.AddJobTodoResponseDto;
 import com.dodream.todo.dto.response.ChangeCompleteStateTodoResponseDto;
+import com.dodream.todo.dto.response.DeleteMemberJobResponseDto;
 import com.dodream.todo.dto.response.DeleteTodoResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoGroupAtHomeResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
 import com.dodream.todo.dto.response.ModifyTodoResponseDto;
 import com.dodream.todo.dto.response.PostTodoResponseDto;
 import com.dodream.todo.exception.TodoErrorCode;
+import com.dodream.todo.exception.TodoGroupErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -70,7 +71,13 @@ public interface TodoMemberSwagger {
     ResponseEntity<RestResponse<AddJobTodoResponseDto>> addJobToMyTodoList(
         @PathVariable Long jobId);
 
-
+    @Operation(
+        summary = "직업 담기 취소 API",
+        description = "담았던 직업을 삭제한다.",
+        operationId = "/v1/my-dream/job"
+    )
+    @ApiErrorCode(TodoGroupErrorCode.class)
+    ResponseEntity<RestResponse<DeleteMemberJobResponseDto>> deleteMemberJob();
 
     @Operation(
         summary = "개별 투두 삭제 API",

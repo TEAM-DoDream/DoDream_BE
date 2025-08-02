@@ -6,6 +6,7 @@ import com.dodream.todo.dto.request.ModifyTodoRequestDto;
 import com.dodream.todo.dto.request.PostTodoRequestDto;
 import com.dodream.todo.dto.response.AddJobTodoResponseDto;
 import com.dodream.todo.dto.response.ChangeCompleteStateTodoResponseDto;
+import com.dodream.todo.dto.response.DeleteMemberJobResponseDto;
 import com.dodream.todo.dto.response.DeleteTodoResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoGroupAtHomeResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
@@ -50,7 +51,7 @@ public class TodoMemberController implements TodoMemberSwagger {
     @Override
     @PostMapping(value = "/todo")
     public ResponseEntity<RestResponse<PostTodoResponseDto>> postNewTodo(
-       @RequestBody PostTodoRequestDto postTodoRequestDto) {
+        @RequestBody PostTodoRequestDto postTodoRequestDto) {
         return ResponseEntity.ok(
             new RestResponse<>(memberTodoService.postNewTodo(postTodoRequestDto)));
     }
@@ -71,6 +72,12 @@ public class TodoMemberController implements TodoMemberSwagger {
             new RestResponse<>(memberTodoService.addJobToMyList(jobId)));
     }
 
+    @Override
+    @DeleteMapping(value = "/job")
+    public ResponseEntity<RestResponse<DeleteMemberJobResponseDto>> deleteMemberJob(){
+        return ResponseEntity.ok(
+            new RestResponse<>(memberTodoService.deleteMemberJob()));
+    }
 
     @Override
     @DeleteMapping(value = "/todo/{todoId}")
