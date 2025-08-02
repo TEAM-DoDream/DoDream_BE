@@ -38,6 +38,7 @@ public class LoggingAspect {
                     request.getMethod(), decodedUri, controllerName, methodName, endTime - startTime);
         } catch(Exception e) {
             log.error(e.getMessage(), e);
+            throw e;
         }
 
         return result;
