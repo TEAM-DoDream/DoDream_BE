@@ -102,7 +102,7 @@ public interface MemberSwagger {
     @Operation(
         summary = "멤버 레벨 리스트 조회 API",
         description = "멤버의 레벨 리스트를 조회한다.",
-        operationId = "/v1/member/level"
+        operationId = "/v1/member/level/all"
     )
     @ApiErrorCode(MemberErrorCode.class)
     ResponseEntity<RestResponse<List<GetMemberLevelInfoResponseDto>>> getMemberLevelList();

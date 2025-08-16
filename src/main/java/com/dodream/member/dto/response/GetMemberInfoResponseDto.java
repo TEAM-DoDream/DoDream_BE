@@ -4,7 +4,6 @@ import com.dodream.member.domain.Member;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.LocalDate;
-import java.util.List;
 import lombok.Builder;
 
 @Builder
@@ -24,7 +23,9 @@ public record GetMemberInfoResponseDto(
     @Schema(description = "거주지", example = "서울시 강동구")
     String regionName,
     @Schema(description = "관심 직업")
-    GetMemberInterestedJobResponseDto job
+    GetMemberInterestedJobResponseDto job,
+    @Schema(description = "레벨")
+    String level
 ) {
 
     public static GetMemberInfoResponseDto of(Member member,
@@ -37,8 +38,7 @@ public record GetMemberInfoResponseDto(
             .birthDate(member.getBirthDate())
             .regionName(member.getRegion().getRegionName())
             .job(job)
+            .level(member.getLevel() != null ? member.getLevel().getValue() : null)
             .build();
-
     }
-
 }
