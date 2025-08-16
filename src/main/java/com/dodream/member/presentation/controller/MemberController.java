@@ -2,6 +2,7 @@ package com.dodream.member.presentation.controller;
 
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.member.application.MemberService;
+import com.dodream.member.domain.Level;
 import com.dodream.member.dto.request.ChangeMemberBirthDateRequestDto;
 import com.dodream.member.dto.request.ChangeMemberNickNameRequestDto;
 import com.dodream.member.dto.request.ChangeMemberPasswordRequestDto;
@@ -12,10 +13,13 @@ import com.dodream.member.dto.response.ChangeMemberRegionResponseDto;
 import com.dodream.member.dto.response.DeleteMemberProfileImageResponseDto;
 import com.dodream.member.dto.response.GetMemberInfoResponseDto;
 import com.dodream.member.dto.response.GetMemberInterestedJobResponseDto;
+import com.dodream.member.dto.response.GetMemberLevelInfoResponseDto;
+import com.dodream.member.dto.response.PostMemberLevelResponseDto;
 import com.dodream.member.dto.response.UploadMemberProfileImageResponseDto;
 import com.dodream.member.presentation.swagger.MemberSwagger;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -103,5 +107,18 @@ public class MemberController implements MemberSwagger {
             new RestResponse<>(memberService.getMemberJob()));
     }
 
+    @Override
+    @GetMapping("/level")
+    public ResponseEntity<RestResponse<List<GetMemberLevelInfoResponseDto>>> getMemberLevelList() {
+        return ResponseEntity.ok(
+            new RestResponse<>(memberService.getMemberLevelList()));
+    }
+
+    @Override
+    @PostMapping("/level")
+    public ResponseEntity<RestResponse<PostMemberLevelResponseDto>> postMemberLevel(@RequestParam(name = "level") Level level) {
+        return ResponseEntity.ok(
+            new RestResponse<>(memberService.postMemberLevel(level)));
+    }
 
 }

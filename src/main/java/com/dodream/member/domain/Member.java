@@ -68,6 +68,11 @@ public class Member extends BaseLongIdEntity {
     @Builder.Default
     private State state = State.ACTIVE;
 
+    @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
+    private Level level;
+
+
     public void updateProfile(String imageUrl) {
         this.profileImage = imageUrl;
     }
@@ -87,5 +92,7 @@ public class Member extends BaseLongIdEntity {
     public void updateBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
+
+    public void updateLevel(Level level){ this.level = level; }
 
 }
