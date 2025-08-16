@@ -8,7 +8,7 @@ public record PostMemberLevelResponseDto(
     @Schema(description = "멤버 id(DB상)", example = "1")
     Long memberId,
 
-    @Schema(description = "새싹", example = "멤버 단계")
+    @Schema(description = "멤버 단계", example = "새싹")
     String level,
 
     @Schema(description = "메세지", example = "멤버 단계 설정 완료")
