@@ -1,6 +1,7 @@
 package com.dodream.member.application;
 
 import com.dodream.core.application.ObjectStorageService;
+import com.dodream.member.domain.Level;
 import com.dodream.member.domain.Member;
 import com.dodream.member.domain.State;
 import com.dodream.member.dto.request.ChangeMemberBirthDateRequestDto;
@@ -13,6 +14,8 @@ import com.dodream.member.dto.response.ChangeMemberRegionResponseDto;
 import com.dodream.member.dto.response.DeleteMemberProfileImageResponseDto;
 import com.dodream.member.dto.response.GetMemberInfoResponseDto;
 import com.dodream.member.dto.response.GetMemberInterestedJobResponseDto;
+import com.dodream.member.dto.response.GetMemberLevelInfoResponseDto;
+import com.dodream.member.dto.response.PostMemberLevelResponseDto;
 import com.dodream.member.dto.response.UploadMemberProfileImageResponseDto;
 import com.dodream.member.exception.MemberErrorCode;
 import com.dodream.member.repository.MemberRepository;
@@ -21,6 +24,8 @@ import com.dodream.region.exception.RegionErrorCode;
 import com.dodream.region.repository.RegionRepository;
 import com.dodream.todo.domain.TodoGroup;
 import com.dodream.todo.repository.TodoGroupRepository;
+import java.util.Arrays;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -159,4 +164,22 @@ public class MemberService {
 
         return jobResponseDto;
     }
+
+    @Transactional(readOnly = true)
+    public List<GetMemberLevelInfoResponseDto> getMemberLevelList() {
+
+        return Arrays.stream(Level.values())
+            .map(GetMemberLevelInfoResponseDto::from)
+            .toList();
+    }
+
+    @Transactional
+    public PostMemberLevelResponseDto postMemberLevel(Level level) {
+
+        Member member = memberAuthService.getCurrentMember();
+        member.updateLevel(level);
+
+        return PostMemberLevelResponseDto.of(member.getId(), level);
+    }
+
 }

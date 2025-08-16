@@ -2,6 +2,7 @@ package com.dodream.member.presentation.swagger;
 
 import com.dodream.core.config.swagger.ApiErrorCode;
 import com.dodream.core.presentation.RestResponse;
+import com.dodream.member.domain.Level;
 import com.dodream.member.dto.request.ChangeMemberBirthDateRequestDto;
 import com.dodream.member.dto.request.ChangeMemberNickNameRequestDto;
 import com.dodream.member.dto.request.ChangeMemberPasswordRequestDto;
@@ -12,11 +13,14 @@ import com.dodream.member.dto.response.ChangeMemberRegionResponseDto;
 import com.dodream.member.dto.response.DeleteMemberProfileImageResponseDto;
 import com.dodream.member.dto.response.GetMemberInfoResponseDto;
 import com.dodream.member.dto.response.GetMemberInterestedJobResponseDto;
+import com.dodream.member.dto.response.GetMemberLevelInfoResponseDto;
+import com.dodream.member.dto.response.PostMemberLevelResponseDto;
 import com.dodream.member.dto.response.UploadMemberProfileImageResponseDto;
 import com.dodream.member.exception.MemberErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -94,5 +98,22 @@ public interface MemberSwagger {
     )
     @ApiErrorCode(MemberErrorCode.class)
     ResponseEntity<RestResponse<GetMemberInterestedJobResponseDto>> getMemberJob();
+
+    @Operation(
+        summary = "멤버 레벨 리스트 조회 API",
+        description = "멤버의 레벨 리스트를 조회한다.",
+        operationId = "/v1/member/level"
+    )
+    @ApiErrorCode(MemberErrorCode.class)
+    ResponseEntity<RestResponse<List<GetMemberLevelInfoResponseDto>>> getMemberLevelList();
+
+    @Operation(
+        summary = "멤버 레벨 설정 API",
+        description = "멤버의 레벨을 설정한다.",
+        operationId = "/v1/member/level"
+    )
+    @ApiErrorCode(MemberErrorCode.class)
+    ResponseEntity<RestResponse<PostMemberLevelResponseDto>> postMemberLevel(
+        @RequestParam(name = "level") Level level);
 
 }
