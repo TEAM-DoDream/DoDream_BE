@@ -108,7 +108,7 @@ public class MemberController implements MemberSwagger {
     }
 
     @Override
-    @GetMapping("/level")
+    @GetMapping("/level/all")
     public ResponseEntity<RestResponse<List<GetMemberLevelInfoResponseDto>>> getMemberLevelList() {
         return ResponseEntity.ok(
             new RestResponse<>(memberService.getMemberLevelList()));
