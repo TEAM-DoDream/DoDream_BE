@@ -51,6 +51,6 @@ public record GetOneTodoGroupResponseDto(
 
     public static GetOneTodoGroupResponseDto empty(Member member) {
         return new GetOneTodoGroupResponseDto(null, member.getNickName(), null,null, null, null,
-            null, null, Collections.emptyList());
+            null,null, Collections.emptyList());
     }
 }
