@@ -21,8 +21,6 @@ public record GetOneTodoGroupResponseDto(
     String regionName,
     @Schema(description = "투두 경과 일자(X일)", example = "38")
     Long daysAgo,
-    @Schema(description = "직업 이름", example = "요양보호사")
-    String jobName,
     @Schema(description = "직업 id", example = "1")
     Long jobId,
     @Schema(description = "조회수", example = "101")
@@ -42,7 +40,6 @@ public record GetOneTodoGroupResponseDto(
             .daysAgo(
                 ChronoUnit.DAYS.between(myTodoGroup.getCreatedAt().toLocalDate(), LocalDate.now())
                     + 1)
-            .jobName(myTodoGroup.getJob().getJobName())
             .jobId(myTodoGroup.getJob().getId())
             .totalView(myTodoGroup.getTotalView())
             .todos(todos)
@@ -51,6 +48,6 @@ public record GetOneTodoGroupResponseDto(
 
     public static GetOneTodoGroupResponseDto empty(Member member) {
         return new GetOneTodoGroupResponseDto(null, member.getNickName(), null,null, null, null,
-            null,null, Collections.emptyList());
+            null, Collections.emptyList());
     }
 }
