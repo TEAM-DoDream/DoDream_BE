@@ -4,6 +4,7 @@ import com.dodream.core.presentation.RestResponse;
 import com.dodream.todo.dto.response.TodoCommunityResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -19,5 +20,18 @@ public interface TodoCommunitySwagger {
     )
     ResponseEntity<RestResponse<List<TodoCommunityResponseDto>>> getTop5Todos(
             @RequestParam String jobName
+    );
+
+    @Operation(
+            summary = "커뮤니티 - 직업별 전체 투두 목록 조회하기",
+            description = "커뮤니티에서 직업별 투두 목록을 조회합니다. 무한스크롤 방식으로 구현했습니다.",
+            operationId = "/v1/community/todos"
+    )
+    ResponseEntity<RestResponse<Slice<TodoCommunityResponseDto>>> getTodos(
+            @RequestParam String jobName,
+            @RequestParam String level,
+            @RequestParam String sort,
+            @RequestParam int page,
+            @RequestParam int size
     );
 }
