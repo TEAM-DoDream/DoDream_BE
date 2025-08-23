@@ -47,6 +47,9 @@ public class Todo extends BaseLongIdEntity {
     @Column(nullable = false)
     private String title;
 
+    @Column(name = "save_count")
+    private Long saveCount = 0L;
+
     @Builder.Default
     private Boolean completed = false;
 
@@ -57,6 +60,8 @@ public class Todo extends BaseLongIdEntity {
     public void updateCompleted() {
         this.completed = !this.completed;
     }
+    public void increaseSaveCount() { this.saveCount++; }
+    public void decreaseSaveCount() { this.saveCount--; }
 
 
     @Builder
