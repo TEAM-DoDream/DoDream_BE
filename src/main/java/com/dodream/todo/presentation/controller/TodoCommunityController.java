@@ -4,7 +4,9 @@ import com.dodream.core.presentation.RestResponse;
 import com.dodream.todo.application.TodoCommunityService;
 import com.dodream.todo.dto.response.TodoCommunityResponseDto;
 import com.dodream.todo.presentation.swagger.TodoCommunitySwagger;
+import feign.Response;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +29,22 @@ public class TodoCommunityController implements TodoCommunitySwagger {
     ) {
         return ResponseEntity.ok(
                 new RestResponse<>(todoCommunityService.findTop5TodosBySaveCount(jobName))
+        );
+    }
+
+    @Override
+    @GetMapping("/todos")
+    public ResponseEntity<RestResponse<Slice<TodoCommunityResponseDto>>> getTodos(
+            @RequestParam String jobName,
+            @RequestParam String level,
+            @RequestParam String sort,
+            @RequestParam int page,
+            @RequestParam int size
+    ) {
+        return ResponseEntity.ok(
+                new RestResponse<>(todoCommunityService.searchTodoList(
+                        jobName, level, sort, page, size
+                ))
         );
     }
 }
