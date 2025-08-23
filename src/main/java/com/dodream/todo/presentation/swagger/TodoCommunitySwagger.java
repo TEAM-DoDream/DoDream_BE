@@ -1,0 +1,23 @@
+package com.dodream.todo.presentation.swagger;
+
+import com.dodream.core.presentation.RestResponse;
+import com.dodream.todo.dto.response.TodoCommunityResponseDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+
+@Tag(name = "Community", description = "투두 커뮤니티 관련 컨트롤러(투두 커뮤니티 페이지에서 사용)")
+public interface TodoCommunitySwagger {
+
+    @Operation(
+            summary = "커뮤니티 - 직업별 Hot 할일 목록 조회하기",
+            description = "커뮤니티에서 직업별 Hot 할일 목록을 조회합니다. 5개 조회됩니다.",
+            operationId = "/v1/community/todos/popular"
+    )
+    ResponseEntity<RestResponse<List<TodoCommunityResponseDto>>> getTop5Todos(
+            @RequestParam String jobName
+    );
+}

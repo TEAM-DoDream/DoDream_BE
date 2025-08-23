@@ -2,31 +2,19 @@ package com.dodream.todo.domain;
 
 import com.dodream.core.infrastructure.jpa.entity.BaseLongIdEntity;
 import com.dodream.job.domain.JobTodo;
-import com.dodream.job.domain.TodoCategory;
 import com.dodream.member.domain.Member;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 @Entity
 @Getter
@@ -47,7 +35,8 @@ public class Todo extends BaseLongIdEntity {
     @Column(nullable = false)
     private String title;
 
-    @Column(name = "save_count")
+    @Column(name = "save_count", nullable = false)
+    @Builder.Default
     private Long saveCount = 0L;
 
     @Builder.Default
@@ -60,8 +49,12 @@ public class Todo extends BaseLongIdEntity {
     public void updateCompleted() {
         this.completed = !this.completed;
     }
-    public void increaseSaveCount() { this.saveCount++; }
-    public void decreaseSaveCount() { this.saveCount--; }
+    public void increaseSaveCount() {
+        this.saveCount++;
+    }
+    public void decreaseSaveCount() {
+        this.saveCount--;
+    }
 
 
     @Builder
