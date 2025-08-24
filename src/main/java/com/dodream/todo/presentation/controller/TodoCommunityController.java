@@ -48,7 +48,7 @@ public class TodoCommunityController implements TodoCommunitySwagger {
     }
 
     @Override
-    @PostMapping("/todos/save/{id}")
+    @PostMapping("/todos/{id}")
     public ResponseEntity<RestResponse<OtherTodoSaveResponseDto>> saveOtherTodo(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PathVariable Long id
@@ -57,6 +57,21 @@ public class TodoCommunityController implements TodoCommunitySwagger {
                 new RestResponse<>(
                         todoCommunityService.saveOtherTodo(
                             customUserDetails, id
+                        )
+                )
+        );
+    }
+
+    @Override
+    @DeleteMapping("/todos/{id}")
+    public ResponseEntity<RestResponse<Boolean>> cancelotherTodo(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @PathVariable Long id
+    ) {
+        return ResponseEntity.ok(
+                new RestResponse<>(
+                        todoCommunityService.cancelSaveOtherTodo(
+                                customUserDetails, id
                         )
                 )
         );

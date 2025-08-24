@@ -25,5 +25,6 @@ public interface TodoRepository extends JpaRepository<Todo, Long>, TodoRepositor
 
     Optional<Todo> findByIdAndMemberNot(Long id, Member member);
 
+    Optional<Todo> findByOtherTodoIdAndMember(Long otherTodoId, Member member);
 
 }
