@@ -27,4 +27,5 @@ public interface TodoRepository extends JpaRepository<Todo, Long>, TodoRepositor
 
     Optional<Todo> findByOtherTodoIdAndMember(Long otherTodoId, Member member);
 
+    boolean existsByMemberAndOtherTodoId(Member member, Long otherTodoId);
 }
