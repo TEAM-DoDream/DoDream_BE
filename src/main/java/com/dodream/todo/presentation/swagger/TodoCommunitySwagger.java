@@ -18,6 +18,15 @@ import java.util.List;
 public interface TodoCommunitySwagger {
 
     @Operation(
+            summary = "커뮤니티 - 초기 필터 설정",
+            description = "커뮤니티 페이지 초기 렌더링시 직업 필터의 이름을 결정합니다.",
+            operationId = "/v1/community/job"
+    )
+    ResponseEntity<RestResponse<String>> getFirstRenderingFilter(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    );
+
+    @Operation(
             summary = "커뮤니티 - 직업별 Hot 할일 목록 조회하기",
             description = "커뮤니티에서 직업별 Hot 할일 목록을 조회합니다. 5개 조회됩니다.",
             operationId = "/v1/community/todos/popular"

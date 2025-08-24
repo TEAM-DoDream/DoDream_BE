@@ -1,5 +1,6 @@
 package com.dodream.todo.repository;
 
+import com.dodream.job.domain.Job;
 import com.dodream.member.domain.Level;
 import com.dodream.todo.dto.response.TodoCommunityResponse;
 
@@ -15,4 +16,6 @@ public interface TodoRepositoryCustom {
     Slice<TodoCommunityResponse> findTodosWithSlice(Long memberId, String jobName, Level level, String sort, Pageable pageable);
 
     List<Long> findMyTodoIds(Long memberId);
+
+    Job findJobWithMostTodos();
 }
