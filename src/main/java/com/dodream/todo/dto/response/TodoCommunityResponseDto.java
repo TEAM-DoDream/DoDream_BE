@@ -27,7 +27,10 @@ public record TodoCommunityResponseDto (
         String description,
 
         @Schema(description = "투두 저장 횟수", example = "1")
-        Long saveCount
+        Long saveCount,
+
+        @Schema(description = "내가 저장한 다른사람의 투두인가 여부(true이면 저장이 아닌 취소 가능)", example = "false")
+        boolean isSaved
 ){
     public static TodoCommunityResponseDto of(TodoCommunityResponse response) {
         return new TodoCommunityResponseDto(
@@ -37,7 +40,8 @@ public record TodoCommunityResponseDto (
                 response.imageUrl(),
                 ConvertLocalDateToString.calculateTimeAgo(response.createdAt()),
                 response.description(),
-                response.saveCount()
+                response.saveCount(),
+                response.isSaved()
         );
     }
 }

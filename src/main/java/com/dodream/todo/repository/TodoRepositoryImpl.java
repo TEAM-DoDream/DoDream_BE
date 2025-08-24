@@ -16,6 +16,7 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.SliceImpl;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -55,12 +56,17 @@ public class TodoRepositoryImpl implements TodoRepositoryCustom{
     }
 
     @Override
-    public Slice<TodoCommunityResponse> findTodosWithSlice(String jobName, Level level, String sort, Pageable pageable) {
+    public Slice<TodoCommunityResponse> findTodosWithSlice(Long memberId, String jobName, Level level, String sort, Pageable pageable) {
 
         QTodo todo = QTodo.todo;
         QTodoGroup todoGroup = QTodoGroup.todoGroup;
         QJob job = QJob.job;
         QMember member = QMember.member;
+
+        List<Long> mySavedTodoIds = Collections.emptyList();
+        if (memberId != null) {
+            mySavedTodoIds = findMyTodoIds(memberId);
+        }
 
         List<TodoCommunityResponse> content = queryFactory
                 .select(Projections.constructor(
@@ -71,7 +77,8 @@ public class TodoRepositoryImpl implements TodoRepositoryCustom{
                         member.profileImage,
                         todo.createdAt,
                         todo.title,
-                        todo.saveCount
+                        todo.saveCount,
+                        todo.id.in(mySavedTodoIds)
                 ))
                 .from(todo)
                 .join(todo.todoGroup, todoGroup)
@@ -106,5 +113,15 @@ public class TodoRepositoryImpl implements TodoRepositoryCustom{
         }
         // 기본값: 최신순 (생성일 내림차순)
         return todo.createdAt.desc();
+    }
+
+    @Override
+    public List<Long> findMyTodoIds(Long memberId) {
+        QTodo todo = QTodo.todo;
+        return queryFactory
+                .select(todo.otherTodoId)
+                .from(todo)
+                .where(todo.member.id.eq(memberId))
+                .fetch();
     }
 }
