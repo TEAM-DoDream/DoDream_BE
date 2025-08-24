@@ -1,5 +1,6 @@
 package com.dodream.todo.repository;
 
+import com.dodream.job.domain.Job;
 import com.dodream.job.domain.QJob;
 import com.dodream.member.domain.Level;
 import com.dodream.member.domain.QMember;
@@ -123,5 +124,20 @@ public class TodoRepositoryImpl implements TodoRepositoryCustom{
                 .from(todo)
                 .where(todo.member.id.eq(memberId))
                 .fetch();
+    }
+
+    @Override
+    public Job findJobWithMostTodos() {
+        QTodo todo = QTodo.todo;
+        QTodoGroup todoGroup = QTodoGroup.todoGroup;
+
+        return queryFactory.select(todoGroup.job)
+                .select(todoGroup.job)
+                .from(todo)
+                .join(todo.todoGroup, todoGroup)
+                .groupBy(todoGroup.job)
+                .orderBy(todo.id.count().desc())
+                .limit(1)
+                .fetchOne();
     }
 }
