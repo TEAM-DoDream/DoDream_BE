@@ -90,12 +90,12 @@ public class TodoCommunityService {
 
     // 투두 필터에 따른 투두 목록을 출력한다(무한 스크롤)
     public Slice<TodoCommunityResponseDto> searchTodoList(
-            String jobName, String level, String sort, int page, int size
+            Long memberId, String jobName, String level, String sort, int page, int size
     ) {
 
         Pageable pageable = PageRequest.of(page, size);
 
-        Slice<TodoCommunityResponse> slice = todoRepository.findTodosWithSlice(jobName, getLevel(level), sort, pageable);
+        Slice<TodoCommunityResponse> slice = todoRepository.findTodosWithSlice(memberId, jobName, getLevel(level), sort, pageable);
 
         List<TodoCommunityResponseDto> content = slice.stream()
                 .map(TodoCommunityResponseDto::of)
