@@ -1,11 +1,15 @@
 package com.dodream.todo.presentation.swagger;
 
+import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.core.presentation.RestResponse;
+import com.dodream.todo.dto.response.OtherTodoSaveResponseDto;
 import com.dodream.todo.dto.response.TodoCommunityResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -33,5 +37,15 @@ public interface TodoCommunitySwagger {
             @RequestParam String sort,
             @RequestParam int page,
             @RequestParam int size
+    );
+
+    @Operation(
+            summary = "커뮤니티 - 다른 사람의 투두 저장 하기",
+            description = "커뮤니티에서 다른 사람의 투두를 저장합니다.",
+            operationId = "/v1/community/todos/save/{id}"
+    )
+    ResponseEntity<RestResponse<OtherTodoSaveResponseDto>> saveOtherTodo(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @PathVariable Long id
     );
 }

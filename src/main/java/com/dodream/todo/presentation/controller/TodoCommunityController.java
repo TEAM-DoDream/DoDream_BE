@@ -1,17 +1,16 @@
 package com.dodream.todo.presentation.controller;
 
+import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.todo.application.TodoCommunityService;
+import com.dodream.todo.dto.response.OtherTodoSaveResponseDto;
 import com.dodream.todo.dto.response.TodoCommunityResponseDto;
 import com.dodream.todo.presentation.swagger.TodoCommunitySwagger;
-import feign.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Slice;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -45,6 +44,21 @@ public class TodoCommunityController implements TodoCommunitySwagger {
                 new RestResponse<>(todoCommunityService.searchTodoList(
                         jobName, level, sort, page, size
                 ))
+        );
+    }
+
+    @Override
+    @PostMapping("/todos/save/{id}")
+    public ResponseEntity<RestResponse<OtherTodoSaveResponseDto>> saveOtherTodo(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @PathVariable Long id
+    ) {
+        return ResponseEntity.ok(
+                new RestResponse<>(
+                        todoCommunityService.saveOtherTodo(
+                            customUserDetails, id
+                        )
+                )
         );
     }
 }

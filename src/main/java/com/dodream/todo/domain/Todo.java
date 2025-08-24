@@ -1,5 +1,6 @@
 package com.dodream.todo.domain;
 
+import com.dodream.core.infrastructure.cache.annotation.DistributedLock;
 import com.dodream.core.infrastructure.jpa.entity.BaseLongIdEntity;
 import com.dodream.job.domain.JobTodo;
 import com.dodream.member.domain.Member;
@@ -41,7 +42,11 @@ public class Todo extends BaseLongIdEntity {
 
     @Builder.Default
     private Boolean completed = false;
-
+    
+    // 0인 경우 내가 작성한 투두, 0이 아닌 경우 다른 사람 투두 저장한거임
+    @Column(name = "other_todo_id", nullable = false)
+    @Builder.Default
+    private Long otherTodoId = 0L;
 
     public void updateTitle(String title) {
         this.title = title;
@@ -49,9 +54,13 @@ public class Todo extends BaseLongIdEntity {
     public void updateCompleted() {
         this.completed = !this.completed;
     }
+
+    @DistributedLock(lockName = "todo-save-time")
     public void increaseSaveCount() {
         this.saveCount++;
     }
+
+    @DistributedLock(lockName = "todo-save-time")
     public void decreaseSaveCount() {
         this.saveCount--;
     }
