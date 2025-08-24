@@ -62,7 +62,8 @@ public class Todo extends BaseLongIdEntity {
 
     @DistributedLock(lockName = "todo-save-time")
     public void decreaseSaveCount() {
-        this.saveCount--;
+        if(this.saveCount > 0)
+            this.saveCount--;
     }
 
 

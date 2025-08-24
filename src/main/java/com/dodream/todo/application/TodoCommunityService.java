@@ -51,6 +51,16 @@ public class TodoCommunityService {
         Todo otherTodo = todoRepository.findById(otherTodoId)
                 .orElseThrow(TodoErrorCode.TODO_NOT_FOUND::toException);
 
+        // 이미 저장된 투두의 경우 저장 x
+        if(todoRepository.existsByMemberAndOtherTodoId(member, otherTodo.getOtherTodoId())){
+            throw TodoErrorCode.IS_SAVED_IN_MY_TODO.toException();
+        }
+
+        // 내 투두도 저장 x
+        if(otherTodo.getMember().getId().equals(member.getId())){
+            throw TodoErrorCode.IS_MY_TODO.toException();
+        }
+
         // 1. 다른 사람 투두를 저장한다.
         Todo myTodo = new Todo(todoGroup, member, otherTodo.getTitle(), 0L,false, otherTodoId);
         todoRepository.save(myTodo);
