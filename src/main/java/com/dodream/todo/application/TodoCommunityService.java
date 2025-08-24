@@ -31,6 +31,17 @@ public class TodoCommunityService {
     private final TodoGroupRepository todoGroupRepository;
     private final MemberRepository memberRepository;
 
+    // 초기 렌더링시 필터의 이름을 정한다.
+    public String getJobFilterName(CustomUserDetails customUserDetails) {
+        if(customUserDetails == null){
+            // 비로그인인 경우 할일 데이터가 가장 많은 직업 이름
+            return todoRepository.findJobWithMostTodos().getJobName();
+        }else {
+            // 로그인한 경우 유저가 입력한 직업 이름
+            return todoGroupRepository.findByMember(getMember(customUserDetails)).getJob().getJobName();
+        }
+    }
+
     // 다른 사람의 투두를 저장한다.
     @Transactional
     public OtherTodoSaveResponseDto saveOtherTodo(CustomUserDetails customUserDetails, Long otherTodoId) {
