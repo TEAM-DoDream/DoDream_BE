@@ -34,17 +34,27 @@ public class TodoCommunityController implements TodoCommunitySwagger {
     @Override
     @GetMapping("/todos")
     public ResponseEntity<RestResponse<Slice<TodoCommunityResponseDto>>> getTodos(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestParam String jobName,
             @RequestParam String level,
             @RequestParam String sort,
             @RequestParam int page,
             @RequestParam int size
     ) {
-        return ResponseEntity.ok(
-                new RestResponse<>(todoCommunityService.searchTodoList(
-                        jobName, level, sort, page, size
-                ))
-        );
+        if(customUserDetails == null) {
+            return ResponseEntity.ok(
+                    new RestResponse<>(todoCommunityService.searchTodoList(
+                            null, jobName, level, sort, page, size
+                    ))
+            );
+        }
+        else{
+            return ResponseEntity.ok(
+                    new RestResponse<>(todoCommunityService.searchTodoList(
+                            customUserDetails.getId(), jobName, level, sort, page, size
+                    ))
+            );
+        }
     }
 
     @Override

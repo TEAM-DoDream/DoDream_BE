@@ -12,5 +12,7 @@ public interface TodoRepositoryCustom {
 
     List<TodoCommunityResponse> findByTop5SaveTodo(String jobName);
 
-    Slice<TodoCommunityResponse> findTodosWithSlice(String jobName, Level level, String sort, Pageable pageable);
+    Slice<TodoCommunityResponse> findTodosWithSlice(Long memberId, String jobName, Level level, String sort, Pageable pageable);
+
+    List<Long> findMyTodoIds(Long memberId);
 }
