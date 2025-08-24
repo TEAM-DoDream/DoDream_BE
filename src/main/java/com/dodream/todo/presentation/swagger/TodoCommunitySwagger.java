@@ -1,9 +1,11 @@
 package com.dodream.todo.presentation.swagger;
 
+import com.dodream.core.config.swagger.ApiErrorCode;
 import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.todo.dto.response.OtherTodoSaveResponseDto;
 import com.dodream.todo.dto.response.TodoCommunityResponseDto;
+import com.dodream.todo.exception.TodoErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Slice;
@@ -54,6 +56,7 @@ public interface TodoCommunitySwagger {
             description = "커뮤니티에서 다른 사람의 투두를 저장합니다.",
             operationId = "/v1/community/todos/{id}"
     )
+    @ApiErrorCode(TodoErrorCode.class)
     ResponseEntity<RestResponse<OtherTodoSaveResponseDto>> saveOtherTodo(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PathVariable Long id
