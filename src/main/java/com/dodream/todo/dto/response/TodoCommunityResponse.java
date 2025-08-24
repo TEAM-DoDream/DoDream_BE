@@ -18,6 +18,8 @@ public record TodoCommunityResponse(
 
         String description,
 
-        Long saveCount
+        Long saveCount,
+
+        boolean isSaved
 ) {
 }

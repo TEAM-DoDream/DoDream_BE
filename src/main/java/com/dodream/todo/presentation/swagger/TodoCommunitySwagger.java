@@ -32,6 +32,7 @@ public interface TodoCommunitySwagger {
             operationId = "/v1/community/todos"
     )
     ResponseEntity<RestResponse<Slice<TodoCommunityResponseDto>>> getTodos(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @RequestParam String jobName,
             @RequestParam String level,
             @RequestParam String sort,
