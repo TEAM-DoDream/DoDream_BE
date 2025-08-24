@@ -22,6 +22,18 @@ public class TodoCommunityController implements TodoCommunitySwagger {
     private final TodoCommunityService todoCommunityService;
 
     @Override
+    @GetMapping("/job")
+    public ResponseEntity<RestResponse<String>> getFirstRenderingFilter(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    ) {
+        return ResponseEntity.ok(
+                new RestResponse<>(
+                    todoCommunityService.getJobFilterName(customUserDetails)
+                )
+        );
+    }
+
+    @Override
     @GetMapping("/todos/popular")
     public ResponseEntity<RestResponse<List<TodoCommunityResponseDto>>> getTop5Todos(
             @RequestParam String jobName
