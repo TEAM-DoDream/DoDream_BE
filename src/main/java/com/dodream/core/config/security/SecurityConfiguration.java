@@ -35,7 +35,8 @@ public class SecurityConfiguration {
         "/v1/member/auth/email/**",
         "/v1/clova/**",
         "/v1/job/**",
-        "/v1/todo/other/public"
+        "/v1/todo/other/public",
+        "/v1/job/todo/**"
     };
 
     @Bean

@@ -3,11 +3,13 @@ package com.dodream.job.presentation.swagger;
 import com.dodream.core.config.swagger.ApiErrorCode;
 import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.core.presentation.RestResponse;
+import com.dodream.job.domain.TodoCategory;
 import com.dodream.job.dto.request.recommend.OnboardingAnswerSet;
 import com.dodream.job.dto.response.JobAddListDto;
 import com.dodream.job.dto.response.JobListDto;
 import com.dodream.job.dto.response.JobRecommendationResponse;
 import com.dodream.job.dto.response.JobResponseDto;
+import com.dodream.job.dto.response.JobTodoListResponseDto;
 import com.dodream.job.exception.JobErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -73,4 +75,14 @@ public interface JobSwagger {
         operationId = "/v1/job/add"
     )
     ResponseEntity<RestResponse<List<JobAddListDto>>> getJobAddList();
+
+
+    @Operation(
+        summary = "특정 직업의 카테고리별 투두 조회 API",
+        description = "특정 직업의 카테고리별 투두를 반환합니다.",
+        operationId = "/v1/job/todo"
+    )
+    ResponseEntity<RestResponse<JobTodoListResponseDto>> getJobTodoList(
+        @RequestParam("id") Long id,
+        @RequestParam("todoCategory") TodoCategory todoCategory);
 }

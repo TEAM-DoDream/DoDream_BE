@@ -6,9 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -17,8 +14,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
 
 @Entity
 @Getter
@@ -31,6 +26,11 @@ public class JobTodo extends BaseLongIdEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "job_id")
     private Job job;
+
+    @Column(name = "todo_category")
+//    @Column(nullable = false, name = "todo_category")
+    @Enumerated(EnumType.STRING)
+    private TodoCategory todoCategory;
 
     @Column(nullable = false)
     private String title;
