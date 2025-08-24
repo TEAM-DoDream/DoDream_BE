@@ -1,6 +1,5 @@
 package com.dodream.todo.application;
 
-import com.dodream.core.infrastructure.cache.annotation.DistributedLock;
 import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.member.domain.Level;
 import com.dodream.member.domain.Member;
@@ -35,24 +34,14 @@ public class TodoCommunityService {
     // 다른 사람의 투두를 저장한다.
     @Transactional
     public OtherTodoSaveResponseDto saveOtherTodo(CustomUserDetails customUserDetails, Long otherTodoId) {
-        if(customUserDetails == null)
-            throw MemberErrorCode.MEMBER_NOT_FOUND.toException();
-
-        Long userId = customUserDetails.getId();
-
-        Member member = memberRepository.findById(userId).orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
+        Member member = getMember(customUserDetails);
         TodoGroup todoGroup = todoGroupRepository.findByMember(member);
 
         Todo otherTodo = todoRepository.findById(otherTodoId)
                 .orElseThrow(TodoErrorCode.TODO_NOT_FOUND::toException);
 
         // 1. 다른 사람 투두를 저장한다.
-        Todo myTodo = Todo.builder()
-                .title(otherTodo.getTitle())
-                .todoGroup(todoGroup)
-                .member(member)
-                .build();
-
+        Todo myTodo = new Todo(todoGroup, member, otherTodo.getTitle(), 0L,false, otherTodoId);
         todoRepository.save(myTodo);
 
         // 2. 다른 사람 투두의 저장 횟수를 1 늘린다
@@ -66,6 +55,29 @@ public class TodoCommunityService {
     }
 
     // 다른 사람의 투두 저장을 취소한다.
+    @Transactional
+    public Boolean cancelSaveOtherTodo(CustomUserDetails customUserDetails, Long id) {
+        // 1. 멤버 여부 확인
+        Member member = getMember(customUserDetails);
+
+        // 2. 본인의 투두에 해당 투두가 있는지 확인
+        Todo myTodo = todoRepository.findByOtherTodoIdAndMember(id, member)
+                .orElseThrow(TodoErrorCode.TODO_NOT_FOUND::toException);
+
+        // 3. 원본 투두의 ID를 myTodo에서 가져온다
+        Long otherTodoId = myTodo.getOtherTodoId();
+
+        // 4. 본인의 투두 삭제
+        todoRepository.delete(myTodo);
+
+        // 5. 원본 투두를 찾아 저장 횟수 1 감소
+        Todo otherTodo = todoRepository.findById(otherTodoId)
+                .orElseThrow(TodoErrorCode.OTHER_TODO_NOT_FOUND::toException);
+        otherTodo.decreaseSaveCount();
+
+        return true;
+    }
+
 
     // 현재 직업의 투두 중 저장횟수가 가장 높은 투두를 5개 출력한다.
     public List<TodoCommunityResponseDto> findTop5TodosBySaveCount (String jobName){
@@ -77,7 +89,9 @@ public class TodoCommunityService {
     }
 
     // 투두 필터에 따른 투두 목록을 출력한다(무한 스크롤)
-    public Slice<TodoCommunityResponseDto> searchTodoList(String jobName, String level, String sort, int page, int size) {
+    public Slice<TodoCommunityResponseDto> searchTodoList(
+            String jobName, String level, String sort, int page, int size
+    ) {
 
         Pageable pageable = PageRequest.of(page, size);
 
@@ -97,5 +111,14 @@ public class TodoCommunityService {
             case "3단계: 꿈나무" -> Level.TREE;
             default -> null;
         };
+    }
+
+    private Member getMember(CustomUserDetails customUserDetails) {
+        if(customUserDetails == null)
+            throw MemberErrorCode.MEMBER_NOT_FOUND.toException();
+
+        Long userId = customUserDetails.getId();
+
+        return memberRepository.findById(userId).orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
     }
 }
