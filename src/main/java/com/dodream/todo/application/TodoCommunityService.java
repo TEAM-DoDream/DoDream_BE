@@ -1,9 +1,20 @@
 package com.dodream.todo.application;
 
+import com.dodream.core.infrastructure.cache.annotation.DistributedLock;
+import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.member.domain.Level;
+import com.dodream.member.domain.Member;
+import com.dodream.member.exception.MemberErrorCode;
+import com.dodream.member.repository.MemberRepository;
+import com.dodream.todo.domain.Todo;
+import com.dodream.todo.domain.TodoGroup;
+import com.dodream.todo.dto.response.OtherTodoSaveResponseDto;
 import com.dodream.todo.dto.response.TodoCommunityResponse;
 import com.dodream.todo.dto.response.TodoCommunityResponseDto;
+import com.dodream.todo.exception.TodoErrorCode;
+import com.dodream.todo.repository.TodoGroupRepository;
 import com.dodream.todo.repository.TodoRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,8 +29,41 @@ import java.util.List;
 public class TodoCommunityService {
 
     private final TodoRepository todoRepository;
+    private final TodoGroupRepository todoGroupRepository;
+    private final MemberRepository memberRepository;
 
     // 다른 사람의 투두를 저장한다.
+    @Transactional
+    public OtherTodoSaveResponseDto saveOtherTodo(CustomUserDetails customUserDetails, Long otherTodoId) {
+        if(customUserDetails == null)
+            throw MemberErrorCode.MEMBER_NOT_FOUND.toException();
+
+        Long userId = customUserDetails.getId();
+
+        Member member = memberRepository.findById(userId).orElseThrow(MemberErrorCode.MEMBER_NOT_FOUND::toException);
+        TodoGroup todoGroup = todoGroupRepository.findByMember(member);
+
+        Todo otherTodo = todoRepository.findById(otherTodoId)
+                .orElseThrow(TodoErrorCode.TODO_NOT_FOUND::toException);
+
+        // 1. 다른 사람 투두를 저장한다.
+        Todo myTodo = Todo.builder()
+                .title(otherTodo.getTitle())
+                .todoGroup(todoGroup)
+                .member(member)
+                .build();
+
+        todoRepository.save(myTodo);
+
+        // 2. 다른 사람 투두의 저장 횟수를 1 늘린다
+        otherTodo.increaseSaveCount();
+
+        // 3. return
+        return new OtherTodoSaveResponseDto(
+                myTodo.getId(),
+                "저장에 성공했습니다."
+        );
+    }
 
     // 다른 사람의 투두 저장을 취소한다.
 
