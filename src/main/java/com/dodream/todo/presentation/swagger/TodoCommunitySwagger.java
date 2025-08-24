@@ -42,9 +42,19 @@ public interface TodoCommunitySwagger {
     @Operation(
             summary = "커뮤니티 - 다른 사람의 투두 저장 하기",
             description = "커뮤니티에서 다른 사람의 투두를 저장합니다.",
-            operationId = "/v1/community/todos/save/{id}"
+            operationId = "/v1/community/todos/{id}"
     )
     ResponseEntity<RestResponse<OtherTodoSaveResponseDto>> saveOtherTodo(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails,
+            @PathVariable Long id
+    );
+
+    @Operation(
+            summary = "커뮤니티 - 다른 사람의 투두 저장 취소 하기",
+            description = "커뮤니티에서 다른 사람의 투두를 저장을 취소합니다.",
+            operationId = "/v1/community/todos/{id}"
+    )
+    ResponseEntity<RestResponse<Boolean>> cancelotherTodo(
             @AuthenticationPrincipal CustomUserDetails customUserDetails,
             @PathVariable Long id
     );
