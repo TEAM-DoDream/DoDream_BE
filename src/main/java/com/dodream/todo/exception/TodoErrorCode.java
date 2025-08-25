@@ -15,8 +15,8 @@ public enum TodoErrorCode implements BaseErrorCode<DomainException> {
     TODO_MEMO_NOT_PUBLIC(HttpStatus.BAD_REQUEST, "공개되지 않은 투두 메모입니다."),
     UNSUPPORTED_FILE_EXTENSION(HttpStatus.BAD_REQUEST, "지원하지 않는 파일 확장자입니다.(jpg,jpeg,png만 허용)"),
     FILE_UPLOAD_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "파일 업로드 중 문제가 발생했습니다."),
-    IS_MY_TODO(HttpStatus.CONFLICT, "본인의 투두는 저장할 수 없습니다."),
-    IS_SAVED_IN_MY_TODO(HttpStatus.INTERNAL_SERVER_ERROR, "이미 저장한 투두입니다.");
+    IS_MY_TODO(HttpStatus.BAD_REQUEST, "본인의 투두는 저장할 수 없습니다."),
+    IS_SAVED_IN_MY_TODO(HttpStatus.CONFLICT, "이미 저장한 투두입니다.");
 
     private final HttpStatus httpStatus;
 
