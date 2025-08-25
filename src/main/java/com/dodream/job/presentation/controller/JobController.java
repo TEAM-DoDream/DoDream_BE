@@ -4,6 +4,9 @@ import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.job.application.JobRecommendService;
 import com.dodream.job.application.JobService;
+import com.dodream.job.domain.TodoCategory;
+import com.dodream.job.dto.response.JobTodoListResponseDto;
+import com.dodream.job.dto.response.JobTodoResponseDto;
 import com.dodream.job.presentation.swagger.JobSwagger;
 import com.dodream.job.dto.request.recommend.OnboardingAnswerSet;
 import com.dodream.job.dto.response.JobAddListDto;
@@ -84,5 +87,13 @@ public class JobController implements JobSwagger {
                 jobService.getAddJobList()
             )
         );
+    }
+
+    @Override
+    @GetMapping("/todo")
+    public ResponseEntity<RestResponse<JobTodoListResponseDto>> getJobTodoList(
+        @RequestParam("id") Long id,
+        @RequestParam("todoCategory") TodoCategory todoCategory) {
+        return ResponseEntity.ok(new RestResponse<>(jobService.getJodTodoList(id, todoCategory)));
     }
 }

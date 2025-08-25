@@ -37,6 +37,7 @@ public class SecurityConfiguration {
         "/v1/job/**",
         "/v1/todo/other/public",
         "/v1/community/**"
+        "/v1/job/todo/**"
     };
 
     @Bean

@@ -7,9 +7,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum TodoCategory {
 
-    PREPARE("준비하기"),
-    START("시작하기"),
-    CHALLENGE("도전하기");
+    SEED("씨앗 단계"),
+    SPROUT("새싹 단계"),
+    TREE("꿈나무 단계");
 
     private final String value;
 }
