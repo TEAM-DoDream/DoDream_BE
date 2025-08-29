@@ -153,7 +153,6 @@ public class TodoService {
     @Transactional
     public List<GetOnePopularTodoGroupResponseDto> getPopularTodos() {
 
-        // 최대로 많이 담긴 3개의 todoGroup 가져온다
         List<Todo> todos = todoRepository.findTop3ByOrderBySaveCountDesc();
 
         return todos.stream()
