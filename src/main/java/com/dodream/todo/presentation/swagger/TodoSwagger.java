@@ -87,7 +87,7 @@ public interface TodoSwagger {
             summary = "플로팅 메뉴 - 실시간 인기 투두 모음집",
             description = "플로팅 메뉴 에서 실시간 인기 투두 1개를 조회합니다." +
                     "<br> 로그인한 경우 토큰 필요, 비로그인시 토큰 필요 x",
-            operationId = "/v1/todos/floating/popular"
+            operationId = "/v1/todo/floating/popular"
     )
     ResponseEntity<RestResponse<GetPopularTodoDescriptionDto>> getPopularTodo(
             @AuthenticationPrincipal CustomUserDetails customUserDetails
