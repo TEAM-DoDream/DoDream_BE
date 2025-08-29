@@ -10,6 +10,11 @@ import com.dodream.member.exception.MemberErrorCode;
 import com.dodream.member.repository.MemberRepository;
 import com.dodream.todo.domain.Todo;
 import com.dodream.todo.domain.TodoGroup;
+import com.dodream.todo.dto.response.GetOnePopularTodoGroupResponseDto;
+import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
+import com.dodream.todo.dto.response.GetOneTodoResponseDto;
+import com.dodream.todo.dto.response.GetOneTodoWithMemoResponseDto;
+import com.dodream.todo.dto.response.GetOthersTodoGroupResponseDto;
 import com.dodream.todo.dto.response.*;
 import com.dodream.todo.exception.TodoErrorCode;
 import com.dodream.todo.exception.TodoGroupErrorCode;
@@ -152,6 +157,7 @@ public class TodoService {
     @Transactional
     public List<GetOnePopularTodoGroupResponseDto> getPopularTodos() {
 
+        // 최대로 많이 담긴 3개의 todoGroup 가져온다
         List<Todo> todos = todoRepository.findTop3ByOrderBySaveCountDesc();
 
         return todos.stream()
