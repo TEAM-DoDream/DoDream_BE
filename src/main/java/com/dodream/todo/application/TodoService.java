@@ -10,6 +10,11 @@ import com.dodream.member.exception.MemberErrorCode;
 import com.dodream.member.repository.MemberRepository;
 import com.dodream.todo.domain.Todo;
 import com.dodream.todo.domain.TodoGroup;
+import com.dodream.todo.dto.response.GetOnePopularTodoGroupResponseDto;
+import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
+import com.dodream.todo.dto.response.GetOneTodoResponseDto;
+import com.dodream.todo.dto.response.GetOneTodoWithMemoResponseDto;
+import com.dodream.todo.dto.response.GetOthersTodoGroupResponseDto;
 import com.dodream.todo.dto.response.*;
 import com.dodream.todo.dto.response.GetOnePopularTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
@@ -153,6 +158,18 @@ public class TodoService {
         return GetOneTodoGroupResponseDto.of(todoGroup.getMember(), todoGroup, todos);
     }
 
+
+    // 홈화면 - 인기 투두 조회
+    @Transactional
+    public List<GetOnePopularTodoGroupResponseDto> getPopularTodos() {
+
+        // 최대로 많이 담긴 3개의 todoGroup 가져온다
+        List<Todo> todos = todoRepository.findTop3ByOrderBySaveCountDesc();
+
+        return todos.stream()
+            .map(GetOnePopularTodoGroupResponseDto::from)
+            .toList();
+    }
     // 플로팅 메뉴 - 인기 투두 조회
     public GetPopularTodoDescriptionDto getPopularTodoDescription(
             CustomUserDetails customUserDetails
