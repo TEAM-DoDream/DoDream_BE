@@ -7,6 +7,7 @@ import com.dodream.member.application.MemberAuthService;
 import com.dodream.member.domain.Member;
 import com.dodream.todo.domain.Todo;
 import com.dodream.todo.domain.TodoGroup;
+import com.dodream.todo.dto.response.GetOnePopularTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoWithMemoResponseDto;
@@ -18,6 +19,7 @@ import com.dodream.todo.repository.TodoRepository;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -62,21 +64,21 @@ public class TodoService {
     }
 
     // [비로그인 상태] 홈화면에서 드리머 투두 리스트 간편 조회(3개씩)
-     @Transactional(readOnly = true)
-     public List<GetOthersTodoGroupResponseDto> getOneTodoGroupPublicAtHome() {
+    @Transactional(readOnly = true)
+    public List<GetOthersTodoGroupResponseDto> getOneTodoGroupPublicAtHome() {
 
-         Pageable limit3 = PageRequest.of(0, 3);
-         List<TodoGroup> todoGroups = todoGroupRepository.findTop3ByTotalView(limit3);
+        Pageable limit3 = PageRequest.of(0, 3);
+        List<TodoGroup> todoGroups = todoGroupRepository.findTop3ByTotalView(limit3);
 
-         Pageable top2 = PageRequest.of(0, 2);
-         return todoGroups.stream()
-             .map(group -> {
-                 List<Todo> todos = todoRepository.findTop2ByTodoGroup(group, top2);
-                 Long todoCount = todoRepository.countByTodoGroup(group);
-                 return GetOthersTodoGroupResponseDto.of(group, todos, todoCount);
-             })
-             .toList();
-     }
+        Pageable top2 = PageRequest.of(0, 2);
+        return todoGroups.stream()
+            .map(group -> {
+                List<Todo> todos = todoRepository.findTop2ByTodoGroup(group, top2);
+                Long todoCount = todoRepository.countByTodoGroup(group);
+                return GetOthersTodoGroupResponseDto.of(group, todos, todoCount);
+            })
+            .toList();
+    }
 
 
     // 특정 직업 정보 페이지 - 우측 상단에 타유저 리스트
@@ -143,7 +145,19 @@ public class TodoService {
             .map(GetOneTodoResponseDto::from)
             .toList();
 
-        return GetOneTodoGroupResponseDto.of(todoGroup.getMember(),todoGroup, todos);
+        return GetOneTodoGroupResponseDto.of(todoGroup.getMember(), todoGroup, todos);
     }
 
+
+    // 홈화면 - 인기 투두 조회
+    @Transactional
+    public List<GetOnePopularTodoGroupResponseDto> getPopularTodos() {
+
+        // 최대로 많이 담긴 3개의 todoGroup 가져온다
+        List<Todo> todos = todoRepository.findTop3ByOrderBySaveCountDesc();
+
+        return todos.stream()
+            .map(GetOnePopularTodoGroupResponseDto::from)
+            .toList();
+    }
 }
