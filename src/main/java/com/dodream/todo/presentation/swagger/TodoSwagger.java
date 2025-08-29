@@ -3,6 +3,12 @@ package com.dodream.todo.presentation.swagger;
 import com.dodream.core.config.swagger.ApiErrorCode;
 import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.core.presentation.RestResponse;
+import com.dodream.todo.dto.response.GetOnePopularTodoGroupResponseDto;
+import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
+import com.dodream.todo.dto.response.GetOneTodoResponseDto;
+import com.dodream.todo.dto.response.GetOneTodoWithMemoResponseDto;
+import com.dodream.todo.dto.response.GetOthersTodoGroupResponseDto;
+import com.dodream.todo.dto.response.GetOthersTodoSimpleResponseDto;
 import com.dodream.todo.dto.response.*;
 import com.dodream.todo.dto.response.GetOnePopularTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
@@ -68,6 +74,14 @@ public interface TodoSwagger {
     @ApiErrorCode(TodoErrorCode.class)
     ResponseEntity<RestResponse<GetOneTodoGroupResponseDto>> getOneOthersTodoGroup(
         @PathVariable Long todoGroupId);
+
+    @Operation(
+        summary = "인기 투두 조회 API",
+        description = "인기 있는 투두 3개 조회",
+        operationId = "/v1/todo/popular"
+    )
+    @ApiErrorCode(TodoErrorCode.class)
+    ResponseEntity<RestResponse<List<GetOnePopularTodoGroupResponseDto>>> getPopularTodos();
 
     @Operation(
             summary = "플로팅 메뉴 - 실시간 인기 투두 모음집",
