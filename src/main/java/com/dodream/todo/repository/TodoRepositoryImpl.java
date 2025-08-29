@@ -109,7 +109,7 @@ public class TodoRepositoryImpl implements TodoRepositoryCustom{
     private OrderSpecifier<?> sortBy(String sort) {
         QTodo todo = QTodo.todo;
 
-        if ("인기 순".equalsIgnoreCase(sort)) {
+        if ("인기순".equalsIgnoreCase(sort.trim())) {
             return todo.saveCount.desc();
         }
         // 기본값: 최신순 (생성일 내림차순)
