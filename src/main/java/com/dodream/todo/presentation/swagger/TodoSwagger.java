@@ -92,12 +92,4 @@ public interface TodoSwagger {
     ResponseEntity<RestResponse<GetPopularTodoDescriptionDto>> getPopularTodo(
             @AuthenticationPrincipal CustomUserDetails customUserDetails
     );
-    @Operation(
-        summary = "인기 투두 조회 API",
-        description = "인기 있는 투두 3개 조회",
-        operationId = "/v1/todo/popular"
-    )
-    @ApiErrorCode(TodoErrorCode.class)
-    ResponseEntity<RestResponse<List<GetOnePopularTodoGroupResponseDto>>> getPopularTodos();
-
 }
