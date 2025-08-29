@@ -126,10 +126,10 @@ public class TodoCommunityService {
     }
 
     private Level getLevel(String level) {
-        return switch (level) {
-            case "1단계: 씨앗" -> Level.SEED;
-            case "2단계: 새싹" -> Level.SPROUT;
-            case "3단계: 꿈나무" -> Level.TREE;
+        return switch (level.trim()) {
+            case "1단계:씨앗" -> Level.SEED;
+            case "2단계:새싹" -> Level.SPROUT;
+            case "3단계:꿈나무" -> Level.TREE;
             default -> null;
         };
     }
