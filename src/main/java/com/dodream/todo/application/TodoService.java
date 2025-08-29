@@ -158,7 +158,6 @@ public class TodoService {
         return GetOneTodoGroupResponseDto.of(todoGroup.getMember(), todoGroup, todos);
     }
 
-
     // 홈화면 - 인기 투두 조회
     @Transactional
     public List<GetOnePopularTodoGroupResponseDto> getPopularTodos() {
@@ -186,16 +185,5 @@ public class TodoService {
         Todo todo = todoRepository.findRandomTodo(jobName);
 
         return new GetPopularTodoDescriptionDto(todo.getId(), todo.getTitle());
-    }
-
-    // 홈화면 - 인기 투두 조회
-    @Transactional
-    public List<GetOnePopularTodoGroupResponseDto> getPopularTodos() {
-
-        List<Todo> todos = todoRepository.findTop3ByOrderBySaveCountDesc();
-
-        return todos.stream()
-            .map(GetOnePopularTodoGroupResponseDto::from)
-            .toList();
     }
 }
