@@ -2,6 +2,7 @@ package com.dodream.todo.presentation.controller;
 
 import com.dodream.core.presentation.RestResponse;
 import com.dodream.todo.application.TodoService;
+import com.dodream.todo.dto.response.GetOnePopularTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoWithMemoResponseDto;
 import com.dodream.todo.dto.response.GetOthersTodoGroupResponseDto;
@@ -63,5 +64,11 @@ public class TodoController implements TodoSwagger {
             new RestResponse<>(todoService.getOneOthersTodoGroup(todoGroupId)));
     }
 
+    @Override
+    @GetMapping(value = "/popular")
+      public ResponseEntity<RestResponse<List<GetOnePopularTodoGroupResponseDto>>> getPopularTodos(){
+          return ResponseEntity.ok(
+              new RestResponse<>(todoService.getPopularTodos()));
+      }
 
 }

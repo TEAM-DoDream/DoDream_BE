@@ -2,6 +2,7 @@ package com.dodream.todo.presentation.swagger;
 
 import com.dodream.core.config.swagger.ApiErrorCode;
 import com.dodream.core.presentation.RestResponse;
+import com.dodream.todo.dto.response.GetOnePopularTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoWithMemoResponseDto;
@@ -64,5 +65,12 @@ public interface TodoSwagger {
     ResponseEntity<RestResponse<GetOneTodoGroupResponseDto>> getOneOthersTodoGroup(
         @PathVariable Long todoGroupId);
 
+    @Operation(
+        summary = "인기 투두 조회 API",
+        description = "인기 있는 투두 3개 조회",
+        operationId = "/v1/todo/popular"
+    )
+    @ApiErrorCode(TodoErrorCode.class)
+    ResponseEntity<RestResponse<List<GetOnePopularTodoGroupResponseDto>>> getPopularTodos();
 
 }
