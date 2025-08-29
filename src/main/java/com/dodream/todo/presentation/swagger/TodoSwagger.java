@@ -1,7 +1,9 @@
 package com.dodream.todo.presentation.swagger;
 
 import com.dodream.core.config.swagger.ApiErrorCode;
+import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.core.presentation.RestResponse;
+import com.dodream.todo.dto.response.*;
 import com.dodream.todo.dto.response.GetOnePopularTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoResponseDto;
@@ -10,10 +12,12 @@ import com.dodream.todo.dto.response.GetOthersTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOthersTodoSimpleResponseDto;
 import com.dodream.todo.exception.TodoErrorCode;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -65,6 +69,15 @@ public interface TodoSwagger {
     ResponseEntity<RestResponse<GetOneTodoGroupResponseDto>> getOneOthersTodoGroup(
         @PathVariable Long todoGroupId);
 
+    @Operation(
+            summary = "플로팅 메뉴 - 실시간 인기 투두 모음집",
+            description = "플로팅 메뉴 에서 실시간 인기 투두 1개를 조회합니다." +
+                    "<br> 로그인한 경우 토큰 필요, 비로그인시 토큰 필요 x",
+            operationId = "/v1/todos/floating/popular"
+    )
+    ResponseEntity<RestResponse<GetPopularTodoDescriptionDto>> getPopularTodo(
+            @AuthenticationPrincipal CustomUserDetails customUserDetails
+    );
     @Operation(
         summary = "인기 투두 조회 API",
         description = "인기 있는 투두 3개 조회",

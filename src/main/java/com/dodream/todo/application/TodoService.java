@@ -1,12 +1,16 @@
 package com.dodream.todo.application;
 
+import com.dodream.core.infrastructure.security.CustomUserDetails;
 import com.dodream.job.domain.Job;
 import com.dodream.job.exception.JobErrorCode;
 import com.dodream.job.repository.JobRepository;
 import com.dodream.member.application.MemberAuthService;
 import com.dodream.member.domain.Member;
+import com.dodream.member.exception.MemberErrorCode;
+import com.dodream.member.repository.MemberRepository;
 import com.dodream.todo.domain.Todo;
 import com.dodream.todo.domain.TodoGroup;
+import com.dodream.todo.dto.response.*;
 import com.dodream.todo.dto.response.GetOnePopularTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoResponseDto;
@@ -36,6 +40,7 @@ public class TodoService {
     private final TodoRepository todoRepository;
     private final TodoGroupRepository todoGroupRepository;
     private final JobRepository jobRepository;
+    private final MemberRepository memberRepository;
 
     // 홈화면에서 타유저의 투두 리스트 간편 조회(3개씩)
     @Transactional(readOnly = true)
@@ -148,6 +153,24 @@ public class TodoService {
         return GetOneTodoGroupResponseDto.of(todoGroup.getMember(), todoGroup, todos);
     }
 
+    // 플로팅 메뉴 - 인기 투두 조회
+    public GetPopularTodoDescriptionDto getPopularTodoDescription(
+            CustomUserDetails customUserDetails
+    ) {
+        Long memberId = customUserDetails.getId();
+
+        String jobName = null;
+
+        if(memberId != null) {
+            TodoGroup todoGroup = todoGroupRepository.findByMember(memberAuthService.getCurrentMember());
+
+            jobName = todoGroup.getJob().getJobName();
+        }
+
+        Todo todo = todoRepository.findRandomTodo(jobName);
+
+        return new GetPopularTodoDescriptionDto(todo.getId(), todo.getTitle());
+    }
 
     // 홈화면 - 인기 투두 조회
     @Transactional

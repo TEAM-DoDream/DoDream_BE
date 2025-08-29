@@ -6,10 +6,15 @@ import com.dodream.member.domain.Level;
 import com.dodream.member.domain.QMember;
 import com.dodream.todo.domain.QTodo;
 import com.dodream.todo.domain.QTodoGroup;
+import com.dodream.todo.domain.Todo;
 import com.dodream.todo.dto.response.TodoCommunityResponse;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +24,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -137,6 +143,38 @@ public class TodoRepositoryImpl implements TodoRepositoryCustom{
                 .join(todo.todoGroup, todoGroup)
                 .groupBy(todoGroup.job)
                 .orderBy(todo.id.count().desc())
+                .limit(1)
+                .fetchOne();
+    }
+
+    @Override
+    public Todo findRandomTodo(String jobName) {
+        QTodo todo = QTodo.todo;
+        QTodoGroup todoGroup = QTodoGroup.todoGroup;
+
+        JPQLQuery<Long> subQueryMaxId;
+
+        if (jobName != null) {
+            subQueryMaxId = JPAExpressions
+                    .select(todo.id.max())
+                    .from(todo)
+                    .join(todo.todoGroup, todoGroup)
+                    .where(todoGroup.job.jobName.eq(jobName));
+        } else {
+            subQueryMaxId = JPAExpressions
+                    .select(todo.id.max())
+                    .from(todo);
+        }
+
+        NumberExpression<Long> randomId = Expressions.numberTemplate(Long.class,
+                "FLOOR(1 + ({0}) * RAND())", subQueryMaxId);
+
+        return queryFactory
+                .selectFrom(todo)
+                .join(todo.todoGroup, todoGroup)
+                .where(todo.id.goe(randomId)
+                        .and(todo.todoGroup.job.jobName.eq(jobName)))
+                .orderBy(todo.id.asc())
                 .limit(1)
                 .fetchOne();
     }
