@@ -12,6 +12,7 @@ import com.dodream.todo.domain.TodoGroup;
 import com.dodream.todo.dto.request.ModifyTodoRequestDto;
 import com.dodream.todo.dto.request.PostTodoRequestDto;
 import com.dodream.todo.dto.response.AddJobTodoResponseDto;
+import com.dodream.todo.dto.response.AddTodoResponseDto;
 import com.dodream.todo.dto.response.ChangeCompleteStateTodoResponseDto;
 import com.dodream.todo.dto.response.DeleteMemberJobResponseDto;
 import com.dodream.todo.dto.response.DeleteTodoResponseDto;
@@ -20,6 +21,7 @@ import com.dodream.todo.dto.response.GetOneTodoGroupAtHomeResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoGroupResponseDto;
 import com.dodream.todo.dto.response.GetOneTodoResponseDto;
 import com.dodream.todo.dto.response.ModifyTodoResponseDto;
+import com.dodream.todo.dto.response.OtherTodoSaveResponseDto;
 import com.dodream.todo.dto.response.PostTodoResponseDto;
 import com.dodream.todo.exception.TodoErrorCode;
 import com.dodream.todo.exception.TodoGroupErrorCode;
@@ -76,7 +78,7 @@ public class TodoMemberService {
     }
 
 
-    // 홈화면 todo 하나 조회
+    // 홈화면 투두 하나 조회
     @Transactional(readOnly = true)
     public GetOneTodoGroupAtHomeResponseDto getOneTodoGroupAtHome() {
 
@@ -129,6 +131,25 @@ public class TodoMemberService {
         todoRepository.delete(todo);
 
         return DeleteTodoResponseDto.from(todo);
+    }
+
+    @Transactional
+    public AddTodoResponseDto addOneTodo(Long JobTodoId) {
+
+        Member member = memberAuthService.getCurrentMember();
+
+        JobTodo jobTodo = jobTodoRepository.findById(JobTodoId)
+            .orElseThrow(TodoErrorCode.TODO_NOT_FOUND::toException);
+
+        TodoGroup todoGroup = todoGroupRepository.findByMember(member);
+        if (todoGroup == null){
+            throw TodoGroupErrorCode.JOB_NOT_ADDED.toException();
+        }
+
+        Todo newTodo = Todo.of(todoGroup,member,jobTodo.getTitle());
+        todoRepository.save(newTodo);
+
+        return AddTodoResponseDto.of(member,jobTodo);
     }
 
     @Transactional

@@ -5,6 +5,7 @@ import com.dodream.core.presentation.RestResponse;
 import com.dodream.todo.dto.request.ModifyTodoRequestDto;
 import com.dodream.todo.dto.request.PostTodoRequestDto;
 import com.dodream.todo.dto.response.AddJobTodoResponseDto;
+import com.dodream.todo.dto.response.AddTodoResponseDto;
 import com.dodream.todo.dto.response.ChangeCompleteStateTodoResponseDto;
 import com.dodream.todo.dto.response.DeleteMemberJobResponseDto;
 import com.dodream.todo.dto.response.DeleteTodoResponseDto;
@@ -61,6 +62,14 @@ public interface TodoMemberSwagger {
         @PathVariable Long todoId,
         @RequestBody @Valid ModifyTodoRequestDto modifyTodoRequestDto);
 
+    @Operation(
+        summary = "특정 직업 투두 추가 API",
+        description = "특정 직업 투두를 추가한다.",
+        operationId = "/v1/my-dream/todo/{jobTodoId}"
+    )
+    @ApiErrorCode(TodoErrorCode.class)
+    ResponseEntity<RestResponse<AddTodoResponseDto>> addJobTodo(
+        @PathVariable Long jobTodoId);
 
     @Operation(
         summary = "직업 담기 API",
