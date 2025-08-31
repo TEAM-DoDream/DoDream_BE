@@ -44,7 +44,7 @@ public class Todo extends BaseLongIdEntity {
     private Boolean completed = false;
     
     // 0인 경우 내가 작성한 투두, 0이 아닌 경우 다른 사람 투두 저장한거임
-    @Column(name = "other_todo_id", nullable = true)
+    @Column(name = "other_todo_id", nullable = false)
     @Builder.Default
     private Long otherTodoId = 0L;
 
