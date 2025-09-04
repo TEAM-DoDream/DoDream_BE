@@ -50,7 +50,8 @@ public class TodoRepositoryImpl implements TodoRepositoryCustom{
                         member.profileImage,
                         todo.createdAt,
                         todo.title,
-                        todo.saveCount
+                        todo.saveCount,
+                        Expressions.constant(false)
                 ))
                 .from(todo)
                 .join(todo.todoGroup, todoGroup)
