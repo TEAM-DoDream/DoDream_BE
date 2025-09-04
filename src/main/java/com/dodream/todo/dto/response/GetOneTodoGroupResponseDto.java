@@ -19,6 +19,8 @@ public record GetOneTodoGroupResponseDto(
     String profileImage,
     @Schema(description = "멤버 지역 이름", example = "대전 서구")
     String regionName,
+    @Schema(description = "멤버 단계", example = "새싹 단계")
+    String memberLevel,
     @Schema(description = "투두 경과 일자(X일)", example = "38")
     Long daysAgo,
     @Schema(description = "직업 이름", example = "요양보호사")
@@ -38,6 +40,8 @@ public record GetOneTodoGroupResponseDto(
             .todoGroupId(myTodoGroup.getId())
             .memberNickname(member.getNickName())
             .profileImage(member.getProfileImage())
+            .memberLevel(
+                member.getLevel() == null ? null : member.getLevel().getValue())
             .regionName(member.getRegion().getRegionName())
             .daysAgo(
                 ChronoUnit.DAYS.between(myTodoGroup.getCreatedAt().toLocalDate(), LocalDate.now())
@@ -50,7 +54,7 @@ public record GetOneTodoGroupResponseDto(
     }
 
     public static GetOneTodoGroupResponseDto empty(Member member) {
-        return new GetOneTodoGroupResponseDto(null, member.getNickName(), null,null, null, null,
-            null, null, Collections.emptyList());
+        return new GetOneTodoGroupResponseDto(null, member.getNickName(), null, null, null, null,
+            null, null, null, Collections.emptyList());
     }
 }
