@@ -73,6 +73,7 @@ public class TodoController implements TodoSwagger {
           return ResponseEntity.ok(
               new RestResponse<>(todoService.getPopularTodos()));
       }
+
     @Override
     @GetMapping("/floating/popular")
     public ResponseEntity<RestResponse<GetPopularTodoDescriptionDto>> getPopularTodo(

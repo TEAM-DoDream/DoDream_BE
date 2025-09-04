@@ -172,10 +172,14 @@ public class TodoRepositoryImpl implements TodoRepositoryCustom{
         return queryFactory
                 .selectFrom(todo)
                 .join(todo.todoGroup, todoGroup)
-                .where(todo.id.goe(randomId)
-                        .and(todo.todoGroup.job.jobName.eq(jobName)))
+                .where(todo.id.goe(randomId),
+                        jobNameEquals(jobName))
                 .orderBy(todo.id.asc())
                 .limit(1)
                 .fetchOne();
+    }
+
+    private BooleanExpression jobNameEquals(String jobName) {
+        return jobName == null ? null : QTodo.todo.todoGroup.job.jobName.eq(jobName);
     }
 }

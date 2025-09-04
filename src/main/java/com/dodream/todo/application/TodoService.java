@@ -167,11 +167,9 @@ public class TodoService {
     public GetPopularTodoDescriptionDto getPopularTodoDescription(
             CustomUserDetails customUserDetails
     ) {
-        Long memberId = customUserDetails.getId();
-
         String jobName = null;
 
-        if(memberId != null) {
+        if(customUserDetails != null) {
             TodoGroup todoGroup = todoGroupRepository.findByMember(memberAuthService.getCurrentMember());
 
             jobName = todoGroup.getJob().getJobName();
