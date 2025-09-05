@@ -52,7 +52,7 @@ public class TodoCommunityService {
                 .orElseThrow(TodoErrorCode.TODO_NOT_FOUND::toException);
 
         // 이미 저장된 투두의 경우 저장 x
-        if(todoRepository.existsByMemberAndOtherTodoId(member, otherTodo.getOtherTodoId())){
+        if(todoRepository.existsByMemberAndOtherTodoId(member, otherTodoId)){
             throw TodoErrorCode.IS_SAVED_IN_MY_TODO.toException();
         }
 
