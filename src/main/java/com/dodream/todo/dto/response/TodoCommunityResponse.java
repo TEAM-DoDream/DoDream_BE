@@ -8,6 +8,8 @@ public record TodoCommunityResponse(
 
         Long id,
 
+        Long todoGroupId,
+
         String name,
 
         Level level,

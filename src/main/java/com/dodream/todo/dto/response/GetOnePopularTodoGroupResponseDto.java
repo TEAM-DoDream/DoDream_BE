@@ -18,7 +18,7 @@ public record GetOnePopularTodoGroupResponseDto(
     String memberLevel,
     @Schema(description = "직업 이름", example = "요양보호사")
     String jobName,
-    @Schema(description = "담은수 ", example = "101")
+    @Schema(description = "담은 횟수 ", example = "101")
     Long saveCount
 ) {
 

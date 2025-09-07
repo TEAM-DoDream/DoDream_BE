@@ -11,13 +11,17 @@ public record GetOthersTodoResponseDto(
     @Schema(description = "투두 제목", example = "“급식 도우미 근무 조건” 키워드로 업무 시간대, 복장, 식단 보조 등 기본 정보 확인하기")
     String title,
 
+    @Schema(description = "담은 횟수", example = "999")
+    Long saveCount,
+
     @Schema(description = "완료 여부", example = "false")
     Boolean completed
 
 ) {
 
     public static GetOthersTodoResponseDto from(Todo todo) {
-        return new GetOthersTodoResponseDto(todo.getId(), todo.getTitle(), todo.getCompleted());
+        return new GetOthersTodoResponseDto(todo.getId(), todo.getTitle(), todo.getSaveCount(),
+            todo.getCompleted());
     }
 
 }
