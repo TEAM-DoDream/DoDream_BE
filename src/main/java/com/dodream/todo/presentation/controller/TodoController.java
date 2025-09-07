@@ -44,11 +44,11 @@ public class TodoController implements TodoSwagger {
     }
 
     @Override
-    @GetMapping(value = "/other/simple/{jobId}")
+    @GetMapping(value = "/other/simple/{todoGroupId}")
     public ResponseEntity<RestResponse<List<GetOthersTodoGroupResponseDto>>> getOthersTodoSimpleByJob(
-        @PathVariable Long jobId) {
+        @PathVariable Long todoGroupId) {
         return ResponseEntity.ok(
-            new RestResponse<>(todoService.getOthersTodoSimple(jobId)));
+            new RestResponse<>(todoService.getOthersTodoSimple(todoGroupId)));
     }
 
     @Override

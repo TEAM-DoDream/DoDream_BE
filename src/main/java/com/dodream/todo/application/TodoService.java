@@ -88,16 +88,19 @@ public class TodoService {
 
     // 특정 직업 정보 페이지 - 우측 상단에 타유저 리스트
     @Transactional(readOnly = true)
-    public List<GetOthersTodoGroupResponseDto> getOthersTodoSimple(Long jobId) {
+    public List<GetOthersTodoGroupResponseDto> getOthersTodoSimple(Long todoGroupId) {
 
         Member member = memberAuthService.getCurrentMember();
 
-        Job job = jobRepository.findById(jobId)
+        TodoGroup todoGroup = todoGroupRepository.findById(todoGroupId)
+            .orElseThrow(TodoGroupErrorCode.TODO_GROUP_NOT_FOUND::toException);
+
+        Job job = jobRepository.findById(todoGroup.getJob().getId())
             .orElseThrow(JobErrorCode.CANNOT_GET_JOB_DATA::toException);
 
-        Pageable limit3 = PageRequest.of(0, 2);
-        List<TodoGroup> todoGroups = todoGroupRepository.findTop3ByJobAndNotMember(
-            job, member, limit3);
+        Pageable limit3 = PageRequest.of(0, 3);
+        List<TodoGroup> todoGroups = todoGroupRepository.findTop3ByJobAndNotMemberNotTodoGroupId(
+            job, member, todoGroupId, limit3);
 
         Pageable top2 = PageRequest.of(0, 2);
         return todoGroups.stream()
