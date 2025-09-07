@@ -35,6 +35,14 @@ public interface TodoGroupRepository extends JpaRepository<TodoGroup, Long> {
         @Param("currentMember") Member currentMember, Pageable pageable);
 
     @Query("SELECT tg FROM TodoGroup tg " +
+          "WHERE tg.member <> :currentMember " +
+          "AND tg.id <> :todoGroupId " +
+          "AND tg.job = :job " +
+          "AND tg.deleted = false")
+      List<TodoGroup> findTop3ByJobAndNotMemberNotTodoGroupId(@Param("job") Job job,
+          @Param("currentMember") Member currentMember, @Param("todoGroupId") Long todoGroupId, Pageable pageable);
+
+    @Query("SELECT tg FROM TodoGroup tg " +
         "WHERE tg.member <> :currentMember " +
         "AND tg.job = :job " +
         "AND tg.deleted = false")
