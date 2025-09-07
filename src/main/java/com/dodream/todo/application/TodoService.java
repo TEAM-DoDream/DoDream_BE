@@ -149,9 +149,16 @@ public class TodoService {
 
         todoGroup.updateTotalView();
 
+        List<Todo> myTodos = todoGroupRepository.findByMember(member)
+                .getTodo().stream().toList();
+
         List<GetOneTodoResponseDto> todos = todoGroup.getTodo().stream()
-            .map(GetOneTodoResponseDto::from)
-            .toList();
+                .map(todo -> {
+                    boolean isSaved = myTodos.stream()
+                            .anyMatch(myTodo -> myTodo.getOtherTodoId().equals(todo.getId()));
+                    return GetOneTodoResponseDto.from(todo, isSaved);
+                })
+                .toList();
 
         return GetOneTodoGroupResponseDto.of(todoGroup.getMember(), todoGroup, todos);
     }
