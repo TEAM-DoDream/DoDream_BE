@@ -112,7 +112,7 @@ public class TodoMemberService {
         }
 
         List<GetOneTodoResponseDto> todos = todoGroup.get().getTodo().stream()
-            .map(GetOneTodoResponseDto::from)
+            .map(todo -> GetOneTodoResponseDto.from(todo, false))
             .toList();
 
         return GetOneTodoGroupResponseDto.of(member, todoGroup.get(), todos);
