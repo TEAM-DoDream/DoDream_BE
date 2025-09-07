@@ -94,7 +94,7 @@ public class TodoRepositoryImpl implements TodoRepositoryCustom{
                 .join(todo.todoGroup, todoGroup)
                 .join(todoGroup.job, job)
                 .join(todo.member, member)
-                .where(job.jobName.eq(jobName), levelEq(level))
+                .where(job.jobName.eq(jobName), levelEq(level), memberId != null ? todo.member.id.ne(memberId) : null)
                 .orderBy(sortBy(sort))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize() + 1)
