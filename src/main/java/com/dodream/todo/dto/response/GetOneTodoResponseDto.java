@@ -13,16 +13,18 @@ public record GetOneTodoResponseDto(
     @Schema(description = "담은 횟수", example = "999")
     Long saveCount,
     @Schema(description = "완료 여부", example = "false")
-    Boolean completed
-
+    Boolean completed,
+    @Schema(description = "내가 저장한 여부", example = "false")
+    Boolean isSaved
 ) {
 
-    public static GetOneTodoResponseDto from(Todo todo) {
+    public static GetOneTodoResponseDto from(Todo todo, Boolean isSaved) {
         return GetOneTodoResponseDto.builder()
             .todoId(todo.getId())
             .title(todo.getTitle())
             .saveCount(todo.getSaveCount())
             .completed(todo.getCompleted())
+            .isSaved(isSaved)
             .build();
     }
 }
