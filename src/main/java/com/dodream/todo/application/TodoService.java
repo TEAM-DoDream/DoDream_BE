@@ -163,15 +163,16 @@ public class TodoService {
             .map(GetOnePopularTodoGroupResponseDto::from)
             .toList();
     }
+
     // 플로팅 메뉴 - 인기 투두 조회
     public GetPopularTodoDescriptionDto getPopularTodoDescription(
-            CustomUserDetails customUserDetails
-    ) {
+        CustomUserDetails customUserDetails) {
+
         String jobName = null;
 
-        if(customUserDetails != null) {
-            TodoGroup todoGroup = todoGroupRepository.findByMember(memberAuthService.getCurrentMember());
-
+        if (customUserDetails != null) {
+            TodoGroup todoGroup = todoGroupRepository.findByMember(
+                memberAuthService.getCurrentMember());
             jobName = todoGroup.getJob().getJobName();
         }
 

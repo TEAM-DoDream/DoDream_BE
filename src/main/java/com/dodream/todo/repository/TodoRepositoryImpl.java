@@ -45,6 +45,7 @@ public class TodoRepositoryImpl implements TodoRepositoryCustom{
                 .select(Projections.constructor(
                         TodoCommunityResponse.class,
                         todo.id,
+                        todo.todoGroup.id,
                         member.nickName,
                         member.level,
                         member.profileImage,
