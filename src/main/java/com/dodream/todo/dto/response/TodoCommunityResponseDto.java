@@ -41,7 +41,7 @@ public record TodoCommunityResponseDto(
             response.id(),
             response.todoGroupId(),
             response.name(),
-            response.level() == null ? null : response.level().getValue(),
+            response.level() == null ? "새싹 단계" : response.level().getValue(),
             response.imageUrl(),
             ConvertLocalDateToString.calculateTimeAgo(response.createdAt()),
             response.description(),
